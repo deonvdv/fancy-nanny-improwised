@@ -227,7 +227,8 @@ class HouseholdController extends BaseController {
 	}
 
 	public function members($householdId){
-
+		$userController = new UserController();
+		return $userController->indexByHousehold($householdId);
 	}
 
 	public function meals($householdId){

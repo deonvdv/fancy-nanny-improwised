@@ -1,6 +1,10 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \User;
+use \Response;
+use \Input;
+use \View;
 
 class UserController extends BaseController {
 
@@ -77,5 +81,33 @@ class UserController extends BaseController {
 	{
 		//
 	}
+
+	public function indexByHousehold($householdId = 0, $page = 1, $itemPerPage = 20)
+	{
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = User::skip($skip)->take($itemPerPage)->where('household_id', '=', $householdId)->get();
+		$itemCount	= User::where('household_id', '=', $householdId)->count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
+		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
+	}
+
 
 }

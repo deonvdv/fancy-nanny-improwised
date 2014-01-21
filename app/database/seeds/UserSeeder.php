@@ -8,8 +8,6 @@ class UserTableSeeder extends Seeder {
     {
         $roles = ['admin','parent','guardian','child','staff'];
 
-        $faker = \Faker\Factory::create();
-
         $tmp = [
             'name'               => "Deon van der Vyver",
             'email'              => "deonvdv@gmail.com",
@@ -23,11 +21,15 @@ class UserTableSeeder extends Seeder {
             'work_number'        => "",
             'role'               => "admin",
             'active'             => 1,
-            'profile_picture'    => $faker->imageUrl(250, 250, "people"),
+            'profile_picture'    => "http://lorempixel.com/250/250/people/",
+            'app_settings'       => json_encode( array("preferred_notification" => 'email' ) ),
         ];
         // print_r($tmp);
 
         $user = User::create($tmp);
+
+        // Use Faker - https://github.com/fzaninotto/Faker
+        $faker = \Faker\Factory::create();
 
         for ($i = 0; $i < 10; $i++) {
             $tmp = [
@@ -44,7 +46,7 @@ class UserTableSeeder extends Seeder {
                 'role'               => $roles[rand(0, 4)],
                 'active'             => $i === 0 ? true : rand(0, 1),
                 'profile_picture'    => $faker->imageUrl(250, 250, "people"),
-                // 'app_settings'       => array("preferred_notification" => rand(0, 1) ? 'email' : 'text' ),
+                'app_settings'       => json_encode( array("preferred_notification" => rand(0, 1) ? 'email' : 'text' ) ),
 
                 // // 'active'             => $i === 0 ? true : rand(0, 1),
                 // // 'gender'             => rand(0, 1) ? 'male' : 'female',

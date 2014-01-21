@@ -10,7 +10,7 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		if (App::environment() === 'production') {
-            exit('I just stopped you getting fired. Love Deon');
+            exit('I just stopped you getting fired!! Deon');
         }
 
 		Eloquent::unguard();

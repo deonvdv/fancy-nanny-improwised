@@ -18,8 +18,8 @@
 Route::group(array(
         'prefix'    => 'api/v1'
     ), function(){
-        // Route::get('households', 'API\V1\HouseholdController@index');
-        Route::resource('households', 'API\V1\HouseholdController');
+        Route::get('households', 'API\V1\HouseholdController@index');
+        Route::resource('household', 'API\V1\HouseholdController');
         Route::get('households/page/{pagenum}', 'API\V1\HouseholdController@index');
         Route::get('household/page/{pagenum}', 'API\V1\HouseholdController@index');
         Route::get('household/{id}/messages', 'API\V1\HouseholdController@messages');

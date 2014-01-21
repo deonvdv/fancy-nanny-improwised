@@ -1,0 +1,387 @@
+-------------------------------------------------
+Fancy Nanny - App Spec
+-------------------------------------------------
+
+Framework:		Laravel 4.0
+Database:		MySQL
+ID:				UUID4 - see: https://github.com/ramsey/uuid.
+CDN:			Phase 2: pictures stored on CDN / CloudFiles / Amazon S3 / etc
+Routes:			/{controllers}			- all app routes - login protected
+				/api/{version}/ 		- all api routes
+										- json
+										- basic auth
+
+Phase 1:		Json API
+Phase 2:		Front-end
+Phase 3:		Billing/Subscriptions
+
+-------------------------------------------------
+Introduction
+-------------------------------------------------
+Fancy Nanny is an online service for parents to better manage their household, 
+including their staff, like nanny's. Modern families lead very busy lives and 
+need all the help they can get to manage it all.
+
+With Fancy Nanny, parents have a way to easily communicate with their household 
+members (parents, children and staff). They can easily plan meals and create 
+shopping lists. Staff can easily view emergency contact information and tasks and 
+events for a specific day or dates. Staff can also easily see dietary requirements 
+and allergies for the household members.
+
+
+
+-------------------------------------------------
+Objects
+-------------------------------------------------
+
+Households
+	Summary:	Household group system users into logical gouping. A household 
+				contains one or more Parents, zero or more Children and zero or 
+				more Staff.
+	UI Notes:	Emergency Contact info (like 911, house doctor etc) and Critical Info will 
+				be displayed on Dashboard inside a widget.
+	Parameters:	id, name, members (hasMany users), emergency_contacts, critical_information
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/households
+				/v1/household/{id}
+				/v1/household/{id}/messages			(GET)
+				/v1/household/{id}/tags  			(GET)
+				/v1/household/{id}/members  		(GET)
+				/v1/household/{id}/meals  			(GET)
+				/v1/household/{id}/events 	 		(GET)
+				/v1/household/{id}/todos 	 		(GET)
+				/v1/household/{id}/notifications 	(GET)
+
+
+Users
+	Summary:	Users are placed in Roles, one of admin, parent, child or staff. 
+				Admin has access to everything, ie sysadmin. Parent has access to 
+				view, add, modify and delete everything in its Household. Child has 
+				read-only view. Staff has view, add and modify access on most things. 
+				Cannot delete.
+	UI Notes:	User's contact info showed on widget on Dashboard. User has profile 
+				page allowing to update info, add profile pic, update app settings 
+				and change password		
+	Parameters:	id, household (hasOne household), name, email, password, street, 
+				city, state, zip, country, home_number, work_number, mobile_number, 
+				role (admin, parent or guardian, child, staff), active, 
+				profile_pictures (morphMany pictures), app_settings (array - eg 
+				preferred_notification_method(email, text) )
+	Methods: 	index, create, store, show, edit, update, destroy, authenticate, 
+				suspend, login, logout
+	API Routes:	/v1/users
+				/v1/user/{id}
+				/v1/user/{id}/picture
+				/v1/user/{id}/recipes
+				/v1/user/{id}/favorite_recipes
+
+
+Messages
+	Summary:	Chat Messages between household members
+	UI Notes:	Message board on home page (Dashboard) for easy communication between 
+				household members. Load most recent 20 messages with option to load 
+				more. Show user;s Name, Profile Pic, Message and datetime.
+	Parameters:	id, household (hasOne household), user (hasOne user), message, dates
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/messages
+				/v1/message/{id}
+
+
+Favorite_Recipes
+	Summary:	Place to store a list of recipes User marked as "favorite"
+	UI Notes:	On recipe list pages or recipe view page, allow user to add a "star" 
+				to mark this recipe as "favorite"
+	Parameters:	id, user (belongsTo user), recipe (hasOne recipe)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	none
+
+
+Categories
+	Summary:	Meal Categories defined by sysadmin.
+	UI Notes:	Can only be added, updated and deleted by sys admin in Categories 
+				view. In Recipe View, allow dynaminc add of Categories by admin.
+	Parameters:	id, name, parent
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/categories
+				/v1/category/{id}
+
+
+Tags
+	Summary:	Tags can be added to Recipes, Meals, Events and Todos. Tags are 
+				created by Users and can only be removed by the user that added 
+				them.
+	UI Notes:	See pillbox on "http://flatfull.com/themes/todo/form.html"
+	Parameters:	id, household (hasOne household), owner (hasOne user), name, 
+				color, morphTo(recipes, meals, events, todos)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/tags
+				/v1/tag/{id}
+
+
+UnitsOfMeasure
+	Summary:	Unit of Measure like tbsp, tsp, cup, cups, g, oz, ml, etc
+	Parameters:	id, name
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/units_of_measures
+				/v1/units_of_measure/{id}
+
+
+Ingedients
+	Summary:	Itemized ingredients like Flour, Egg, Water, Olive Oil, etc
+	Parameters:	id, name
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/ingredients
+				/v1/ingredient/{id}
+
+
+Recipe_Ingredients
+	Summary:	Place to store ingredients for a specific recipe, eg 1 x Tbsp Plain 
+				Flour. Unit of Measure is "tbsp" and ingredient is "Plain Flour"
+	UI Notes:	When adding a recipe, and adding recipe ingredients, allow a input 
+				area for Quantity, numberic (allow for fractions like 0.5 and whole 
+				numbers like 5 or 5.5 ), and allow for predictive search window 
+				for Unit of Measure. When user types in "t", return "tsp", "tbsp", 
+				etc. Allow for another predicitve text area for ingredient, eg user 
+				types in "fl" and we return "Plain Flour", "Cake Flour", etc. Note: 
+				if user's desired Unit of Measure or Ingredient does not exists, it 
+				needs to be added dynamically.				
+	Parameters:	id, recipe (hasOne recipe), quantity, unit_of_measure (hasOne 
+				units_of_measures), ingredient (hasOne ingredients)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/recipe_ingredients
+				/v1/recipe_ingredient/{id}
+
+
+Recipes
+	Summary:	Recipe(s) will be used in Meal plans mainly.
+	UI Notes:	Allow users to mark recipe as "favorite", to add a review and to 
+				upload pictures of self-made recipes
+	Parameters:	id, Author (hasOne user), name, description, instructions, 
+				recipe_ingredients (hasMany recipe_ingredients), pictures 
+				(morphMany pictures), number_of_portions, preperation_time, 
+				cooking_time, categories (hasMany categories), tags (hasMany 
+				tags)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/recipes
+				/v1/recipe/{id}
+				/v1/recipe/{id}/recipe_ingredients 	(GET)
+				/v1/recipe/{id}/pictures 			(GET)
+				/v1/recipe/{id}/categories 			(GET)
+				/v1/recipe/{id}/tags 				(GET)
+				/v1/recipe/{id}/reviews 			(GET)
+
+
+Recipe_Reviews: 
+	Summary:	User reviews of recipes
+	UI Notes:	Use star-rating
+	Parameters:	id, recipe (hasOne recipe), user (hasOne user), score (1-5), review (text)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/recipe_reviews
+				/v1/recipe_review/{id}
+
+
+Meals
+	Summary:	Users plan meals by selecting one or more Recipes and adding it to the a 
+				'slot', breakfast, lunch or dinner, on a specific day in a specific week. 
+				Eg Mac & Chees, dinner, monday, week#13.
+				Another important part of the Meal plan is to produce a shopping list. A 
+				shopping List allows the user to ensure they have all required ingredients 
+				to prepare the planned meals. A Shopping List is the sum of all ingredients 
+				for all meals for a specific date range. 
+	UI Notes:	Meals have 5 Views: Calendar, TimeLine, Search/Browse, Details and Shopping
+				List view.
+				
+				Calendar View: Each meal category is color coded, so meals could be easily 
+				identified. For this view, we're only interested in the Meal name, Category 
+				and Tags
+				
+				TimeLine View: Each meal category is color coded, so meals could be easily 
+				identified. For this view, we're only interested in the Meal name, Picture 
+				thumbnail, Short Description, Category and Tags
+				
+				Search View: Filter by Category, Recipe, Tag, Favorite and Keyword. For the 
+				results list view, we're only interested in the Meal name, Picture thumbnail, 
+				Short Description, Category, Tags, Rating
+				
+				Details View: Shows everything we have. Shows only first 5 comments/reviews. 
+				Click more to view more.
+
+				View Shopping List: For version #1, we can simply list 
+				all the the ingredients for recipes. Recipes are ordered by day/slot and 
+				then alphabetically. For future versions we can concider doing some math on 
+				ingredients, eg 2 recipes require 1 cup of Plain Flour each, so shopping 
+				list states 2 cups of flour.
+				Add checkbox next to each ingredient to allow user to mark ingredient as 
+				"checked". when checking the ingredient, it should be lined through.
+				Allow for print of the list to take to supermarket.
+
+	Parameters:	id, household (hasOne household), week_number, day_of_week, 
+				slot (breakfast, lunch, dinner), recipes (hasMany recipes), tags 
+				(hasMany tags)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/meals
+				/v1/meal/{id}
+				/v1/meal/{id}/recipes 				(GET)
+				/v1/meal/{id}/tags 				(GET)
+
+
+Events
+	Summary:	Events are shown on the Calendar and TimeLine view and is a collection of 
+				Activities, Actions, Meetings, etc. Examples include 'Take John to Football 
+				Monday @ 15:00', 'Do laundry Monday', 'Birthday party for Lauren Monday 
+				@17:00', etc. Events could repeat, like every Monday for 4 weeks or Every 
+				Week Day, etc. 
+				Users should be notified before the event start date and time. A log should 
+				be kept of all notifications sent.
+	UI Notes:	Events are added from Calendar view Page or TimeLine page.
+	Parameters:	id, household (hasOne household), owner (hasOne user), title, description, 
+				location, event_date, event_time, all_day?, attendees (hasMany users), 
+				notify, minutes_before, type (travel, call, meeting), tags 
+				(hasMany tags)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/events
+				/v1/event/{id}
+				/v1/event/{id}/attendees 			(GET)
+				/v1/event/{id}/tags 				(GET)
+
+
+Todos
+	Sumamry:	Todos are simple items that can be marked as complete with a simple click. 
+				Eg "pick up drycleaning". Todos are assigned a responsible person, the 
+				person who must do it, and optionally a date by which to do it. It can also 
+				optionally have a short description.
+				Users should be notified before duedate and time. A log should be kept of 
+				all notifications.
+	UI Notes:	Todos are shown on Calendar View and TimeLine view. They are also shown on 
+				the Dashboard widget. Dashboard widget shows all today's Todo's and all 
+				Todo's that still incomplete that does not have a due date. We also have an 
+				Add option in the widget.
+				Todo's can also be added from Calendar and TimeLine view's.
+	Parameters:	id, household (hasOne household), owner (hasOne user), title, description, 
+				due_date, assigned_by (hasOne user), assigned_to (hasOne user), is_complete, 
+				notify, minutes_before, tags (hasMany tags)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/todos
+				/v1/todo/{id}
+				/v1/todo/{id}/tags 				(GET)
+
+
+Documents
+	Summary:	Documents can be shared within a Household. Documents are uploaded to a CDN.
+	UI Notes:	Documents are accessed from the Documents page. Documents can be filtered by 
+				Tag and Keyword.
+				Documents should have associated icons in list view, ie W icon for MS Word 
+				doc etc.
+				Documents are uploaded from View page. And should be uploaded to CDN.
+	Parameters:	id, household (hasOne household), owner (hasOne user), name, filename, 
+				cdn_url, tags (hasMany tags)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/documents
+				/v1/document/{id}
+
+
+Pictures
+	Parameters:	id, owner (hasOne user), name, filename, cdn_url, morphTo( users and recipes)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/pictures
+				/v1/picture/{id}
+
+
+Notifications
+	Summary:	A record of all notifications sent to users before events or todo deadlines.
+	Parameters:	id, household (hasOne household), user (hasOne user), to, message, 
+				reference
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/notifications
+				/v1/notifications/process 			(GET) - sends all notifications 
+													for all users in all households
+													 - runs on cron
+				/v1/notification/{id}
+
+
+
+
+
+
+
+
+-------------------------------------------------
+Phase 2:
+-------------------------------------------------
+
+UI:				Build UI
+				Selected theme: http://flatfull.com/themes/todo/index.html
+
+				Dashboard: Household Chat, Emergency Contact Information, Household Contact Information, Weather Widget
+
+
+Products (eg Monthly Premium Subscription or SMS 200 Bundle etc.)
+	Parameters:	id, name, description, price, repeat_interval, repeat_count, 
+				morphTo( invoices and household services)
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/products
+				/v1/product/{id}
+
+
+Invoices
+	Parameters:	id, household (hasOne household), user (hasOne user), products 
+				(morphMany products), amount, created_date, status (pending, 
+				issued, paid, credited), payment_date, cdn_url
+	Methods: 	index, create, store, show, edit, update, destroy, credit_note,
+	API Routes:	/v1/invoices
+				/v1/invoice/{id}
+				/v1/invoice/{id}/issue_credit
+				/v1/invoices/process 				(GET) - processes all due 
+													invoices - runs on cron
+
+
+Household Services
+	Parameters:	id, household (hasOne household), products (morphMany products), 
+				start_date, end_date, 
+	Methods: 	index, create, store, show, edit, update, destroy
+	API Routes:	/v1/household_services
+				/v1/household_service/{id}
+				/v1/household/{id}/services 		(GET)
+
+
+IPN
+	API Routes:	/v1/ipn/receive 					(GET) - receive IPN from paypal 
+													or stripe - log payment and issue 
+													invoice
+
+
+Membership
+	API Routes:	/v1/membership/validate_members 	(GET) - checks all accounts and 
+													makes sure payment was received 
+													and warns members, then suspends 
+													accounts.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -------------------------------------------------
+// Base as in "Base" Model--others inherit from this one
+// https://github.com/ramsey/uuid 
+// -------------------------------------------------
+class BaseModel extends Eloquent {
+  public $incrementing = false;
+
+  public static function boot() {
+    parent::boot();
+    static::creating(function($model) {
+      $model->id = Rhumsaa\Uuid\Uuid::uuid4()->__toString();
+    });
+  }
+}
+
+

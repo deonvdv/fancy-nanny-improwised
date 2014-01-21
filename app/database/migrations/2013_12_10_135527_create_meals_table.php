@@ -47,6 +47,8 @@ class CreateMealsTable extends Migration {
 	public function down()
 	{
 		Schema::drop('meals');
+		Schema::drop('meals_recipes');
+		Schema::drop('meals_tags');
 	}
 
 }

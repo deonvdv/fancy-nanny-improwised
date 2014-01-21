@@ -18,7 +18,7 @@
 Route::group(array(
         'prefix'    => 'api/v1'
     ), function(){
-        Route::get('households', 'API\V1\HouseholdController@index');
+        // Route::get('households', 'API\V1\HouseholdController@index');
         Route::get('households/page/{pagenum}', 'API\V1\HouseholdController@index');
         Route::get('household/page/{pagenum}', 'API\V1\HouseholdController@index');
         Route::get('household/{id}/messages', 'API\V1\HouseholdController@messages');
@@ -28,7 +28,7 @@ Route::group(array(
         Route::get('household/{id}/events', 'API\V1\HouseholdController@events');
         Route::get('household/{id}/todos', 'API\V1\HouseholdController@todos');
         Route::get('household/{id}/notifications', 'API\V1\HouseholdController@notifications');
-        Route::resource('household', 'API\V1\HouseholdController');
+        Route::resource('households', 'API\V1\HouseholdController');
 
         Route::resource('household_service', 'API\V1\HouseholdServiceController');
         Route::get('household_services', 'API\V1\HouseholdServiceController@index');

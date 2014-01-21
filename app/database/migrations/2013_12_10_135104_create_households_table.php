@@ -15,7 +15,7 @@ class CreateHouseholdsTable extends Migration {
 		Schema::create('households', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
 			$table->string('name');
-			$table->string('emergency_contacts');
+			$table->text('emergency_contacts')->nullable();
 			$table->text('critical_information')->nullable();
 			$table->timestamps();
 		});

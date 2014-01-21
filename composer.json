@@ -1,8 +1,6 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
-	"license": "MIT",
+	"name": "fancy-nanny/fancy-nanny",
+	"description": "Fancy Nanny",
 	"require": {
 		"laravel/framework": "4.1.*",
 		"rhumsaa/uuid": "2.5.*"

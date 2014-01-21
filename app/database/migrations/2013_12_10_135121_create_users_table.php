@@ -23,8 +23,8 @@ class CreateUsersTable extends Migration {
 			$table->string('state', 50);
 			$table->string('zip', 20);
 			$table->string('country', 50);
-			$table->string('home_number', 30);
-			$table->string('work_number', 30);
+			$table->string('home_number', 30)->nullable();
+			$table->string('work_number', 30)->nullable();
 			$table->enum('role', array('admin', 'parent', 'guardian', 'child', 'staff'));
 			$table->boolean('active');
 			$table->string('profile_picture');

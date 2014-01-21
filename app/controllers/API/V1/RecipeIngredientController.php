@@ -2,7 +2,7 @@
 namespace API\V1;
 use \BaseController;
 
-class RecipeIngrendientController extends BaseController {
+class RecipeIngredientController extends BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -11,7 +11,7 @@ class RecipeIngrendientController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('recipeingrendients.index');
+        return View::make('recipeingredients.index');
 	}
 
 	/**
@@ -21,7 +21,7 @@ class RecipeIngrendientController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('recipeingrendients.create');
+        return View::make('recipeingredients.create');
 	}
 
 	/**
@@ -42,7 +42,7 @@ class RecipeIngrendientController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('recipeingrendients.show');
+        return View::make('recipeingredients.show');
 	}
 
 	/**
@@ -53,7 +53,7 @@ class RecipeIngrendientController extends BaseController {
 	 */
 	public function edit($id)
 	{
-        return View::make('recipeingrendients.edit');
+        return View::make('recipeingredients.edit');
 	}
 
 	/**

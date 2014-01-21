@@ -19,6 +19,7 @@ Route::group(array(
         'prefix'    => 'api/v1'
     ), function(){
         // Route::get('households', 'API\V1\HouseholdController@index');
+        Route::resource('households', 'API\V1\HouseholdController');
         Route::get('households/page/{pagenum}', 'API\V1\HouseholdController@index');
         Route::get('household/page/{pagenum}', 'API\V1\HouseholdController@index');
         Route::get('household/{id}/messages', 'API\V1\HouseholdController@messages');
@@ -28,7 +29,6 @@ Route::group(array(
         Route::get('household/{id}/events', 'API\V1\HouseholdController@events');
         Route::get('household/{id}/todos', 'API\V1\HouseholdController@todos');
         Route::get('household/{id}/notifications', 'API\V1\HouseholdController@notifications');
-        Route::resource('households', 'API\V1\HouseholdController');
 
         Route::resource('household_service', 'API\V1\HouseholdServiceController');
         Route::get('household_services', 'API\V1\HouseholdServiceController@index');
@@ -51,11 +51,11 @@ Route::group(array(
         Route::resource('unit_of_measure', 'API\V1\MeasureUnitController');
         Route::get('unit_of_measures', 'API\V1\MeasureUnitController@index');
         
-        Route::resource('ingrendient', 'API\V1\IngrendientController');
-        Route::get('ingrendients', 'API\V1\IngrendientController@index');
+        Route::resource('ingredient', 'API\V1\IngredientController');
+        Route::get('ingredients', 'API\V1\IngredientController@index');
         
-        Route::resource('recipe_ingrendient', 'API\V1\RecipeIngrendientController');
-        Route::get('recipe_ingrendients', 'API\V1\RecipeIngrendientController@index');
+        Route::resource('recipe_ingredient', 'API\V1\RecipeIngredientController');
+        Route::get('recipe_ingredients', 'API\V1\RecipeIngredientController@index');
         
         Route::resource('recipe', 'API\V1\RecipeController');
         Route::get('recipes', 'API\V1\RecipeController@index');

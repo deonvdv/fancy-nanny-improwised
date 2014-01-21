@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateIngrendientsTable extends Migration {
+class CreateIngredientsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateIngrendientsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('ingrendients', function(Blueprint $table) {
+		Schema::create('ingredients', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
 			$table->string('name');
 			$table->timestamps();
@@ -27,7 +27,7 @@ class CreateIngrendientsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('ingrendients');
+		Schema::drop('ingredients');
 	}
 
 }

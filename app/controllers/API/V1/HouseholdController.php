@@ -6,8 +6,44 @@ use \BaseController;
 use \Response;
 use \Input;
 use \View;
+use \Model\Meal;
+use \Model\Message;
+use \Model\Tag;
+use \Model\Event;
 
 class HouseholdController extends BaseController {
+
+	/**
+     * Message Model
+     * @var Message
+     */
+    protected $messages;
+
+    /**
+     * Meal Model
+     * @var Message
+     */
+	protected $meal;
+
+	/**
+     * Tag Model
+     * @var Tag
+     */
+	protected $tags;
+
+	/**
+     * Tag Model
+     * @var Tag
+     */
+	protected $events;
+
+	public function __construct( Message $messages,Meal $meal, Tag $tags, Event $events)
+    {
+    	$this->messages = $messages;
+        $this->meal = $meal;
+        $this->tags = $tags;
+        $this->events = $events;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -219,11 +255,13 @@ class HouseholdController extends BaseController {
 	}
 
 	public function messages($householdId){
-
+		$messages = $this->messages->getMessagesByHouseholds($householdId);
+		return $messages;
 	}
 
 	public function tags($householdId){
-
+		$tags = $this->tags->getTagsByHouseholds($householdId);
+		return $tags;
 	}
 
 	public function members($householdId){
@@ -232,15 +270,17 @@ class HouseholdController extends BaseController {
 	}
 
 	public function meals($householdId){
-
+		$meal = $this->meal->getMealsByHouseholds($householdId);
+		return $meal;
 	}
 
 	public function events($householdId){
-
+		$tags = $this->events->getEventsByHouseholdes($householdId);
+		return $events;
 	}
 
 	public function todos($householdId){
-		
+
 	}
 
 	public function notifications($householdId){

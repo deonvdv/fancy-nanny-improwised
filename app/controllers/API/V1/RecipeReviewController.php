@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\RecipeReview;
 
 class RecipeReviewController extends BaseController {
 
@@ -11,7 +12,8 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('recipereviews.index');
+		return RecipeReview::get();
+        // return View::make('recipereviews.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('recipereviews.show');
+		return RecipeReview::find($id);
+        // return View::make('recipereviews.show');
 	}
 
 	/**

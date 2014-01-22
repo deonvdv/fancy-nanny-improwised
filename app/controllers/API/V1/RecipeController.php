@@ -1,8 +1,38 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Recipe;
+use \Model\RecipeIngredient;
+use \Model\Picture;
+use \Model\RecipeReview;
 
 class RecipeController extends BaseController {
+
+
+	/**
+     * RecipeIngredient Model
+     * @var RecipeIngredient
+     */
+	protected $recipe_ingredients;
+
+	/**
+     * Picture Model
+     * @var Picture
+     */
+	protected $pictures;
+
+	/**
+     * RecipeReview Model
+     * @var RecipeReview
+     */
+	protected $recipe_reviews;
+
+	public function __construct(RecipeIngredient $recipe_ingredients, Picture $pictures, RecipeReview $recipe_reviews)
+    {
+    	$this->recipe_ingredients = $recipe_ingredients;
+    	$this->pictures = $pictures;
+    	$this->recipe_reviews = $recipe_reviews;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -11,7 +41,8 @@ class RecipeController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('recipes.index');
+        return Recipe::get();
+        // return View::make('recipes.index');
 	}
 
 	/**
@@ -42,7 +73,8 @@ class RecipeController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('recipes.show');
+		return Recipe::find($id);
+        // return View::make('recipes.show');
 	}
 
 	/**
@@ -76,6 +108,22 @@ class RecipeController extends BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+	public function recipe_ingredients($recipe_id)
+	{
+		$recipe_ingredients = $this->recipe_ingredients->getRecipeIngredientsByRecipe($recipe_id);
+		return $recipe_ingredients;
+	}
+	public function pictures($recipe_id)
+	{
+		$pictures = $this->pictures->getPicturesByRecipe($recipe_id);
+		return $pictures;
+	}
+	public function reviews($recipe_id)
+	{
+		$reviews = $this->recipe_reviews->getReviewsByRecipe($recipe_id);
+		return $reviews;
 	}
 
 }

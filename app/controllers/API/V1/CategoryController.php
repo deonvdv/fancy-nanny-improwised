@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Category;
 
 class CategoryController extends BaseController {
 
@@ -11,7 +12,8 @@ class CategoryController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('categories.index');
+		return Category::get();
+        // return View::make('categories.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class CategoryController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('categories.show');
+		return Category::find($id);
+        // return View::make('categories.show');
 	}
 
 	/**

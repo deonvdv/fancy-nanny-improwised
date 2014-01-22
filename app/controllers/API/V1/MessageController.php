@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Message;
 
 class MessageController extends BaseController {
 
@@ -11,7 +12,8 @@ class MessageController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('messages.index');
+		return Message::get();
+        // return View::make('messages.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class MessageController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('messages.show');
+		return Message::find($id);
+        // return View::make('messages.show');
 	}
 
 	/**

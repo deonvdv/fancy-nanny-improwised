@@ -5,8 +5,19 @@ use \User;
 use \Response;
 use \Input;
 use \View;
+use \Model\Recipe;
 
 class UserController extends BaseController {
+
+	/**
+     * Message Model
+     * @var Message
+     */
+    protected $recipes;
+    public function __construct(Recipe $recipes)
+    {
+    	$this->recipes = $recipes;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -15,7 +26,8 @@ class UserController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('users.index');
+		return User::get();
+        // return View::make('users.index');
 	}
 
 	/**
@@ -46,7 +58,9 @@ class UserController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('users.show');
+		// return $id;
+		return User::find($id);
+        // return View::make('users.show');
 	}
 
 	/**
@@ -80,6 +94,17 @@ class UserController extends BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+	public function picture($id)
+	{
+		return $id;
+	}
+
+	public function recipes($user_id)
+	{
+		return $this->recipes->getRecipesByUser($user_id);
+		// return $user_id;
 	}
 
 	public function indexByHousehold($householdId = 0, $page = 1, $itemPerPage = 20)

@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Meal;
 
 class MealController extends BaseController {
 
@@ -11,7 +12,8 @@ class MealController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('meals.index');
+		return Meal::get();
+        // return View::make('meals.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class MealController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('meals.show');
+		return Meal::find($id);
+        // return View::make('meals.show');
 	}
 
 	/**
@@ -78,4 +81,8 @@ class MealController extends BaseController {
 		//
 	}
 
+	public function recipe($meal_id)
+	{
+
+	}
 }

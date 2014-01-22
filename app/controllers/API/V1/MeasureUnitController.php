@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\UnitMeasure;
 
 class MeasureUnitController extends BaseController {
 
@@ -11,7 +12,8 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('measureunits.index');
+		return UnitMeasure::get();
+        // return View::make('measureunits.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('measureunits.show');
+		return UnitMeasure::find($id);
+        // return View::make('measureunits.show');
 	}
 
 	/**

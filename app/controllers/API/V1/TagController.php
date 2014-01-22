@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Tag;
 
 class TagController extends BaseController {
 
@@ -11,7 +12,8 @@ class TagController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('tags.index');
+		return Tag::get();
+        // return View::make('tags.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class TagController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('tags.show');
+		return Tag::find($id);
+        // return View::make('tags.show');
 	}
 
 	/**

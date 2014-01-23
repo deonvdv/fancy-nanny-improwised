@@ -17,7 +17,7 @@ class CreateMessagesTable extends Migration {
 			$table->string('household_id', 36);
 			$table->string('user_id', 36);
 			$table->text('message');
-			
+			$table->date('date');
 			$table->timestamps();
 		});
 	}

@@ -14,6 +14,11 @@ class CreateDocumentsTable extends Migration {
 	{
 		Schema::create('documents', function(Blueprint $table) {
 			$table->string('id')->primary();
+			$table->string('household_id', 36);
+			$table->string('user_id', 36);
+			$table->string('name', 30);
+			$table->string('file_name', 50);
+			$table->text('cdn_url');
 			
 			$table->timestamps();
 		});

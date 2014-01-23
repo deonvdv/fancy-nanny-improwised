@@ -7,6 +7,7 @@ use \Model\Picture;
 use \Model\RecipeReview;
 use \Model\RecipeCategory;
 use \Model\RecipeTag;
+use \Response;
 
 class RecipeController extends BaseController {
 
@@ -58,7 +59,28 @@ class RecipeController extends BaseController {
 	 */
 	public function index()
 	{
-        return Recipe::get();
+		$recipes = Recipe::get();
+		if(count($recipes) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $recipes->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Recipes ...'
+				),
+				404
+			);
+		}
         // return View::make('recipes.index');
 	}
 
@@ -90,7 +112,28 @@ class RecipeController extends BaseController {
 	 */
 	public function show($id)
 	{
-		return Recipe::find($id);
+		$recipes = Recipe::find($id);
+		if(count($recipes) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $recipes->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Recipes ...'
+				),
+				404
+			);
+		}
         // return View::make('recipes.show');
 	}
 
@@ -130,26 +173,131 @@ class RecipeController extends BaseController {
 	public function recipe_ingredients($recipe_id)
 	{
 		$recipe_ingredients = $this->recipe_ingredients->getRecipeIngredientsByRecipe($recipe_id);
-		return $recipe_ingredients;
+		$msg = json_decode($recipe_ingredients);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $recipe_ingredients->toArray(),
+					'message' => 'RecipeIngredients ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find RecipeIngredient for Recipe id : '.$recipe_id
+				),
+				404
+			);
+		}
 	}
 	public function pictures($recipe_id)
 	{
 		$pictures = $this->pictures->getPicturesByRecipe($recipe_id);
-		return $pictures;
+		$msg = json_decode($pictures);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $pictures->toArray(),
+					'message' => 'Pictures ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Pictures for Recipe id : '.$recipe_id
+				),
+				404
+			);
+		}
 	}
 	public function reviews($recipe_id)
 	{
 		$reviews = $this->recipe_reviews->getReviewsByRecipe($recipe_id);
-		return $reviews;
+		$msg = json_decode($reviews);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $reviews->toArray(),
+					'message' => 'Reviews ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Reviews for Recipe id : '.$recipe_id
+				),
+				404
+			);
+		}
 	}
 	public function categoried($recipe_id)
 	{
 		$category = $this->recipes_categories->getCategoryByRecipe($recipe_id);
-		return $category;
+		$msg = json_decode($category);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $category->toArray(),
+					'message' => 'Category ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Category for Recipe id : '.$recipe_id
+				),
+				404
+			);
+		}
 	}
 	public function tags($recipe_id)
 	{
 		$tags = $this->recipe_tags->getTagByRecipes($recipe_id);
-		return $tags;
+		$msg = json_decode($tags);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $tags->toArray(),
+					'message' => 'Tags ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Tags for Recipe id : '.$recipe_id
+				),
+				404
+			);
+		}
 	}
 }

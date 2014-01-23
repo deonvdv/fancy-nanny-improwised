@@ -12,7 +12,28 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function index()
 	{
-		return UnitMeasure::get();
+		$unit_of_measure = UnitMeasure::get();
+		if(count($unit_of_measure) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $unit_of_measure->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Unit of Measure ...'
+				),
+				404
+			);
+		}
         // return View::make('measureunits.index');
 	}
 

@@ -2,6 +2,7 @@
 namespace API\V1;
 use \BaseController;
 use \Model\Message;
+use \Response;
 
 class MessageController extends BaseController {
 
@@ -12,7 +13,28 @@ class MessageController extends BaseController {
 	 */
 	public function index()
 	{
-		return Message::get();
+		$messages = Message::get();
+		if(count($messages) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $messages->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Messages ...'
+				),
+				404
+			);
+		}
         // return View::make('messages.index');
 	}
 
@@ -44,7 +66,28 @@ class MessageController extends BaseController {
 	 */
 	public function show($id)
 	{
-		return Message::find($id);
+		$messages = Message::find($id);
+		if(count($messages) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $messages->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Messages ...'
+				),
+				404
+			);
+		}
         // return View::make('messages.show');
 	}
 

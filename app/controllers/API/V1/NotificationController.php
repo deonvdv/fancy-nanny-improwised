@@ -2,6 +2,7 @@
 namespace API\V1;
 use \BaseController;
 use \Model\Notification;
+use \Response;
 
 class NotificationController extends BaseController {
 
@@ -12,7 +13,28 @@ class NotificationController extends BaseController {
 	 */
 	public function index()
 	{
-		return Notification::get();
+		$notifications = Notification::get();
+		if(count($notifications) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $notifications->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Notifications ...'
+				),
+				404
+			);
+		}
         // return View::make('notifications.index');
 	}
 
@@ -44,7 +66,28 @@ class NotificationController extends BaseController {
 	 */
 	public function show($id)
 	{
-		return Notification::find($id);
+		$notifications = Notification::find($id);
+		if(count($notifications) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $notifications->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Notifications ...'
+				),
+				404
+			);
+		}
         // return View::make('notifications.show');
 	}
 

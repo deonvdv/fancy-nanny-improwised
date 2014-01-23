@@ -272,37 +272,184 @@ class HouseholdController extends BaseController {
 
 	public function messages($householdId){
 		$messages = $this->messages->getMessagesByHouseholds($householdId);
-		return $messages;
+		$msg = json_decode($messages);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $messages->toArray(),
+					'message' => 'Messages'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Messages of Household id : '.$householdId
+				),
+				404
+			);
+		}
 	}
 
 	public function tags($householdId){
 		$tags = $this->tags->getTagsByHouseholds($householdId);
-		return $tags;
+		$msg = json_decode($tags);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $tags->toArray(),
+					'message' => 'Tags ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Tags of Household id : '.$householdId
+				),
+				404
+			);
+		}
+
 	}
 
 	public function members($householdId){
-		$userController = new UserController();
-		return $userController->indexByHousehold($householdId);
+		$userController = json_decode(new UserController());
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $userController->indexByHousehold($householdId)->toArray(),
+					'message' => 'Members Found ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Members of Household id : '.$householdId
+				),
+				404
+			);
+		}
 	}
 
 	public function meals($householdId){
 		$meal = $this->meal->getMealsByHouseholds($householdId);
-		return $meal;
+		$msg = json_decode($meal);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $meal->toArray(),
+					'message' => 'Meals ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Meals for Household id : '.$householdId
+				),
+				404
+			);
+		}
 	}
 
 	public function events($householdId){
 		$events = $this->events->getEventsByHouseholdes($householdId);
-		return $events;
+		$msg = json_decode($events);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $events->toArray(),
+					'message' => 'Events ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Events for Household id : '.$householdId
+				),
+				404
+			);
+		}
 	}
 
 	public function todos($householdId){
 		$todos = $this->todos->getTodosByHouseholdes($householdId);
-		return $todos;
+		$msg = json_decode($todos);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $todos->toArray(),
+					'message' => 'Todos ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Todo for Household id : '.$householdId
+				),
+				404
+			);
+		}
 	}
 
 	public function notifications($householdId){
 		$notifications = $this->notifications->getNotificationsByHouseholdes($householdId);
-		return $notifications;
+		$msg = json_decode($notifications);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $tags->toArray(),
+					'message' => 'Notifications ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Notifications for Household id : '.$householdId
+				),
+				404
+			);
+		}
 	}
 
 }

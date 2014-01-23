@@ -2,6 +2,7 @@
 namespace API\V1;
 use \BaseController;
 use \Model\Todo;
+use \Response;
 
 class TodoController extends BaseController {
 
@@ -12,7 +13,28 @@ class TodoController extends BaseController {
 	 */
 	public function index()
 	{
-		return Todo::get();
+		$todos = Todo::get();
+		if(count($todos) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $todos->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Todos ...'
+				),
+				404
+			);
+		}
         // return View::make('todos.index');
 	}
 
@@ -44,7 +66,28 @@ class TodoController extends BaseController {
 	 */
 	public function show($id)
 	{
-		return Todo::find($id);
+		$todos = Todo::find($id);
+		if(count($todos) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $todos->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Todos ...'
+				),
+				404
+			);
+		}
         // return View::make('todos.show');
 	}
 

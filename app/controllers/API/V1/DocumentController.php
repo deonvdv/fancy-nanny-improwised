@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Document;
 
 class DocumentController extends BaseController {
 
@@ -11,7 +12,8 @@ class DocumentController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('documents.index');
+		return Document::get();
+        // return View::make('documents.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class DocumentController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('documents.show');
+		return Document::find($id);
+        // return View::make('documents.show');
 	}
 
 	/**

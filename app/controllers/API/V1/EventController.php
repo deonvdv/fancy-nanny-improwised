@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Event;
 
 class EventController extends BaseController {
 
@@ -11,7 +12,8 @@ class EventController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('events.index');
+		return Event::get();
+        // return View::make('events.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class EventController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('events.show');
+		return Event::find($id);
+        // return View::make('events.show');
 	}
 
 	/**

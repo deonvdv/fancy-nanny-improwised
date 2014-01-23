@@ -10,6 +10,8 @@ use \Model\Meal;
 use \Model\Message;
 use \Model\Tag;
 use \Model\Event;
+use \Model\Todo;
+use \Model\Notification;
 
 class HouseholdController extends BaseController {
 
@@ -32,17 +34,31 @@ class HouseholdController extends BaseController {
 	protected $tags;
 
 	/**
-     * Tag Model
-     * @var Tag
+     * Event Model
+     * @var Event
      */
 	protected $events;
 
-	public function __construct( Message $messages,Meal $meal, Tag $tags, Event $events)
+	/**
+     * Todo Model
+     * @var Todo
+     */
+	protected $todos;
+
+	/**
+     * Notification Model
+     * @var Notification
+     */
+	protected $notifications;
+
+	public function __construct( Message $messages,Meal $meal, Tag $tags, Event $events, Todo $todos, Notification $notifications)
     {
     	$this->messages = $messages;
         $this->meal = $meal;
         $this->tags = $tags;
         $this->events = $events;
+        $this->todos = $todos;
+        $this->notifications = $notifications;
     }
 
 	/**
@@ -275,16 +291,18 @@ class HouseholdController extends BaseController {
 	}
 
 	public function events($householdId){
-		$tags = $this->events->getEventsByHouseholdes($householdId);
+		$events = $this->events->getEventsByHouseholdes($householdId);
 		return $events;
 	}
 
 	public function todos($householdId){
-
+		$todos = $this->todos->getTodosByHouseholdes($householdId);
+		return $todos;
 	}
 
 	public function notifications($householdId){
-		
+		$notifications = $this->notifications->getNotificationsByHouseholdes($householdId);
+		return $notifications;
 	}
 
 }

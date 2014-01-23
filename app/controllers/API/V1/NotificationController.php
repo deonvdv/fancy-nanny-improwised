@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Notification;
 
 class NotificationController extends BaseController {
 
@@ -11,7 +12,8 @@ class NotificationController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('notifications.index');
+		return Notification::get();
+        // return View::make('notifications.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class NotificationController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('notifications.show');
+		return Notification::find($id);
+        // return View::make('notifications.show');
 	}
 
 	/**

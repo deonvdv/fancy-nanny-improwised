@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Picture;
 
 class PictureController extends BaseController {
 
@@ -11,7 +12,8 @@ class PictureController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('pictures.index');
+		return Picture::get();
+        // return View::make('pictures.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class PictureController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('pictures.show');
+		return Picture::find($id);
+        // return View::make('pictures.show');
 	}
 
 	/**

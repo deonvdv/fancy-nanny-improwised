@@ -2,8 +2,29 @@
 namespace API\V1;
 use \BaseController;
 use \Model\Meal;
+use \Model\MealRecipe;
+use \Model\MealTag;
 
 class MealController extends BaseController {
+
+
+	/**
+     * MealRecipe Model
+     * @var MealRecipe
+     */
+	protected $meals_recipes;
+
+	/**
+     * MealTag Model
+     * @var MealTag
+     */
+	protected $meals_tags;
+
+	public function __construct( MealRecipe $meals_recipes, MealTag $meals_tags)
+    {
+    	$this->meals_recipes = $meals_recipes;
+    	$this->meals_tags = $meals_tags;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -81,8 +102,14 @@ class MealController extends BaseController {
 		//
 	}
 
-	public function recipe($meal_id)
+	public function recipes($id)
 	{
-
+		$mealsRecipe = $this->meals_recipes->getMealRecipesByMeal($id);
+		return $mealsRecipe;
+	}
+	public function tags($id)
+	{
+		$mealTags = $this->meals_tags->getMealTagsByMeal($id);
+		return $mealTags;
 	}
 }

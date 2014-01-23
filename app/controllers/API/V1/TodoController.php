@@ -1,6 +1,7 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Todo;
 
 class TodoController extends BaseController {
 
@@ -11,7 +12,8 @@ class TodoController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('todos.index');
+		return Todo::get();
+        // return View::make('todos.index');
 	}
 
 	/**
@@ -42,7 +44,8 @@ class TodoController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('todos.show');
+		return Todo::find($id);
+        // return View::make('todos.show');
 	}
 
 	/**

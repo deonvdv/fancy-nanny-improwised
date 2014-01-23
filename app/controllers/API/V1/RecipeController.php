@@ -5,6 +5,8 @@ use \Model\Recipe;
 use \Model\RecipeIngredient;
 use \Model\Picture;
 use \Model\RecipeReview;
+use \Model\RecipeCategory;
+use \Model\RecipeTag;
 
 class RecipeController extends BaseController {
 
@@ -27,11 +29,26 @@ class RecipeController extends BaseController {
      */
 	protected $recipe_reviews;
 
-	public function __construct(RecipeIngredient $recipe_ingredients, Picture $pictures, RecipeReview $recipe_reviews)
+
+	/**
+     * RecipeCategory Model
+     * @var RecipeCategory
+     */
+	protected $recipes_categories;
+
+	/**
+     * RecipeTag Model
+     * @var RecipeTag
+     */
+	protected $recipe_tags;
+
+	public function __construct(RecipeIngredient $recipe_ingredients, Picture $pictures, RecipeReview $recipe_reviews, RecipeCategory $recipes_categories, RecipeTag $recipe_tags)
     {
     	$this->recipe_ingredients = $recipe_ingredients;
     	$this->pictures = $pictures;
     	$this->recipe_reviews = $recipe_reviews;
+    	$this->recipes_categories = $recipes_categories;
+    	$this->$recipe_tags = $recipe_tags;
     }
 
 	/**
@@ -125,5 +142,14 @@ class RecipeController extends BaseController {
 		$reviews = $this->recipe_reviews->getReviewsByRecipe($recipe_id);
 		return $reviews;
 	}
-
+	public function categoried($recipe_id)
+	{
+		$category = $this->recipes_categories->getCategoryByRecipe($recipe_id);
+		return $category;
+	}
+	public function tags($recipe_id)
+	{
+		$tags = $this->recipe_tags->getTagByRecipes($recipe_id);
+		return $tags;
+	}
 }

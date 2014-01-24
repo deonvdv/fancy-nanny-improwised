@@ -49,7 +49,7 @@ class RecipeController extends BaseController {
     	$this->pictures = $pictures;
     	$this->recipe_reviews = $recipe_reviews;
     	$this->recipes_categories = $recipes_categories;
-    	$this->$recipe_tags = $recipe_tags;
+    	$this->recipe_tags = $recipe_tags;
     }
 
 	/**

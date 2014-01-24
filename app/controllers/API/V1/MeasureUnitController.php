@@ -2,6 +2,7 @@
 namespace API\V1;
 use \BaseController;
 use \Model\UnitMeasure;
+use \Response;
 
 class MeasureUnitController extends BaseController {
 
@@ -65,7 +66,28 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function show($id)
 	{
-		return UnitMeasure::find($id);
+		$unit_of_measure = UnitMeasure::find($id);
+		if(count($unit_of_measure) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $unit_of_measure->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Unit of Measure ...'
+				),
+				404
+			);
+		}
         // return View::make('measureunits.show');
 	}
 

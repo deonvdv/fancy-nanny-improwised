@@ -434,7 +434,7 @@ class HouseholdController extends BaseController {
 			return Response::json(
 				array(
 					'success' => true,
-					'data'    => $tags->toArray(),
+					'data'    => $notifications->toArray(),
 					'message' => 'Notifications ...'
 					)
 			);

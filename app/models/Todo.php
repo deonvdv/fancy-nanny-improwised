@@ -1,6 +1,6 @@
 <?php
-namespace Model;
-class Notification extends BaseModel {
+
+class Todo extends BaseModel {
 	protected $guarded = array('id');
 
 	public static $rules = array();
@@ -10,7 +10,7 @@ class Notification extends BaseModel {
         return $this->belongsTo('Household');
     }
 
-	public function getNotificationsByHouseholdes($household_id) {
+	public function getTodosByHouseholdes($household_id) {
 		return $this->where('household_id', '=', $household_id)->get();
 	}
 }

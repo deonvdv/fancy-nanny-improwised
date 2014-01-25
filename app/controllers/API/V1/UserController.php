@@ -1,12 +1,13 @@
 <?php
 namespace API\V1;
-use \BaseController;
-use \User;
-use \Response;
-use \Input;
-use \View;
-use \Model\Recipe;
-use \Model\Picture;
+
+use BaseController;
+use User;
+use Response;
+use Input;
+use View;
+use Recipe;
+use Picture;
 
 class UserController extends BaseController {
 

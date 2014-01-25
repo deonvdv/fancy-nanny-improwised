@@ -26,6 +26,7 @@ class CreateEventsTable extends Migration {
 			$table->integer('minutes_before');
 			$table->string('type', 20);
 
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

@@ -15,6 +15,7 @@ class CreateInvoicesTable extends Migration {
 		Schema::create('invoices', function(Blueprint $table) {
 			$table->string('id')->primary();
 			
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

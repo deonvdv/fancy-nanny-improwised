@@ -1,17 +1,16 @@
 <?php
-namespace Model;
-class Meal extends BaseModel {
+
+class Notification extends BaseModel {
 	protected $guarded = array('id');
 
 	public static $rules = array();
-	protected $table = 'meals';
 
 	public function household()
     {
         return $this->belongsTo('Household');
     }
 
-	public function getMealsByHouseholds($household_id) {
+	public function getNotificationsByHouseholdes($household_id) {
 		return $this->where('household_id', '=', $household_id)->get();
 	}
 }

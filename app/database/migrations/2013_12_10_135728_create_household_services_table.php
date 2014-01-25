@@ -15,6 +15,7 @@ class CreateHouseholdServicesTable extends Migration {
 		Schema::create('household_services', function(Blueprint $table) {
 			$table->string('id')->primary();
 			
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

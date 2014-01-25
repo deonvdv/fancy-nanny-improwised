@@ -1,6 +1,6 @@
 <?php
-namespace Model;
-class Product extends BaseModel {
+
+class UnitMeasure extends BaseModel {
 	protected $guarded = array('id');
 
 	public static $rules = array();

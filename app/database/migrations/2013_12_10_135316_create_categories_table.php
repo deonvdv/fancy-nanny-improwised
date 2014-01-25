@@ -16,6 +16,7 @@ class CreateCategoriesTable extends Migration {
 			$table->string('id', 36)->primary();
 			$table->string('parent_id', 36)->nullable();
 			$table->string('name');
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

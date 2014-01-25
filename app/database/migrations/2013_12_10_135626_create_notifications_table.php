@@ -20,6 +20,7 @@ class CreateNotificationsTable extends Migration {
 			$table->text('message');
 			$table->string('reference', 50);
 			
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

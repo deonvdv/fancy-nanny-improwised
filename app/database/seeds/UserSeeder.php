@@ -1,7 +1,5 @@
 <?php
 
-use \Model\Household;
-
 class UserTableSeeder extends Seeder {
 
     public function run()
@@ -21,7 +19,6 @@ class UserTableSeeder extends Seeder {
             'home_number'        => "",
             'work_number'        => "",
             'role'               => "admin",
-            'active'             => 1,
             'profile_picture'    => "http://lorempixel.com/250/250/people/",
             'app_settings'       => json_encode( array("preferred_notification" => 'email' ) ),
         ];
@@ -46,7 +43,7 @@ class UserTableSeeder extends Seeder {
                 'home_number'        => $faker->optional($weight = 0.5)->phoneNumber,
                 'work_number'        => $faker->optional($weight = 0.5)->phoneNumber,
                 'role'               => $roles[rand(0, 3)],
-                'active'             => $i === 0 ? true : rand(0, 1),
+                // 'active'             => $i === 0 ? true : rand(0, 1),
                 'profile_picture'    => $faker->imageUrl(250, 250, "people"),
                 'app_settings'       => json_encode( array("preferred_notification" => rand(0, 1) ? 'email' : 'text' ) ),
 

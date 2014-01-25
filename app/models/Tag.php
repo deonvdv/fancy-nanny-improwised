@@ -1,6 +1,6 @@
 <?php
-namespace Model;
-class Todo extends BaseModel {
+
+class Tag extends BaseModel {
 	protected $guarded = array('id');
 
 	public static $rules = array();
@@ -10,7 +10,7 @@ class Todo extends BaseModel {
         return $this->belongsTo('Household');
     }
 
-	public function getTodosByHouseholdes($household_id) {
+	public function getTagsByHouseholds($household_id) {
 		return $this->where('household_id', '=', $household_id)->get();
 	}
 }

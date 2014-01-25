@@ -41,9 +41,9 @@ class DatabaseSeeder extends Seeder {
 	        'users',
 	    ];
 
-	    // foreach ($tables as $table) {
-	    //     DB::table($table)->truncate();
-	    // }
+	    foreach ($tables as $table) {
+	        DB::table($table)->truncate();
+	    }
 
 		$this->call('HouseholdTableSeeder');
 		$this->call('UserTableSeeder');

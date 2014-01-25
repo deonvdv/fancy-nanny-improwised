@@ -1,5 +1,4 @@
 <?php
-namespace Model;
 
 class Document extends BaseModel {
 	protected $guarded = array('id');

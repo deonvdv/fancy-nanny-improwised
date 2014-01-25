@@ -1,12 +1,14 @@
 <?php
-namespace Model;
 use \Eloquent;
 
 class BaseModel extends Eloquent {
 	protected $guarded = array();
 
 	public static $rules = array();
+
     public $incrementing = false;
+
+    protected $softDelete = true;   // Sets allmodels as softDelete
 
     public static function boot() {
         parent::boot();

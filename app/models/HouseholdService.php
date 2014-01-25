@@ -1,6 +1,6 @@
 <?php
-namespace Model;
-class UnitMeasure extends BaseModel {
+
+class HouseholdService extends BaseModel {
 	protected $guarded = array('id');
 
 	public static $rules = array();

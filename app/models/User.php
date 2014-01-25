@@ -3,7 +3,7 @@
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Model\BaseModel implements UserInterface, RemindableInterface {
+class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	/**
 	 * The database table used by the model.
@@ -27,10 +27,63 @@ class User extends Model\BaseModel implements UserInterface, RemindableInterface
     );
 
 
+	public function documents()
+    {
+        return $this->hasMany('Document');
+    }
+
+	public function events()
+    {
+        return $this->hasMany('Event');
+    }
+
 	public function household()
     {
         return $this->belongsTo('Household');
     }
+
+	public function messages()
+    {
+        return $this->hasMany('Message');
+    }
+
+	public function events()
+    {
+        return $this->hasMany('Event');
+    }
+
+	public function notifications()
+    {
+        return $this->hasMany('Notification');
+    }
+
+	public function pictures()
+    {
+        return $this->hasMany('Picture');
+    }
+
+	public function events()
+    {
+        return $this->hasMany('Event');
+    }
+
+	public function recipes()
+    {
+        return $this->hasMany('Recipe');
+    }
+
+	public function tags()
+    {
+        return $this->hasMany('Tag');
+    }
+
+	public function todos()
+    {
+        return $this->hasMany('Todo');
+    }
+
+
+
 
 	/**
 	 * Get the unique identifier for the user.

@@ -15,6 +15,7 @@ class CreateUnitMeasuresTable extends Migration {
 		Schema::create('unit_measures', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
 			$table->string('name', 50);
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

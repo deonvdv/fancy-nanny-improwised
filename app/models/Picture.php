@@ -1,6 +1,5 @@
 <?php
-namespace Model;
-use \Model\Recipe;
+
 class Picture extends BaseModel {
 	protected $guarded = array('id');
 

@@ -18,6 +18,7 @@ class CreateRecipeReviewsTable extends Migration {
 			$table->string('user_id', 36);
 			$table->smallInteger('score');
 			$table->text('review');
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

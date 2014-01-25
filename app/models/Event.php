@@ -1,5 +1,5 @@
 <?php
-namespace Model;
+
 class Event extends BaseModel {
 	protected $guarded = array('id');
 
@@ -8,6 +8,11 @@ class Event extends BaseModel {
 	public function household()
     {
         return $this->belongsTo('Household');
+    }
+
+	public function user()
+    {
+        return $this->belongsTo('User');
     }
 
 	public function getEventsByHouseholdes($household_id) {

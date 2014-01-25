@@ -18,6 +18,7 @@ class CreateRecipeIngredientsTable extends Migration {
 			$table->float('quantity');
 			$table->string('unit_measure_id', 36);
 			$table->string('ingrendient_id', 36);
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

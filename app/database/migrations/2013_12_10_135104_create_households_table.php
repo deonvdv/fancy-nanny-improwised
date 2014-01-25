@@ -17,6 +17,7 @@ class CreateHouseholdsTable extends Migration {
 			$table->string('name');
 			$table->text('emergency_contacts')->nullable();
 			$table->text('critical_information')->nullable();
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

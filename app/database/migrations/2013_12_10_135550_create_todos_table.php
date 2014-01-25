@@ -25,6 +25,7 @@ class CreateTodosTable extends Migration {
 			$table->string('notify');
 			$table->integer('minutes_before');
 			
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

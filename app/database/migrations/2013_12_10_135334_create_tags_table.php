@@ -18,6 +18,7 @@ class CreateTagsTable extends Migration {
 			$table->string('user_id', 36); //owner
 			$table->string('name', 100);
 			$table->string('color', 7);
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

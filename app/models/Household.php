@@ -1,5 +1,4 @@
 <?php
-namespace Model;
 
 class Household extends BaseModel {
 	protected $guarded = array('id');
@@ -9,11 +8,11 @@ class Household extends BaseModel {
     );
 
     public function members(){
-        return $this->hasMany('user');
+        return $this->hasMany('User');
     }
 
     public function messages(){
-        return $this->hasMany('message');
+        return $this->hasMany('Message');
     }
 
     public function tags(){

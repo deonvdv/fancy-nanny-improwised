@@ -1,64 +1,22 @@
 <?php
 namespace API\V1;
 
-use \Model\Household;
-use \BaseController;
-use \Response;
-use \Input;
-use \View;
-use \Model\Meal;
-use \Model\Message;
-use \Model\Tag;
-use \Model\Event;
-use \Model\Todo;
-use \Model\Notification;
+use Household;
+use BaseController;
+use Response;
+use Input;
+use View;
+use Meal;
+use Message;
+use Tag;
+use Event;
+use Todo;
+use Notification;
 
 class HouseholdController extends BaseController {
 
-	/**
-     * Message Model
-     * @var Message
-     */
-    protected $messages;
-
-    /**
-     * Meal Model
-     * @var Message
-     */
-	protected $meal;
-
-	/**
-     * Tag Model
-     * @var Tag
-     */
-	protected $tags;
-
-	/**
-     * Event Model
-     * @var Event
-     */
-	protected $events;
-
-	/**
-     * Todo Model
-     * @var Todo
-     */
-	protected $todos;
-
-	/**
-     * Notification Model
-     * @var Notification
-     */
-	protected $notifications;
-
-	public function __construct( Message $messages,Meal $meal, Tag $tags, Event $events, Todo $todos, Notification $notifications)
+	public function __construct( )
     {
-    	$this->messages = $messages;
-        $this->meal = $meal;
-        $this->tags = $tags;
-        $this->events = $events;
-        $this->todos = $todos;
-        $this->notifications = $notifications;
     }
 
 	/**
@@ -158,7 +116,7 @@ class HouseholdController extends BaseController {
 	{
         $household = Household::with(array('members' => function($query)
 			{
-			    $query->where('active', '=', '1');
+			    $query->orderBy('name', 'asc');
 			}))->find($id);
 
         if(!is_null($household))
@@ -273,57 +231,58 @@ class HouseholdController extends BaseController {
 		}
 	}
 
-	public function messages($householdId){
-		$messages = $this->messages->getMessagesByHouseholds($householdId);
-		$msg = json_decode($messages);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $messages->toArray(),
-					'message' => 'Messages'
-					)
-			);
+	public function messages($householdId, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = Household::find($householdId)->messages()->skip($skip)->take($itemPerPage)->get();
+		$itemCount	= Household::find($householdId)->messages()->count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Messages of Household id : '.$householdId
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
 	}
 
-	public function tags($householdId){
-		$tags = $this->tags->getTagsByHouseholds($householdId);
-		$msg = json_decode($tags);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $tags->toArray(),
-					'message' => 'Tags ...'
-					)
-			);
-		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Tags of Household id : '.$householdId
-				),
-				404
-			);
+	public function tags($householdId, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = Household::find($householdId)->tags()->skip($skip)->take($itemPerPage)->get();
+		$itemCount	= Household::find($householdId)->tags()->count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
 
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
 	}
 
 	public function members($householdId, $page = 1){
@@ -353,108 +312,112 @@ class HouseholdController extends BaseController {
         );
 	}
 
-	public function meals($householdId){
-		$meal = $this->meal->getMealsByHouseholds($householdId);
-		$msg = json_decode($meal);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $meal->toArray(),
-					'message' => 'Meals ...'
-					)
-			);
+	public function meals($householdId, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = Household::find($householdId)->tags()->skip($skip)->take($itemPerPage)->get();
+		$itemCount	= Household::find($householdId)->tags()->count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Meals for Household id : '.$householdId
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
 	}
 
-	public function events($householdId){
-		$events = $this->events->getEventsByHouseholdes($householdId);
-		$msg = json_decode($events);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $events->toArray(),
-					'message' => 'Events ...'
-					)
-			);
+	public function events($householdId, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = Household::find($householdId)->events()->skip($skip)->take($itemPerPage)->get();
+		$itemCount	= Household::find($householdId)->events()->count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Events for Household id : '.$householdId
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
 	}
 
-	public function todos($householdId){
-		$todos = $this->todos->getTodosByHouseholdes($householdId);
-		$msg = json_decode($todos);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $todos->toArray(),
-					'message' => 'Todos ...'
-					)
-			);
+	public function todos($householdId, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = Household::find($householdId)->todos()->skip($skip)->take($itemPerPage)->get();
+		$itemCount	= Household::find($householdId)->todos()->count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Todo for Household id : '.$householdId
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
 	}
 
-	public function notifications($householdId){
-		$notifications = $this->notifications->getNotificationsByHouseholdes($householdId);
-		$msg = json_decode($notifications);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $notifications->toArray(),
-					'message' => 'Notifications ...'
-					)
-			);
+	public function notifications($householdId, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = Household::find($householdId)->notifications()->skip($skip)->take($itemPerPage)->get();
+		$itemCount	= Household::find($householdId)->notifications()->count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Notifications for Household id : '.$householdId
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
 	}
 
 }

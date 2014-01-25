@@ -20,6 +20,7 @@ class CreateDocumentsTable extends Migration {
 			$table->string('file_name', 50);
 			$table->text('cdn_url');
 			
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

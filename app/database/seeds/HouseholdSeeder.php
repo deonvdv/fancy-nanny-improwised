@@ -1,7 +1,5 @@
 <?php
 
-use \Model\Household;
-
 class HouseholdTableSeeder extends Seeder {
 
     public function run()

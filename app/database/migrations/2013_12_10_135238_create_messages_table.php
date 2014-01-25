@@ -18,6 +18,7 @@ class CreateMessagesTable extends Migration {
 			$table->string('user_id', 36);
 			$table->text('message');
 			$table->date('date');
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

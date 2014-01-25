@@ -22,6 +22,7 @@ class CreateRecipesTable extends Migration {
 			$table->integer('number_of_portions');
 			$table->string('preparation_time');
 			$table->string('cooking_time');
+			$table->softDeletes();
 			$table->timestamps();
 		});
 

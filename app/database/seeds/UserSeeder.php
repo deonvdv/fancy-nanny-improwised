@@ -1,12 +1,13 @@
 <?php
 
-// use \Model\User;
+use \Model\Household;
 
 class UserTableSeeder extends Seeder {
 
     public function run()
     {
-        $roles = ['admin','parent','guardian','child','staff'];
+        $roles = ['parent','guardian','child','staff'];
+        $households = Household::all();
 
         $tmp = [
             'name'               => "Deon van der Vyver",
@@ -34,6 +35,7 @@ class UserTableSeeder extends Seeder {
         for ($i = 0; $i < 10; $i++) {
             $tmp = [
                 'name'               => $faker->name,
+                'household_id'       => $households[rand(0, count($households)-1)]->id,
                 'email'              => $faker->email,
                 'password'           => Hash::make($faker->word . strtoupper($faker->randomLetter) . $faker->randomDigitNotNull . $faker->word),
                 'street'             => $faker->streetAddress,
@@ -43,7 +45,7 @@ class UserTableSeeder extends Seeder {
                 'country'            => $faker->country,
                 'home_number'        => $faker->optional($weight = 0.5)->phoneNumber,
                 'work_number'        => $faker->optional($weight = 0.5)->phoneNumber,
-                'role'               => $roles[rand(0, 4)],
+                'role'               => $roles[rand(0, 3)],
                 'active'             => $i === 0 ? true : rand(0, 1),
                 'profile_picture'    => $faker->imageUrl(250, 250, "people"),
                 'app_settings'       => json_encode( array("preferred_notification" => rand(0, 1) ? 'email' : 'text' ) ),

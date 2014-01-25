@@ -19,7 +19,7 @@ class CreateTagsTable extends Migration {
 			$table->string('name', 100);
 			$table->string('color', 7);
 
-			$table->integer('tagable_id');
+			$table->string('tagable_id',36);
 			$table->string('tagable_type');
 
 			$table->softDeletes();

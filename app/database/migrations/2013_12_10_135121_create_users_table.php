@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration {
 			$table->string('home_number', 30)->nullable();
 			$table->string('work_number', 30)->nullable();
 			$table->enum('role', array('admin', 'parent', 'guardian', 'child', 'staff'));
-			$table->string('profile_picture');
+			// $table->string('profile_picture');
 			$table->text('app_settings');
 			
 			$table->softDeletes();

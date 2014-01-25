@@ -18,10 +18,9 @@ class CreateRecipesTable extends Migration {
 			$table->string('name');
 			$table->text('description');
 			$table->text('instructions');
-			$table->text('picture_id', 36);
 			$table->integer('number_of_portions');
-			$table->string('preparation_time');
-			$table->string('cooking_time');
+			$table->time('preparation_time');
+			$table->time('cooking_time');
 			$table->softDeletes();
 			$table->timestamps();
 		});
@@ -53,7 +52,7 @@ class CreateRecipesTable extends Migration {
 	{
 		Schema::drop('recipes');
 		Schema::drop('recipes_categories');
-		Schema::drop('recipes_tags');
+		// Schema::drop('recipes_tags');
 	}
 
 }

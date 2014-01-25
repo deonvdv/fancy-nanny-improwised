@@ -114,7 +114,7 @@ class HouseholdController extends BaseController {
         $household = \Models\Household::with(
         	array(
 				'documents' => function($query) { $query->where('private', '!=', '1')->orderBy('name', 'asc')->take(20); },
-				'events' => function($query) { $query->where('event_date', '>', 'now()')->orderBy('event_date', 'asc')->take(20); },
+				'events' => function($query) { $query->where('event_date', '>', new \DateTime('now') )->orderBy('event_date', 'asc')->take(20); },
 				'members'   => function($query){ $query->orderBy('name', 'asc'); },
         	)
         )->find($id);

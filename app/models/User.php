@@ -54,11 +54,6 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
         return $this->hasMany('Models\Notification');
     }
 
-	public function pictures()
-    {
-        return $this->hasMany('Models\Picture');
-    }
-
 	public function recipes()
     {
         return $this->hasMany('Models\Recipe');

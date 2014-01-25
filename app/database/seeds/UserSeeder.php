@@ -19,12 +19,14 @@ class UserTableSeeder extends Seeder {
             'home_number'        => "",
             'work_number'        => "",
             'role'               => "admin",
-            'profile_picture'    => "http://lorempixel.com/250/250/people/",
             'app_settings'       => json_encode( array("preferred_notification" => 'email' ) ),
         ];
         // print_r($tmp);
 
-        $user = \Models\User::create($tmp);
+        $user = new \Models\User( $tmp );
+        $user->save();
+        $pic = new \Models\Picture( array('name' => 'profile_pic_' . $faker->word, 'file_name' => $faker->word.".".$faker->fileExtension) );
+        $user->pictures()->save($pic);
 
         // Use Faker - https://github.com/fzaninotto/Faker
         $faker = \Faker\Factory::create();
@@ -44,7 +46,6 @@ class UserTableSeeder extends Seeder {
                 'work_number'        => $faker->optional($weight = 0.5)->phoneNumber,
                 'role'               => $roles[rand(0, 3)],
                 // 'active'             => $i === 0 ? true : rand(0, 1),
-                'profile_picture'    => $faker->imageUrl(250, 250, "people"),
                 'app_settings'       => json_encode( array("preferred_notification" => rand(0, 1) ? 'email' : 'text' ) ),
 
                 // // 'active'             => $i === 0 ? true : rand(0, 1),
@@ -59,7 +60,10 @@ class UserTableSeeder extends Seeder {
             ];
             // print_r($tmp);
 
-            $user = \Models\User::create($tmp);
+            $user = new \Models\User( $tmp );
+            $user->save();
+            $pic = new \Models\Picture( array('name' => 'profile_pic_' . $faker->word, 'file_name' => $faker->word.".".$faker->fileExtension) );
+            $user->pictures()->save($pic);
         }
 
     }

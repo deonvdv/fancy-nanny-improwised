@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder {
 	        'products',
 	        'recipes',
 	        'recipes_categories',
-	        'recipes_tags',
 	        'recipe_ingredients',
 	        'recipe_reviews',
 	        'tags',

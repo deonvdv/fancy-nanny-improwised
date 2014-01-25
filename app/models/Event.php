@@ -9,12 +9,17 @@ class Event extends BaseModel {
 
 	public function household()
     {
-        return $this->belongsTo('Household');
+        return $this->belongsTo('Models\Household');
     }
 
 	public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Models\User');
+    }
+
+    public function tags()
+    {
+        return $this->morphMany('\Models\Tag', 'tagable');
     }
 
 }

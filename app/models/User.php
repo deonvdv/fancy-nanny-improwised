@@ -74,6 +74,10 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
         return $this->hasMany('Models\Todo');
     }
 
+	public function pictures()
+    {
+        return $this->morphMany('Models\Picture', 'imageable');
+    }
 
 
 

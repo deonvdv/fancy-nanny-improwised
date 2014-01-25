@@ -19,6 +19,9 @@ class CreatePicturesTable extends Migration {
 			$table->string('file_name', 50);
 			$table->text('cdn_url');
 
+			$table->integer('imageable_id');
+			$table->string('imageable_type');
+
 			$table->softDeletes();
 			$table->timestamps();
 		});

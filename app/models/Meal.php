@@ -6,14 +6,17 @@ class Meal extends BaseModel {
 	protected $guarded = array('id');
 
 	public static $rules = array();
+
 	protected $table = 'meals';
 
 	public function household()
     {
-        return $this->belongsTo('Household');
+        return $this->belongsTo('Models\Household');
     }
 
-	public function getMealsByHouseholds($household_id) {
-		return $this->where('household_id', '=', $household_id)->get();
-	}
+	public function tags()
+    {
+        return $this->morphMany('\Models\Tag', 'tagable');
+    }
+
 }

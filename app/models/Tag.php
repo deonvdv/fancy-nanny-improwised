@@ -9,10 +9,16 @@ class Tag extends BaseModel {
 
 	public function household()
     {
-        return $this->belongsTo('Household');
+        return $this->belongsTo('Models\Household');
     }
 
-	public function getTagsByHouseholds($household_id) {
-		return $this->where('household_id', '=', $household_id)->get();
-	}
+	public function user()
+    {
+        return $this->belongsTo('Models\User');
+    }
+
+	public function tagable()
+    {
+        return $this->morphTo();
+    }    
 }

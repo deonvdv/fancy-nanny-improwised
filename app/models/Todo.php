@@ -9,10 +9,12 @@ class Todo extends BaseModel {
 
 	public function household()
     {
-        return $this->belongsTo('Household');
+        return $this->belongsTo('Models\Household');
     }
 
-	public function getTodosByHouseholdes($household_id) {
-		return $this->where('household_id', '=', $household_id)->get();
-	}
+	public function tags()
+    {
+        return $this->morphMany('\Models\Tag', 'tagable');
+    }
+
 }

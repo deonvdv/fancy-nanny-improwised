@@ -26,6 +26,12 @@ class User extends Model\BaseModel implements UserInterface, RemindableInterface
 		'password' => 'required|alpha_num|min:8',
     );
 
+
+	public function household()
+    {
+        return $this->belongsTo('Household');
+    }
+
 	/**
 	 * Get the unique identifier for the user.
 	 *

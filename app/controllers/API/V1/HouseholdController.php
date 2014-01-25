@@ -156,7 +156,10 @@ class HouseholdController extends BaseController {
 	 */
 	public function show($id)
 	{
-        $household = Household::find($id);
+        $household = Household::with(array('members' => function($query)
+			{
+			    $query->where('active', '=', '1');
+			}))->find($id);
 
         if(!is_null($household))
         {
@@ -323,29 +326,31 @@ class HouseholdController extends BaseController {
 
 	}
 
-	public function members($householdId){
-		$userController = json_decode(new UserController());
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $userController->indexByHousehold($householdId)->toArray(),
-					'message' => 'Members Found ...'
-					)
-			);
+	public function members($householdId, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = Household::find($householdId)->members()->skip($skip)->take($itemPerPage)->get();
+		$itemCount	= Household::find($householdId)->members()->count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Members of Household id : '.$householdId
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
 	}
 
 	public function meals($householdId){

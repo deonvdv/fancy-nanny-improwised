@@ -9,6 +9,6 @@ class UnitOfMeasureTableSeeder extends Seeder {
     		'id' => $faker->uuid,
     		'name' => $faker->name,
     	);
-    	DB::table('unit_measures')->insert( $unit_of_measures );
+    	DB::table('units_of_measure')->insert( $unit_of_measures );
     }
 }

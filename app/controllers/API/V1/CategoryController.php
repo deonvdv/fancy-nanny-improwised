@@ -1,7 +1,8 @@
 <?php
 namespace API\V1;
+
 use \BaseController;
-use \Model\Category;
+use \Model;
 use \Response;
 
 class CategoryController extends BaseController {

@@ -20,7 +20,8 @@ class CreateEventsTable extends Migration {
 			$table->text('description');
 			$table->string('location', 80);
 			$table->date('event_date');
-			$table->time('event_time');
+			$table->time('event_start_time');
+			$table->time('event_end_time');
 			$table->boolean('all_day');
 			$table->string('notify');
 			$table->integer('minutes_before');

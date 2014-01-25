@@ -1,17 +1,11 @@
 <?php
 namespace API\V1;
 
-use Household;
+// use \Models;
 use BaseController;
 use Response;
 use Input;
 use View;
-use Meal;
-use Message;
-use Tag;
-use Event;
-use Todo;
-use Notification;
 
 class HouseholdController extends BaseController {
 
@@ -31,8 +25,8 @@ class HouseholdController extends BaseController {
 		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
 		$skip 		= ($page-1)*$itemPerPage;
 
-        $collection = Household::skip($skip)->take($itemPerPage)->get();
-		$itemCount	= Household::count();
+        $collection = \Models\Household::skip($skip)->take($itemPerPage)->get();
+		$itemCount	= \Models\Household::count();
 		$totalPage 	= ceil($itemCount/$itemPerPage);
 
 		if($collection->isEmpty()){
@@ -69,7 +63,7 @@ class HouseholdController extends BaseController {
 	 */
 	public function store()
 	{
-		$household = new Household;
+		$household = new \Models\Household;
 		$input = Input::all();
 
 		foreach($household->fields() as $field)
@@ -109,15 +103,21 @@ class HouseholdController extends BaseController {
 	/**
 	 * Display the specified resource.
 	 *
+	 * Includes Members
+	 * Includes Documents (limited to 20 records)
+	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function show($id)
 	{
-        $household = Household::with(array('members' => function($query)
-			{
-			    $query->orderBy('name', 'asc');
-			}))->find($id);
+        $household = \Models\Household::with(
+        	array(
+				'documents' => function($query) { $query->where('private', '!=', '1')->orderBy('name', 'asc')->take(20); },
+				'events' => function($query) { $query->where('event_date', '>', 'now()')->orderBy('event_date', 'asc')->take(20); },
+				'members'   => function($query){ $query->orderBy('name', 'asc'); },
+        	)
+        )->find($id);
 
         if(!is_null($household))
         {
@@ -161,12 +161,12 @@ class HouseholdController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$household = Household::find($id);
+		$household = \Models\Household::find($id);
 		$input = Input::all();
 
 		if(!is_null($household))
 		{
-			foreach(Household::fields() as $field)
+			foreach(\Models\Household::fields() as $field)
 			{
 				if(isset($input[$field]))
 				{
@@ -205,7 +205,7 @@ class HouseholdController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$household = Household::find($id);
+		$household = \Models\Household::find($id);
 
 		if(!is_null($household))
 		{
@@ -231,31 +231,80 @@ class HouseholdController extends BaseController {
 		}
 	}
 
+	public function documents($householdId, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\Household::find($householdId) ) {
+	        $collection = \Models\Household::find($householdId)->documents()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Household::find($householdId)->documents()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Household with id '.$householdId
+        		),
+        		404
+        	);
+		}
+	}
+
 	public function messages($householdId, $page = 1){
 		$message 	= array();
 		$page 		= (int) $page < 1 ? 1 : $page;
 		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
 		$skip 		= ($page-1)*$itemPerPage;
 
-        $collection = Household::find($householdId)->messages()->skip($skip)->take($itemPerPage)->get();
-		$itemCount	= Household::find($householdId)->messages()->count();
-		$totalPage 	= ceil($itemCount/$itemPerPage);
+		if ( \Models\Household::find($householdId) ) {
+	        $collection = \Models\Household::find($householdId)->messages()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Household::find($householdId)->messages()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
 
-		if($collection->isEmpty()){
-			$message[] = 'No records found in this collection.';
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Household with id '.$householdId
+        		),
+        		404
+        	);
 		}
-
-        return Response::json(
-        	array(
-        		'success'		=> true,
-        		'page'			=> (int) $page,
-        		'item_per_page'	=> (int) $itemPerPage,
-        		'total_item'	=> (int) $itemCount,
-        		'total_page'	=> (int) $totalPage,
-        		'data'			=> $collection->toArray(),
-        		'message'		=> implode($message, "\n")
-        	)
-        );
 	}
 
 	public function tags($householdId, $page = 1){
@@ -264,25 +313,36 @@ class HouseholdController extends BaseController {
 		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
 		$skip 		= ($page-1)*$itemPerPage;
 
-        $collection = Household::find($householdId)->tags()->skip($skip)->take($itemPerPage)->get();
-		$itemCount	= Household::find($householdId)->tags()->count();
-		$totalPage 	= ceil($itemCount/$itemPerPage);
+		if ( \Models\Household::find($householdId) ) {
+	        $collection = \Models\Household::find($householdId)->tags()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Household::find($householdId)->tags()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
 
-		if($collection->isEmpty()){
-			$message[] = 'No records found in this collection.';
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Household with id '.$householdId
+        		),
+        		404
+        	);
 		}
-
-        return Response::json(
-        	array(
-        		'success'		=> true,
-        		'page'			=> (int) $page,
-        		'item_per_page'	=> (int) $itemPerPage,
-        		'total_item'	=> (int) $itemCount,
-        		'total_page'	=> (int) $totalPage,
-        		'data'			=> $collection->toArray(),
-        		'message'		=> implode($message, "\n")
-        	)
-        );
 	}
 
 	public function members($householdId, $page = 1){
@@ -291,25 +351,36 @@ class HouseholdController extends BaseController {
 		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
 		$skip 		= ($page-1)*$itemPerPage;
 
-        $collection = Household::find($householdId)->members()->skip($skip)->take($itemPerPage)->get();
-		$itemCount	= Household::find($householdId)->members()->count();
-		$totalPage 	= ceil($itemCount/$itemPerPage);
+		if ( \Models\Household::find($householdId) ) {
+	        $collection = \Models\Household::find($householdId)->members()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Household::find($householdId)->members()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
 
-		if($collection->isEmpty()){
-			$message[] = 'No records found in this collection.';
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Household with id '.$householdId
+        		),
+        		404
+        	);
 		}
-
-        return Response::json(
-        	array(
-        		'success'		=> true,
-        		'page'			=> (int) $page,
-        		'item_per_page'	=> (int) $itemPerPage,
-        		'total_item'	=> (int) $itemCount,
-        		'total_page'	=> (int) $totalPage,
-        		'data'			=> $collection->toArray(),
-        		'message'		=> implode($message, "\n")
-        	)
-        );
 	}
 
 	public function meals($householdId, $page = 1){
@@ -318,25 +389,36 @@ class HouseholdController extends BaseController {
 		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
 		$skip 		= ($page-1)*$itemPerPage;
 
-        $collection = Household::find($householdId)->tags()->skip($skip)->take($itemPerPage)->get();
-		$itemCount	= Household::find($householdId)->tags()->count();
-		$totalPage 	= ceil($itemCount/$itemPerPage);
+		if ( \Models\Household::find($householdId) ) {
+	        $collection = \Models\Household::find($householdId)->tags()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Household::find($householdId)->tags()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
 
-		if($collection->isEmpty()){
-			$message[] = 'No records found in this collection.';
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Household with id '.$householdId
+        		),
+        		404
+        	);
 		}
-
-        return Response::json(
-        	array(
-        		'success'		=> true,
-        		'page'			=> (int) $page,
-        		'item_per_page'	=> (int) $itemPerPage,
-        		'total_item'	=> (int) $itemCount,
-        		'total_page'	=> (int) $totalPage,
-        		'data'			=> $collection->toArray(),
-        		'message'		=> implode($message, "\n")
-        	)
-        );
 	}
 
 	public function events($householdId, $page = 1){
@@ -345,25 +427,36 @@ class HouseholdController extends BaseController {
 		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
 		$skip 		= ($page-1)*$itemPerPage;
 
-        $collection = Household::find($householdId)->events()->skip($skip)->take($itemPerPage)->get();
-		$itemCount	= Household::find($householdId)->events()->count();
-		$totalPage 	= ceil($itemCount/$itemPerPage);
+		if ( \Models\Household::find($householdId) ) {
+	        $collection = \Models\Household::find($householdId)->events()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Household::find($householdId)->events()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
 
-		if($collection->isEmpty()){
-			$message[] = 'No records found in this collection.';
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Household with id '.$householdId
+        		),
+        		404
+        	);
 		}
-
-        return Response::json(
-        	array(
-        		'success'		=> true,
-        		'page'			=> (int) $page,
-        		'item_per_page'	=> (int) $itemPerPage,
-        		'total_item'	=> (int) $itemCount,
-        		'total_page'	=> (int) $totalPage,
-        		'data'			=> $collection->toArray(),
-        		'message'		=> implode($message, "\n")
-        	)
-        );
 	}
 
 	public function todos($householdId, $page = 1){
@@ -372,25 +465,36 @@ class HouseholdController extends BaseController {
 		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
 		$skip 		= ($page-1)*$itemPerPage;
 
-        $collection = Household::find($householdId)->todos()->skip($skip)->take($itemPerPage)->get();
-		$itemCount	= Household::find($householdId)->todos()->count();
-		$totalPage 	= ceil($itemCount/$itemPerPage);
+		if ( \Models\Household::find($householdId) ) {
+	        $collection = \Models\Household::find($householdId)->todos()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Household::find($householdId)->todos()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
 
-		if($collection->isEmpty()){
-			$message[] = 'No records found in this collection.';
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Household with id '.$householdId
+        		),
+        		404
+        	);
 		}
-
-        return Response::json(
-        	array(
-        		'success'		=> true,
-        		'page'			=> (int) $page,
-        		'item_per_page'	=> (int) $itemPerPage,
-        		'total_item'	=> (int) $itemCount,
-        		'total_page'	=> (int) $totalPage,
-        		'data'			=> $collection->toArray(),
-        		'message'		=> implode($message, "\n")
-        	)
-        );
 	}
 
 	public function notifications($householdId, $page = 1){
@@ -399,25 +503,36 @@ class HouseholdController extends BaseController {
 		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
 		$skip 		= ($page-1)*$itemPerPage;
 
-        $collection = Household::find($householdId)->notifications()->skip($skip)->take($itemPerPage)->get();
-		$itemCount	= Household::find($householdId)->notifications()->count();
-		$totalPage 	= ceil($itemCount/$itemPerPage);
+		if ( \Models\Household::find($householdId) ) {
+	        $collection = \Models\Household::find($householdId)->notifications()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Household::find($householdId)->notifications()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
 
-		if($collection->isEmpty()){
-			$message[] = 'No records found in this collection.';
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Household with id '.$householdId
+        		),
+        		404
+        	);
 		}
-
-        return Response::json(
-        	array(
-        		'success'		=> true,
-        		'page'			=> (int) $page,
-        		'item_per_page'	=> (int) $itemPerPage,
-        		'total_item'	=> (int) $itemCount,
-        		'total_page'	=> (int) $totalPage,
-        		'data'			=> $collection->toArray(),
-        		'message'		=> implode($message, "\n")
-        	)
-        );
 	}
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
@@ -29,57 +31,47 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	public function documents()
     {
-        return $this->hasMany('Document');
+        return $this->hasMany('Models\Document');
     }
 
 	public function events()
     {
-        return $this->hasMany('Event');
+        return $this->hasMany('Models\Event');
     }
 
 	public function household()
     {
-        return $this->belongsTo('Household');
+        return $this->belongsTo('Models\Household');
     }
 
 	public function messages()
     {
-        return $this->hasMany('Message');
-    }
-
-	public function events()
-    {
-        return $this->hasMany('Event');
+        return $this->hasMany('Models\Message');
     }
 
 	public function notifications()
     {
-        return $this->hasMany('Notification');
+        return $this->hasMany('Models\Notification');
     }
 
 	public function pictures()
     {
-        return $this->hasMany('Picture');
-    }
-
-	public function events()
-    {
-        return $this->hasMany('Event');
+        return $this->hasMany('Models\Picture');
     }
 
 	public function recipes()
     {
-        return $this->hasMany('Recipe');
+        return $this->hasMany('Models\Recipe');
     }
 
 	public function tags()
     {
-        return $this->hasMany('Tag');
+        return $this->hasMany('Models\Tag');
     }
 
 	public function todos()
     {
-        return $this->hasMany('Todo');
+        return $this->hasMany('Models\Todo');
     }
 
 

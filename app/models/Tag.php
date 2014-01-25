@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 class Tag extends BaseModel {
 	protected $guarded = array('id');
 

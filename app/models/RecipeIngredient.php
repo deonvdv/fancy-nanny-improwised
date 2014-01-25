@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 class RecipeIngredient extends BaseModel {
 	protected $guarded = array('id');
 	public static $rules = array();

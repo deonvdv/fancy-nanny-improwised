@@ -8,7 +8,7 @@ class HouseholdTableSeeder extends Seeder {
         $contacts = ["Father", "Mother", "Sister", "Brother", "Aunt", "Uncle", "Grandfather", "Grandmother"];
 
         for ($i = 0; $i < 10; $i++) {
-	        Household::create(
+	        \Models\Household::create(
 	        	array(
 	        		'name' => $faker->unique()->lastName . " Household",
 	        		'emergency_contacts' => json_encode( 

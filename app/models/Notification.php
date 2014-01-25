@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 class Notification extends BaseModel {
 	protected $guarded = array('id');
 

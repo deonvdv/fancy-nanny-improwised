@@ -1,4 +1,7 @@
 <?php
+
+namespace Models;
+
 use \Eloquent;
 
 class BaseModel extends Eloquent {

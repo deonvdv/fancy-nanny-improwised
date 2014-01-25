@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 class Message extends BaseModel {
 	protected $guarded = array('id');
 

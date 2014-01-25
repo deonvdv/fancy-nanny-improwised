@@ -1,13 +1,15 @@
 <?php
 
+namespace Models;
+
 class Document extends BaseModel {
 	protected $guarded = array('id');
 
 	public static $rules = array();
 
-	public function household()
+	public function user()
     {
-        return $this->belongsTo('Household');
+        return $this->belongsTo('User');
     }
 
 	

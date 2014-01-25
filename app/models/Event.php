@@ -1,4 +1,6 @@
-<?php
+<?php 
+
+namespace Models;
 
 class Event extends BaseModel {
 	protected $guarded = array('id');
@@ -15,7 +17,4 @@ class Event extends BaseModel {
         return $this->belongsTo('User');
     }
 
-	public function getEventsByHouseholdes($household_id) {
-		return $this->where('household_id', '=', $household_id)->get();
-	}
 }

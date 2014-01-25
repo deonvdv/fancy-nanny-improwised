@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 class MealTag extends BaseModel {
 	protected $guarded = array('id');
 

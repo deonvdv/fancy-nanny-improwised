@@ -5,7 +5,7 @@ class UserTableSeeder extends Seeder {
     public function run()
     {
         $roles = ['parent','guardian','child','staff'];
-        $households = Household::all();
+        $households = \Models\Household::all();
 
         $tmp = [
             'name'               => "Deon van der Vyver",
@@ -24,7 +24,7 @@ class UserTableSeeder extends Seeder {
         ];
         // print_r($tmp);
 
-        $user = User::create($tmp);
+        $user = \Models\User::create($tmp);
 
         // Use Faker - https://github.com/fzaninotto/Faker
         $faker = \Faker\Factory::create();
@@ -59,7 +59,7 @@ class UserTableSeeder extends Seeder {
             ];
             // print_r($tmp);
 
-            $user = User::create($tmp);
+            $user = \Models\User::create($tmp);
         }
 
     }

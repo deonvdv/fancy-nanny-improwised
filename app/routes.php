@@ -22,6 +22,7 @@ Route::group(array(
         Route::resource('household', 'API\V1\HouseholdController');
         Route::get('households/page/{pagenum}', 'API\V1\HouseholdController@index');
         Route::get('household/page/{pagenum}', 'API\V1\HouseholdController@index');
+        Route::get('household/{id}/documents', 'API\V1\HouseholdController@documents');
         Route::get('household/{id}/messages', 'API\V1\HouseholdController@messages');
         Route::get('household/{id}/tags', 'API\V1\HouseholdController@tags');
         Route::get('household/{id}/members', 'API\V1\HouseholdController@members');

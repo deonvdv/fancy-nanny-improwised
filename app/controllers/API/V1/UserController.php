@@ -5,8 +5,27 @@ use \User;
 use \Response;
 use \Input;
 use \View;
+use \Model\Recipe;
+use \Model\Picture;
 
 class UserController extends BaseController {
+
+	/**
+     * Recipe Model
+     * @var Recipe
+     */
+    protected $recipes;
+
+    /**
+     * Picture Model
+     * @var Picture
+     */
+    protected $pictures;
+    public function __construct(Recipe $recipes, Picture $pictures)
+    {
+    	$this->recipes = $recipes;
+    	$this->pictures = $pictures;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -15,7 +34,29 @@ class UserController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('users.index');
+		$users = User::get();
+		if(count($users) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $users->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Users ...'
+				),
+				404
+			);
+		}
+        // return View::make('users.index');
 	}
 
 	/**
@@ -46,7 +87,29 @@ class UserController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('users.show');
+		$users = User::find($id);
+		if(count($users) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $users->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Users ...'
+				),
+				404
+			);
+		}
+        // return View::make('users.show');
 	}
 
 	/**
@@ -80,6 +143,61 @@ class UserController extends BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+	public function picture($user_id)
+	{
+		$pictures = $this->pictures->getPictursByUser($user_id);
+		$msg = json_decode($pictures);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $pictures->toArray(),
+					'message' => 'Pictures ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Pictures for User id : '.$user_id
+				),
+				404
+			);
+		}
+	}
+
+	public function recipes($user_id)
+	{
+		$notifications = $this->recipes->getRecipesByUser($user_id);
+		$msg = json_decode($notifications);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $notifications->toArray(),
+					'message' => 'Notifications ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Notifications for User id : '.$user_id
+				),
+				404
+			);
+		}
+		// return $user_id;
 	}
 
 	public function indexByHousehold($householdId = 0, $page = 1, $itemPerPage = 20)

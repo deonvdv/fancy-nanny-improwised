@@ -1,6 +1,6 @@
 <?php
 namespace Model;
-class Ingrendient extends BaseModel {
+class Ingredient extends BaseModel {
 	protected $guarded = array('id');
 
 	public static $rules = array();

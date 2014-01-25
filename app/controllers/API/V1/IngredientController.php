@@ -1,6 +1,8 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Ingredient;
+use \Response;
 
 class IngredientController extends BaseController {
 
@@ -11,7 +13,29 @@ class IngredientController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('ingredients.index');
+		$ingredients = Ingredient::get();
+		if(count($ingredients) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $ingredients->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Ingredients ...'
+				),
+				404
+			);
+		}
+        // return View::make('ingredients.index');
 	}
 
 	/**
@@ -42,7 +66,29 @@ class IngredientController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('ingredients.show');
+		$ingredients = Ingredient::find($id);
+		if(count($ingredients) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $ingredients->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Ingredients ...'
+				),
+				404
+			);
+		}
+        // return View::make('ingredients.show');
 	}
 
 	/**

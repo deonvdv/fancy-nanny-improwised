@@ -1,6 +1,8 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Document;
+use \Response;
 
 class DocumentController extends BaseController {
 
@@ -11,7 +13,29 @@ class DocumentController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('documents.index');
+		$documents = Document::get();
+		if(count($documents) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $documents->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Documents ...'
+				),
+				404
+			);
+		}
+        // return View::make('documents.index');
 	}
 
 	/**
@@ -42,7 +66,29 @@ class DocumentController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('documents.show');
+		$documents = Document::find($id);
+		if(count($documents) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $documents->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Documents ...'
+				),
+				404
+			);
+		}
+        // return View::make('documents.show');
 	}
 
 	/**

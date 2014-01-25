@@ -1,6 +1,8 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Tag;
+use \Response;
 
 class TagController extends BaseController {
 
@@ -11,7 +13,29 @@ class TagController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('tags.index');
+		$tag = Tag::get();
+		if(count($tag) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $tag->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Tags ...'
+				),
+				404
+			);
+		}
+        // return View::make('tags.index');
 	}
 
 	/**
@@ -42,7 +66,29 @@ class TagController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('tags.show');
+		$tag = Tag::find($id);
+		if(count($tag) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $tag,
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Tags ...'
+				),
+				404
+			);
+		}
+        // return View::make('tags.show');
 	}
 
 	/**

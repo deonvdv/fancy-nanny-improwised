@@ -1,6 +1,8 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Event;
+use \Response;
 
 class EventController extends BaseController {
 
@@ -11,7 +13,29 @@ class EventController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('events.index');
+		$events = Event::get();
+		if(count($events) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $events->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Events ...'
+				),
+				404
+			);
+		}
+        // return View::make('events.index');
 	}
 
 	/**
@@ -42,7 +66,29 @@ class EventController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('events.show');
+		$events = Event::find($id);
+		if(count($events) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $events->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Events ...'
+				),
+				404
+			);
+		}
+        // return View::make('events.show');
 	}
 
 	/**

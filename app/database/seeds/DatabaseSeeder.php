@@ -41,12 +41,25 @@ class DatabaseSeeder extends Seeder {
 	        'users',
 	    ];
 
-	    foreach ($tables as $table) {
-	        DB::table($table)->truncate();
-	    }
+	    // foreach ($tables as $table) {
+	    //     DB::table($table)->truncate();
+	    // }
+	    $this->call('MessageTableSeeder');
+	    $this->call('PictureTableSeeder');
+	    $this->call('IngredientTableSeeder');
+	    $this->call('UnitOfMeasureTableSeeder');
+	    $this->call('TagTableSeeder');
+	    $this->call('CategoryTableSeeder');
+	    $this->call('DocumentTableSeeder');
+	    $this->call('EventTableSeeder');
+	    $this->call('MealTableSeeder');
+	    $this->call('NotificationTableSeeder');
+	    $this->call('RecipeTableSeeder');
+	    $this->call('TodoTableSeeder');
+		// $this->call('MealTableSeeder');
 
-		$this->call('UserTableSeeder');
-		$this->call('HouseholdTableSeeder');
+		// $this->call('UserTableSeeder');
+		// $this->call('HouseholdTableSeeder');
 	}
 
 }

@@ -14,7 +14,11 @@ class CreatePicturesTable extends Migration {
 	{
 		Schema::create('pictures', function(Blueprint $table) {
 			$table->string('id')->primary();
-			
+			$table->string('user_id', 36);
+			$table->string('name', 30);
+			$table->string('file_name', 50);
+			$table->text('cdn_url');
+
 			$table->timestamps();
 		});
 	}

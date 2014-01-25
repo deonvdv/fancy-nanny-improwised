@@ -1,6 +1,8 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\RecipeReview;
+use \Response;
 
 class RecipeReviewController extends BaseController {
 
@@ -11,7 +13,29 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('recipereviews.index');
+		$recipereviews = RecipeReview::get();
+		if(count($recipereviews) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $recipereviews->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find RecipeReviews ...'
+				),
+				404
+			);
+		}
+        // return View::make('recipereviews.index');
 	}
 
 	/**
@@ -42,7 +66,29 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('recipereviews.show');
+		$recipereviews = RecipeReview::find($id);
+		if(count($recipereviews) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $recipereviews->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find RecipeReviews ...'
+				),
+				404
+			);
+		}
+        // return View::make('recipereviews.show');
 	}
 
 	/**

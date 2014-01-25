@@ -1,8 +1,31 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Meal;
+use \Model\MealRecipe;
+use \Model\MealTag;
+use \Response;
 
 class MealController extends BaseController {
+
+
+	/**
+     * MealRecipe Model
+     * @var MealRecipe
+     */
+	protected $meals_recipes;
+
+	/**
+     * MealTag Model
+     * @var MealTag
+     */
+	protected $meals_tags;
+
+	public function __construct( MealRecipe $meals_recipes, MealTag $meals_tags)
+    {
+    	$this->meals_recipes = $meals_recipes;
+    	$this->meals_tags = $meals_tags;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -11,7 +34,29 @@ class MealController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('meals.index');
+		$meals = Meal::get();
+		if(count($meals) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $meals->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Meals ...'
+				),
+				404
+			);
+		}
+        // return View::make('meals.index');
 	}
 
 	/**
@@ -42,7 +87,29 @@ class MealController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('meals.show');
+		$meals = Meal::find($id);
+		if(count($meals) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $meals->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Meals ...'
+				),
+				404
+			);
+		}
+        // return View::make('meals.show');
 	}
 
 	/**
@@ -78,4 +145,56 @@ class MealController extends BaseController {
 		//
 	}
 
+	public function recipes($id)
+	{
+		$mealsRecipe = $this->meals_recipes->getMealRecipesByMeal($id);
+		$msg = json_decode($mealsRecipe);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $mealsRecipe->toArray(),
+					'message' => 'MealsRecipes ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find MealsRecipes for Meal id : '.$id
+				),
+				404
+			);
+		}
+	}
+	public function tags($id)
+	{
+		$mealTags = $this->meals_tags->getMealTagsByMeal($id);
+		$msg = json_decode($mealTags);
+		if(count($msg) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $mealTags->toArray(),
+					'message' => 'MealsTag ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find MealsTags for Meal id : '.$id
+				),
+				404
+			);
+		}
+	}
 }

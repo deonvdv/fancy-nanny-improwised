@@ -1,6 +1,8 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Picture;
+use \Response;
 
 class PictureController extends BaseController {
 
@@ -11,7 +13,29 @@ class PictureController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('pictures.index');
+		$pictures = Picture::get();
+		if(count($pictures) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $pictures->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Pictures ...'
+				),
+				404
+			);
+		}
+        // return View::make('pictures.index');
 	}
 
 	/**
@@ -42,7 +66,29 @@ class PictureController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('pictures.show');
+		$pictures = Picture::find($id);
+		if(count($pictures) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $pictures->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Pictures ...'
+				),
+				404
+			);
+		}
+        // return View::make('pictures.show');
 	}
 
 	/**

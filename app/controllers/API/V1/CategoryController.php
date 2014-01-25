@@ -1,6 +1,8 @@
 <?php
 namespace API\V1;
 use \BaseController;
+use \Model\Category;
+use \Response;
 
 class CategoryController extends BaseController {
 
@@ -11,7 +13,29 @@ class CategoryController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('categories.index');
+		$category = Category::get();
+		if(count($category) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $category->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Categories ...'
+				),
+				404
+			);
+		}
+        // return View::make('categories.index');
 	}
 
 	/**
@@ -42,7 +66,29 @@ class CategoryController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('categories.show');
+		$category = Category::find($id);
+		if(count($category) > 0)
+		{
+			return Response::json(
+				array(
+					'success' => true,
+					'data'    => $category->toArray(),
+					'message' => 'Success ...'
+					)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Categories ...'
+				),
+				404
+			);
+		}
+        // return View::make('categories.show');
 	}
 
 	/**

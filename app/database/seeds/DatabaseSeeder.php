@@ -44,6 +44,10 @@ class DatabaseSeeder extends Seeder {
 	    // foreach ($tables as $table) {
 	    //     DB::table($table)->truncate();
 	    // }
+
+		$this->call('HouseholdTableSeeder');
+		$this->call('UserTableSeeder');
+
 	    $this->call('MessageTableSeeder');
 	    $this->call('PictureTableSeeder');
 	    $this->call('IngredientTableSeeder');
@@ -58,8 +62,6 @@ class DatabaseSeeder extends Seeder {
 	    $this->call('TodoTableSeeder');
 		// $this->call('MealTableSeeder');
 
-		// $this->call('UserTableSeeder');
-		// $this->call('HouseholdTableSeeder');
 	}
 
 }

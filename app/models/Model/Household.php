@@ -1,9 +1,12 @@
 <?php
 namespace Model;
+
 class Household extends BaseModel {
 	protected $guarded = array('id');
 
-	public static $rules = array();
+	public static $rules = array(
+        "name" => "required|between:4,255", 
+    );
 
     public function members(){
         return $this->hasMany('user');

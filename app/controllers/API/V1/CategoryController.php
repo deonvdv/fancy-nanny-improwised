@@ -2,7 +2,6 @@
 namespace API\V1;
 
 use \BaseController;
-use \Model;
 use \Response;
 
 class CategoryController extends BaseController {

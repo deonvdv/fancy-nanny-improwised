@@ -9,7 +9,7 @@ class Document extends BaseModel {
 
 	public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Models\User');
     }
 
 	

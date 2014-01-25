@@ -9,7 +9,7 @@ class Notification extends BaseModel {
 
 	public function household()
     {
-        return $this->belongsTo('Household');
+        return $this->belongsTo('Models\Household');
     }
 
 	public function getNotificationsByHouseholdes($household_id) {

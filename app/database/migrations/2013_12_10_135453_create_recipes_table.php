@@ -34,13 +34,13 @@ class CreateRecipesTable extends Migration {
 			$table->unique(array('recipe_id', 'category_id'));
 		});
 
-		/** many to many relation table to tags */
-		Schema::create('recipes_tags', function(Blueprint $table){
-			$table->string('recipe_id', 36);
-			$table->string('tag_id', 36);
+		// /** many to many relation table to tags */
+		// Schema::create('recipes_tags', function(Blueprint $table){
+		// 	$table->string('recipe_id', 36);
+		// 	$table->string('tag_id', 36);
 
-			$table->unique(array('recipe_id', 'tag_id'));
-		});
+		// 	$table->unique(array('recipe_id', 'tag_id'));
+		// });
 	}
 
 

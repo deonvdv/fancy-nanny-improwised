@@ -19,4 +19,9 @@ class Meal extends BaseModel {
         return $this->morphMany('\Models\Tag', 'tagable');
     }
 
+	public function recipes()
+    {
+        return $this->belongsToMany('Models\Recipe', 'meals_recipes');
+    }	
+
 }

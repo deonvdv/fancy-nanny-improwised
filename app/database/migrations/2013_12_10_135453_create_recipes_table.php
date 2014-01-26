@@ -14,7 +14,7 @@ class CreateRecipesTable extends Migration {
 	{
 		Schema::create('recipes', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
-			$table->string('user_id', 36); //author
+			$table->string('author_id', 36); //author
 			$table->string('name');
 			$table->text('description');
 			$table->text('instructions');

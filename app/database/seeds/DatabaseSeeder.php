@@ -36,8 +36,9 @@ class DatabaseSeeder extends Seeder {
 	        'recipe_reviews',
 	        'tags',
 	        'todos',
-	        'unit_measures',
+	        'units_of_measure',
 	        'users',
+	        'ingredients_recipeingredients'
 	    ];
 
 	    foreach ($tables as $table) {

@@ -8,7 +8,8 @@
 	},
     "require-dev":{
         "way/generators":"dev-master",
-        "fzaninotto/faker": "dev-master"
+        "fzaninotto/faker": "dev-master",
+        "phpunit/phpunit": "3.9.*@dev"
     },
 	"autoload": {
 		"classmap": [

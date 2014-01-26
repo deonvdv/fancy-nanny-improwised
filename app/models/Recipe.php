@@ -26,4 +26,15 @@ class Recipe extends BaseModel {
         return $this->belongsTo('Models\Category', 'recipes_categories');
     }	
 
+	public function meals()
+    {
+        return $this->belongsToMany('Models\Meal', 'meals_recipes');
+    }	
+
+	public function author()
+    {
+        return $this->belongsTo('Models\User');
+    }
+
+
 }

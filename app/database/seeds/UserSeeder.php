@@ -7,6 +7,9 @@ class UserTableSeeder extends Seeder {
         $roles = ['parent','guardian','child','staff'];
         $households = \Models\Household::all();
 
+        // Use Faker - https://github.com/fzaninotto/Faker
+        $faker = \Faker\Factory::create();
+
         $tmp = [
             'name'               => "Deon van der Vyver",
             'email'              => "deonvdv@gmail.com",
@@ -27,9 +30,6 @@ class UserTableSeeder extends Seeder {
         $user->save();
         $pic = new \Models\Picture( array('name' => 'profile_pic_' . $faker->word, 'file_name' => $faker->word.".".$faker->fileExtension) );
         $user->pictures()->save($pic);
-
-        // Use Faker - https://github.com/fzaninotto/Faker
-        $faker = \Faker\Factory::create();
 
         for ($i = 0; $i < 10; $i++) {
             $tmp = [

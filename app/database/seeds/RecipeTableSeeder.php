@@ -7,7 +7,7 @@ class RecipeTableSeeder extends Seeder {
     	$faker = \Faker\Factory::create();
     	$recipes = array(
     		'id' => $faker->uuid,
-    		'user_id' => $faker->uuid,
+    		'author_id' => $faker->uuid,
     		'name' => $faker->name,
     		'description' => $faker->text,
     		'instructions' => $faker->address,

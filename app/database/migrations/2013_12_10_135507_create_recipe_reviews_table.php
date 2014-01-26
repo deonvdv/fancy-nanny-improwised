@@ -14,8 +14,8 @@ class CreateRecipeReviewsTable extends Migration {
 	{
 		Schema::create('recipe_reviews', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
-			$table->string('recipe_id', 36);
-			$table->string('user_id', 36);
+			$table->string('recipe_id', 36)->index();
+			$table->string('user_id', 36)->index();
 			$table->smallInteger('score');
 			$table->text('review');
 			$table->softDeletes();

@@ -14,8 +14,8 @@ class CreateRecipesTable extends Migration {
 	{
 		Schema::create('recipes', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
-			$table->string('author_id', 36); //author
-			$table->string('name');
+			$table->string('author_id', 36)->index(); //author
+			$table->string('name')->index();
 			$table->text('description');
 			$table->text('instructions');
 			$table->integer('number_of_portions');
@@ -27,8 +27,8 @@ class CreateRecipesTable extends Migration {
 
 		/** many to many relation table to categories table */
 		Schema::create('recipes_categories', function(Blueprint $table){
-			$table->string('recipe_id', 36);
-			$table->string('category_id', 36);
+			$table->string('recipe_id', 36)->index();
+			$table->string('category_id', 36)->index();
 
 			$table->unique(array('recipe_id', 'category_id'));
 		});

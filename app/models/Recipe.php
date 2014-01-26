@@ -11,6 +11,10 @@ class Recipe extends BaseModel {
         return $this->hasMany('Models\RecipeReview');
     }
 
+    public function recipe_ingredients() {
+        return $this->hasMany('Models\RecipeIngredient');
+    }
+
 	public function tags()
     {
         return $this->morphMany('\Models\Tag', 'tagable');
@@ -23,7 +27,7 @@ class Recipe extends BaseModel {
 
 	public function category()
     {
-        return $this->belongsTo('Models\Category', 'recipes_categories');
+        return $this->belongsTo('Models\Category');
     }	
 
 	public function meals()

@@ -14,17 +14,17 @@ class CreateRecipeIngredientsTable extends Migration {
 	{
 		Schema::create('recipe_ingredients', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
-			$table->string('recipe_id', 36);
+			$table->string('recipe_id', 36)->index();
 			$table->float('quantity');
-			$table->string('unit_measure_id', 36);
-			$table->string('ingredient_id', 36);
+			$table->string('unit_of_measure_id', 36)->index();
+			$table->string('ingredient_id', 36)->index();
 			$table->softDeletes();
 			$table->timestamps();
 		});
 
 		Schema::create('ingredients_recipeingredients', function(Blueprint $table) {
-			$table->string('ingedrient_id', 36);
-			$table->string('recipe_ingredient_id', 36);
+			$table->string('ingedrient_id', 36)->index();
+			$table->string('recipe_ingredient_id', 36)->index();
 
 			// $table->unique(array('ingedrient_id', 'recipe_ingredient_id'));
 		});

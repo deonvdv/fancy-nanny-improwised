@@ -27,7 +27,7 @@ class RecipeIngredient extends BaseModel {
 
     public function unit_of_measure()
     {
-        return $this->hasOne('Models\UnitOfMeasure');
+        return $this->hasOne('Models\UnitOfMeasure', 'unit_of_measure_id');
     }
 
 	public function ingredient()

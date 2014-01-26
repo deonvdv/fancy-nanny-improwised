@@ -14,7 +14,7 @@ class CreateMealsTable extends Migration {
 	{
 		Schema::create('meals', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
-			$table->string('household_id', 36);
+			$table->string('household_id', 36)->index();
 			$table->smallInteger('week_number')->unsigned();
 			$table->smallInteger('day_of_week')->unsigned();
 			$table->enum('slot', array('breakfast', 'lunch', 'dinner'));

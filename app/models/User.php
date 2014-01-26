@@ -29,14 +29,19 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
     );
 
 
+	public function profile_picture()
+    {
+        return $this->hasOne('Models\Picture', 'owner_id');
+    }
+
 	public function documents()
     {
-        return $this->hasMany('Models\Document');
+        return $this->hasMany('Models\Document', 'owner_id');
     }
 
 	public function events()
     {
-        return $this->hasMany('Models\Event');
+        return $this->hasMany('Models\Event', 'user_id');
     }
 
 	public function household()

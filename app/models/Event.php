@@ -14,7 +14,7 @@ class Event extends BaseModel {
 
 	public function user()
     {
-        return $this->belongsTo('Models\User');
+        return $this->belongsTo('Models\User', 'user_id');
     }
 
     public function tags()

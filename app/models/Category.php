@@ -9,6 +9,6 @@ class Category extends BaseModel {
 
 	public function recipes()
     {
-        return $this->belongsToMany('Models\Recipe', 'recipes_categories');
+        return $this->hasMany('Models\Recipe');
     }	
 }

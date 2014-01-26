@@ -7,6 +7,11 @@ class Picture extends BaseModel {
 
 	public static $rules = array();
 
+	public function owner()
+    {
+        return $this->belongsTo('Models\User');
+    }
+
 	public function imageable()
     {
         return $this->morphTo();

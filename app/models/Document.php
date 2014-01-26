@@ -7,7 +7,7 @@ class Document extends BaseModel {
 
 	public static $rules = array();
 
-	public function user()
+	public function owner()
     {
         return $this->belongsTo('Models\User');
     }

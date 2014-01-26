@@ -14,7 +14,7 @@ class CreateUnitMeasuresTable extends Migration {
 	{
 		Schema::create('units_of_measure', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
-			$table->string('name', 50);
+			$table->string('name', 50)->index();
 			$table->string('alias', 255);
 			$table->string('preferred_alias', 50);
 			$table->softDeletes();

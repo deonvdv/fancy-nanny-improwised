@@ -16,6 +16,8 @@ class BaseModel extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($model) {
+            // echo "Adding Id....\n";
+            // echo "Model: " . print_r($model);
             $model->id = \Rhumsaa\Uuid\Uuid::uuid4()->__toString();
         });
     }

@@ -14,12 +14,12 @@ class CreateTagsTable extends Migration {
 	{
 		Schema::create('tags', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
-			$table->string('household_id', 36);
-			$table->string('user_id', 36); //owner
+			$table->string('household_id', 36)->index();
+			$table->string('user_id', 36)->index(); //owner
 			$table->string('name', 100);
 			$table->string('color', 7);
 
-			$table->string('tagable_id',36);
+			$table->string('tagable_id',36)->index();
 			$table->string('tagable_type');
 
 			$table->softDeletes();

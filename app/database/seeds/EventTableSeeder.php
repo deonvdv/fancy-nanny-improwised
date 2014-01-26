@@ -27,8 +27,8 @@ class EventTableSeeder extends Seeder {
             $event->minutes_before = $faker->randomDigitNotNull;
             $event->type = $types[rand(0, count($types)-1)];
 
-            $users[rand(0, count($users)-1)]->documents()->save($event);
-            $households[rand(0, count($households)-1)]->documents()->save($event);
+            $users[rand(0, count($users)-1)]->events()->save($event);
+            $households[rand(0, count($households)-1)]->events()->save($event);
 
         }
 

@@ -14,12 +14,12 @@ class CreatePicturesTable extends Migration {
 	{
 		Schema::create('pictures', function(Blueprint $table) {
 			$table->string('id')->primary();
-			$table->string('user_id', 36);
-			$table->string('name', 30);
-			$table->string('file_name', 50);
+			$table->string('owner_id', 36)->index();
+			$table->string('name', 255);
+			$table->string('file_name', 255);
 			$table->text('cdn_url');
 
-			$table->string('imageable_id',36);
+			$table->string('imageable_id',36)->index();
 			$table->string('imageable_type');
 
 			$table->softDeletes();

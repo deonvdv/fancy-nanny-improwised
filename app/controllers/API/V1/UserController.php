@@ -2,61 +2,64 @@
 namespace API\V1;
 
 use BaseController;
-use User;
+// use User;
 use Response;
 use Input;
-use View;
-use Recipe;
-use Picture;
+// use View;
+// use Recipe;
+// use Picture;
+
 
 class UserController extends BaseController {
 
-	/**
-     * Recipe Model
-     * @var Recipe
-     */
-    protected $recipes;
+	// /**
+ //     * Recipe Model
+ //     * @var Recipe
+ //     */
+ //    protected $recipes;
 
-    /**
-     * Picture Model
-     * @var Picture
-     */
-    protected $pictures;
-    public function __construct(Recipe $recipes, Picture $pictures)
-    {
-    	$this->recipes = $recipes;
-    	$this->pictures = $pictures;
-    }
+ //    /**
+ //     * Picture Model
+ //     * @var Picture
+ //     */
+ //    protected $pictures;
+ //    public function __construct(Recipe $recipes, Picture $pictures)
+ //    {
+ //    	$this->recipes = $recipes;
+ //    	$this->pictures = $pictures;
+ //    }
 
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($page = 1)
 	{
-		$users = User::get();
-		if(count($users) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $users->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = \Models\User::skip($skip)->take($itemPerPage)->get();
+		$itemCount	= \Models\User::count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Users ...'
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
         // return View::make('users.index');
 	}
 
@@ -88,7 +91,7 @@ class UserController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$users = User::find($id);
+		$users = \Models\User::find($id);
 		if(count($users) > 0)
 		{
 			return Response::json(

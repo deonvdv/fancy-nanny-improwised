@@ -1,8 +1,8 @@
 <?php
 namespace API\V1;
-use \BaseController;
-use \Model\Message;
-use \Response;
+use BaseController;
+use Response;
+use Input;
 
 class MessageController extends BaseController {
 
@@ -11,30 +11,32 @@ class MessageController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($page = 1)
 	{
-		$messages = Message::get();
-		if(count($messages) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $messages->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = \Models\Message::skip($skip)->take($itemPerPage)->get();
+		$itemCount	= \Models\Message::count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Messages ...'
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
         // return View::make('messages.index');
 	}
 
@@ -66,7 +68,7 @@ class MessageController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$messages = Message::find($id);
+		$messages = \Models\Message::find($id);
 		if(count($messages) > 0)
 		{
 			return Response::json(

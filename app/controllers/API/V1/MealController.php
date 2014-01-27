@@ -1,10 +1,11 @@
 <?php
 namespace API\V1;
-use \BaseController;
-use \Model\Meal;
-use \Model\MealRecipe;
-use \Model\MealTag;
-use \Response;
+use BaseController;
+// use \Model\Meal;
+// use \Model\MealRecipe;
+// use \Model\MealTag;
+use Response;
+use Input;
 
 class MealController extends BaseController {
 
@@ -21,41 +22,43 @@ class MealController extends BaseController {
      */
 	protected $meals_tags;
 
-	public function __construct( MealRecipe $meals_recipes, MealTag $meals_tags)
-    {
-    	$this->meals_recipes = $meals_recipes;
-    	$this->meals_tags = $meals_tags;
-    }
+	// public function __construct( MealRecipe $meals_recipes, MealTag $meals_tags)
+ //    {
+ //    	$this->meals_recipes = $meals_recipes;
+ //    	$this->meals_tags = $meals_tags;
+ //    }
 
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($page = 1)
 	{
-		$meals = Meal::get();
-		if(count($meals) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $meals->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = \Models\Meal::skip($skip)->take($itemPerPage)->get();
+		$itemCount	= \Models\Meal::count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Meals ...'
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
         // return View::make('meals.index');
 	}
 
@@ -87,7 +90,7 @@ class MealController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$meals = Meal::find($id);
+		$meals = \Models\Meal::find($id);
 		if(count($meals) > 0)
 		{
 			return Response::json(

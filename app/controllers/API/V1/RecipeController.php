@@ -1,13 +1,8 @@
 <?php
 namespace API\V1;
-use \BaseController;
-use \Model\Recipe;
-use \Model\RecipeIngredient;
-use \Model\Picture;
-use \Model\RecipeReview;
-use \Model\RecipeCategory;
-use \Model\RecipeTag;
-use \Response;
+use BaseController;
+use Response;
+use Input;
 
 class RecipeController extends BaseController {
 
@@ -43,44 +38,46 @@ class RecipeController extends BaseController {
      */
 	protected $recipe_tags;
 
-	public function __construct(RecipeIngredient $recipe_ingredients, Picture $pictures, RecipeReview $recipe_reviews, RecipeCategory $recipes_categories, RecipeTag $recipe_tags)
-    {
-    	$this->recipe_ingredients = $recipe_ingredients;
-    	$this->pictures = $pictures;
-    	$this->recipe_reviews = $recipe_reviews;
-    	$this->recipes_categories = $recipes_categories;
-    	$this->recipe_tags = $recipe_tags;
-    }
+	// public function __construct(RecipeIngredient $recipe_ingredients, Picture $pictures, RecipeReview $recipe_reviews, RecipeCategory $recipes_categories, RecipeTag $recipe_tags)
+ //    {
+ //    	$this->recipe_ingredients = $recipe_ingredients;
+ //    	$this->pictures = $pictures;
+ //    	$this->recipe_reviews = $recipe_reviews;
+ //    	$this->recipes_categories = $recipes_categories;
+ //    	$this->recipe_tags = $recipe_tags;
+ //    }
 
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($page = 1)
 	{
-		$recipes = Recipe::get();
-		if(count($recipes) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $recipes->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = \Models\Recipe::skip($skip)->take($itemPerPage)->get();
+		$itemCount	= \Models\Recipe::count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Recipes ...'
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
         // return View::make('recipes.index');
 	}
 
@@ -112,7 +109,7 @@ class RecipeController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$recipes = Recipe::find($id);
+		$recipes = \Models\Recipe::find($id);
 		if(count($recipes) > 0)
 		{
 			return Response::json(

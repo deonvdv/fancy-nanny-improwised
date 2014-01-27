@@ -1,8 +1,8 @@
 <?php
 namespace API\V1;
-use \BaseController;
-use \Model\Notification;
-use \Response;
+use BaseController;
+use Response;
+use Input;
 
 class NotificationController extends BaseController {
 
@@ -11,30 +11,32 @@ class NotificationController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($page = 1)
 	{
-		$notifications = Notification::get();
-		if(count($notifications) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $notifications->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = \Models\Notification::skip($skip)->take($itemPerPage)->get();
+		$itemCount	= \Models\Notification::count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Notifications ...'
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
         // return View::make('notifications.index');
 	}
 
@@ -66,7 +68,7 @@ class NotificationController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$notifications = Notification::find($id);
+		$notifications = \Models\Notification::find($id);
 		if(count($notifications) > 0)
 		{
 			return Response::json(

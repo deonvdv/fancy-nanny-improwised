@@ -1,8 +1,8 @@
 <?php
 namespace API\V1;
-use \BaseController;
-use \Model\Tag;
-use \Response;
+use BaseController;
+use Response;
+use Input;
 
 class TagController extends BaseController {
 
@@ -11,30 +11,32 @@ class TagController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($page = 1)
 	{
-		$tag = Tag::get();
-		if(count($tag) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $tag->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = \Models\Tag::skip($skip)->take($itemPerPage)->get();
+		$itemCount	= \Models\Tag::count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Tags ...'
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
         // return View::make('tags.index');
 	}
 
@@ -66,7 +68,7 @@ class TagController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$tag = Tag::find($id);
+		$tag = \Models\Tag::find($id);
 		if(count($tag) > 0)
 		{
 			return Response::json(

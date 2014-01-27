@@ -1,8 +1,8 @@
 <?php
 namespace API\V1;
-use \BaseController;
-use \Model\UnitMeasure;
-use \Response;
+use BaseController;
+use Response;
+use Input;
 
 class MeasureUnitController extends BaseController {
 
@@ -11,30 +11,32 @@ class MeasureUnitController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($page = 1)
 	{
-		$unit_of_measure = UnitMeasure::get();
-		if(count($unit_of_measure) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $unit_of_measure->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = \Models\UnitOfMeasure::skip($skip)->take($itemPerPage)->get();
+		$itemCount	= \Models\UnitOfMeasure::count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Unit of Measure ...'
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
         // return View::make('measureunits.index');
 	}
 
@@ -66,7 +68,7 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$unit_of_measure = UnitMeasure::find($id);
+		$unit_of_measure = \Models\UnitOfMeasure::find($id);
 		if(count($unit_of_measure) > 0)
 		{
 			return Response::json(

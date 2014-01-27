@@ -1,8 +1,8 @@
 <?php
 namespace API\V1;
-use \BaseController;
-use \Model\Todo;
-use \Response;
+use BaseController;
+use Response;
+use Input;
 
 class TodoController extends BaseController {
 
@@ -11,30 +11,32 @@ class TodoController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($page = 1)
 	{
-		$todos = Todo::get();
-		if(count($todos) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $todos->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+        $collection = \Models\Todo::skip($skip)->take($itemPerPage)->get();
+		$itemCount	= \Models\Todo::count();
+		$totalPage 	= ceil($itemCount/$itemPerPage);
+
+		if($collection->isEmpty()){
+			$message[] = 'No records found in this collection.';
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Todos ...'
-				),
-				404
-			);
-		}
+
+        return Response::json(
+        	array(
+        		'success'		=> true,
+        		'page'			=> (int) $page,
+        		'item_per_page'	=> (int) $itemPerPage,
+        		'total_item'	=> (int) $itemCount,
+        		'total_page'	=> (int) $totalPage,
+        		'data'			=> $collection->toArray(),
+        		'message'		=> implode($message, "\n")
+        	)
+        );
         // return View::make('todos.index');
 	}
 
@@ -66,7 +68,7 @@ class TodoController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$todos = Todo::find($id);
+		$todos = \Models\Todo::find($id);
 		if(count($todos) > 0)
 		{
 			return Response::json(

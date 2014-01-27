@@ -98,7 +98,40 @@ class RecipeController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$recipe = new \Models\Recipe;
+		$input = Input::all();
+
+		foreach($recipe->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$recipe->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $recipe->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $recipe->toArray(),
+					'message'	=> 'New Recipe created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $recipe->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -153,7 +186,40 @@ class RecipeController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$recipe = \Models\Recipe::find($id);
+		$input = Input::all();
+
+		if(!is_null($recipe))
+		{
+			foreach(\Models\Recipe::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$recipe->$field = $input[$field];
+				}
+			}
+
+			$status = $recipe->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $recipe->toArray(),
+					'message'	=> 'Recipe updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Recipe with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -164,7 +230,30 @@ class RecipeController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$recipe = \Models\Recipe::find($id);
+
+		if(!is_null($recipe))
+		{
+			$status = $recipe->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $recipe->toArray(),
+					'message'	=> ($status) ? 'Recipe deleted successfully!' : 'Error occured while deleting Recipe'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Recipe with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	public function recipe_ingredients($recipe_id, $page = 1)

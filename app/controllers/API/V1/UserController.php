@@ -80,7 +80,40 @@ class UserController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$user = new \Models\User;
+		$input = Input::all();
+
+		foreach($user->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$user->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $user->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $user->toArray(),
+					'message'	=> 'New User created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $user->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -136,6 +169,39 @@ class UserController extends BaseController {
 	public function update($id)
 	{
 		//
+		$user = \Models\User::find($id);
+		$input = Input::all();
+		if(!is_null($user))
+		{
+			foreach(\Models\User::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$user->$field = $input[$field];
+				}
+			}
+
+			$status = $user->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $user->toArray(),
+					'message'	=> 'User updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find User with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -146,7 +212,30 @@ class UserController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$user = \Models\User::find($id);
+
+		if(!is_null($user))
+		{
+			$status = $user->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $user->toArray(),
+					'message'	=> ($status) ? 'User deleted successfully!' : 'Error occured while deleting User'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find User with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	public function picture($user_id)

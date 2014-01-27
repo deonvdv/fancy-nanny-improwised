@@ -57,7 +57,40 @@ class EventController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$events = new \Models\Event;
+		$input = Input::all();
+
+		foreach($events->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$events->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $events->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $events->toArray(),
+					'message'	=> 'New Event created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $events->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,40 @@ class EventController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$events = \Models\Event::find($id);
+		$input = Input::all();
+
+		if(!is_null($events))
+		{
+			foreach(\Models\Event::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$events->$field = $input[$field];
+				}
+			}
+
+			$status = $events->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $events->toArray(),
+					'message'	=> 'Event updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Event with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +189,30 @@ class EventController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$events = \Models\Event::find($id);
+
+		if(!is_null($events))
+		{
+			$status = $events->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $events->toArray(),
+					'message'	=> ($status) ? 'Event deleted successfully!' : 'Error occured while deleting Event'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Event with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

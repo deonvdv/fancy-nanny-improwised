@@ -57,7 +57,40 @@ class DocumentController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$documents = new \Models\Document;
+		$input = Input::all();
+
+		foreach($documents->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$documents->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $documents->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $documents->toArray(),
+					'message'	=> 'New Document created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $documents->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,40 @@ class DocumentController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$documents = \Models\Document::find($id);
+		$input = Input::all();
+
+		if(!is_null($documents))
+		{
+			foreach(\Models\Document::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$documents->$field = $input[$field];
+				}
+			}
+
+			$status = $documents->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $documents->toArray(),
+					'message'	=> 'Document updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Document with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +189,30 @@ class DocumentController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$documents = \Models\Document::find($id);
+
+		if(!is_null($documents))
+		{
+			$status = $documents->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $documents->toArray(),
+					'message'	=> ($status) ? 'Document deleted successfully!' : 'Error occured while deleting Document'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Document with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

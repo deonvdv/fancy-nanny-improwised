@@ -79,7 +79,40 @@ class MealController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$meals = new \Models\Meal;
+		$input = Input::all();
+
+		foreach($meals->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$meals->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $meals->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $meals->toArray(),
+					'message'	=> 'New Meal created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $meals->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -134,7 +167,40 @@ class MealController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$meals = \Models\Meal::find($id);
+		$input = Input::all();
+
+		if(!is_null($meals))
+		{
+			foreach(\Models\Meal::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$meals->$field = $input[$field];
+				}
+			}
+
+			$status = $meals->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $meals->toArray(),
+					'message'	=> 'Meal updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Meal with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -145,7 +211,30 @@ class MealController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$meals = \Models\Meal::find($id);
+
+		if(!is_null($meals))
+		{
+			$status = $meals->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $meals->toArray(),
+					'message'	=> ($status) ? 'Meal deleted successfully!' : 'Error occured while deleting Meal'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Meal with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	public function recipes($id)

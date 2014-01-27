@@ -57,7 +57,40 @@ class MessageController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$message = new \Models\User;
+		$input = Input::all();
+
+		foreach($message->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$message->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $message->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $message->toArray(),
+					'message'	=> 'New Message created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $message->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,39 @@ class MessageController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$message = \Models\Message::find($id);
+		$input = Input::all();
+		if(!is_null($message))
+		{
+			foreach(\Models\Message::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$message->$field = $input[$field];
+				}
+			}
+
+			$status = $message->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $message->toArray(),
+					'message'	=> 'Messages updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Message with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +188,30 @@ class MessageController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$message = \Models\Message::find($id);
+
+		if(!is_null($message))
+		{
+			$status = $message->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $message->toArray(),
+					'message'	=> ($status) ? 'Message deleted successfully!' : 'Error occured while deleting User'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Message with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

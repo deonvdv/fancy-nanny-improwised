@@ -57,7 +57,40 @@ class RecipeIngredientController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$recipeingredients = new \Models\RecipeIngredient;
+		$input = Input::all();
+
+		foreach($recipeingredients->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$recipeingredients->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $recipeingredients->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $recipeingredients->toArray(),
+					'message'	=> 'New RecipeIngredient created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $recipeingredients->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,40 @@ class RecipeIngredientController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$recipeingredients = \Models\RecipeIngredient::find($id);
+		$input = Input::all();
+
+		if(!is_null($recipeingredients))
+		{
+			foreach(\Models\RecipeIngredient::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$recipeingredients->$field = $input[$field];
+				}
+			}
+
+			$status = $recipeingredients->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $recipeingredients->toArray(),
+					'message'	=> 'RecipeIngredient updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find RecipeIngredient with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +189,30 @@ class RecipeIngredientController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$recipeingredients = \Models\RecipeIngredient::find($id);
+
+		if(!is_null($recipeingredients))
+		{
+			$status = $recipeingredients->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $recipeingredients->toArray(),
+					'message'	=> ($status) ? 'RecipeIngredient deleted successfully!' : 'Error occured while deleting RecipeIngredient'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find RecipeIngredient with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

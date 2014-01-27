@@ -57,7 +57,40 @@ class NotificationController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$notifications = new \Models\Notification;
+		$input = Input::all();
+
+		foreach($notifications->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$notifications->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $notifications->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $notifications->toArray(),
+					'message'	=> 'New Notification created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $notifications->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,40 @@ class NotificationController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$notifications = \Models\Notification::find($id);
+		$input = Input::all();
+
+		if(!is_null($notifications))
+		{
+			foreach(\Models\Notification::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$notifications->$field = $input[$field];
+				}
+			}
+
+			$status = $notifications->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $notifications->toArray(),
+					'message'	=> 'Notification updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Notification with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +189,30 @@ class NotificationController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$notifications = \Models\Notification::find($id);
+
+		if(!is_null($notifications))
+		{
+			$status = $notifications->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $notifications->toArray(),
+					'message'	=> ($status) ? 'Notification deleted successfully!' : 'Error occured while deleting Notification'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Notification with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

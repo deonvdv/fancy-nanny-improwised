@@ -57,7 +57,40 @@ class TagController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$tag = new \Models\Tag;
+		$input = Input::all();
+
+		foreach($tag->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$tag->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $tag->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $tag->toArray(),
+					'message'	=> 'New Tag created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $tag->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,40 @@ class TagController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$tag = \Models\Tag::find($id);
+		$input = Input::all();
+
+		if(!is_null($tag))
+		{
+			foreach(\Models\Tag::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$tag->$field = $input[$field];
+				}
+			}
+
+			$status = $tag->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $tag->toArray(),
+					'message'	=> 'Tag updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Tag with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +189,30 @@ class TagController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$tag = \Models\Tag::find($id);
+
+		if(!is_null($tag))
+		{
+			$status = $tag->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $tag->toArray(),
+					'message'	=> ($status) ? 'Tag deleted successfully!' : 'Error occured while deleting Tag'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Tag with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

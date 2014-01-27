@@ -57,7 +57,40 @@ class PictureController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$pictures = new \Models\Picture;
+		$input = Input::all();
+
+		foreach($pictures->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$pictures->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $pictures->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $pictures->toArray(),
+					'message'	=> 'New Picture created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $pictures->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,40 @@ class PictureController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$pictures = \Models\Picture::find($id);
+		$input = Input::all();
+
+		if(!is_null($pictures))
+		{
+			foreach(\Models\Picture::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$pictures->$field = $input[$field];
+				}
+			}
+
+			$status = $pictures->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $pictures->toArray(),
+					'message'	=> 'Picture updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Picture with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +189,30 @@ class PictureController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$pictures = \Models\Picture::find($id);
+
+		if(!is_null($pictures))
+		{
+			$status = $pictures->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $pictures->toArray(),
+					'message'	=> ($status) ? 'Picture deleted successfully!' : 'Error occured while deleting Picture'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Picture with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

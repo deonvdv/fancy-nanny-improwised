@@ -57,7 +57,40 @@ class IngredientController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$ingredients = new \Models\Ingredient;
+		$input = Input::all();
+
+		foreach($ingredients->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$ingredients->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $ingredients->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $ingredients->toArray(),
+					'message'	=> 'New Ingredient created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $ingredients->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,40 @@ class IngredientController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$ingredients = \Models\Ingredient::find($id);
+		$input = Input::all();
+
+		if(!is_null($ingredients))
+		{
+			foreach(\Models\Ingredient::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$ingredients->$field = $input[$field];
+				}
+			}
+
+			$status = $ingredients->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $ingredients->toArray(),
+					'message'	=> 'Ingredient updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Ingredient with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +189,30 @@ class IngredientController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$ingredients = \Models\Ingredient::find($id);
+
+		if(!is_null($ingredients))
+		{
+			$status = $ingredients->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $ingredients->toArray(),
+					'message'	=> ($status) ? 'Ingredient deleted successfully!' : 'Error occured while deleting Ingredient'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Ingredient with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

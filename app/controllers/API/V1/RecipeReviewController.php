@@ -57,7 +57,40 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$recipereviews = new \Models\RecipeReview;
+		$input = Input::all();
+
+		foreach($recipereviews->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$recipereviews->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $recipereviews->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $recipereviews->toArray(),
+					'message'	=> 'New RecipeReview created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $recipereviews->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,40 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$recipereviews = \Models\RecipeReview::find($id);
+		$input = Input::all();
+
+		if(!is_null($recipereviews))
+		{
+			foreach(\Models\RecipeReview::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$recipereviews->$field = $input[$field];
+				}
+			}
+
+			$status = $recipereviews->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $recipereviews->toArray(),
+					'message'	=> 'RecipeReview updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find RecipeReview with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +189,30 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$recipereviews = \Models\RecipeReview::find($id);
+
+		if(!is_null($recipereviews))
+		{
+			$status = $recipereviews->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $recipereviews->toArray(),
+					'message'	=> ($status) ? 'RecipeReview deleted successfully!' : 'Error occured while deleting RecipeReview'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find RecipeReview with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

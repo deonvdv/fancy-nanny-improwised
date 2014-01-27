@@ -57,7 +57,40 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$units_of_measures = new \Models\UnitOfMeasure;
+		$input = Input::all();
+
+		foreach($units_of_measures->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$units_of_measures->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $units_of_measures->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $units_of_measures->toArray(),
+					'message'	=> 'New UnitOfMeasure created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $units_of_measures->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,40 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$units_of_measures = \Models\UnitOfMeasure::find($id);
+		$input = Input::all();
+
+		if(!is_null($units_of_measures))
+		{
+			foreach(\Models\UnitOfMeasure::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$units_of_measures->$field = $input[$field];
+				}
+			}
+
+			$status = $units_of_measures->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $units_of_measures->toArray(),
+					'message'	=> 'UnitOfMeasure updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find UnitOfMeasure with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +189,30 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$units_of_measures = \Models\UnitOfMeasure::find($id);
+
+		if(!is_null($units_of_measures))
+		{
+			$status = $units_of_measures->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $units_of_measures->toArray(),
+					'message'	=> ($status) ? 'UnitOfMeasure deleted successfully!' : 'Error occured while deleting UnitOfMeasure'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find UnitOfMeasure with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

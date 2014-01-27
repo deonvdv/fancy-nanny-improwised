@@ -57,7 +57,40 @@ class TodoController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$todos = new \Models\Todo;
+		$input = Input::all();
+
+		foreach($todos->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$todos->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $todos->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $todos->toArray(),
+					'message'	=> 'New Todo created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $todos->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -112,7 +145,40 @@ class TodoController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$todos = \Models\Todo::find($id);
+		$input = Input::all();
+
+		if(!is_null($todos))
+		{
+			foreach(\Models\Todo::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$todos->$field = $input[$field];
+				}
+			}
+
+			$status = $todos->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $todos->toArray(),
+					'message'	=> 'Todo updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Todo with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -123,7 +189,30 @@ class TodoController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$todos = \Models\Todo::find($id);
+
+		if(!is_null($todos))
+		{
+			$status = $todos->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $todos->toArray(),
+					'message'	=> ($status) ? 'Todo deleted successfully!' : 'Error occured while deleting Todo'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Todo with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

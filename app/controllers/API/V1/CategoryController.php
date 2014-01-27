@@ -58,7 +58,40 @@ class CategoryController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$category = new \Models\Category;
+		$input = Input::all();
+
+		foreach($category->fields() as $field)
+		{
+			if(isset($input[$field]))
+			{
+				$category->$field = $input[$field];
+			}
+		}
+
+		try
+		{
+			$status = $category->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $category->toArray(),
+					'message'	=> 'New Category created sucessfully!'
+				)
+			);
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> $category->toArray(),
+					'message'	=> $e->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -113,7 +146,40 @@ class CategoryController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$category = \Models\Category::find($id);
+		$input = Input::all();
+
+		if(!is_null($category))
+		{
+			foreach(\Models\Category::fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$category->$field = $input[$field];
+				}
+			}
+
+			$status = $category->save();
+
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $category->toArray(),
+					'message'	=> 'Category updated sucessfully!'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Category with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 	/**
@@ -124,7 +190,30 @@ class CategoryController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$category = \Models\Category::find($id);
+
+		if(!is_null($category))
+		{
+			$status = $category->delete();
+			return Response::json(
+				array(
+					'success'	=> $status,
+					'data'		=> $category->toArray(),
+					'message'	=> ($status) ? 'Category deleted successfully!' : 'Error occured while deleting Category'
+				)
+			);
+		}
+		else
+		{
+			return Response::json(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'Can not find Category with id '.$id
+				),
+				404
+			);
+		}
 	}
 
 }

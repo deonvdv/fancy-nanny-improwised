@@ -29,7 +29,9 @@ class UserTableSeeder extends Seeder {
 
         $user = new \Models\User( $tmp );
         $user->save();
-        $pic = new \Models\Picture( array('name' => 'profile_pic_' . $faker->word, 'file_name' => $faker->word.".".$faker->fileExtension) );
+        $pic = new \Models\Picture( array('name' => 'profile_pic_' . $faker->word, 
+         'cdn_url' => $faker->word, 'owner_id' => $user->id,
+         'file_name' => $faker->word.".".$faker->fileExtension) );
         $user->pictures()->save($pic);
 
         for ($i = 0; $i < 10; $i++) {
@@ -63,7 +65,10 @@ class UserTableSeeder extends Seeder {
 
             $user = new \Models\User( $tmp );
             $user->save();
-            $pic = new \Models\Picture( array('name' => 'profile_pic_' . $faker->word, 'file_name' => $faker->word.".".$faker->fileExtension) );
+            $pic = new \Models\Picture( 
+                array('name' => 'profile_pic_' . $faker->word, 'imageable_id' => $user->id,
+                      'cdn_url' => $faker->word, 'owner_id' => $user->id, 
+                      'file_name' => $faker->word.".".$faker->fileExtension) );
             $user->pictures()->save($pic);
         }
 

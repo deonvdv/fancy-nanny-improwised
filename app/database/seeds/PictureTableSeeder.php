@@ -11,6 +11,8 @@ class PictureTableSeeder extends Seeder {
             'name' => $faker->name,
             'file_name' => $faker->name,
             'cdn_url' => $faker->url,
+            'imageable_id'=> $faker->uuid,
+            'imageable_type'=>$faker->name
         );
         DB::table('pictures')->insert( $pictures );
     }

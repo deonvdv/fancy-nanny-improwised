@@ -16,7 +16,7 @@ class TodoTableSeeder extends Seeder {
             'assigned_to' => $faker->uuid,
             'is_complete' => $faker->boolean,
             'notify' => $faker->name,
-            'minutes_before' => $faker->time($format = '00:i:s'),
+            'minutes_before' => $faker->randomDigitNotNull,
     	);
     	DB::table('todos')->insert( $todos );
     }

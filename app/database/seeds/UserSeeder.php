@@ -44,7 +44,7 @@ class UserTableSeeder extends Seeder {
                 'city'               => $faker->city,
                 'state'              => $faker->state,
                 'zip'                => $faker->postcode,
-                'country'            => $faker->country,
+                'country'            => substr($faker->country,0,50),
                 'home_number'        => $faker->optional($weight = 0.5)->phoneNumber,
                 'work_number'        => $faker->optional($weight = 0.5)->phoneNumber,
                 'role'               => $roles[rand(0, 3)],
@@ -66,7 +66,7 @@ class UserTableSeeder extends Seeder {
             $user = new \Models\User( $tmp );
             $user->save();
             $pic = new \Models\Picture( 
-                array('name' => 'profile_pic_' . $faker->word, 'imageable_id' => $user->id,
+                array('name' => 'profile_pic_' . $faker->word, 
                       'cdn_url' => $faker->word, 'owner_id' => $user->id, 
                       'file_name' => $faker->word.".".$faker->fileExtension) );
             $user->pictures()->save($pic);

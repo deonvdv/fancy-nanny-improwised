@@ -16,14 +16,16 @@ class DocumentTableSeeder extends Seeder {
             // $doc->user->associate( $users[rand(0, count($households)-1)] );
             // $doc->household = $users[rand(0, count($households)-1)];
             // $doc->user = $users[rand(0, count($users)-1)];
+            $curhousehold = $households[rand(0, count($households)-1)];
             $doc->name = ucwords($faker->bs);
             $doc->file_name = $fileName;
             $doc->cdn_url = $faker->url.$faker->uuid."/".$fileName;
-
+            $doc->household_id = $curhousehold->id;
+            $doc->private = $faker->boolean;
             // $doc->save();
             // 
             $users[rand(0, count($users)-1)]->documents()->save($doc);
-            $households[rand(0, count($households)-1)]->documents()->save($doc);
+            $curhousehold->documents()->save($doc);
 
         }
     }

@@ -28,6 +28,9 @@ class RecipeTest extends TestCase {
 		// Get the category
 		$cat = \Models\Category::where('name', '=', 'Ethnic')->first();
 
+		// Get household
+		$household = \Models\Household::where('name','like','%household')->first();
+
 		$recipe = new \Models\Recipe();
 
 		$recipe->name = "Test Recipe";
@@ -95,10 +98,16 @@ class RecipeTest extends TestCase {
 		// Note:: Recipe *MUST* be saved before attaching the Tags
 		// 		  Tags saves to the DB using the $recipe->tags()->save($tag1) method
 		// 		  No need to save the Tags first
-		$tag1 = new \Models\Tag( array ('name' => 'tag 3') );
+		$tag1 = new \Models\Tag( array ('name' => 'tag 3',
+										'household_id' => $household->id,
+										'user_id' => $user->id,
+										'color' => substr($faker->colorName,0,7)));
 		$recipe->tags()->save($tag1);
 
-		$tag2 = new \Models\Tag( array ('name' => 'tag 4') );
+		$tag2 = new \Models\Tag( array ('name' => 'tag 4',
+										'household_id' => $household->id,
+										'user_id' => $user->id,
+										'color' => substr($faker->colorName,0,7) ) );
 		$recipe->tags()->save($tag2);
 
 		$this->assertTrue($recipe->id !== '');

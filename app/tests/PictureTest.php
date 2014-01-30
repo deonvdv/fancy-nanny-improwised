@@ -43,9 +43,8 @@ class PictureTest extends TestCase {
 		$pic->owner()->associate($user); 	// I fixed the association (belongsTo)
 
 		// print_r($pic);
-
-		$pic->save();
-
+		$user->pictures()->save($pic);
+		
 		// print_r($pic);
 
 		$this->assertTrue($pic->id !== '');

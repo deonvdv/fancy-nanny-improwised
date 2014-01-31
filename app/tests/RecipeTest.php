@@ -2,14 +2,6 @@
 
 class RecipeTest extends TestCase {
 
-	// public function setUp() {
- //        // parent::setUp();
-
- //        // Artisan::call('migrate');
- //        // Artisan::call('db:seed');
- //        // Mail::pretend(true);
- //    }
-
 	/**
 	 * A basic functional test example.
 	 *
@@ -41,7 +33,6 @@ class RecipeTest extends TestCase {
 		$recipe->cooking_time = "00:15";
 
 		// Assign author
-		// $recipe = $user->recipes()->save($recipe);
 		$recipe->author()->associate($user);	//  (belongsTo)
 
 		// assign the category

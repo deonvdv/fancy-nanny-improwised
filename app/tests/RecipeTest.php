@@ -39,8 +39,23 @@ class RecipeTest extends TestCase {
 		$recipe->category()->associate($cat);	//  (belongsTo)
 
 		// Do RecipeIngredients
-		// $ingredient = new \Models\RecipeIngredient();
-		// $ingredient->quantity = 5;
+		$recipe_ingredient = new \Models\RecipeIngredient();
+		$ingredient1 = \Models\Ingredient::where('name', 'like', 'flour')->first();
+		$recipe_ingredient->ingredient()->save( $ingredient1 );
+		$recipe_ingredient->quantity = 2.5;
+		$recipe_ingredient->unit_of_measure()->save( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
+		print_r($recipe_ingredient);
+		$recipe->recipe_ingredients()->save( $recipe_ingredient );
+
+
+		$recipe_ingredient = new \Models\RecipeIngredient();
+		$ingredient2 = \Models\Ingredient::where('name', 'like', 'salt')->first();
+		$recipe_ingredient->ingredient()->save( $ingredient2 );
+		$recipe_ingredient->quantity = 2.5;
+		$recipe_ingredient->unit_of_measure()->save( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
+		print_r($recipe_ingredient);
+		$recipe->recipe_ingredients()->save( $recipe_ingredient );
+
 		// $ingredient->unit
 
 		$recipe->save();

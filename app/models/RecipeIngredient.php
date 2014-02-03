@@ -22,7 +22,7 @@ class RecipeIngredient extends BaseModel {
 
     public function recipe()
     {
-        return $this->hasOne('Models\Recipe');
+        return $this->belongsTo('Models\Recipe', 'recipe_id');
     }
 
     public function unit_of_measure()
@@ -32,7 +32,7 @@ class RecipeIngredient extends BaseModel {
 
 	public function ingredient()
     {
-        return $this->belongsToMany('Models\Ingredient', 'ingredients_recipeingredients');
+        return $this->hasOne('Models\Ingredient', 'ingredient_id');
     }	
 
 }

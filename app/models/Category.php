@@ -11,4 +11,15 @@ class Category extends BaseModel {
     {
         return $this->hasMany('Models\Recipe');
     }	
+
+	public function parent()
+    {
+        return $this->belongsTo('Models\Category');
+    }	
+
+    public function addParent(\Models\Category $category) {
+        $this->save();
+        $this->parent()->associate( $category );
+    }
+
 }

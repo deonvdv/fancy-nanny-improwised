@@ -18,21 +18,29 @@ class CategoryTest extends TestCase {
 		$newCategory = new \Models\Category();
 
 		$newCategory->name = "Test Category";
+		
 		// assign category parentId
-		$newCategory->parent_id = $cat->id;
+		// $newCategory->parent_id = $cat->id;
+		$newCategory->addParent( $cat );
+		
 		$newCategory->save();
 
 		$id = $newCategory->id;
 
 		//get Category from database
-		$found = \Models\Category::where('id', '=', $id)->firstOrFail();
+		$found = \Models\Category::where('id', '=', $id)->with('parent')->firstOrFail();
+		// print_r($found);
+		// echo "\nFound Id: " . $found->id . "\n";
 		
 		$this->assertTrue($found->id == $id);
 
 		// Test Category
 		$this->assertTrue($found->id == $newCategory->id);
-		$this->assertTrue($found->parent_id == $newCategory->parent_id);
+		$this->assertTrue($found->parent->id == $cat->id);
 		$this->assertTrue($found->name == $newCategory->name);
+
+		// Delete
+		$this->assertTrue( $found->delete() );
 	}
 
 }

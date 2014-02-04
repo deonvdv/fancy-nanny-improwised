@@ -33,42 +33,27 @@ class RecipeTest extends TestCase {
 		$recipe->cooking_time = "00:15";
 
 		// Assign author
-		$recipe->author()->associate($user);	//  (belongsTo)
+		$recipe->setAuthor( $user );
 
 		// assign the category
-		$recipe->category()->associate($cat);	//  (belongsTo)
-
-		$recipe->save();
+		$recipe->setCategory( $cat );
 
 		// Do RecipeIngredients
-		// $ingredient1 = \Models\Ingredient::where('name', 'like', 'flour')->first();
-
 		$recipe_ingredient1 = new \Models\RecipeIngredient();
-		$recipe_ingredient1->recipe()->associate( $recipe );
 		$recipe_ingredient1->unit_of_measure()->associate( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
 		$recipe_ingredient1->ingredient()->associate( \Models\Ingredient::where('name', 'like', 'flour')->first() );
-		// $recipe_ingredient1->ingredient_id = \Models\Ingredient::where('name', 'like', 'flour')->first()->id;
-		// $recipe_ingredient1->unit_of_measure_id = \Models\UnitOfMeasure::where('name', 'like', 'cup')->first()->id;
 		$recipe_ingredient1->quantity = 2.5;
-		$recipe_ingredient1->save();
+		$recipe->addRecipeIngredient( $recipe_ingredient1 );
 
 		$recipe_ingredient2 = new \Models\RecipeIngredient();
-		$recipe_ingredient2->recipe()->associate( $recipe );
 		$recipe_ingredient2->unit_of_measure()->associate( \Models\UnitOfMeasure::where('name', 'like', 'teaspoon')->first() );
 		$recipe_ingredient2->ingredient()->associate( \Models\Ingredient::where('name', 'like', 'salt')->first() );
 		$recipe_ingredient2->quantity = 1;
-		$recipe_ingredient2->save();
-
-		$recipe->save();
+		$recipe->addRecipeIngredient( $recipe_ingredient2 );
 
 		// Do Morp Relationships
 		
 		// // Add some pictures
-		// $pic = \Models\Picture::take(2)->get();
-		// $recipe->pictures()->save($pic[0]);
-		// $recipe->pictures()->save($pic[1]);
-
-		// // Note:: Recipe *MUST* be saved before attaching the Pictures
 		for($x = 0;$x < 2;$x++) {
 			// echo "Here...\n";
 
@@ -83,26 +68,26 @@ class RecipeTest extends TestCase {
 			
 			// Add the Picture Owner
 			$pic->owner()->associate($user); 	// I fixed the association (belongsTo)
-			$recipe->pictures()->save($pic);
+
+			$recipe->addPicture( $pic );
 		}
 
 		// Add Tags
-		// Note:: Recipe *MUST* be saved before attaching the Tags
-		// 		  Tags saves to the DB using the $recipe->tags()->save($tag1) method
-		// 		  No need to save the Tags first
 		$tag1 = new \Models\Tag( array ('name' => 'tag 3',
 										'household_id' => $household->id,
 										'user_id' => $user->id,
 										'color' => substr($faker->colorName,0,7)));
-		$recipe->tags()->save($tag1);
+		$recipe->addTag( $tag1 );
 
 		$tag2 = new \Models\Tag( array ('name' => 'tag 4',
 										'household_id' => $household->id,
 										'user_id' => $user->id,
 										'color' => substr($faker->colorName,0,7) ) );
-		$recipe->tags()->save($tag2);
+		$recipe->addTag( $tag2 );
 
-		
+
+
+		// Test		
 		$this->assertTrue($recipe->id !== '');
 		$this->assertTrue($recipe->author_id == $user->id);
 		$this->assertTrue($recipe->category_id == $cat->id);
@@ -116,7 +101,7 @@ class RecipeTest extends TestCase {
 		$id = $recipe->id;
 
 		$found = \Models\Recipe::with( array('category','tags','recipe_ingredients') )->where('id', '=', $id)->firstOrFail();
-		// print_r($found);
+		print_r($found);
 
 		$this->assertTrue($found->id == $id);
 

@@ -41,4 +41,35 @@ class Recipe extends BaseModel {
     }
 
 
+
+    public function setAuthor(\Models\User $user) {
+        $this->save();
+        $this->author()->associate( $user );
+    }
+
+    public function setCategory(\Models\Category $category) {
+        $this->save();
+        $this->category()->associate( $category );
+    }
+
+    public function addTag(\Models\Tag $tag) {
+        $this->save();
+        $this->tags()->save( $tag );
+    }
+
+    public function addPicture(\Models\Picture $picture) {
+        $this->save();
+        $this->pictures()->save( $picture );
+    }
+
+    public function addRecipeIngredient(\Models\RecipeIngredient $recipeIngredient) {
+        $this->save();
+        $this->recipe_ingredients()->save( $recipeIngredient );
+    }
+
+    public function addReview(\Models\RecipeReview $recipeReview) {
+        $this->save();
+        $this->reviews()->save( $recipeReview );
+    }
+
 }

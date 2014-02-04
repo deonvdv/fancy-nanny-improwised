@@ -7,9 +7,9 @@ class Ingredient extends BaseModel {
 
 	public static $rules = array();
 
-	public function recipe_ingredients()
+	public function recipe_ingredient()
     {
-        return $this->belongsToMany('Models\RecipeIngredient', 'ingredients_recipeingredients');
+        return $this->hasMany('Models\RecipeIngredient');
     }	
     
 }

@@ -38,67 +38,53 @@ class RecipeTest extends TestCase {
 		// assign the category
 		$recipe->category()->associate($cat);	//  (belongsTo)
 
+		$recipe->save();
+
 		// Do RecipeIngredients
-		$recipe_ingredient = new \Models\RecipeIngredient();
-		$ingredient1 = \Models\Ingredient::where('name', 'like', 'flour')->first();
-		$recipe_ingredient->ingredient()->save( $ingredient1 );
-		$recipe_ingredient->quantity = 2.5;
-		$recipe_ingredient->unit_of_measure()->save( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
-		print_r($recipe_ingredient);
-		$recipe->recipe_ingredients()->save( $recipe_ingredient );
+		// $ingredient1 = \Models\Ingredient::where('name', 'like', 'flour')->first();
 
+		$recipe_ingredient1 = new \Models\RecipeIngredient();
+		$recipe_ingredient1->recipe()->associate( $recipe );
+		$recipe_ingredient1->unit_of_measure()->associate( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
+		$recipe_ingredient1->ingredient()->associate( \Models\Ingredient::where('name', 'like', 'flour')->first() );
+		// $recipe_ingredient1->ingredient_id = \Models\Ingredient::where('name', 'like', 'flour')->first()->id;
+		// $recipe_ingredient1->unit_of_measure_id = \Models\UnitOfMeasure::where('name', 'like', 'cup')->first()->id;
+		$recipe_ingredient1->quantity = 2.5;
+		$recipe_ingredient1->save();
 
-		$recipe_ingredient = new \Models\RecipeIngredient();
-		$ingredient2 = \Models\Ingredient::where('name', 'like', 'salt')->first();
-		$recipe_ingredient->ingredient()->save( $ingredient2 );
-		$recipe_ingredient->quantity = 2.5;
-		$recipe_ingredient->unit_of_measure()->save( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
-		print_r($recipe_ingredient);
-		$recipe->recipe_ingredients()->save( $recipe_ingredient );
-
-		// $ingredient->unit
+		$recipe_ingredient2 = new \Models\RecipeIngredient();
+		$recipe_ingredient2->recipe()->associate( $recipe );
+		$recipe_ingredient2->unit_of_measure()->associate( \Models\UnitOfMeasure::where('name', 'like', 'teaspoon')->first() );
+		$recipe_ingredient2->ingredient()->associate( \Models\Ingredient::where('name', 'like', 'salt')->first() );
+		$recipe_ingredient2->quantity = 1;
+		$recipe_ingredient2->save();
 
 		$recipe->save();
 
 		// Do Morp Relationships
 		
 		// // Add some pictures
-		$pic = \Models\Picture::take(2)->get();
-		$recipe->pictures()->save($pic[0]);
-		$recipe->pictures()->save($pic[1]);
+		// $pic = \Models\Picture::take(2)->get();
+		// $recipe->pictures()->save($pic[0]);
+		// $recipe->pictures()->save($pic[1]);
 
 		// // Note:: Recipe *MUST* be saved before attaching the Pictures
-		// for($x = 0;$x < 2;$x++) {
-		// 	echo "Here...\n";
+		for($x = 0;$x < 2;$x++) {
+			// echo "Here...\n";
 
-	 //    	$tmp = array(
-	 //            'name' => $faker->bs,
-	 //            'file_name' => $faker->name . "." . $faker->fileExtension,
-	 //            'cdn_url' => $faker->url,
-	 //        );
+	    	$tmp = array(
+	            'name' => $faker->bs,
+	            'file_name' => $faker->name . "." . $faker->fileExtension,
+	            'cdn_url' => $faker->url,
+	        );
 
-	 //        // print_r($tmp);
-		// 	// $pic = new \Models\Picture( $tmp );
-		// 	$pic = new \Models\Picture( $tmp );
-		// 	print_r($pic);
+			$pic = new \Models\Picture( $tmp );
+			// print_r($pic);
 			
-		// 	// Add the Picture Owner
-		// 	// $pic->user_id = $user->id;	// Cannot attach it with Eloquent since it overrides the Recipe Pic
-		// 	// $pic->owner()->associate($user); 	// I fixed the association (belongsTo)
-		// 	// $recipe->pictures()->save($pic);
-
-		// 	// $pic->save();
-		// 	// print_r($pic);
-
-		// 	// $pic = \Models\Picture::create( $tmp );
-		// 	// $pic->owner()->associate($user); 	// I fixed the association (belongsTo)
-		// 	// print_r($pic);
-
-		// 	// $pic->save();
-
-		// 	// print_r($pic);
-		// 	// $recipe->pictures()->save($pic);
-		// }
+			// Add the Picture Owner
+			$pic->owner()->associate($user); 	// I fixed the association (belongsTo)
+			$recipe->pictures()->save($pic);
+		}
 
 		// Add Tags
 		// Note:: Recipe *MUST* be saved before attaching the Tags
@@ -116,6 +102,7 @@ class RecipeTest extends TestCase {
 										'color' => substr($faker->colorName,0,7) ) );
 		$recipe->tags()->save($tag2);
 
+		
 		$this->assertTrue($recipe->id !== '');
 		$this->assertTrue($recipe->author_id == $user->id);
 		$this->assertTrue($recipe->category_id == $cat->id);
@@ -128,7 +115,7 @@ class RecipeTest extends TestCase {
 
 		$id = $recipe->id;
 
-		$found = \Models\Recipe::with( array('category','tags') )->where('id', '=', $id)->firstOrFail();
+		$found = \Models\Recipe::with( array('category','tags','recipe_ingredients') )->where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 
 		$this->assertTrue($found->id == $id);
@@ -138,6 +125,16 @@ class RecipeTest extends TestCase {
 		$this->assertTrue($found->author->id == $user->id);
 		$this->assertTrue($found->author->name == $user->name);
 		$this->assertTrue($found->author->email == $user->email);
+
+		// test recipe inredients
+		// var_dump( $found->recipe_ingredients->toArray() );
+		$this->assertTrue( count( $found->recipe_ingredients ) == 2 );
+		$this->assertTrue( $found->recipe_ingredients->contains( $recipe_ingredient1->id ) );
+		$this->assertTrue( $found->recipe_ingredients->contains( $recipe_ingredient2->id ) );
+
+		// test pictures
+		// var_dump( $found->pictures->toArray() );
+		$this->assertTrue( count( $found->pictures ) == 2 );
 
 		// Test Category
 		$this->assertTrue($found->category_id == $cat->id);

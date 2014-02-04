@@ -17,7 +17,7 @@ class UserTest extends TestCase {
 		$roles = ['parent','guardian','child','staff'];
 		
 		 $tmp = [
-            'name'               => "Shailesh". $faker->word,
+            'name'               => "Shailesh ". $faker->word,
             'household_id'       => $household->id,
             'email'              => $faker->email,
             'password'           => Hash::make("xxx"),

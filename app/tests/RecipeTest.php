@@ -7,7 +7,7 @@ class RecipeTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testCanCreateRecipeSaveAndRetrieve()
+	public function testCanCreateRecipeSaveRetrieveAndDelete()
 	{
 
     	$faker = \Faker\Factory::create();
@@ -136,6 +136,9 @@ class RecipeTest extends TestCase {
 		$this->assertTrue($found->preparation_time == '00:15:00');
 		$this->assertTrue($found->cooking_time == '00:15:00');
 		// $this->assertTrue($this->client->getResponse()->isOk());
+
+		// Delete
+		$this->assertTrue($found->delete());
 	}
 
 }

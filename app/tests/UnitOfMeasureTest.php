@@ -7,7 +7,7 @@ class UnitOfMeasureTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testCanCreateUnitOfMeasureSaveAndRetrieve()
+	public function testCanCreateUnitOfMeasureSaveRetrieveAndDelete()
 	{
 
     	$faker = \Faker\Factory::create();
@@ -33,6 +33,9 @@ class UnitOfMeasureTest extends TestCase {
 		$this->assertTrue($found->name == $unitofmeasure->name);
 		$this->assertTrue($found->alias == $unitofmeasure->alias);
 		$this->assertTrue($found->preferred_alias == $unitofmeasure->preferred_alias);
+
+		// Delete
+		$this->assertTrue($found->delete());
 	}
 
 }

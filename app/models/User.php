@@ -41,7 +41,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	public function events()
     {
-        return $this->hasMany('Models\Event', 'user_id');
+        return $this->hasMany('Models\Event', 'owner_id');
     }
 
 	public function household()

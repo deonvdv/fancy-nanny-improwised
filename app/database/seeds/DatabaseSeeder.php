@@ -25,20 +25,17 @@ class DatabaseSeeder extends Seeder {
 	        'invoices',
 	        'meals',
 	        'meals_recipes',
-	        'meals_tags',
 	        'messages',
 	        'notifications',
 	        'pictures',
 	        'products',
 	        'recipes',
-	        'recipes_categories',
 	        'recipe_ingredients',
 	        'recipe_reviews',
 	        'tags',
 	        'todos',
 	        'units_of_measure',
 	        'users',
-	        'ingredients_recipeingredients'
 	    ];
 
 	    foreach ($tables as $table) {

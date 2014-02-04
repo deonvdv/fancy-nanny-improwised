@@ -17,7 +17,7 @@ class Category extends BaseModel {
         return $this->belongsTo('Models\Category');
     }	
 
-    public function addParent(\Models\Category $category) {
+    public function setParent(\Models\Category $category) {
         $this->save();
         $this->parent()->associate( $category );
     }

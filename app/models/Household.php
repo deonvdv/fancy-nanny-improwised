@@ -40,4 +40,49 @@ class Household extends BaseModel {
     public function notifications() {
         return $this->hasMany('Models\Notification');
     }
+
+
+
+    public function addDocument(\Models\Document $document) {
+        $this->save();
+        $this->documents()->save( $document );
+    }
+
+    public function addMember(\Models\User $member) {
+        $this->save();
+        $this->members()->save( $member );
+    }
+
+    public function addMessage(\Models\Message $message) {
+        $this->save();
+        $this->messages()->save( $message );
+    }
+
+    public function addTag(\Models\Tag $tag) {
+        $this->save();
+        $this->tags()->save( $tag );
+    }
+
+    public function addMeal(\Models\Meal $meal) {
+        $this->save();
+        $this->meals()->save( $meal );
+    }
+
+    public function addEvent(\Models\Event $event) {
+        $this->save();
+        $this->events()->save( $event );
+    }
+
+    public function addTodo(\Models\Todo $todo) {
+        $this->save();
+        $this->todos()->save( $todo );
+    }
+
+    public function addNotification(\Models\Notification $notification) {
+        $this->save();
+        $this->notifications()->save( $notification );
+    }
+
+
+
 }

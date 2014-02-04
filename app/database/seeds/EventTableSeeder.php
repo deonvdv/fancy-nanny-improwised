@@ -20,8 +20,8 @@ class EventTableSeeder extends Seeder {
             $event->description = $faker->text;
             $event->location = $faker->address;
             $event->event_date = $faker->date;
-            $event->event_start_time = $faker->time($format = 'H:i:s');
-            $event->event_end_time = $faker->time($format = 'H:i:s');
+            $event->start_time = $faker->time($format = 'H:i:s');
+            $event->end_time = $faker->time($format = 'H:i:s');
             $event->all_day = $faker->boolean;
             $event->notify = $faker->boolean;
             $event->minutes_before = $faker->randomDigitNotNull;

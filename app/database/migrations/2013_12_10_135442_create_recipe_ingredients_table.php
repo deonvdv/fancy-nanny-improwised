@@ -22,13 +22,6 @@ class CreateRecipeIngredientsTable extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::create('ingredients_recipeingredients', function(Blueprint $table) {
-			$table->string('ingedrient_id', 36)->index();
-			$table->string('recipe_ingredient_id', 36)->index();
-
-			// $table->unique(array('ingedrient_id', 'recipe_ingredient_id'));
-		});
-
 	}
 
 
@@ -40,7 +33,6 @@ class CreateRecipeIngredientsTable extends Migration {
 	public function down()
 	{
 		Schema::drop('recipe_ingredients');
-		Schema::drop('ingredients_recipeingredients');
 	}
 
 }

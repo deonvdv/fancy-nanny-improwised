@@ -12,7 +12,7 @@ class Tag extends BaseModel {
         return $this->belongsTo('Models\Household');
     }
 
-	public function user()
+	public function owner()
     {
         return $this->belongsTo('Models\User');
     }
@@ -21,4 +21,18 @@ class Tag extends BaseModel {
     {
         return $this->morphTo();
     }    
+
+
+    public function setOwner(\Models\User $user) {
+        $this->save();
+        $this->owner()->associate( $user );
+        $this->household()->associate( $user->household );
+    }
+
+    public function setHousehold(\Models\Household $household) {
+        $this->save();
+        $this->household()->associate( $household );
+    }
+
+
 }

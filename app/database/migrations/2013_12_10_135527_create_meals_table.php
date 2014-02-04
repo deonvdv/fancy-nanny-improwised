@@ -30,13 +30,6 @@ class CreateMealsTable extends Migration {
 			$table->unique(array('meal_id', 'recipe_id'));
 		});
 
-		/** many to many relation to tags */
-		Schema::create('meals_tags', function($table){
-			$table->string('meal_id', 36);
-			$table->string('tag_id', 36);
-
-			$table->unique(array('meal_id', 'tag_id'));
-		});
 	}
 
 
@@ -49,7 +42,6 @@ class CreateMealsTable extends Migration {
 	{
 		Schema::drop('meals');
 		Schema::drop('meals_recipes');
-		Schema::drop('meals_tags');
 	}
 
 }

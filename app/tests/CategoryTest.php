@@ -7,7 +7,7 @@ class CategoryTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testCanCreateCategorySaveAndRetrieve()
+	public function testCanCreateCategorySaveRetrieveAndDelete()
 	{
 
     	$faker = \Faker\Factory::create();
@@ -17,11 +17,11 @@ class CategoryTest extends TestCase {
 
 		$newCategory = new \Models\Category();
 
-		$newCategory->name = "Test Category";
+		$newCategory->name = $faker->bs;
 		
 		// assign category parentId
 		// $newCategory->parent_id = $cat->id;
-		$newCategory->addParent( $cat );
+		$newCategory->setParent( $cat );
 		
 		$newCategory->save();
 
@@ -31,7 +31,7 @@ class CategoryTest extends TestCase {
 		$found = \Models\Category::where('id', '=', $id)->with('parent')->firstOrFail();
 		// print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";
-		
+
 		$this->assertTrue($found->id == $id);
 
 		// Test Category

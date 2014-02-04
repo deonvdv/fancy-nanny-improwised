@@ -7,7 +7,7 @@ class IngredientTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testCanCreateIngredientSaveAndRetrieve()
+	public function testCanCreateIngredientSaveRetrieveAndDelete()
 	{
 
     	$faker = \Faker\Factory::create();
@@ -27,6 +27,9 @@ class IngredientTest extends TestCase {
 		// Test Category
 		$this->assertTrue($found->id == $newIngredient->id);		
 		$this->assertTrue($found->name == $newIngredient->name);
+
+		// Delete
+		$this->assertTrue($found->delete());
 	}
 
 }

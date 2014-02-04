@@ -15,7 +15,7 @@ class PictureTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testCanCreatePictureSaveAndRetrieve()
+	public function testCanCreatePictureSaveRetrieveAndDelete()
 	{
 
     	$faker = \Faker\Factory::create();
@@ -70,11 +70,7 @@ class PictureTest extends TestCase {
 		$this->assertTrue($found->cdn_url == $cdn);
 
 		// Delete
-		\Models\Picture::where('id', '=', $id)->delete();
-
-		// Find again
-		$found = \Models\Picture::with( array('owner') )->where('id', '=', $id)->first();
-		$this->assertNull( $found );
+		$this->assertTrue($found->delete());
 
 	}
 

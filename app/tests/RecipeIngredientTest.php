@@ -7,7 +7,7 @@ class RecipeIngredientTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testCanCreateRecipeIngredientSaveAndRetrieve()
+	public function testCanCreateRecipeIngredientSaveRetrieveAndDelete()
 	{
 
     	$faker = \Faker\Factory::create();

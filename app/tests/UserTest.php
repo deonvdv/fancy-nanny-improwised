@@ -7,7 +7,7 @@ class UserTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testCanUserSaveAndRetrieve()
+	public function testCanUserSaveRetrieveAndDelete()
 	{
 
     	$faker = \Faker\Factory::create();
@@ -96,6 +96,9 @@ class UserTest extends TestCase {
 		$this->assertTrue($found->name == $newuser->name);
 		$this->assertTrue($found->street == $newuser->street);
 		$this->assertTrue($found->city == $newuser->city);
+
+		// Delete
+		$this->assertTrue($found->delete());
 		
 	}
 

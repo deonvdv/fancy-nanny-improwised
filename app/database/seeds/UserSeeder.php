@@ -12,7 +12,7 @@ class UserTableSeeder extends Seeder {
 
         $tmp = [
             'name'               => "Deon van der Vyver",
-            'household_id'       => "admin",
+            'household_id'       => $households[0]->id,
             'email'              => "deonvdv@gmail.com",
             'password'           => Hash::make("xxx"),
             'street'             => "My Street",

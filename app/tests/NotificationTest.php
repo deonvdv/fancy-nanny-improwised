@@ -7,7 +7,7 @@ class NotificationTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testCanCreateNotificationSaveAndRetrieve()
+	public function testCanCreateNotificationSaveRetrieveAndDelete()
 	{
 
     	$faker = \Faker\Factory::create();
@@ -38,6 +38,9 @@ class NotificationTest extends TestCase {
 		$this->assertTrue($found->to == $newNotification->to);
 		$this->assertTrue($found->message == $newNotification->message);
 		$this->assertTrue($found->reference == $newNotification->reference);
+
+		// Delete
+		$this->assertTrue($found->delete());
 
 	}
 

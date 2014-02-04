@@ -25,13 +25,13 @@ class CreateRecipesTable extends Migration {
 			$table->timestamps();
 		});
 
-		/** many to many relation table to categories table */
-		Schema::create('recipes_categories', function(Blueprint $table){
-			$table->string('recipe_id', 36)->index();
-			$table->string('category_id', 36)->index();
+		// /** many to many relation table to categories table */
+		// Schema::create('recipes_categories', function(Blueprint $table){
+		// 	$table->string('recipe_id', 36)->index();
+		// 	$table->string('category_id', 36)->index();
 
-			$table->unique(array('recipe_id', 'category_id'));
-		});
+		// 	$table->unique(array('recipe_id', 'category_id'));
+		// });
 
 		// /** many to many relation table to tags */
 		// Schema::create('recipes_tags', function(Blueprint $table){
@@ -51,7 +51,7 @@ class CreateRecipesTable extends Migration {
 	public function down()
 	{
 		Schema::drop('recipes');
-		Schema::drop('recipes_categories');
+		// Schema::drop('recipes_categories');
 		// Schema::drop('recipes_tags');
 	}
 

@@ -30,33 +30,28 @@ class PictureTest extends TestCase {
 		$filename = $faker->name . "." . $faker->fileExtension;
 		$cdn = $faker->url.$filename;
 
-    	$tmp = array(
-            'name' => $picture_name,
-            'file_name' => $filename,
-            'cdn_url' => $cdn,
-        );
-        // print_r($tmp);
-		$pic = new \Models\Picture( $tmp );
-		// print_r($pic);
-			
-		// Add the Picture Owner
-		$pic->owner()->associate($user); 	// I fixed the association (belongsTo)
+		$pic = new \Models\Picture( );
 
-		// print_r($pic);
+		$pic->name = $picture_name;
+		$pic->file_name = $filename;
+		$pic->cdn_url = $cdn;
+
+		// Add the Picture Owner
+		$pic->setOwner($user);
+
 		$user->pictures()->save($pic);
 		
-		// print_r($pic);
-
 		$this->assertTrue($pic->id !== '');
 		$this->assertTrue($pic->owner_id == $user->id);
-		$this->assertTrue($pic->name == $picture_name);
-		$this->assertTrue($pic->file_name == $filename);
-		$this->assertTrue($pic->cdn_url == $cdn);
+		$this->assertTrue($pic->name == $pic->name);
+		$this->assertTrue($pic->file_name == $pic->file_name);
+		$this->assertTrue($pic->cdn_url == $pic->cdn_url);
 
 		$id = $pic->id;
 
 		$found = \Models\Picture::with( array('owner') )->where('id', '=', $id)->firstOrFail();
 		// print_r($found);
+		echo "\nFound Id: " . $found->id . "\n";
 
 		$this->assertTrue($found->id == $id);
 

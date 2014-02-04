@@ -17,4 +17,9 @@ class Picture extends BaseModel {
         return $this->morphTo();
     }    
 
+    public function setOwner(\Models\User $user) {
+        $this->save();
+        $this->owner()->associate( $user );
+    }
+
 }

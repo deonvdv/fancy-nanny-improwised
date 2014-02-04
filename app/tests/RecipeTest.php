@@ -95,8 +95,8 @@ class RecipeTest extends TestCase {
 		$this->assertTrue($recipe->description == 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, similique, ex, facilis, tempore fugit eum nemo at rerum placeat atque magnam minima dolorum provident ut quis animi pariatur veniam ipsa.');
 		$this->assertTrue($recipe->instructions == 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis inventore illo est quam laboriosam veniam esse recusandae placeat error amet. Ea, quae, fuga labore non voluptatibus omnis esse deserunt eum!');
 		$this->assertTrue($recipe->number_of_portions == 4);
-		$this->assertTrue($recipe->preparation_time == '00:15');
-		$this->assertTrue($recipe->cooking_time == '00:15');
+		$this->assertTrue($recipe->preparation_time == '00:15:00');
+		$this->assertTrue($recipe->cooking_time == '00:15:00');
 
 		$id = $recipe->id;
 
@@ -129,13 +129,12 @@ class RecipeTest extends TestCase {
 		//Test Tags
 		$this->assertTrue(count($found->tags) == 2);
 
-		$this->assertTrue($found->name == 'Test Recipe');
-		$this->assertTrue($found->description == 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, similique, ex, facilis, tempore fugit eum nemo at rerum placeat atque magnam minima dolorum provident ut quis animi pariatur veniam ipsa.');
-		$this->assertTrue($found->instructions == 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis inventore illo est quam laboriosam veniam esse recusandae placeat error amet. Ea, quae, fuga labore non voluptatibus omnis esse deserunt eum!');
-		$this->assertTrue($found->number_of_portions == 4);
+		$this->assertTrue($found->name == $recipe->name);
+		$this->assertTrue($found->description == $recipe->description);
+		$this->assertTrue($found->instructions == $recipe->instructions);
+		$this->assertTrue($found->number_of_portions == $recipe->number_of_portions);
 		$this->assertTrue($found->preparation_time == '00:15:00');
 		$this->assertTrue($found->cooking_time == '00:15:00');
-		// $this->assertTrue($this->client->getResponse()->isOk());
 
 		// Delete
 		$this->assertTrue($found->delete());

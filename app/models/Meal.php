@@ -9,19 +9,20 @@ class Meal extends BaseModel {
 
 	protected $table = 'meals';
 
-	public function household()
-    {
+	public function household() {
         return $this->belongsTo('Models\Household');
     }
 
-	public function tags()
-    {
+	public function tags() {
         return $this->morphMany('\Models\Tag', 'tagable');
     }
 
-	public function recipes()
-    {
+	public function recipes() {
         return $this->belongsToMany('Models\Recipe', 'meals_recipes');
     }	
 
+    public function addRecipe(\Models\Recipe $recipe) {
+        $this->save();
+        $this->recipes()->attach( $recipe );
+    }
 }

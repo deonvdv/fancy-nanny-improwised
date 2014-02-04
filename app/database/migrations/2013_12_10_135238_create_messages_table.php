@@ -15,7 +15,8 @@ class CreateMessagesTable extends Migration {
 		Schema::create('messages', function(Blueprint $table) {
 			$table->string('id', 36)->primary();
 			$table->string('household_id', 36);
-			$table->string('user_id', 36);
+			$table->string('from_user_id', 36);
+			$table->string('to_user_id', 36);
 			$table->text('message');
 			$table->date('date');
 			$table->softDeletes();

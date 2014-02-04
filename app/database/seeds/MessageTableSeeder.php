@@ -8,9 +8,9 @@ class MessageTableSeeder extends Seeder {
     	$messages = array(
     		'id' => $faker->uuid,
     		'household_id' => $faker->uuid,
-    		'user_id' => $faker->uuid,
+            'from_user_id' => $faker->uuid,
+            'to_user_id' => $faker->uuid,
     		'message' => $faker->text,
-    		'date' => $faker->date,
     	);
     	DB::table('messages')->insert( $messages );
     }

@@ -113,13 +113,7 @@ class HouseholdController extends BaseController {
 	{
 		try
 		{
-		$household = \Models\Household::with(array('documents','events','members'))->where('id','=',$id)->firstOrFail();
-//     	array(
-			// 'documents' => function($query) { $query->where('private', '!=', '1')->orderBy('name', 'asc')->take(20); },
-			// 'events' => function($query) { $query->where('event_date', '>', new \DateTime('now') )->orderBy('event_date', 'asc')->take(20); },
-			// 'members'   => function($query){ $query->orderBy('name', 'asc'); },
-//     	)
- //   )->where('id','=',$id)->firstOrFail();
+		$household = \Models\Household::with(array('documents','events','members'))->find($id)->firstOrFail();
 
         if(!is_null($household))
         {

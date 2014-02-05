@@ -72,8 +72,11 @@ class UserTest extends TestCase {
 
         //Add Messages
         // $msg = new \Models\Message( array (
-        //                 'message' => 'message_test' . $faker->word,         				
+        //                 'message' => 'message_test' . $faker->word,
+        //                 'sender_id' => $newuser->id,
+        //                 'receiver_id' => $faker->uuid,     				
         // 			    'household_id' => $household->id) );
+        // $msg->save();
         // $newuser->messages()->save($msg);
 
          //Add Notifications

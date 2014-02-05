@@ -18,9 +18,9 @@ class RecipeIngredientTest extends TestCase {
 		
 		$ri = new \Models\RecipeIngredient();
 		$ri->quantity = 3.5;
+		$ri->unit_of_measure()->associate(\Models\UnitOfMeasure::where('name', 'like', 'cup')->first());
+		$ri->ingredient()->associate(\Models\Ingredient::where('name', 'like', 'flour')->first() );
 		$ri->setRecipe( $recipe );
-		$ri->setUnitOfMeasure( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
-		$ri->setIngredient( \Models\Ingredient::where('name', 'like', 'flour')->first() );
 		
 		$id = $ri->id;
 

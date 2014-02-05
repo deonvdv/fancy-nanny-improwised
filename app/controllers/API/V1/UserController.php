@@ -103,7 +103,7 @@ class UserController extends BaseController {
 				)
 			);
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return Response::json(
 				array(
@@ -124,29 +124,46 @@ class UserController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$users = \Models\User::find($id);
-		if(count($users) > 0)
+		try
+		{
+			$users = \Models\User::where('id','=',$id)->firstOrFail();
+			
+			if(count($users) > 0)
+			{
+				return Response::json(
+					array(
+						'success' => true,
+						'data'    => $users->toArray(),
+						'message' => 'Success ...'
+						)
+				);
+			}
+			else
+			{
+				return Response::json(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Can not find User with id '.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
 		{
 			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $users->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'There is some error to process your request'
+					),
+					404
+				);
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Users ...'
-				),
-				404
-			);
-		}
-        // return View::make('users.show');
+		
+		
+        
 	}
 
 	/**

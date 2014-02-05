@@ -111,13 +111,15 @@ class HouseholdController extends BaseController {
 	 */
 	public function show($id)
 	{
-        $household = \Models\Household::with(
-        	array(
-				'documents' => function($query) { $query->where('private', '!=', '1')->orderBy('name', 'asc')->take(20); },
-				'events' => function($query) { $query->where('event_date', '>', new \DateTime('now') )->orderBy('event_date', 'asc')->take(20); },
-				'members'   => function($query){ $query->orderBy('name', 'asc'); },
-        	)
-        )->find($id);
+		try
+		{
+		$household = \Models\Household::with(array('documents','events','members'))->where('id','=',$id)->firstOrFail();
+//     	array(
+			// 'documents' => function($query) { $query->where('private', '!=', '1')->orderBy('name', 'asc')->take(20); },
+			// 'events' => function($query) { $query->where('event_date', '>', new \DateTime('now') )->orderBy('event_date', 'asc')->take(20); },
+			// 'members'   => function($query){ $query->orderBy('name', 'asc'); },
+//     	)
+ //   )->where('id','=',$id)->firstOrFail();
 
         if(!is_null($household))
         {
@@ -125,7 +127,7 @@ class HouseholdController extends BaseController {
         		array(
         			'success'	=> true,
         			'data'		=> $household->toArray(),
-        			'message'	=> ''
+        			'message'	=> 'success..'
         		)
         	);
         }
@@ -135,11 +137,24 @@ class HouseholdController extends BaseController {
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$id
+					'message'	=> 'Can not find Household with id:'.$id
         		),
         		404
         	);
         }
+		}
+		catch(\Exception $e)
+		{
+			return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There is some error to process your request'
+        		),
+        		404
+        	);
+		}
+        
 	}
 
 	/**

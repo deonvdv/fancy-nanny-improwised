@@ -101,28 +101,43 @@ class IngredientController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$ingredients = \Models\Ingredient::find($id);
-		if(count($ingredients) > 0)
+		try
+		{
+			$ingredients = \Models\Ingredient::find($id);
+			if(count($ingredients) > 0)
+			{
+				return Response::json(
+					array(
+						'success' => true,
+						'data'    => $ingredients->toArray(),
+						'message' => 'Success ...'
+						)
+				);
+			}
+			else
+			{
+				return Response::json(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Can not find Ingredient with id:'.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
 		{
 			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $ingredients->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There is some error to process your request'
+        		),
+        		404
+        	);
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Ingredients ...'
-				),
-				404
-			);
-		}
+		
         // return View::make('ingredients.show');
 	}
 

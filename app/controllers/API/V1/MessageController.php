@@ -101,28 +101,43 @@ class MessageController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$messages = \Models\Message::find($id);
-		if(count($messages) > 0)
+		try
+		{
+			$messages = \Models\Message::find($id);
+			if(count($messages) > 0)
+			{
+				return Response::json(
+					array(
+						'success' => true,
+						'data'    => $messages->toArray(),
+						'message' => 'Success ...'
+						)
+				);
+			}
+			else
+			{
+				return Response::json(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Can not find Message with id '.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
 		{
 			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $messages->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'There is some error to process your request'
+					),
+					404
+				);
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Messages ...'
-				),
-				404
-			);
-		}
+		
         // return View::make('messages.show');
 	}
 

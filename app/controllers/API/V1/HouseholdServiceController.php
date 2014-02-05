@@ -1,9 +1,16 @@
 <?php
 namespace API\V1;
-use \BaseController;
 
-class HousholdServiceController extends BaseController {
+use BaseController;
+use Response;
+use Input;
+use View;
 
+class HouseholdServiceController extends BaseController {
+
+	public function __construct( )
+    {
+    }
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -11,7 +18,7 @@ class HousholdServiceController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('housholdservices.index');
+        return View::make('householdservices.index');
 	}
 
 	/**
@@ -21,7 +28,7 @@ class HousholdServiceController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('housholdservices.create');
+        return View::make('householdservices.create');
 	}
 
 	/**

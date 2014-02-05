@@ -101,28 +101,43 @@ class TagController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$tag = \Models\Tag::find($id);
-		if(count($tag) > 0)
+		try
+		{
+			$tag = \Models\Tag::find($id);
+			if(count($tag) > 0)
+			{
+				return Response::json(
+					array(
+						'success' => true,
+						'data'    => $tag->toArray(),
+						'message' => 'Success ...'
+						)
+				);
+			}
+			else
+			{
+				return Response::json(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Can not find Tag with id:'.$id,
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
 		{
 			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $tag,
-					'message' => 'Success ...'
-					)
-			);
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There is some error to process your request'
+        		),
+        		404
+        	);
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Tags ...'
-				),
-				404
-			);
-		}
+		
         // return View::make('tags.show');
 	}
 

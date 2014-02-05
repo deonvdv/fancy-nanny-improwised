@@ -102,29 +102,44 @@ class CategoryController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$category = \Models\Category::find($id);
-		if(count($category) > 0)
+		try
+		{
+			$category = \Models\Category::find($id);
+			if(count($category) > 0)
+			{
+				return Response::json(
+					array(
+						'success' => true,
+						'data'    => $category->toArray(),
+						'message' => 'Success ...'
+						)
+				);
+			}
+			else
+			{
+				return Response::json(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Can not find Category with id:'.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
 		{
 			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $category->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'There is some error to process your request'
+					),
+					404
+				);
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Categories ...'
-				),
-				404
-			);
-		}
-        // return View::make('categories.show');
+		
+        
 	}
 
 	/**

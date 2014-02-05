@@ -101,29 +101,43 @@ class RecipeIngredientController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$recipeingredients = \Models\RecipeIngredient::find($id);
-		if(count($recipeingredients) > 0)
+		try
+		{
+			$recipeingredients = \Models\RecipeIngredient::find($id);
+			if(count($recipeingredients) > 0)
+			{
+				return Response::json(
+					array(
+						'success' => true,
+						'data'    => $recipeingredients->toArray(),
+						'message' => 'Success ...'
+						)
+				);
+			}
+			else
+			{
+				return Response::json(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Can not find RecipeIngredients with id:'.$id
+					),
+					404
+				);
+			}      
+		}
+		catch(\Exception $ex)
 		{
 			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $recipeingredients->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There is some error to process your request'
+        		),
+        		404
+        	);
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find RecipeIngredients ...'
-				),
-				404
-			);
-		}
-        // return View::make('recipeingredients.show');
+		  
 	}
 
 	/**

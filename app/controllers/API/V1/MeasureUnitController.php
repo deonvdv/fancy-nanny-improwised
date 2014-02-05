@@ -101,28 +101,43 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$unit_of_measure = \Models\UnitOfMeasure::find($id);
-		if(count($unit_of_measure) > 0)
+		try
+		{
+			$unit_of_measure = \Models\UnitOfMeasure::find($id);
+			if(count($unit_of_measure) > 0)
+			{
+				return Response::json(
+					array(
+						'success' => true,
+						'data'    => $unit_of_measure->toArray(),
+						'message' => 'Success ...'
+						)
+				);
+			}
+			else
+			{
+				return Response::json(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Can not find Unit of Measure with id:'.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
 		{
 			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $unit_of_measure->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There is some error to process your request'
+        		),
+        		404
+        	);
 		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Unit of Measure ...'
-				),
-				404
-			);
-		}
+		
         // return View::make('measureunits.show');
 	}
 

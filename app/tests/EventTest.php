@@ -67,6 +67,9 @@ class EventTest extends TestCase {
 		//Test User	
 		$this->assertTrue($found->owner->id == $newevent->owner_id);
 		$this->assertTrue($found->owner->name == $user->name);	
+
+		// Delete
+		$this->assertTrue( $found->delete() );
 	}
 
 }

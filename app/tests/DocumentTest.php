@@ -13,7 +13,7 @@ class DocumentTest extends TestCase {
     	$faker = \Faker\Factory::create();
 		
 		// Get the owner
-		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->with('household')->first();
+		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();
 
 		// Get household
 		$household = \Models\Household::where('name','like','%household')->first();

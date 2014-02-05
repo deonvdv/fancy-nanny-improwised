@@ -12,9 +12,10 @@ class HouseholdTest extends TestCase {
 
     	$faker = \Faker\Factory::create();
 
-    	// Get Member
-		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();
+		// Get Member
+		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();    	
 		
+
 		// Contacts
 		$contacts = ["Father", "Mother", "Sister", "Brother", "Aunt", "Uncle", "Grandfather", "Grandmother"];
 		$emergency_contacts = json_encode( [ 
@@ -29,12 +30,21 @@ class HouseholdTest extends TestCase {
 		$household->name = $faker->unique()->lastName . " Household";
 		$household->emergency_contacts = $emergency_contacts;
 		$household->critical_information = $faker->paragraph($nbSentences = 3);
-
-		// $household->save();
+	
+		//Add Documents
+        $doc = new \Models\Document( array('name' => 'doc_name' . $faker->word, 
+        				'private' => $faker->boolean,
+        			    'cdn_url' => $faker->word,         			   
+        			    'file_name' => $faker->word.".".$faker->fileExtension) );
+        //associate owner of document
+        $doc->owner()->associate($user);
+        $household->documents()->save($doc);
+		
 		$household->addDocument( new \Models\Document( array( 
 										"name"      => ucwords($faker->bs), 
 										"file_name" => $faker->word.'.'.$faker->fileExtension, 
 										"owner_id"  => $user->id, 
+										"cdn_url"	=> $faker->word,  
 										"private"   => false ) ) );
 		$household->addMember( $user );
 		$household->addMessage( new \Models\Message( array( 
@@ -50,10 +60,9 @@ class HouseholdTest extends TestCase {
 		$id = $household->id;
 
 		//get Household from database
-		$found = \Models\Household::where('id', '=', $id)->with(array('documents','members','messages','tags'))->firstOrFail();
-		// print_r($found);
-		// echo "\nFound Id: " . $found->id . "\n";
-		
+		$found = \Models\Household::with( array ('documents'
+						,'members'))->where('id', '=', $id)->firstOrFail();
+	
 		$this->assertTrue($found->id == $id);
 
 		// Test Household
@@ -69,7 +78,11 @@ class HouseholdTest extends TestCase {
 		$this->assertTrue(count($found->tags) == 1 );
 		$this->assertTrue($found->tags[0]->user->id == $user->id );
 
+		//Test documents
+		$this->assertTrue(count($found->documents) == 1);
 
+		//Test members
+		$this->assertTrue(count($found->members) == 1);
 
 		// Delete
 		$this->assertTrue($found->delete());

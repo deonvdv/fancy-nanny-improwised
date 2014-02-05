@@ -75,13 +75,13 @@ class RecipeTest extends TestCase {
 		// Add Tags
 		$tag1 = new \Models\Tag( array ('name' => 'tag 3',
 										'household_id' => $household->id,
-										'user_id' => $user->id,
+										'owner_id' => $user->id,
 										'color' => substr($faker->colorName,0,7)));
 		$recipe->addTag( $tag1 );
 
 		$tag2 = new \Models\Tag( array ('name' => 'tag 4',
 										'household_id' => $household->id,
-										'user_id' => $user->id,
+										'owner_id' => $user->id,
 										'color' => substr($faker->colorName,0,7) ) );
 		$recipe->addTag( $tag2 );
 
@@ -95,9 +95,7 @@ class RecipeTest extends TestCase {
 		$this->assertTrue($recipe->description == 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, similique, ex, facilis, tempore fugit eum nemo at rerum placeat atque magnam minima dolorum provident ut quis animi pariatur veniam ipsa.');
 		$this->assertTrue($recipe->instructions == 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis inventore illo est quam laboriosam veniam esse recusandae placeat error amet. Ea, quae, fuga labore non voluptatibus omnis esse deserunt eum!');
 		$this->assertTrue($recipe->number_of_portions == 4);
-		$this->assertTrue($recipe->preparation_time == '00:15:00');
-		$this->assertTrue($recipe->cooking_time == '00:15:00');
-
+		
 		$id = $recipe->id;
 
 		$found = \Models\Recipe::with( array('category','tags','recipe_ingredients') )->where('id', '=', $id)->firstOrFail();

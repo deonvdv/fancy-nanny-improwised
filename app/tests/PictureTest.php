@@ -35,6 +35,8 @@ class PictureTest extends TestCase {
 		$pic->name = $picture_name;
 		$pic->file_name = $filename;
 		$pic->cdn_url = $cdn;
+		$pic->imageable_id = $faker->uuid;
+		$pic->imageable_type = $faker->name;
 
 		// Add the Picture Owner
 		$pic->setOwner($user);

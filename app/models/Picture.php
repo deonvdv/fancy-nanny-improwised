@@ -18,8 +18,8 @@ class Picture extends BaseModel {
     }    
 
     public function setOwner(\Models\User $user) {
-        $this->save();
         $this->owner()->associate( $user );
+        $this->save();
     }
 
 }

@@ -11,19 +11,27 @@ class TagTest extends TestCase {
 	{
 
     	$faker = \Faker\Factory::create();
+
 		
 		// Get the owner
 		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();
+
+		// Get household
+		$household = \Models\Household::where('name','like','%household')->first();
 
 		// Create new Tag
 		$tag = new \Models\Tag();
         $tag->name = ucwords($faker->bs);
         $tag->color = substr($faker->colorName,0,7);
+        $tag->tagable_id = $faker->uuid;
+        $tag->tagable_type = $faker->name;
 
+        //associate household to user
+		$user->household()->associate($household);
+        
 		// set Owner
         $tag->setOwner( $user );
 		
-		$tag->save();
 
 		$id = $tag->id;
 

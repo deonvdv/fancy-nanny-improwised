@@ -38,8 +38,7 @@ class HouseholdTest extends TestCase {
         			    'file_name' => $faker->word.".".$faker->fileExtension) );
         //associate owner of document
         $doc->owner()->associate($user);
-        $household->documents()->save($doc);
-		
+       		
 		$household->addDocument( new \Models\Document( array( 
 										"name"      => ucwords($faker->bs), 
 										"file_name" => $faker->word.'.'.$faker->fileExtension, 
@@ -53,7 +52,9 @@ class HouseholdTest extends TestCase {
 										"message" => $faker->paragraph($nbSentences = 5) ) ) );
 		$household->addTag( new \Models\Tag( array( 
 										'name'         => 'tag 4',
-										'user_id'      => $user->id,
+										'owner_id'     => $user->id,
+										'tagable_id'   => $faker->uuid,
+										'tagable_type' => $faker->name,
 										'color'        => substr($faker->colorName,0,7) ) ) );
 
 
@@ -76,7 +77,7 @@ class HouseholdTest extends TestCase {
 		$this->assertTrue(count($found->messages) == 1 );
 		$this->assertTrue($found->messages[0]->sender->id == $user->id );
 		$this->assertTrue(count($found->tags) == 1 );
-		$this->assertTrue($found->tags[0]->user->id == $user->id );
+		$this->assertTrue($found->tags[0]->owner->id == $user->id );
 
 		//Test documents
 		$this->assertTrue(count($found->documents) == 1);

@@ -13,7 +13,13 @@ class DocumentTest extends TestCase {
     	$faker = \Faker\Factory::create();
 		
 		// Get the owner
-		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();
+		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->with('household')->first();
+
+		// Get household
+		$household = \Models\Household::where('name','like','%household')->first();
+
+		//associate household
+		$user->household()->associate($household);
 
 		// Create new Document
 		$fileName = $faker->word.'.'.$faker->fileExtension;
@@ -28,8 +34,6 @@ class DocumentTest extends TestCase {
 		// set Owner
         $doc->setOwner( $user );
 		
-		$doc->save();
-
 		$id = $doc->id;
 
 		//get Document from database

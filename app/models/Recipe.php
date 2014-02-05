@@ -43,8 +43,8 @@ class Recipe extends BaseModel {
 
 
     public function setAuthor(\Models\User $user) {
-        $this->save();
         $this->author()->associate( $user );
+        $this->save();
     }
 
     public function setCategory(\Models\Category $category) {

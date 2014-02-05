@@ -17,13 +17,11 @@ class RecipeIngredientTest extends TestCase {
 
 		
 		$ri = new \Models\RecipeIngredient();
-
-		$ri->setRecipe( $recipe );
 		$ri->quantity = 3.5;
+		$ri->setRecipe( $recipe );
 		$ri->setUnitOfMeasure( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
 		$ri->setIngredient( \Models\Ingredient::where('name', 'like', 'flour')->first() );
-		$ri->save();
-
+		
 		$id = $ri->id;
 
 		$this->assertTrue($ri->id != "");

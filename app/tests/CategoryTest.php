@@ -28,7 +28,7 @@ class CategoryTest extends TestCase {
 		$id = $newCategory->id;
 
 		//get Category from database
-		$found = \Models\Category::where('id', '=', $id)->with('parent')->firstOrFail();
+		$found = \Models\Category::where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";
 

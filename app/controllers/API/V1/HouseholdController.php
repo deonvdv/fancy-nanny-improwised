@@ -113,29 +113,29 @@ class HouseholdController extends BaseController {
 	{
 		try
 		{
-		$household = \Models\Household::with(array('documents','events','members'))->find($id)->firstOrFail();
+			$household = \Models\Household::with(array('documents','events','members'))->find($id);
 
-        if(!is_null($household))
-        {
-        	return Response::json(
-        		array(
-        			'success'	=> true,
-        			'data'		=> $household->toArray(),
-        			'message'	=> 'success..'
-        		)
-        	);
-        }
-        else
-        {
-        	return Response::json(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Can not find Household with id:'.$id
-        		),
-        		404
-        	);
-        }
+	        if(!is_null($household))
+	        {
+	        	return Response::json(
+	        		array(
+	        			'success'	=> true,
+	        			'data'		=> $household->toArray(),
+	        			'message'	=> 'success..'
+	        		)
+	        	);
+	        }
+	        else
+	        {
+	        	return Response::json(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Can not find Household with id:'.$id
+	        		),
+	        		404
+	        	);
+	        }
 		}
 		catch(\Exception $e)
 		{

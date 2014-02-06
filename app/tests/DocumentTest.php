@@ -37,7 +37,7 @@ class DocumentTest extends TestCase {
 		$id = $doc->id;
 
 		//get Document from database
-		$found = \Models\Document::where('id', '=', $id)->with('owner','household')->firstOrFail();
+		$found = \Models\Document::where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";
 		

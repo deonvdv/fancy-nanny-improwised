@@ -32,24 +32,23 @@ class HouseholdTest extends TestCase {
 		$household->critical_information = $faker->paragraph($nbSentences = 3);
 	
 		//Add Documents
-        $doc = new \Models\Document( array('name' => 'doc_name' . $faker->word, 
-        				'private' => $faker->boolean,
-        			    'cdn_url' => $faker->word,         			   
-        			    'file_name' => $faker->word.".".$faker->fileExtension) );
-        //associate owner of document
-        $doc->owner()->associate($user);
-       		
-		$household->addDocument( new \Models\Document( array( 
+        $household->addDocument( new \Models\Document( array( 
 										"name"      => ucwords($faker->bs), 
 										"file_name" => $faker->word.'.'.$faker->fileExtension, 
 										"owner_id"  => $user->id, 
 										"cdn_url"	=> $faker->word,  
 										"private"   => false ) ) );
+
+        //Add Members
 		$household->addMember( $user );
+
+		//Add Messages
 		$household->addMessage( new \Models\Message( array( 
-										"sender_id" => $user->id, 
-										"receiver_id" => $user->id, 
-										"message" => $faker->paragraph($nbSentences = 5) ) ) );
+								"sender_id" => $user->id, 
+								"receiver_id" => $user->id, 
+								"message" => $faker->paragraph($nbSentences = 5) ) ) );
+
+		//Add Tags
 		$household->addTag( new \Models\Tag( array( 
 										'name'         => 'tag 4',
 										'owner_id'     => $user->id,
@@ -61,8 +60,7 @@ class HouseholdTest extends TestCase {
 		$id = $household->id;
 
 		//get Household from database
-		$found = \Models\Household::with( array ('documents'
-						,'members'))->where('id', '=', $id)->firstOrFail();
+		$found = \Models\Household::where('id', '=', $id)->firstOrFail();
 	
 		$this->assertTrue($found->id == $id);
 
@@ -70,20 +68,22 @@ class HouseholdTest extends TestCase {
 		$this->assertTrue($found->id == $household->id);		
 		$this->assertTrue($found->emergency_contacts == $household->emergency_contacts);
 		$this->assertTrue($found->critical_information == $household->critical_information);
-		$this->assertTrue(count($found->documents) == 1 );
-		$this->assertTrue($found->documents[0]->owner->id == $user->id );
-		$this->assertTrue(count($found->members) == 1 );
-		$this->assertTrue($found->members[0]->id == $user->id );
-		$this->assertTrue(count($found->messages) == 1 );
-		$this->assertTrue($found->messages[0]->sender->id == $user->id );
-		$this->assertTrue(count($found->tags) == 1 );
-		$this->assertTrue($found->tags[0]->owner->id == $user->id );
-
+		
 		//Test documents
 		$this->assertTrue(count($found->documents) == 1);
+		$this->assertTrue($found->documents[0]->owner->id == $user->id );
 
 		//Test members
 		$this->assertTrue(count($found->members) == 1);
+		$this->assertTrue($found->members[0]->id == $user->id );
+
+		//Test messages
+		$this->assertTrue(count($found->messages) == 1 );
+		$this->assertTrue($found->messages[0]->sender->id == $user->id );
+
+		//Test tags
+		$this->assertTrue(count($found->tags) == 1 );
+		$this->assertTrue($found->tags[0]->owner->id == $user->id );
 
 		// Delete
 		$this->assertTrue($found->delete());

@@ -35,7 +35,7 @@ class MealTest extends TestCase {
 		$id = $newmeal->id;
 
 		//get Meal from database
-		$found = \Models\Meal::where('id', '=', $id)->with('household')->firstOrFail();
+		$found = \Models\Meal::where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";
 

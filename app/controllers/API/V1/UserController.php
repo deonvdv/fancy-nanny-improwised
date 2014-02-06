@@ -255,59 +255,82 @@ class UserController extends BaseController {
 		}
 	}
 
-	public function picture($user_id)
+	public function picture($id, $page = 1)
 	{
-		$pictures = $this->pictures->getPictursByUser($user_id);
-		$msg = json_decode($pictures);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $pictures->toArray(),
-					'message' => 'Pictures ...'
-					)
-			);
-		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Pictures for User id : '.$user_id
-				),
-				404
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\User::find($id) ) {
+	        $collection = \Models\User::find($id)->pictures()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\User::find($id)->pictures()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Pictures for User id:'.$id
+        		),
+        		404
+        	);
 		}
 	}
 
-	public function recipes($user_id)
+	public function recipes($id, $page = 1)
 	{
-		$notifications = $this->recipes->getRecipesByUser($user_id);
-		$msg = json_decode($notifications);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $notifications->toArray(),
-					'message' => 'Notifications ...'
-					)
-			);
-		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Notifications for User id : '.$user_id
-				),
-				404
-			);
-		}
-		// return $user_id;
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\User::find($id) ) {
+	        $collection = \Models\User::find($id)->recipes()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\User::find($id)->recipes()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Recipes for User id:'.$householdId
+        		),
+        		404
+        	);
+		}		
 	}
 
 	public function indexByHousehold($householdId = 0, $page = 1, $itemPerPage = 20)

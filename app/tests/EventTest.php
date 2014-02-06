@@ -40,8 +40,7 @@ class EventTest extends TestCase {
 		$id = $newevent->id;
 
 		//get Event from database
-		$found = \Models\Event::with( array ('household','owner') )
-						->where('id', '=', $id)->firstOrFail();
+		$found = \Models\Event::where('id', '=', $id)->firstOrFail();
 		
 		$this->assertTrue($found->id == $id);
 

@@ -294,32 +294,46 @@ class RecipeController extends BaseController {
         	);
 		}
 	}
-	public function pictures($recipe_id)
+
+	public function pictures($id, $page = 1)
 	{
-		$pictures = $this->pictures->getPicturesByRecipe($recipe_id);
-		$msg = json_decode($pictures);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $pictures->toArray(),
-					'message' => 'Pictures ...'
-					)
-			);
-		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Pictures for Recipe id : '.$recipe_id
-				),
-				404
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\Recipe::find($id) ) {
+	        $collection = \Models\Recipe::find($id)->pictures()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Recipe::find($id)->pictures()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Pictures for Recipe id:'.$id
+        		),
+        		404
+        	);
 		}
 	}
+
 	public function reviews($recipe_id, $page = 1)
 	{
 		$message 	= array();
@@ -358,56 +372,80 @@ class RecipeController extends BaseController {
         	);
 		}
 	}
-	public function categoried($recipe_id)
+	public function categories($id, $page = 1)
 	{
-		$category = $this->recipes_categories->getCategoryByRecipe($recipe_id);
-		$msg = json_decode($category);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $category->toArray(),
-					'message' => 'Category ...'
-					)
-			);
-		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Category for Recipe id : '.$recipe_id
-				),
-				404
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\Recipe::find($id) ) {
+	        $collection = \Models\Recipe::find($id)->category()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Recipe::find($id)->category()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Category for Recipe id:'.$id
+        		),
+        		404
+        	);
 		}
 	}
-	public function tags($recipe_id)
+	public function tags($id, $page = 1)
 	{
-		$tags = $this->recipe_tags->getTagByRecipes($recipe_id);
-		$msg = json_decode($tags);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $tags->toArray(),
-					'message' => 'Tags ...'
-					)
-			);
-		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find Tags for Recipe id : '.$recipe_id
-				),
-				404
-			);
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\Recipe::find($id) ) {
+	        $collection = \Models\Recipe::find($id)->tags()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Recipe::find($id)->tags()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Tags for Recipe id:'.$id
+        		),
+        		404
+        	);
 		}
 	}
 }

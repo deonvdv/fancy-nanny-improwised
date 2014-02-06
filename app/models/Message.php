@@ -16,23 +16,23 @@ class Message extends BaseModel {
 
 	public function sender()
     {
-        return $this->belongsTo('Models\User');
+        return $this->belongsTo('Models\User','sender_id');
     }
 
 	public function receiver()
     {
-        return $this->belongsTo('Models\User');
+        return $this->belongsTo('Models\User','receiver_id');
     }
 
 
-    public function setSender(\Models\Recipe $recipe) {
+    public function setSender(\Models\User $user) {
+        $this->sender()->associate( $user );
         $this->save();
-        $this->from_user()->associate( $recipe );
     }
 
-    public function setReceiver(\Models\Recipe $recipe) {
+    public function setReceiver(\Models\User $user) {
+        $this->receiver()->associate( $recipe );
         $this->save();
-        $this->to_user()->associate( $recipe );
     }
 
 

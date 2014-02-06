@@ -99,7 +99,7 @@ class RecipeTest extends TestCase {
 		$id = $recipe->id;
 
 		$found = \Models\Recipe::with( array('category','tags','recipe_ingredients') )->where('id', '=', $id)->firstOrFail();
-		print_r($found);
+		//print_r($found);
 
 		$this->assertTrue($found->id == $id);
 

@@ -36,7 +36,7 @@ class TagTest extends TestCase {
 		$id = $tag->id;
 
 		//get Tag from database
-		$found = \Models\Tag::where('id', '=', $id)->with('owner','household')->firstOrFail();
+		$found = \Models\Tag::where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";
 		

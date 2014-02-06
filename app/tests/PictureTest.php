@@ -51,7 +51,7 @@ class PictureTest extends TestCase {
 
 		$id = $pic->id;
 
-		$found = \Models\Picture::with( array('owner') )->where('id', '=', $id)->firstOrFail();
+		$found = \Models\Picture::where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 		echo "\nFound Id: " . $found->id . "\n";
 

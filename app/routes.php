@@ -49,8 +49,8 @@ Route::group(array(
         Route::resource('tag', 'API\V1\TagController');
         Route::get('tags', 'API\V1\TagController@index');
         
-        Route::resource('unit_of_measure', 'API\V1\MeasureUnitController');
-        Route::get('unit_of_measures', 'API\V1\MeasureUnitController@index');
+        Route::resource('units_of_measure', 'API\V1\MeasureUnitController');
+        Route::get('units_of_measures', 'API\V1\MeasureUnitController@index');
         
         Route::resource('ingredient', 'API\V1\IngredientController');
         Route::get('ingredients', 'API\V1\IngredientController@index');
@@ -62,7 +62,7 @@ Route::group(array(
         Route::get('recipes', 'API\V1\RecipeController@index');
         Route::get('recipe/{id}/recipe_ingredients', 'API\V1\RecipeController@recipe_ingredients');
         Route::get('recipe/{id}/pictures', 'API\V1\RecipeController@pictures');
-        Route::get('recipe/{id}/categories', 'API\V1\RecipeController@categoried');
+        Route::get('recipe/{id}/categories', 'API\V1\RecipeController@categories');
         Route::get('recipe/{id}/tags', 'API\V1\RecipeController@tags');
         Route::get('recipe/{id}/reviews', 'API\V1\RecipeController@reviews');
 

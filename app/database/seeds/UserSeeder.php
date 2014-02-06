@@ -36,7 +36,7 @@ class UserTableSeeder extends Seeder {
 
         for ($i = 0; $i < 10; $i++) {
             $tmp = [
-                'name'               => $faker->name,
+                'name'               => $faker->name.' seed user',
                 'household_id'       => $households[rand(0, count($households)-1)]->id,
                 'email'              => $faker->email,
                 'password'           => Hash::make($faker->word . strtoupper($faker->randomLetter) . $faker->randomDigitNotNull . $faker->word),

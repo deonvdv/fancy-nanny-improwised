@@ -22,8 +22,8 @@ class Document extends BaseModel {
     }
 
     public function setHousehold(\Models\Household $household) {
-        $this->save();
         $this->household()->associate( $household );
+        $this->save();
     }
 
 	

@@ -145,6 +145,9 @@ class UserTest extends TestCase {
             $newuser->pictures()->save($pic);
         }
 
+        //Add FavoriteRecipes
+        $newuser->addFavoriteRecipe($recipe);
+
         
 		// Get User from database
 		$found = \Models\User::with( array (
@@ -189,6 +192,9 @@ class UserTest extends TestCase {
         //Test pictures
         $this->assertTrue(count($found->pictures) == 2);
 
+        //Test favoriterecipe
+        $this->assertTrue(count($found->favoriterecipes) == 1);
+
 		// Test User
 		$this->assertTrue($found->id == $newuser->id);
 		$this->assertTrue($found->name == $newuser->name);
@@ -200,4 +206,9 @@ class UserTest extends TestCase {
 		
 	}
 
+    public function testUsersAPI()
+    {
+        $crawler = $this->client->request('GET', '/api/v1/users');
+        $this->assertTrue($this->client->getResponse()->isOk());
+    }
 }

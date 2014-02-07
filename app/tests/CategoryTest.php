@@ -43,4 +43,10 @@ class CategoryTest extends TestCase {
 		$this->assertTrue( $found->delete() );
 	}
 
+	public function testCategoriesAPI()
+	{
+		$crawler = $this->client->request('GET', '/api/v1/categories');
+		$this->assertTrue($this->client->getResponse()->isOk());
+	}
+
 }

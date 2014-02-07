@@ -54,4 +54,10 @@ class MealTest extends TestCase {
 		$this->assertTrue( $found->delete() );
 	}
 
+	public function testMealsAPI()
+	{
+		$crawler = $this->client->request('GET', '/api/v1/meals');
+		$this->assertTrue($this->client->getResponse()->isOk());
+	}
+
 }

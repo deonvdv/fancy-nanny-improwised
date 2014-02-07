@@ -53,4 +53,10 @@ class TagTest extends TestCase {
 		$this->assertTrue( $found->delete() );
 	}
 
+	public function testTagsAPI()
+	{
+		$crawler = $this->client->request('GET', '/api/v1/tags');
+		$this->assertTrue($this->client->getResponse()->isOk());
+	}
+
 }

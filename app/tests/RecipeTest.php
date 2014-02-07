@@ -33,6 +33,7 @@ class RecipeTest extends TestCase {
 		$recipe->cooking_time = "00:15";
 
 		// Assign author
+		print_r($recipe->id);
 		$recipe->setAuthor( $user );
 
 		// assign the category
@@ -138,4 +139,9 @@ class RecipeTest extends TestCase {
 		$this->assertTrue($found->delete());
 	}
 
+	public function testRecipesAPI()
+	{
+		$crawler = $this->client->request('GET', '/api/v1/recipes');
+		$this->assertTrue($this->client->getResponse()->isOk());
+	}
 }

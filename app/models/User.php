@@ -64,6 +64,11 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
         return $this->hasMany('Models\Recipe', 'author_id');
     }
 
+    public function favoriterecipes()
+    {
+    	return $this->belongsToMany('Models\Recipe', 'favorite_recipes');
+    }
+
 	public function tags()
     {
         return $this->hasMany('Models\Tag');
@@ -79,7 +84,10 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
         return $this->morphMany('Models\Picture', 'imageable');
     }
 
-
+    public function addFavoriteRecipe(\Models\Recipe $recipe) {
+        $this->save();
+        $this->favoriterecipes()->attach( $recipe );
+    }
 
 	/**
 	 * Get the unique identifier for the user.

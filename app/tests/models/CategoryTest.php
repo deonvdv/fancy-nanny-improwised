@@ -1,6 +1,8 @@
 <?php
 
-class CategoryTest extends TestCase {
+use \Models;
+
+class CategoryModelTest extends TestCase {
 
 	/**
 	 * A basic functional test example.
@@ -9,6 +11,7 @@ class CategoryTest extends TestCase {
 	 */
 	public function testCanCreateCategorySaveRetrieveAndDelete()
 	{
+		// echo "\nCategory Test...\n";
 
     	$faker = \Faker\Factory::create();
 		
@@ -41,12 +44,6 @@ class CategoryTest extends TestCase {
 
 		// Delete
 		$this->assertTrue( $found->delete() );
-	}
-
-	public function testCategoriesAPI()
-	{
-		$crawler = $this->client->request('GET', '/api/v1/categories');
-		$this->assertTrue($this->client->getResponse()->isOk());
 	}
 
 }

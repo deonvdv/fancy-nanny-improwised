@@ -1,6 +1,8 @@
 <?php
 
-class EventTest extends TestCase {
+use \Models;
+
+class EventModelTest extends TestCase {
 
 	/**
 	 * A basic functional test example.
@@ -9,14 +11,12 @@ class EventTest extends TestCase {
 	 */
 	public function testCanCreateEventSaveAndRetrieve()
 	{
-
+		// echo "\nEvent Test...\n";
+		
     	$faker = \Faker\Factory::create();
 
-    	// Get household
-		$household = \Models\Household::where('name','like','%household')->first();
-		
-		// Get User
-		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();
+		$user = parent::createFakeUserWithFakeHousehold();
+		// print_r( $user );
 
 		$newevent = new \Models\Event();		
         $newevent->title = ucwords($faker->bs);
@@ -30,22 +30,17 @@ class EventTest extends TestCase {
         $newevent->minutes_before = $faker->randomDigitNotNull;
         $newevent->type = 'travel';
 
-        //Set Household
-        $newevent->household()->associate($household);
-                
-        //Set User
-        $newevent->owner()->associate($user);
-        $newevent->save();
+        $newevent->setOwner( $user );
         
         //Add Attendees
-       	$attendees = \Models\User::where('id','!=',$user->id)->take(5)->get();
-       	for($i = 0; $i < count($attendees); $i++){
-       		$newevent->addAttendee($attendees[$i]);
+       	// $attendees = \Models\User::where('id','!=',$user->id)->take(5)->get();
+       	for($i = 0; $i < 2; $i++){
+       		$attendee = parent::createFakeUser( $user->household );
+       		// print_r($attendee);
+       		$newevent->addAttendee($attendee);
        	}
 
 		$id = $newevent->id;
-
-
 
 		//get Event from database
 		$found = \Models\Event::where('id', '=', $id)->firstOrFail();
@@ -63,29 +58,23 @@ class EventTest extends TestCase {
 		$this->assertTrue($found->all_day == $newevent->all_day);
 		$this->assertTrue($found->notify == $newevent->notify);
 		$this->assertTrue($found->minutes_before == $newevent->minutes_before);
-		$this->assertTrue($found->name == $newevent->name);
-		$this->assertTrue($found->name == $newevent->name);
-		$this->assertTrue($found->name == $newevent->name);
+		$this->assertTrue($found->type == $newevent->type);
 
 		//Test Household
 		$this->assertTrue($found->household->id == $newevent->household_id);
-		$this->assertTrue($found->household->name == $household->name);	
 
 		//Test User	
 		$this->assertTrue($found->owner->id == $newevent->owner_id);
-		$this->assertTrue($found->owner->name == $user->name);	
 
 		//Test Attendees
-		$this->assertTrue(count($found->attendees) == count($attendees));
+		$this->assertTrue(count($found->attendees) == 2);
 
+		// echo "\nEvent Test: User Id: " . $user->id;
+		// echo "\nEvent Test: User Household Id: " . $user->household->id . "\n";
+		
 		// Delete
 		$this->assertTrue( $found->delete() );
-	}
 
-	public function testEventsAPI()
-	{
-		$crawler = $this->client->request('GET', '/api/v1/events');
-		$this->assertTrue($this->client->getResponse()->isOk());
 	}
 
 }

@@ -16,6 +16,7 @@ class Document extends BaseModel {
     }
 
     public function setOwner(\Models\User $user) {
+        // print_r($user);
         $this->owner()->associate( $user );
         $this->household()->associate( $user->household );
         $this->save();

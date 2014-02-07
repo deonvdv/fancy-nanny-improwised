@@ -1,6 +1,8 @@
 <?php
 
-class DocumentTest extends TestCase {
+use \Models;
+
+class DocumentModelTest extends TestCase {
 
 	/**
 	 * A basic functional test example.
@@ -9,17 +11,15 @@ class DocumentTest extends TestCase {
 	 */
 	public function testCanCreateDocumentSaveRetrieveAndDelete()
 	{
-
+		// echo "\nDocument Test...\n";
+		
     	$faker = \Faker\Factory::create();
 		
 		// Get the owner
-		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();
-
-		// Get household
-		$household = \Models\Household::where('name','like','%household')->first();
-
-		//associate household
-		$user->household()->associate($household);
+		// $user = \Models\User::with('household')->where('name', '=', 'Deon van der Vyver')->first();
+		$user = parent::createFakeUserWithFakeHousehold();
+		// print_r( $user );
+		// return;
 
 		// Create new Document
 		$fileName = $faker->word.'.'.$faker->fileExtension;
@@ -28,7 +28,6 @@ class DocumentTest extends TestCase {
         $doc->name = ucwords($faker->bs);
         $doc->file_name = $fileName;
         $doc->cdn_url = $faker->url.$faker->uuid."/".$fileName;
-        // $doc->household_id = $curhousehold->id;
         $doc->private = $faker->boolean;
 
 		// set Owner
@@ -45,21 +44,21 @@ class DocumentTest extends TestCase {
 
 		// Test Document
 		$this->assertTrue($found->id == $doc->id);
+		$this->assertTrue($found->owner->id == $user->id);
 		$this->assertTrue($found->name == $doc->name);
 		$this->assertTrue($found->file_name == $doc->file_name);
 		$this->assertTrue($found->cdn_url == $doc->cdn_url);
 		$this->assertTrue($found->private == $doc->private);
-		$this->assertTrue($found->owner->id == $user->id);
-		$this->assertTrue($found->household->id == $user->household->id);
 
+		//Test Household
+		$this->assertTrue($found->household->id == $user->household_id);
+
+		// echo "\nDocument Test: User Id: " . $user->id;
+		// echo "\nDocument Test: User Household Id: " . $user->household->id . "\n";
+	
 		// Delete
 		$this->assertTrue( $found->delete() );
-	}
-
-	public function testDocumentsAPI()
-	{
-		$crawler = $this->client->request('GET', '/api/v1/documents');
-		$this->assertTrue($this->client->getResponse()->isOk());
+		
 	}
 
 }

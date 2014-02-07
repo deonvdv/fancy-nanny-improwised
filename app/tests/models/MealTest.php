@@ -1,6 +1,8 @@
 <?php
 
-class MealTest extends TestCase {
+use \Models;
+
+class MealModelTest extends TestCase {
 
 	/**
 	 * A basic functional test example.
@@ -9,18 +11,12 @@ class MealTest extends TestCase {
 	 */
 	public function testCanCreateMealSaveRetrieveAndDelete()
 	{
-
+		// echo "\nMeal Test...\n";
+		
     	$faker = \Faker\Factory::create();
 		
 		// Get the owner
-		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();
-
-		// Get household
-		$household = \Models\Household::where('name','like','%household')->first();
-
-		// Associate household to user
-		$user->household()->associate($household);
-
+		$user = parent::createFakeUserWithFakeHousehold();
 
 		$newmeal = new \Models\Meal();
 		$newmeal->week_number = 1;
@@ -28,7 +24,7 @@ class MealTest extends TestCase {
 		$newmeal->slot = 'lunch';
 
 		// Associate household 
-		$newmeal->household()->associate($household);
+		$newmeal->household()->associate($user->household);
 		
 		$newmeal->save();
 
@@ -48,16 +44,10 @@ class MealTest extends TestCase {
 		$this->assertTrue($found->slot == $newmeal->slot);
 
 		// Test Household
-		$this->assertTrue($found->household->id == $household->id);
+		$this->assertTrue($found->household->id == $user->household->id);
 
 		// Delete
 		$this->assertTrue( $found->delete() );
-	}
-
-	public function testMealsAPI()
-	{
-		$crawler = $this->client->request('GET', '/api/v1/meals');
-		$this->assertTrue($this->client->getResponse()->isOk());
 	}
 
 }

@@ -29,9 +29,14 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
     );
 
 
+	public function household()
+    {
+        return $this->belongsTo('Models\Household');
+    }
+
 	public function profile_picture()
     {
-        return $this->hasOne('Models\Picture', 'owner_id');
+        return $this->hasOne('Models\Picture', 'id','profile_picture_id');
     }
 
 	public function documents()
@@ -44,14 +49,14 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
         return $this->hasMany('Models\Event', 'owner_id');
     }
 
-	public function household()
+	public function messages_sent()
     {
-        return $this->belongsTo('Models\Household');
+        return $this->hasMany('Models\Message', 'sender_id');
     }
 
-	public function messages()
+	public function messages_received()
     {
-        return $this->hasMany('Models\Message');
+        return $this->hasMany('Models\Message', 'receiver_id');
     }
 
 	public function notifications()
@@ -71,12 +76,12 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	public function tags()
     {
-        return $this->hasMany('Models\Tag');
+        return $this->hasMany('Models\Tag', 'owner_id');
     }
 
 	public function todos()
     {
-        return $this->hasMany('Models\Todo');
+        return $this->hasMany('Models\Todo', 'owner_id');
     }
 
 	public function pictures()
@@ -84,10 +89,77 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
         return $this->morphMany('Models\Picture', 'imageable');
     }
 
+
+
+    public function setHousehold(\Models\Household $household) {
+        $household->save();
+        $this->household_id = $household->id;
+        $this->household()->associate( $household );
+        $this->save();
+    }
+
+    public function addProfilePicture(\Models\Picture $picture) {
+        $picture->owner()->associate( $this );
+        $picture->save();
+        // print_r($picture);
+        $this->save();
+        // $this->profile_picture()->save( $picture );
+        $this->profile_picture_id = $picture->id;
+    }
+
+    public function addDocument(\Models\Document $document) {
+        $this->save();
+        $this->documents()->save( $document );
+    }
+
+    public function addEvent(\Models\Event $event) {
+        $this->save();
+        $this->events()->save( $event );
+    }
+
+    public function addMessageSent(\Models\Message $message) {
+        $this->save();
+        $this->messages_sent()->save( $message );
+    }
+
+    public function addMessageReceived(\Models\Message $message) {
+        $this->save();
+        $this->messages_received()->save( $message );
+    }
+
+    public function addNotification(\Models\Notification $notification) {
+        $this->save();
+        $this->notifications()->save( $notification );
+    }
+
+    public function addRecipe(\Models\Recipe $recipe) {
+        $this->save();
+        $this->recipes()->save( $recipe );
+    }
+
     public function addFavoriteRecipe(\Models\Recipe $recipe) {
         $this->save();
         $this->favoriterecipes()->attach( $recipe );
     }
+
+    public function addTag(\Models\Tag $tag) {
+        $this->save();
+        $this->tags()->save( $tag );
+        $tag->setOwner( $this );      
+    }
+
+    public function addTodo(\Models\Todo $todo) {
+        $this->save();
+        $this->todos()->save( $todo );
+		$todo->setOwner( $this );              
+    }
+
+    public function addPicture(\Models\Picture $picture) {
+        $this->save();
+        $this->pictures()->save( $picture );
+        $picture->setOwner( $this );      
+    }
+
 
 	/**
 	 * Get the unique identifier for the user.

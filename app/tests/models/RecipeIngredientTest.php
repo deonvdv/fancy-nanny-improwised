@@ -1,6 +1,8 @@
 <?php
 
-class RecipeIngredientTest extends TestCase {
+use \Models;
+
+class RecipeIngredientModelTest extends TestCase {
 
 	/**
 	 * A basic functional test example.
@@ -9,17 +11,19 @@ class RecipeIngredientTest extends TestCase {
 	 */
 	public function testCanCreateRecipeIngredientSaveRetrieveAndDelete()
 	{
-
+		// echo "\nRecipeIngredient Test...\n";
+		
     	$faker = \Faker\Factory::create();
 
-    	$recipe = \Models\Recipe::firstOrFail();
+    	$recipe = parent::createFakeRecipe();
+
     	$this->assertNotNull( $recipe );
 
 		
 		$ri = new \Models\RecipeIngredient();
 		$ri->quantity = 3.5;
-		$ri->unit_of_measure()->associate(\Models\UnitOfMeasure::where('name', 'like', 'cup')->first());
-		$ri->ingredient()->associate(\Models\Ingredient::where('name', 'like', 'flour')->first() );
+		$ri->setUnitOfMeasure( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
+		$ri->setIngredient( \Models\Ingredient::where('name', 'like', 'flour')->first() );
 		$ri->setRecipe( $recipe );
 		
 		$id = $ri->id;
@@ -32,14 +36,13 @@ class RecipeIngredientTest extends TestCase {
 		// echo "\nFound Id: " . $found->id . "\n";
 
 		$this->assertTrue($found->id == $id);
+		$this->assertTrue($found->recipe->id == $recipe->id);
 
 		// Test UnitOfMeasure
-		$this->assertTrue($found->id == $ri->id);		
-		$this->assertTrue( count( $found->unit_of_measure ) == 1 );
+		$this->assertTrue( $found->id == $ri->id );		
 		$this->assertTrue( $found->unit_of_measure->name == "cup" );
 
 		// Test Ingredient
-		$this->assertTrue( count( $found->ingredient ) == 1 );
 		$this->assertTrue( $found->ingredient->name == "Flour" );
 
 		// Test Quantity
@@ -50,9 +53,4 @@ class RecipeIngredientTest extends TestCase {
 
 	}
 
-	public function testRecipeIngredientsAPI()
-	{
-		$crawler = $this->client->request('GET', '/api/v1/recipe_ingredients');
-		$this->assertTrue($this->client->getResponse()->isOk());
-	}
 }

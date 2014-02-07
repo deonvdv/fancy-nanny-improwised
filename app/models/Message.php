@@ -30,10 +30,16 @@ class Message extends BaseModel {
         $this->save();
     }
 
-    public function setReceiver(\Models\User $user) {
-        $this->receiver()->associate( $recipe );
-        $this->save();
+    public function setReceiver(\Models\User $user = null) {
+        if ( $user ) {
+            $this->receiver()->associate( $user );
+            $this->save();
+        }
     }
 
+    public function setHousehold(\Models\Household $household) {
+        $this->household()->associate( $household );
+        $this->save();
+    }
 
 }

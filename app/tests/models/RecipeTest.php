@@ -1,6 +1,8 @@
 <?php
 
-class RecipeTest extends TestCase {
+use \Models;
+
+class RecipeModelTest extends TestCase {
 
 	/**
 	 * A basic functional test example.
@@ -9,31 +11,22 @@ class RecipeTest extends TestCase {
 	 */
 	public function testCanCreateRecipeSaveRetrieveAndDelete()
 	{
-
+		// echo "\nRecipe Test...\n";
+		
     	$faker = \Faker\Factory::create();
 		// $this->migrate();
 		// $this->seed();
 
 		// Get Author
-		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();
+		$user = parent::createFakeUserWithFakeHousehold();
 
 		// Get the category
 		$cat = \Models\Category::where('name', '=', 'Ethnic')->first();
 
-		// Get household
-		$household = \Models\Household::where('name','like','%household')->first();
-
-		$recipe = new \Models\Recipe();
-
-		$recipe->name = "Test Recipe";
-		$recipe->description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, similique, ex, facilis, tempore fugit eum nemo at rerum placeat atque magnam minima dolorum provident ut quis animi pariatur veniam ipsa.";
-		$recipe->instructions = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis inventore illo est quam laboriosam veniam esse recusandae placeat error amet. Ea, quae, fuga labore non voluptatibus omnis esse deserunt eum!";
-		$recipe->number_of_portions = 4;
-		$recipe->preparation_time = "00:15";
-		$recipe->cooking_time = "00:15";
+		// Create recipe
+    	$recipe = parent::createFakeRecipe();
 
 		// Assign author
-		print_r($recipe->id);
 		$recipe->setAuthor( $user );
 
 		// assign the category
@@ -58,49 +51,23 @@ class RecipeTest extends TestCase {
 		for($x = 0;$x < 2;$x++) {
 			// echo "Here...\n";
 
-	    	$tmp = array(
-	            'name' => $faker->bs,
-	            'file_name' => $faker->name . "." . $faker->fileExtension,
-	            'cdn_url' => $faker->url,
-	        );
-
-			$pic = new \Models\Picture( $tmp );
-			// print_r($pic);
-			
-			// Add the Picture Owner
-			$pic->owner()->associate($user); 	// I fixed the association (belongsTo)
-
+			$pic = parent::createFakePicture( $user );
 			$recipe->addPicture( $pic );
 		}
 
 		// Add Tags
-		$tag1 = new \Models\Tag( array ('name' => 'tag 3',
-										'household_id' => $household->id,
-										'owner_id' => $user->id,
-										'color' => substr($faker->colorName,0,7)));
+		$tag1 = parent::createFakeTag( $user );
 		$recipe->addTag( $tag1 );
 
-		$tag2 = new \Models\Tag( array ('name' => 'tag 4',
-										'household_id' => $household->id,
-										'owner_id' => $user->id,
-										'color' => substr($faker->colorName,0,7) ) );
+		$tag2 = parent::createFakeTag( $user );
 		$recipe->addTag( $tag2 );
 
 
-
 		// Test		
-		$this->assertTrue($recipe->id !== '');
-		$this->assertTrue($recipe->author_id == $user->id);
-		$this->assertTrue($recipe->category_id == $cat->id);
-		$this->assertTrue($recipe->name == 'Test Recipe');
-		$this->assertTrue($recipe->description == 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, similique, ex, facilis, tempore fugit eum nemo at rerum placeat atque magnam minima dolorum provident ut quis animi pariatur veniam ipsa.');
-		$this->assertTrue($recipe->instructions == 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis inventore illo est quam laboriosam veniam esse recusandae placeat error amet. Ea, quae, fuga labore non voluptatibus omnis esse deserunt eum!');
-		$this->assertTrue($recipe->number_of_portions == 4);
-		
 		$id = $recipe->id;
 
 		$found = \Models\Recipe::with( array('category','tags','recipe_ingredients') )->where('id', '=', $id)->firstOrFail();
-		//print_r($found);
+		// print_r($found);
 
 		$this->assertTrue($found->id == $id);
 
@@ -132,16 +99,10 @@ class RecipeTest extends TestCase {
 		$this->assertTrue($found->description == $recipe->description);
 		$this->assertTrue($found->instructions == $recipe->instructions);
 		$this->assertTrue($found->number_of_portions == $recipe->number_of_portions);
-		$this->assertTrue($found->preparation_time == '00:15:00');
-		$this->assertTrue($found->cooking_time == '00:15:00');
+		$this->assertTrue($found->preparation_time == $recipe->preparation_time);
+		$this->assertTrue($found->cooking_time == $recipe->cooking_time);
 
 		// Delete
 		$this->assertTrue($found->delete());
-	}
-
-	public function testRecipesAPI()
-	{
-		$crawler = $this->client->request('GET', '/api/v1/recipes');
-		$this->assertTrue($this->client->getResponse()->isOk());
 	}
 }

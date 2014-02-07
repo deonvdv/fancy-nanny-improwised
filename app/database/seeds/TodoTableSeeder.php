@@ -8,7 +8,7 @@ class TodoTableSeeder extends Seeder {
     	$todos = array(
     		'id' => $faker->uuid,
     		'household_id' => $faker->uuid,
-            'user_id' => $faker->uuid,
+            'owner_id' => $faker->uuid,
     		'title' => $faker->name,
     		'description' => $faker->text,
     		'due_date' => $faker->date,

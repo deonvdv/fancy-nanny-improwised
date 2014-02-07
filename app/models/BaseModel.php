@@ -13,6 +13,13 @@ class BaseModel extends Eloquent {
 
     protected $softDelete = true;   // Sets allmodels as softDelete
 
+    public function __construct(array $attributes = array()) {
+        parent::__construct( $attributes );
+
+        if ( !$this->id )
+            $this->id = \Rhumsaa\Uuid\Uuid::uuid4()->__toString();
+    }
+
     public static function boot() {
         parent::boot();
         static::creating(function($model) {

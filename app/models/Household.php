@@ -51,6 +51,7 @@ class Household extends BaseModel {
     public function addMember(\Models\User $member) {
         $this->save();
         $this->members()->save( $member );
+        $member->setHousehold( $this );
     }
 
     public function addMessage(\Models\Message $message) {

@@ -15,7 +15,7 @@ class CreateTodosTable extends Migration {
 		Schema::create('todos', function(Blueprint $table) {
 			$table->string('id')->primary();
 			$table->string('household_id', 36)->index();
-			$table->string('user_id', 36)->index();
+			$table->string('owner_id', 36)->index();
 			$table->string('title', 50);
 			$table->text('description');
 			$table->date('due_date');

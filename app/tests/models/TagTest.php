@@ -1,6 +1,8 @@
 <?php
 
-class TagTest extends TestCase {
+use \Models;
+
+class TagModelTest extends TestCase {
 
 	/**
 	 * A basic functional test example.
@@ -9,29 +11,18 @@ class TagTest extends TestCase {
 	 */
 	public function testCanCreateTagSaveRetrieveAndDelete()
 	{
-
+		// echo "\nTag Test...\n";
+		
     	$faker = \Faker\Factory::create();
 
-		
 		// Get the owner
-		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();
-
-		// Get household
-		$household = \Models\Household::where('name','like','%household')->first();
+		$user = parent::createFakeUserWithFakeHousehold();
 
 		// Create new Tag
 		$tag = new \Models\Tag();
         $tag->name = ucwords($faker->bs);
-        $tag->color = substr($faker->colorName,0,7);
-        $tag->tagable_id = $faker->uuid;
-        $tag->tagable_type = $faker->name;
-
-        //associate household to user
-		$user->household()->associate($household);
-        
-		// set Owner
+        $tag->color = $faker->hexcolor;
         $tag->setOwner( $user );
-		
 
 		$id = $tag->id;
 
@@ -51,12 +42,6 @@ class TagTest extends TestCase {
 
 		// Delete
 		$this->assertTrue( $found->delete() );
-	}
-
-	public function testTagsAPI()
-	{
-		$crawler = $this->client->request('GET', '/api/v1/tags');
-		$this->assertTrue($this->client->getResponse()->isOk());
 	}
 
 }

@@ -7,12 +7,23 @@ class Notification extends BaseModel {
 
 	public static $rules = array();
 
-	public function household()
-    {
+	public function user() {
+        return $this->belongsTo('Models\User');
+    }
+
+	public function household() {
         return $this->belongsTo('Models\Household');
     }
 
-	public function getNotificationsByHouseholdes($household_id) {
-		return $this->where('household_id', '=', $household_id)->get();
-	}
+    public function setUser(\Models\User $user) {
+        $this->user()->associate( $user );
+        $this->household()->associate( $user->household );
+        $this->save();
+    }
+
+    public function setHousehold(\Models\Household $household) {
+        $this->household()->associate( $household );
+        $this->save();
+    }
+
 }

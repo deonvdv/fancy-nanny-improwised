@@ -1,6 +1,8 @@
 <?php
 
-class UnitOfMeasureTest extends TestCase {
+use \Models;
+
+class UnitOfMeasureModelTest extends TestCase {
 
 	/**
 	 * A basic functional test example.
@@ -9,7 +11,8 @@ class UnitOfMeasureTest extends TestCase {
 	 */
 	public function testCanCreateUnitOfMeasureSaveRetrieveAndDelete()
 	{
-
+		// echo "\nUnitOfMeasure Test...\n";
+		
     	$faker = \Faker\Factory::create();
 		
 		// Create UnitOfMeasure
@@ -36,12 +39,6 @@ class UnitOfMeasureTest extends TestCase {
 
 		// Delete
 		$this->assertTrue($found->delete());
-	}
-
-	public function testUnitOfMeasuresAPI()
-	{
-		$crawler = $this->client->request('GET', '/api/v1/units_of_measures');
-		$this->assertTrue($this->client->getResponse()->isOk());
 	}
 
 }

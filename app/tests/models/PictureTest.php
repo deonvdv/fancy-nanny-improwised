@@ -1,6 +1,8 @@
 <?php
 
-class PictureTest extends TestCase {
+use \Models;
+
+class PictureModelTest extends TestCase {
 
 	// public function setUp() {
  //        // parent::setUp();
@@ -17,14 +19,15 @@ class PictureTest extends TestCase {
 	 */
 	public function testCanCreatePictureSaveRetrieveAndDelete()
 	{
-
+		// echo "\nPicture Test...\n";
+		
     	$faker = \Faker\Factory::create();
 
 		// $this->migrate();
 		// $this->seed();
 
 		// Get Author
-		$user = \Models\User::where('name', '=', 'Deon van der Vyver')->first();
+		$user = parent::createFakeUserWithFakeHousehold();
 
 		$picture_name = $faker->bs;
 		$filename = $faker->name . "." . $faker->fileExtension;
@@ -35,13 +38,13 @@ class PictureTest extends TestCase {
 		$pic->name = $picture_name;
 		$pic->file_name = $filename;
 		$pic->cdn_url = $cdn;
-		$pic->imageable_id = $faker->uuid;
-		$pic->imageable_type = $faker->name;
+		// $pic->imageable_id = $faker->uuid;
+		// $pic->imageable_type = $faker->name;
 
 		// Add the Picture Owner
 		$pic->setOwner($user);
 
-		$user->pictures()->save($pic);
+		// $user->pictures()->save($pic);
 		
 		$this->assertTrue($pic->id !== '');
 		$this->assertTrue($pic->owner_id == $user->id);
@@ -53,7 +56,7 @@ class PictureTest extends TestCase {
 
 		$found = \Models\Picture::where('id', '=', $id)->firstOrFail();
 		// print_r($found);
-		echo "\nFound Id: " . $found->id . "\n";
+		// echo "\nFound Id: " . $found->id . "\n";
 
 		$this->assertTrue($found->id == $id);
 
@@ -71,9 +74,4 @@ class PictureTest extends TestCase {
 
 	}
 
-	public function testPicturesAPI()
-	{
-		$crawler = $this->client->request('GET', '/api/v1/pictures');
-		$this->assertTrue($this->client->getResponse()->isOk());
-	}
 }

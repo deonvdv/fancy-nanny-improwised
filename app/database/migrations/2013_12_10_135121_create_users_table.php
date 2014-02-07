@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration {
 			$table->enum('role', array('admin', 'parent', 'guardian', 'child', 'staff'));
 			// $table->string('profile_picture');
 			$table->text('app_settings');
+			$table->string('profile_picture_id', 36);
 			
 			$table->softDeletes();
 			$table->timestamps();

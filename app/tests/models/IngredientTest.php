@@ -1,6 +1,8 @@
 <?php
 
-class IngredientTest extends TestCase {
+use \Models;
+
+class IngredientModelTest extends TestCase {
 
 	/**
 	 * A basic functional test example.
@@ -9,7 +11,8 @@ class IngredientTest extends TestCase {
 	 */
 	public function testCanCreateIngredientSaveRetrieveAndDelete()
 	{
-
+		// echo "\nIngredient Test...\n";
+		
     	$faker = \Faker\Factory::create();
 		
 		$newIngredient = new \Models\Ingredient();
@@ -30,12 +33,6 @@ class IngredientTest extends TestCase {
 
 		// Delete
 		$this->assertTrue($found->delete());
-	}
-
-	public function testIngredientsAPI()
-	{
-		$crawler = $this->client->request('GET', '/api/v1/ingredients');
-		$this->assertTrue($this->client->getResponse()->isOk());
 	}
 
 }

@@ -22,6 +22,11 @@ class Event extends BaseModel {
         return $this->morphMany('\Models\Tag', 'tagable');
     }
 
+    public function attendees()
+    {
+        return $this->belongsToMany('Models\User', 'events_attendees');
+    }
+
     public function setOwner(\Models\User $user) {
         $this->save();
         $this->owner()->associate( $user );
@@ -31,6 +36,11 @@ class Event extends BaseModel {
     public function setHousehold(\Models\Household $household) {
         $this->save();
         $this->household()->associate( $household );
+    }
+
+    public function addAttendee(\Models\User $user) {
+        $this->save();
+        $this->attendees()->attach( $user );
     }
 
 }

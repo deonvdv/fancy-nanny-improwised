@@ -29,16 +29,18 @@ class EventTableSeeder extends Seeder {
 
             $curhousehold = $households[rand(0, count($households)-1)];
             $event->household_id = $curhousehold->id;
+            $owner = $users[rand(0, count($users)-1)];
+            $owner->events()->save($event);
 
-            $users[rand(0, count($users)-1)]->events()->save($event);
             $curhousehold->events()->save($event);
 
+            for($j = 0; $j < 5; $j++){
+                $attendee = $users[$j];
+                 if($attendee->id !== $event->owner_id){
+                    $event->addAttendee($attendee);
+                 }
+            }
         }
-
-
-
-
-
 
     }
 }

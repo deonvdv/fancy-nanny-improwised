@@ -215,4 +215,80 @@ class EventController extends BaseController {
 		}
 	}
 
+	public function tags($id, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\Event::find($id) ) {
+	        $collection = \Models\Event::find($id)->tags()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Event::find($id)->tags()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Event Tags Event id:'.$id
+        		),
+        		404
+        	);
+		}
+	}
+
+	public function attendees($id, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\Event::find($id) ) {
+	        $collection = \Models\Event::find($id)->attendees()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Event::find($id)->attendees()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Event Tags Event id:'.$id
+        		),
+        		404
+        	);
+		}
+	}
+
 }

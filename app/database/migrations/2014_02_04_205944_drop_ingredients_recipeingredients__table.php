@@ -12,7 +12,9 @@ class DropIngredientsRecipeingredientsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::drop('ingredients_recipeingredients');
+		if( Schema::hasTable('ingredients_recipeingredients')){
+			Schema::drop('ingredients_recipeingredients');
+		}		
 	}
 
 	/**

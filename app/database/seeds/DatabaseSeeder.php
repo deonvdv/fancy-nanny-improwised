@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder {
 	        'categories',
 	        'documents',
 	        'events',
+	        'evnets_attendees',
 	        'households',
 	        'household_services',
 	        'ingredients',
@@ -39,7 +40,9 @@ class DatabaseSeeder extends Seeder {
 	    ];
 
 	    foreach ($tables as $table) {
-	        DB::table($table)->truncate();
+	    	if(Schema::hasTable($table)){
+	    		DB::table($table)->truncate();
+	    	}	    	       
 	    }
 
 		$this->call('HouseholdTableSeeder');

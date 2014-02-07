@@ -12,7 +12,9 @@ class DropMealsTagsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::drop('meals_tags');
+		if(Schema::hasTable('meals_tags')){
+			Schema::drop('meals_tags');
+		}		
 	}
 
 	/**

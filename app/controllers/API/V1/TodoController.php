@@ -215,4 +215,42 @@ class TodoController extends BaseController {
 		}
 	}
 
+	public function tags($id, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\Todo::find($id) ) {
+	        $collection = \Models\Todo::find($id)->tags()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Todo::find($id)->tags()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find Tags for Todo id:'.$id
+        		),
+        		404
+        	);
+		}
+	}
+
 }

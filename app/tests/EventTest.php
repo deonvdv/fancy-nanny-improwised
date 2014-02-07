@@ -37,7 +37,15 @@ class EventTest extends TestCase {
         $newevent->owner()->associate($user);
         $newevent->save();
         
+        //Add Attendees
+       	$attendees = \Models\User::where('id','!=',$user->id)->take(5)->get();
+       	for($i = 0; $i < count($attendees); $i++){
+       		$newevent->addAttendee($attendees[$i]);
+       	}
+
 		$id = $newevent->id;
+
+
 
 		//get Event from database
 		$found = \Models\Event::where('id', '=', $id)->firstOrFail();
@@ -66,6 +74,9 @@ class EventTest extends TestCase {
 		//Test User	
 		$this->assertTrue($found->owner->id == $newevent->owner_id);
 		$this->assertTrue($found->owner->name == $user->name);	
+
+		//Test Attendees
+		$this->assertTrue(count($found->attendees) == count($attendees));
 
 		// Delete
 		$this->assertTrue( $found->delete() );

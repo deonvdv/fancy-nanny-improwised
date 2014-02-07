@@ -237,56 +237,79 @@ class MealController extends BaseController {
 		}
 	}
 
-	public function recipes($id)
-	{
-		$mealsRecipe = $this->meals_recipes->getMealRecipesByMeal($id);
-		$msg = json_decode($mealsRecipe);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $mealsRecipe->toArray(),
-					'message' => 'MealsRecipes ...'
-					)
-			);
-		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
+	public function recipes($id, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\Meal::find($id) ) {
+	        $collection = \Models\Meal::find($id)->recipes()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Meal::find($id)->recipes()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
 					'message'	=> 'Can not find MealsRecipes for Meal id : '.$id
-				),
-				404
-			);
+        		),
+        		404
+        	);
 		}
 	}
-	public function tags($id)
-	{
-		$mealTags = $this->meals_tags->getMealTagsByMeal($id);
-		$msg = json_decode($mealTags);
-		if(count($msg) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $mealTags->toArray(),
-					'message' => 'MealsTag ...'
-					)
-			);
-		}
-		else
-		{
-			return Response::json(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Can not find MealsTags for Meal id : '.$id
-				),
-				404
-			);
+	
+	public function tags($id, $page = 1){
+		$message 	= array();
+		$page 		= (int) $page < 1 ? 1 : $page;
+		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+		$skip 		= ($page-1)*$itemPerPage;
+
+		if ( \Models\Meal::find($id) ) {
+	        $collection = \Models\Meal::find($id)->tags()->skip($skip)->take($itemPerPage)->get();
+			$itemCount	= \Models\Meal::find($id)->tags()->count();
+			$totalPage 	= ceil($itemCount/$itemPerPage);
+
+			if($collection->isEmpty()){
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return Response::json(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'item_per_page'	=> (int) $itemPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
+		} else {
+        	return Response::json(
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'Can not find MealTags for Meal id : '.$id
+        		),
+        		404
+        	);
 		}
 	}
 }

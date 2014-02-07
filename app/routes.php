@@ -81,7 +81,7 @@ Route::group(array(
         
         Route::resource('todo', 'API\V1\TodoController');
         Route::get('todos', 'API\V1\TodoController@index');
-        Route::get('todo/tags', 'API\V1\TodoController@tags');
+        Route::get('todo/{id}/tags', 'API\V1\TodoController@tags');
 
         Route::resource('document', 'API\V1\DocumentController');
         Route::get('documents', 'API\V1\DocumentController@index');

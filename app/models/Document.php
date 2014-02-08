@@ -5,7 +5,13 @@ namespace Models;
 class Document extends BaseModel {
 	protected $guarded = array('id');
 
-	public static $rules = array();
+	public static $rules = array(
+        'id' => 'required|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
+        'owner_id' => 'required|exists:users,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
+        'household_id' => 'required|exists:households,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
+        'name' => 'required|min:3|max:255',
+        'file_name' => 'required|min:3|max:255',
+	);
 
 	public function owner() {
         return $this->belongsTo('Models\User');

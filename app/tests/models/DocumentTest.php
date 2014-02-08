@@ -61,4 +61,35 @@ class DocumentModelTest extends TestCase {
 		
 	}
 
+	public function testDocumentValidation() {
+    	$faker = \Faker\Factory::create();
+
+		$user = parent::createFakeUserWithFakeHousehold();
+
+		$doc = new \Models\Document();
+        $doc->name = "aa";
+        $doc->file_name = "aa";
+
+		$this->assertFalse( $doc->validate() );
+		// var_dump( $doc->validate() );
+		// var_dump( $doc->errors() );
+		// print_r( $doc->errors()->first("name") );
+		// print_r( $doc->errors()->first("file_name") );
+		// print_r( $doc->errors()->first("household_id") );
+		// print_r( $doc->errors()->first("owner_id") );
+
+		$this->assertTrue( $doc->errors()->first("name") == "The name must be at least 3 characters." );
+		$this->assertTrue( $doc->errors()->first("file_name") == "The file name must be at least 3 characters." );
+		$this->assertTrue( $doc->errors()->first("household_id") == "The household id field is required." );
+		$this->assertTrue( $doc->errors()->first("owner_id") == "The owner id field is required." );
+
+		$doc->name = $faker->text(100);
+		$doc->file_name = $faker->text(100);
+		// set Owner
+        $doc->setOwner( $user );
+
+		$this->assertTrue( $doc->validate() );
+
+	}
+
 }

@@ -2,7 +2,7 @@
 	"name": "fancy-nanny/fancy-nanny",
 	"description": "Fancy Nanny",
 	"require": {
-		"laravel/framework": "4.1.*",
+		"laravel/framework": "v4.1.21",
 		"rhumsaa/uuid": "2.5.*",
 		"fzaninotto/faker": "dev-master"
 	},

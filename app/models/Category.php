@@ -6,31 +6,10 @@ class Category extends BaseModel {
 	protected $guarded = array('id');
 
 	public static $rules = array(            
-        'name' => 'Required|Min:3|Max:255|Alpha',
+		'id' => 'required|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
+		'name'      => 'required|min:3|max:255',
+		'parent_id' => 'exists:categories,id'
     );
-
-    private $errors;
-
-    public function validate() {
-
-        $validator = \Validator::make($this->attributes, static::$rules);
-
-        // check for failure
-        if ( $validator->fails() )
-        {
-            // set errors and return false
-            $this->errors = $validator->messages();
-            return false;
-        }
-
-        // validation pass
-        return true;        
-    }
-
-    public function errors()
-    {
-        return $this->errors;
-    }
 
 	public function recipes()
     {

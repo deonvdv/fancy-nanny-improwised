@@ -20,13 +20,49 @@ class BaseModel extends Eloquent {
             $this->id = \Rhumsaa\Uuid\Uuid::uuid4()->__toString();
     }
 
+    private $errors;
+
+    public function validate() {
+
+        $validator = \Validator::make($this->attributes, static::$rules);
+
+        // check for failure
+        if ( $validator->fails() )
+        {
+            // set errors and return false
+            $this->errors = $validator->messages();
+            return false;
+        }
+
+        // validation pass
+        return true;        
+    }
+
+    public function errors()
+    {
+        return $this->errors;
+    }
+
     public static function boot() {
         parent::boot();
+
         static::creating(function($model) {
-            // echo "Adding Id....\n";
-            // echo "Model: " . print_r($model);
-            $model->id = \Rhumsaa\Uuid\Uuid::uuid4()->__toString();
+            // var_dump($model);
+            if ( !$model->id ) $model->id = \Rhumsaa\Uuid\Uuid::uuid4()->__toString();
+            if ( !$model->validate() ) return false;
         });
+
+        static::updating(function($model) {
+            if ( !$model->id ) $model->id = \Rhumsaa\Uuid\Uuid::uuid4()->__toString();
+            if ( !$model->validate() ) return false;
+        });
+
+        static::saving(function($model) {
+            if ( !$model->id ) $model->id = \Rhumsaa\Uuid\Uuid::uuid4()->__toString();
+            if ( !$model->validate() ) return false;
+        });
+
+
     }
 
     public static function fields(){

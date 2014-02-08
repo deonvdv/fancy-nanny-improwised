@@ -22,10 +22,10 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	protected $hidden = array('password');
 
 	public static $rules = array(
-        "name" => "required|between:4,100", 
-        "email" => "required|email|unique:users", 
-        "household_id" => "required_if:role,parent|required_if:role,gaurdian|required_if:role,child|required_if:role,staff|size:36", 
-		'password' => 'required|alpha_num|min:8',
+  //       "name" => "required|between:4,100", 
+  //       "email" => "required|email|unique:users", 
+  //       "household_id" => "required_if:role,parent|required_if:role,gaurdian|required_if:role,child|required_if:role,staff|size:36", 
+		// 'password' => 'required|alpha_num|min:8',
     );
 
 

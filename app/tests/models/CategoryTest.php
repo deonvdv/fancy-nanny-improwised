@@ -26,6 +26,9 @@ class CategoryModelTest extends TestCase {
 		// $newCategory->parent_id = $cat->id;
 		$newCategory->setParent( $cat );
 		
+		$this->assertTrue( $newCategory->validate() );
+		// echo( $newCategory->errors()->first("name") );
+
 		$newCategory->save();
 
 		$id = $newCategory->id;
@@ -47,12 +50,23 @@ class CategoryModelTest extends TestCase {
 	}
 
 	public function testCategoryValidation() {
+    	$faker = \Faker\Factory::create();
+
 		$newCategory = new \Models\Category();
 		$newCategory->name = "aa";
 
 		$this->assertFalse( $newCategory->validate() );
-		echo( $newCategory->errors()->first("name") );
+		// echo( $newCategory->errors()->first("name") );
 		$this->assertTrue( $newCategory->errors()->first("name") == "The name must be at least 3 characters." );
+
+		$newCategory->name = $faker->sentence(200);
+
+		$this->assertFalse( $newCategory->validate() );
+		// print_r( $newCategory->errors()->first("name") );
+		$this->assertTrue( $newCategory->errors()->first("name") == "The name may not be greater than 255 characters." );
+
+		$newCategory->name = $faker->text(100);
+		$this->assertTrue( $newCategory->validate() );
 
 	}
 

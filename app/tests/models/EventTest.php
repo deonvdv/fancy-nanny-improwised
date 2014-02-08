@@ -77,4 +77,51 @@ class EventModelTest extends TestCase {
 
 	}
 
+	public function testEventValidation() {
+    	$faker = \Faker\Factory::create();
+
+		$user = parent::createFakeUserWithFakeHousehold();
+
+		$event = new \Models\Event();
+        $event->title = "xx";
+        $event->location = "xx";
+        $event->event_date = "xx";
+        $event->start_time = "xx";
+        $event->end_time = "xx";
+        $event->notify = "xx";
+        $event->type = "xx";
+
+		// var_dump( $event->validate() );
+		// var_dump( $event->errors() );
+		$this->assertFalse( $event->validate() );
+		// print_r( $event->errors()->first("name") );
+		// print_r( $event->errors()->first("file_name") );
+		// print_r( $event->errors()->first("household_id") );
+		// print_r( $event->errors()->first("owner_id") );
+
+		$this->assertTrue( $event->errors()->first("owner_id") == "The owner id field is required." );
+		$this->assertTrue( $event->errors()->first("household_id") == "The household id field is required." );
+		$this->assertTrue( $event->errors()->first("title") == "The title must be at least 3 characters." );
+		$this->assertTrue( $event->errors()->first("event_date") == "The event date is not a valid date." );
+		$this->assertTrue( $event->errors()->first("start_time") == "The start time does not match the format H:i:s." );
+		$this->assertTrue( $event->errors()->first("end_time") == "The end time does not match the format H:i:s." );
+
+        $event->title = ucwords($faker->bs);
+        $event->description = $faker->text;
+        $event->location = $faker->address;
+        $event->event_date = $faker->date;
+        $event->start_time = $faker->time($format = 'H:i:s');
+        $event->end_time = $faker->time($format = 'H:i:s');
+        $event->notify = $faker->boolean;
+        $event->type = 'travel';
+
+		// set Owner
+        $event->setOwner( $user );
+
+		// var_dump( $event->validate() );
+		// var_dump( $event->errors() );
+		$this->assertTrue( $event->validate() );
+
+	}
+
 }

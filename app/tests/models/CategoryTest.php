@@ -46,4 +46,14 @@ class CategoryModelTest extends TestCase {
 		$this->assertTrue( $found->delete() );
 	}
 
+	public function testCategoryValidation() {
+		$newCategory = new \Models\Category();
+		$newCategory->name = "aa";
+
+		$this->assertFalse( $newCategory->validate() );
+		echo( $newCategory->errors()->first("name") );
+		$this->assertTrue( $newCategory->errors()->first("name") == "The name must be at least 3 characters." );
+
+	}
+
 }

@@ -17,7 +17,7 @@ class CreateMealsTable extends Migration {
 			$table->string('household_id', 36)->index();
 			$table->smallInteger('week_number')->unsigned();
 			$table->smallInteger('day_of_week')->unsigned();
-			$table->enum('slot', array('breakfast', 'lunch', 'dinner'));
+			$table->string('slot', 100)->index();
 			$table->softDeletes();
 			$table->timestamps();
 		});

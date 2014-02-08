@@ -124,4 +124,13 @@ class EventModelTest extends TestCase {
 
 	}
 
+	public function testInvalidEventCannotSave() {
+
+		$model = new \Models\Event();
+		$model->title = "aa";
+
+		$this->assertFalse( $model->validate() );
+	}
+
+
 }

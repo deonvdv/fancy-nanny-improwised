@@ -41,4 +41,45 @@ class UnitOfMeasureModelTest extends TestCase {
 		$this->assertTrue($found->delete());
 	}
 
+	public function testUnitOfMeasureValidation() {
+    	$faker = \Faker\Factory::create();
+
+		$newUnitOfMeasure = new \Models\UnitOfMeasure();
+		$newUnitOfMeasure->name = "aa";
+		$newUnitOfMeasure->alias = "aa";
+		$newUnitOfMeasure->preferred_alias = "aa";
+
+		$this->assertFalse( $newUnitOfMeasure->validate() );
+		// echo( $newUnitOfMeasure->errors()->first("name") );
+		$this->assertTrue( $newUnitOfMeasure->errors()->first("name") == "The name must be at least 3 characters." );
+		$this->assertTrue( $newUnitOfMeasure->errors()->first("alias") == "The alias must be at least 3 characters." );
+		$this->assertTrue( $newUnitOfMeasure->errors()->first("preferred_alias") == "The preferred alias must be at least 3 characters." );
+
+		$newUnitOfMeasure->name = $faker->sentence(200);
+		$newUnitOfMeasure->alias = $faker->sentence(200);
+		$newUnitOfMeasure->preferred_alias = $faker->sentence(200);
+
+		$this->assertFalse( $newUnitOfMeasure->validate() );
+		// var_dump( $newUnitOfMeasure->errors() );
+		// print_r( $newUnitOfMeasure->errors()->first("name") );
+		$this->assertTrue( $newUnitOfMeasure->errors()->first("name") == "The name may not be greater than 50 characters." );
+		$this->assertTrue( $newUnitOfMeasure->errors()->first("alias") == "The alias may not be greater than 255 characters." );
+		$this->assertTrue( $newUnitOfMeasure->errors()->first("preferred_alias") == "The preferred alias may not be greater than 255 characters." );
+
+		$newUnitOfMeasure->name = $faker->text(20);
+		$newUnitOfMeasure->alias = $faker->text(100);
+		$newUnitOfMeasure->preferred_alias = $faker->text(100);
+		$this->assertTrue( $newUnitOfMeasure->validate() );
+
+		unset($newUnitOfMeasure);
+	}
+
+	public function testInvalidUnitOfMeasureCannotSave() {
+
+		$model = new \Models\UnitOfMeasure();
+		$model->name = "aa";
+
+		$this->assertFalse( $model->validate() );
+	}
+
 }

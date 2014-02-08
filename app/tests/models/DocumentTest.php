@@ -92,4 +92,13 @@ class DocumentModelTest extends TestCase {
 
 	}
 
+	public function testInvalidDocumentCannotSave() {
+
+		$model = new \Models\Document();
+		$model->name = "aa";
+
+		$this->assertFalse( $model->validate() );
+	}
+
+
 }

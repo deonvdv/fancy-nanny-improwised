@@ -54,6 +54,8 @@ class PictureModelTest extends TestCase {
 
 		$id = $pic->id;
 
+		// var_dump( $pic );
+
 		$found = \Models\Picture::where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";
@@ -72,6 +74,42 @@ class PictureModelTest extends TestCase {
 		// Delete
 		$this->assertTrue($found->delete());
 
+	}
+
+	public function testPictureValidation() {
+    	$faker = \Faker\Factory::create();
+
+		$user = parent::createFakeUserWithFakeHousehold();
+
+		$picture = new \Models\Picture();
+        $picture->name = "aa";
+        $picture->file_name = "aa";
+
+		// var_dump( $picture->validate() );
+		// var_dump( $picture->errors() );
+		$this->assertFalse( $picture->validate() );
+
+		$this->assertTrue( $picture->errors()->first("name") == "The name must be at least 3 characters." );
+		$this->assertTrue( $picture->errors()->first("owner_id") == "The owner id field is required." );
+		$this->assertTrue( $picture->errors()->first("file_name") == "The file name must be at least 3 characters." );
+		$this->assertTrue( $picture->errors()->first("imageable_id") == "The imageable id field is required." );
+		$this->assertTrue( $picture->errors()->first("imageable_type") == "The imageable type field is required." );
+
+		$picture->name = $faker->text(100);
+		$picture->file_name = $faker->text(100);
+		// set Owner
+        $picture->setOwner( $user );
+
+		$this->assertTrue( $picture->validate() );
+
+	}
+
+	public function testInvalidPictureCannotSave() {
+
+		$model = new \Models\Picture();
+		$model->name = "aa";
+
+		$this->assertFalse( $model->validate() );
 	}
 
 }

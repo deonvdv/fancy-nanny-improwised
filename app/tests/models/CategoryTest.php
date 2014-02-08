@@ -47,6 +47,8 @@ class CategoryModelTest extends TestCase {
 
 		// Delete
 		$this->assertTrue( $found->delete() );
+
+		unset($newCategory);
 	}
 
 	public function testCategoryValidation() {
@@ -68,6 +70,16 @@ class CategoryModelTest extends TestCase {
 		$newCategory->name = $faker->text(100);
 		$this->assertTrue( $newCategory->validate() );
 
+		unset($newCategory);
 	}
+
+	public function testInvalidCategoryCannotSave() {
+
+		$model = new \Models\Category();
+		$model->name = "aa";
+
+		$this->assertFalse( $model->validate() );
+	}
+
 
 }

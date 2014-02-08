@@ -50,4 +50,48 @@ class MealModelTest extends TestCase {
 		$this->assertTrue( $found->delete() );
 	}
 
+	public function testMealValidation() {
+    	$faker = \Faker\Factory::create();
+
+		$user = parent::createFakeUserWithFakeHousehold();
+
+		$newmeal = new \Models\Meal();
+        $newmeal->week_number = 0;
+        $newmeal->day_of_week = 0;
+        $newmeal->slot = "xx";
+
+		// var_dump( $newmeal->validate() );
+		// var_dump( $newmeal->errors() );
+		$this->assertFalse( $newmeal->validate() );
+		// print_r( $newmeal->errors()->first("name") );
+		// print_r( $newmeal->errors()->first("file_name") );
+		// print_r( $newmeal->errors()->first("household_id") );
+		// print_r( $newmeal->errors()->first("owner_id") );
+
+		$this->assertTrue( $newmeal->errors()->first("household_id") == "The household id field is required." );
+		$this->assertTrue( $newmeal->errors()->first("week_number") == "The week number must be between 1 and 52." );
+		$this->assertTrue( $newmeal->errors()->first("day_of_week") == "The day of week must be between 1 and 7." );
+		$this->assertTrue( $newmeal->errors()->first("slot") == "The slot must be at least 3 characters." );
+
+		$newmeal->week_number = 1;
+		$newmeal->day_of_week = 1;
+		$newmeal->slot = 'lunch';
+
+		// Associate household 
+		$newmeal->household()->associate($user->household);
+
+		// var_dump( $newmeal->validate() );
+		// var_dump( $newmeal->errors() );
+		$this->assertTrue( $newmeal->validate() );
+
+	}
+
+	public function testInvalidMealCannotSave() {
+
+		$model = new \Models\Meal();
+		$model->week_number = 0;
+
+		$this->assertFalse( $model->validate() );
+	}
+
 }

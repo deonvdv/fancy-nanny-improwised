@@ -16,7 +16,7 @@ class CreateNotificationsTable extends Migration {
 			$table->string('id')->primary();
 			$table->string('household_id', 36)->index();
 			$table->string('user_id', 36)->index();
-			$table->string('to', 36);
+			$table->string('to', 255);
 			$table->text('message');
 			$table->string('reference', 50);
 			

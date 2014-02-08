@@ -23,12 +23,14 @@ class BaseModel extends Eloquent {
     private $errors;
 
     public function validate() {
-
+        // echo "Validating....\n";
         $validator = \Validator::make($this->attributes, static::$rules);
 
         // check for failure
         if ( $validator->fails() )
         {
+            // echo "Failed....\n";
+        
             // set errors and return false
             $this->errors = $validator->messages();
             return false;
@@ -47,19 +49,36 @@ class BaseModel extends Eloquent {
         parent::boot();
 
         static::creating(function($model) {
+            // echo "\n\n\n\nCreating....\n";
             // var_dump($model);
             if ( !$model->id ) $model->id = \Rhumsaa\Uuid\Uuid::uuid4()->__toString();
-            if ( !$model->validate() ) return false;
+            if ( !$model->validate() ) {
+                // echo "Returning false....\n";
+                return false;
+            }
         });
 
         static::updating(function($model) {
+            // echo "\n\n\n\nUpdating....\n";
             if ( !$model->id ) $model->id = \Rhumsaa\Uuid\Uuid::uuid4()->__toString();
-            if ( !$model->validate() ) return false;
+            if ( !$model->validate() ) {
+                // echo "Returning false....\n";
+                return false;
+            }
         });
 
         static::saving(function($model) {
+            // echo "\n\n\n\nSaving....\n";
             if ( !$model->id ) $model->id = \Rhumsaa\Uuid\Uuid::uuid4()->__toString();
-            if ( !$model->validate() ) return false;
+
+            $validates = $model->validate();
+            
+            // var_dump($validates);
+            // var_dump($model);
+            if ( !$validates ) {
+                // echo "Returning false....\n";
+                return false;
+            }
         });
 
 

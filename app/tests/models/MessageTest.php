@@ -58,4 +58,42 @@ class MessageModelTest extends TestCase {
 		$this->assertTrue( $found->delete() );
 	}
 
+	public function testMessageValidation() {
+    	$faker = \Faker\Factory::create();
+
+		$user = parent::createFakeUserWithFakeHousehold();
+
+		$msg = new \Models\Message();
+
+		$this->assertFalse( $msg->validate() );
+		// var_dump( $msg->validate() );
+		// var_dump( $msg->errors() );
+		// print_r( $msg->errors()->first("name") );
+		// print_r( $msg->errors()->first("file_name") );
+		// print_r( $msg->errors()->first("household_id") );
+		// print_r( $msg->errors()->first("owner_id") );
+
+		$this->assertTrue( $msg->errors()->first("household_id") == "The household id field is required." );
+		$this->assertTrue( $msg->errors()->first("sender_id") == "The sender id field is required." );
+		$this->assertTrue( $msg->errors()->first("message") == "The message field is required." );
+
+		$msg->setHousehold( $user->household );
+		$msg->message = $faker->text(100);
+		$msg->setSender( $user );
+		$msg->setReceiver( $user );
+
+		// var_dump( $msg->validate() );
+		// var_dump( $msg->errors() );
+		$this->assertTrue( $msg->validate() );
+
+	}
+
+	public function testInvalidMessageCannotSave() {
+
+		$model = new \Models\Message();
+		$model->message = "aa";
+
+		$this->assertFalse( $model->validate() );
+	}
+
 }

@@ -78,7 +78,8 @@ class CategoryModelTest extends TestCase {
 		$model = new \Models\Category();
 		$model->name = "aa";
 
-		$this->assertFalse( $model->validate() );
+		//Try to save data
+		$this->assertFalse($model->save());		
 	}
 
 

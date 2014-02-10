@@ -26,7 +26,8 @@ class MessageModelTest extends TestCase {
 		//Set Household
 		$msg->setHousehold( $sender->household );
 		$msg->message = $faker->text;
-		$msg->setSender( $sender );
+		$msg->sender_id = $sender->id;
+		//$msg->setSender( $sender );
 		$msg->setReceiver( $receiver );
 
 		$msg->save();
@@ -79,8 +80,9 @@ class MessageModelTest extends TestCase {
 
 		$msg->setHousehold( $user->household );
 		$msg->message = $faker->text(100);
-		$msg->setSender( $user );
-		$msg->setReceiver( $user );
+		//$msg->setSender( $user );
+		$msg->sender_id = $user->id;
+		$msg->receiver_id = $user->id;
 
 		// var_dump( $msg->validate() );
 		// var_dump( $msg->errors() );
@@ -93,7 +95,7 @@ class MessageModelTest extends TestCase {
 		$model = new \Models\Message();
 		$model->message = "aa";
 
-		$this->assertFalse( $model->validate() );
+		$this->assertFalse( $model->save() );
 	}
 
 }

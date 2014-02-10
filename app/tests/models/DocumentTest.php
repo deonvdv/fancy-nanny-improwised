@@ -71,7 +71,7 @@ class DocumentModelTest extends TestCase {
         $doc->file_name = "aa";
 
 		$this->assertFalse( $doc->validate() );
-		// var_dump( $doc->validate() );
+		//var_dump( $doc->validate() );
 		// var_dump( $doc->errors() );
 		// print_r( $doc->errors()->first("name") );
 		// print_r( $doc->errors()->first("file_name") );
@@ -85,10 +85,11 @@ class DocumentModelTest extends TestCase {
 
 		$doc->name = $faker->text(100);
 		$doc->file_name = $faker->text(100);
-		// set Owner
-        $doc->setOwner( $user );
-
-		$this->assertTrue( $doc->validate() );
+		$doc->cdn_url = $faker->url.$faker->uuid."/".$doc->fileName;
+		$doc->owner_id = $user->id;
+		$doc->household_id = $user->household_id;
+		
+        $this->assertTrue( $doc->validate() );
 
 	}
 
@@ -97,7 +98,7 @@ class DocumentModelTest extends TestCase {
 		$model = new \Models\Document();
 		$model->name = "aa";
 
-		$this->assertFalse( $model->validate() );
+		$this->assertFalse( $model->save() );
 	}
 
 

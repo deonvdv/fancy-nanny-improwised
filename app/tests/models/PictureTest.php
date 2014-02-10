@@ -97,6 +97,7 @@ class PictureModelTest extends TestCase {
 
 		$picture->name = $faker->text(100);
 		$picture->file_name = $faker->text(100);
+		$picture->cdn_url = $faker->url;
 		// set Owner
         $picture->setOwner( $user );
 

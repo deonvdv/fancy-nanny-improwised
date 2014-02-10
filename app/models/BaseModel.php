@@ -29,7 +29,7 @@ class BaseModel extends Eloquent {
         // check for failure
         if ( $validator->fails() )
         {
-            // echo "Failed....\n";
+            //echo "Failed....\n";
         
             // set errors and return false
             $this->errors = $validator->messages();
@@ -78,10 +78,23 @@ class BaseModel extends Eloquent {
             if ( !$validates ) {
                 // echo "Returning false....\n";
                 return false;
-            }
+            }            
         });
 
 
+    }
+
+    public function save(array $options = array())
+    {
+        $validates = $this->validate();
+            
+        // var_dump($validates);
+        // var_dump($model);
+        if ( !$validates ) {
+            // echo "Returning false....\n";
+            return false;
+        }              
+       parent::save($options);
     }
 
     public static function fields(){

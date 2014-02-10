@@ -62,7 +62,7 @@ class IngredientModelTest extends TestCase {
 		$model = new \Models\Ingredient();
 		$model->name = "aa";
 
-		$this->assertFalse( $model->validate() );
+		$this->assertFalse( $model->save() );
 	}
 
 }

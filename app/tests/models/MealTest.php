@@ -91,7 +91,7 @@ class MealModelTest extends TestCase {
 		$model = new \Models\Meal();
 		$model->week_number = 0;
 
-		$this->assertFalse( $model->validate() );
+		$this->assertFalse( $model->save() );
 	}
 
 }

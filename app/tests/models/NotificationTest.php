@@ -74,6 +74,7 @@ class NotificationModelTest extends TestCase {
 
 		$notification->to = $faker->text(100);
 		$notification->message = $faker->text(100);
+		$notification->reference = $user->id;
 		// set Owner
         $notification->setUser( $user );
 
@@ -86,7 +87,7 @@ class NotificationModelTest extends TestCase {
 		$model = new \Models\Notification();
 		$model->to = "aa";
 
-		$this->assertFalse( $model->validate() );
+		$this->assertFalse( $model->save() );
 	}
 
 }

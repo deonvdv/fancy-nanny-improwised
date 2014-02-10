@@ -77,4 +77,29 @@ class HouseholdModelTest extends TestCase {
 		$this->assertTrue($found->delete());
 	}
 
+	public function testHouseholdValidation() {
+    	$faker = \Faker\Factory::create();
+
+		$household = new \Models\Household();
+        $household->name = "aa";
+       
+		$this->assertFalse( $household->validate() );
+		//print_r( $household->errors()->first("name") );
+		
+		$this->assertTrue( $household->errors()->first("name") == "The name must be between 4 and 255 characters." );
+		
+		$household->name = $faker->text(100);
+		
+        $this->assertTrue( $household->validate() );
+
+	}
+
+	public function testInvalidDocumentCannotSave() {
+
+		$model = new \Models\Household();
+		$model->name = "aa";
+
+		$this->assertFalse( $model->save() );
+	}
+
 }

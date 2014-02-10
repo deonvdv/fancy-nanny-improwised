@@ -22,12 +22,16 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertTrue( true );
 	}
 
-	public function createFakeUser(\Models\Household $household = null) {
+	public function createFakeUser(\Models\Household $household = null,\Models\Picture $profilepic = null) {
     	$faker = \Faker\Factory::create();
 		
 		// Get household
 		$roles = ['parent','guardian','child','staff'];
 		
+		if(!$profilepic){
+			$profilepic = $this->createFakePicture();
+		}		
+
 		$tmp = [
             'name'               => $faker->name.' seed user',
             'email'              => $faker->email,
@@ -41,13 +45,18 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
             'work_number'        => $faker->optional($weight = 0.5)->phoneNumber,
             'role'               => $roles[rand(0, 3)],
             'app_settings'       => json_encode( array("preferred_notification" => rand(0, 1) ? 'email' : 'text' ) ),
+        	'profile_picture_id' => $profilepic->id,
         ];
 
         // var_dump($tmp);
         $user = new \Models\User( $tmp );
 
-        if ( $household )
-        	$user->setHousehold( $household );
+        if(!$household){
+        	$household = $this->createFakeHousehold();
+        }
+
+        $user->setHousehold( $household );
+        
 
         $user->save();
 
@@ -77,12 +86,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	}
 
 	public function createFakeUserWithFakeHousehold() {
-		$user = $this->createFakeUser();
 		$household = $this->createFakeHousehold();
-		$user->setHousehold($household);
-		// - OR -
-		// $household->addMember($user);
-
+		$profilepic = $this->createFakePicture();
+		$user = $this->createFakeUser($household, $profilepic);
 		return $user;
 	}
 
@@ -143,8 +149,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$recipe->number_of_portions = $faker->randomDigit;
 		$recipe->preparation_time = $faker->time;
 		$recipe->cooking_time = $faker->time;
-
-		$recipe->save();
+		$user = $this->createFakeUser();
+		$recipe->setAuthor($user);
+		//$recipe->save();
 
 		return $recipe;
 	}

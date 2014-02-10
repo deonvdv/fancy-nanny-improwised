@@ -121,7 +121,6 @@ class EventModelTest extends TestCase {
 		// var_dump( $event->validate() );
 		// var_dump( $event->errors() );
 		$this->assertTrue( $event->validate() );
-
 	}
 
 	public function testInvalidEventCannotSave() {
@@ -129,7 +128,7 @@ class EventModelTest extends TestCase {
 		$model = new \Models\Event();
 		$model->title = "aa";
 
-		$this->assertFalse( $model->validate() );
+		$this->assertFalse( $model->save() );
 	}
 
 

@@ -46,9 +46,9 @@ class DatabaseSeeder extends Seeder {
 	    }
 
 		$this->call('HouseholdTableSeeder');
+		$this->call('PictureTableSeeder');
 		$this->call('UserTableSeeder');
-	    $this->call('MessageTableSeeder');
-	    $this->call('PictureTableSeeder');
+	    $this->call('MessageTableSeeder');	    
 	    $this->call('IngredientTableSeeder');
 	    $this->call('UnitOfMeasureTableSeeder');
 	    $this->call('TagTableSeeder');

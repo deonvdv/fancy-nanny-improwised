@@ -9,6 +9,7 @@ class UserTableSeeder extends Seeder {
 
         // Use Faker - https://github.com/fzaninotto/Faker
         $faker = \Faker\Factory::create();
+        $picture = \Models\Picture::firstOrFail();
 
         $tmp = [
             'name'               => "Deon van der Vyver",
@@ -24,6 +25,7 @@ class UserTableSeeder extends Seeder {
             'work_number'        => "",
             'role'               => "admin",
             'app_settings'       => json_encode( array("preferred_notification" => 'email' ) ),
+            'profile_picture_id' => $picture->id,
         ];
         // print_r($tmp);
 
@@ -50,7 +52,7 @@ class UserTableSeeder extends Seeder {
                 'role'               => $roles[rand(0, 3)],
                 // 'active'             => $i === 0 ? true : rand(0, 1),
                 'app_settings'       => json_encode( array("preferred_notification" => rand(0, 1) ? 'email' : 'text' ) ),
-
+                'profile_picture_id' => $picture->id,
                 // // 'active'             => $i === 0 ? true : rand(0, 1),
                 // // 'gender'             => rand(0, 1) ? 'male' : 'female',
                 // // 'timezone'           => mt_rand(-10, 10),

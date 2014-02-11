@@ -10,9 +10,9 @@ class UnitOfMeasure extends BaseModel {
 
 	public static $rules = array(            
 		'id'              => 'required|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
-		'name'            => 'required|min:3|max:50',
-		'alias'           => 'required|min:3|max:255',
-		'preferred_alias' => 'required|min:3|max:255',
+		'name'            => 'required|min:1|max:50',
+		'alias'           => 'required|min:1|max:255',
+		'preferred_alias' => 'required|min:1|max:255',
     );
 
 	public function recipe_ingredient()

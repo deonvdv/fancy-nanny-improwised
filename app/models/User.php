@@ -101,6 +101,8 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
     public function addProfilePicture(\Models\Picture $picture) {
         $this->profile_picture_id = $picture->id;
         $picture->owner()->associate( $this );
+        $picture->imageable_id = $this->id;
+        $picture->imageable_type = 'Profile Picture';
         $picture->save();
         // print_r($picture);
         $this->save();

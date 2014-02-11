@@ -79,7 +79,7 @@ class NotificationModelTest extends TestCase {
         $notification->setUser( $user );
 
 		$this->assertTrue( $notification->validate() );
-
+		unset($notification);
 	}
 
 	public function testInvalidNotificationCannotSave() {

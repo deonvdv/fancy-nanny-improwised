@@ -34,7 +34,7 @@ class RecipeModelTest extends TestCase {
 
 		// Do RecipeIngredients
 		$recipe_ingredient1 = new \Models\RecipeIngredient();
-		$recipe_ingredient1->unit_of_measure()->associate( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
+		$recipe_ingredient1->unit_of_measure()->associate( \Models\UnitOfMeasure::where('name', 'like', '%spoon%')->first() );
 		$recipe_ingredient1->ingredient()->associate( \Models\Ingredient::where('name', 'like', 'flour')->first() );
 		$recipe_ingredient1->quantity = 2.5;
 		$recipe->addRecipeIngredient( $recipe_ingredient1 );
@@ -104,5 +104,49 @@ class RecipeModelTest extends TestCase {
 
 		// Delete
 		$this->assertTrue($found->delete());
+	}
+
+	public function testRecipeValidation() {
+    	$faker = \Faker\Factory::create();
+
+    	$user = parent::createFakeUserWithFakeHousehold();
+
+		$recipe = new \Models\Recipe();
+       
+       	$this->assertFalse( $recipe->validate() );
+
+       	print_r($recipe->errors()->first("name"));
+       	print_r($recipe->errors()->first("description"));
+       	print_r($recipe->errors()->first("instructions"));
+
+       	print_r($recipe->errors()->first("preparation_time"));
+       	print_r($recipe->errors()->first("cooking_time"));
+       	print_r($recipe->errors()->first("author_id"));
+
+		$this->assertTrue( $recipe->errors()->first("name") == "The name field is required." );
+		$this->assertTrue( $recipe->errors()->first("description") == "The description field is required." );
+		$this->assertTrue( $recipe->errors()->first("instructions") == "The instructions field is required." );
+		$this->assertTrue( $recipe->errors()->first("preparation_time") == "The preparation time field is required." );
+		$this->assertTrue( $recipe->errors()->first("cooking_time") == "The cooking time field is required." );
+		$this->assertTrue( $recipe->errors()->first("author_id") == "The author id field is required." );
+		
+		$recipe->name = $faker->name;
+		$recipe->description = $faker->text;
+		$recipe->instructions = $faker->text;
+		$recipe->number_of_portions = $faker->randomDigit;
+		$recipe->preparation_time = $faker->time;
+		$recipe->cooking_time = $faker->time;
+		$recipe->setAuthor($user);
+
+		$this->assertTrue( $recipe->validate() );
+		unset($recipe);
+	}
+
+	public function testInvalidRecipeCannotSave() {
+
+		$model = new \Models\Recipe();
+		$model->quantity = 5;
+
+		$this->assertFalse( $model->save() );
 	}
 }

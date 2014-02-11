@@ -106,10 +106,13 @@ class UserModelTest extends TestCase {
                         'description' => $faker->text,
                         'due_date' => $faker->date,
                         'is_complete' => $faker->boolean,
-                        'notify' => $faker->name,
+                        'notify' => $faker->name,    
+                        'assigned_by' => $newuser->id,
+                        'assigned_to' => $newuser->id,                   
                         'minutes_before' => $faker->randomDigitNotNull));
-        $todo->setAssignedBy( $newuser );
-        $todo->setAssignedTo( $newuser );
+        $todo->setOwner( $newuser );
+        //$todo->setAssignedBy( $newuser );
+        //$todo->setAssignedTo( $newuser );
         // $newuser->todos()->save($todo);
         $newuser->addTodo( $todo );
         // print_r( $newuser );
@@ -119,9 +122,9 @@ class UserModelTest extends TestCase {
         //Add Pictures
         for($x = 0;$x < 2;$x++) {
             // echo "Here...\n";
-            $pic = parent::createFakePicture();
+            $pic = parent::createFakePicture($newuser);
             $newuser->addPicture( $pic );
-            // print_r($pic);
+            //print_r($pic);
         }
         // return;
 
@@ -134,7 +137,7 @@ class UserModelTest extends TestCase {
         
 		// Get User from database
 		$found = \Models\User::with( array (
-                        'profile_picture','documents',
+                        'documents','profile_picture',
 			            'events','household', 
                         'messages_sent',
                         'messages_received',
@@ -145,14 +148,10 @@ class UserModelTest extends TestCase {
 		$this->assertTrue($found->id == $id);
         // echo "Found User Id: " . $found->id . "\n";
 
-		// //Test profile_picture
-  //       echo $found->profile_picture->id . "\n";
-  //       echo $profilepic->id . "\n";
-  //       echo "Found Profile Pic Id: " . $found->profile_picture->id . "\n";
-
-		$this->assertTrue($found->profile_picture->id == $profilepic->id);
-		$this->assertTrue($found->profile_picture->name == $profilepic->name);
-		$this->assertTrue($found->profile_picture->cdn_url == $profilepic->cdn_url);
+		//Test profile_picture
+        // echo $found->profile_picture->id . "\n";
+        // echo $profilepic->id . "\n";
+        // echo "Found Profile Pic Id: " . $found->profile_picture->id . "\n";
 
 		//Test documents
 		$this->assertTrue(count($found->documents) == 1);
@@ -180,6 +179,7 @@ class UserModelTest extends TestCase {
         $this->assertTrue(count($found->todos) == 1);
 
         //Test pictures
+        print_r('pictures:'.count($found->pictures));
         $this->assertTrue(count($found->pictures) == 2);
 
         //Test favoriterecipe
@@ -192,7 +192,7 @@ class UserModelTest extends TestCase {
 		$this->assertTrue($found->city == $newuser->city);
 
 		// Delete
-		// $this->assertTrue($found->delete());
+		$this->assertTrue($found->delete());
 		
 	}
 

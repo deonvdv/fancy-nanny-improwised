@@ -5,7 +5,16 @@ namespace Models;
 class Recipe extends BaseModel {
 	protected $guarded = array('id');
 
-	public static $rules = array();
+	public static $rules = array(
+        'id' => 'required|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
+        'author_id' => 'required|exists:users,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
+        'name' => 'required|min:3|max:255',
+        'description' => 'required|min:1|max:255',
+        'instructions' => 'required|min:1|max:255',       
+        'preparation_time' => 'required|date_format:H:i:s',
+        'cooking_time' => 'required|date_format:H:i:s',    
+        'category_id' => 'exists:categories,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',   
+    );
 
     public function reviews() {
         return $this->hasMany('Models\RecipeReview');

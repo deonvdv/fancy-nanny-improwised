@@ -45,15 +45,18 @@ class UnitOfMeasureModelTest extends TestCase {
     	$faker = \Faker\Factory::create();
 
 		$newUnitOfMeasure = new \Models\UnitOfMeasure();
-		$newUnitOfMeasure->name = "aa";
-		$newUnitOfMeasure->alias = "aa";
-		$newUnitOfMeasure->preferred_alias = "aa";
+		$newUnitOfMeasure->name = "";
+		$newUnitOfMeasure->alias = "";
+		$newUnitOfMeasure->preferred_alias = "";
 
 		$this->assertFalse( $newUnitOfMeasure->validate() );
-		// echo( $newUnitOfMeasure->errors()->first("name") );
-		$this->assertTrue( $newUnitOfMeasure->errors()->first("name") == "The name must be at least 3 characters." );
-		$this->assertTrue( $newUnitOfMeasure->errors()->first("alias") == "The alias must be at least 3 characters." );
-		$this->assertTrue( $newUnitOfMeasure->errors()->first("preferred_alias") == "The preferred alias must be at least 3 characters." );
+		//echo( $newUnitOfMeasure->errors()->first("name") );
+		$this->assertTrue( $newUnitOfMeasure->errors()->first("name") == "The name field is required." );
+		$this->assertTrue( $newUnitOfMeasure->errors()->first("alias") == "The alias field is required." );
+		$this->assertTrue( $newUnitOfMeasure->errors()->first("preferred_alias") == "The preferred alias field is required." );
+
+		//$this->assertTrue( $newUnitOfMeasure->errors()->first("alias") == "The alias must be at least 3 characters." );
+		//$this->assertTrue( $newUnitOfMeasure->errors()->first("preferred_alias") == "The preferred alias must be at least 3 characters." );
 
 		$newUnitOfMeasure->name = $faker->sentence(200);
 		$newUnitOfMeasure->alias = $faker->sentence(200);

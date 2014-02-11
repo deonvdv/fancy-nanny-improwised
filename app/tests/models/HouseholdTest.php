@@ -91,6 +91,7 @@ class HouseholdModelTest extends TestCase {
 		$household->name = $faker->text(100);
 		
         $this->assertTrue( $household->validate() );
+        unset($household);
 
 	}
 

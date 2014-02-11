@@ -102,7 +102,7 @@ class PictureModelTest extends TestCase {
         $picture->setOwner( $user );
 
 		$this->assertTrue( $picture->validate() );
-
+		unset($picture);
 	}
 
 	public function testInvalidPictureCannotSave() {

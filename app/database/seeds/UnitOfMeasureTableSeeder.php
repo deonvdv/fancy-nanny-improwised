@@ -26,7 +26,7 @@ class UnitOfMeasureTableSeeder extends Seeder {
     		array('name' => 'cm', 'alias' => 'centimeter, centimetre', 'preferred_alias' => 'cm'),
     		array('name' => 'm', 'alias' => 'meter, metre', 'preferred_alias' => 'm'),
     		array('name' => 'inch', 'alias' => 'in', 'preferred_alias' => 'in'),
-    		array('name' => 'pinch', 'alias' => '', 'preferred_alias' => 'pinch'),
+    		array('name' => 'pinch', 'alias' => 'pinch', 'preferred_alias' => 'pinch'),
     	);
 
     	foreach($units_of_measure as $unit) {

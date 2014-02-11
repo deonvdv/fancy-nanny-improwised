@@ -18,7 +18,13 @@ namespace Models;
 class RecipeIngredient extends BaseModel {
 	protected $guarded = array('id');
 
-	public static $rules = array();
+	public static $rules = array(            
+        'id'                    => 'required|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
+        'recipe_id'             => 'required|exists:recipes,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
+        'quantity'              => 'required',
+        'unit_of_measure_id'    => 'required|exists:units_of_measure,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
+        'ingredient_id'         => 'required|exists:ingredients,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
+    );
 
     public function recipe()
     {
@@ -38,17 +44,17 @@ class RecipeIngredient extends BaseModel {
 
     public function setRecipe(\Models\Recipe $recipe) {
         $this->recipe()->associate( $recipe );
-        $this->save();
+        $this->save();   
     }
 
     public function setUnitOfMeasure(\Models\UnitOfMeasure $unit_of_measure) {
-        $this->save();
         $this->unit_of_measure()->associate( $unit_of_measure );
+        $this->save();
     }
 
     public function setIngredient(\Models\Ingredient $ingredient) {
-        $this->save();
         $this->ingredient()->associate( $ingredient );
+        $this->save(); 
     }
 
 }

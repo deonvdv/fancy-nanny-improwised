@@ -83,6 +83,7 @@ class MealModelTest extends TestCase {
 		// var_dump( $newmeal->validate() );
 		// var_dump( $newmeal->errors() );
 		$this->assertTrue( $newmeal->validate() );
+		unset($newmeal);
 
 	}
 

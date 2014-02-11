@@ -25,7 +25,7 @@ class RecipeIngredientModelTest extends TestCase {
 		$ri->setUnitOfMeasure( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
 		$ri->setIngredient( \Models\Ingredient::where('name', 'like', 'flour')->first() );
 		$ri->setRecipe( $recipe );
-		
+		$ri->save();
 		$id = $ri->id;
 
 		$this->assertTrue($ri->id != "");
@@ -53,4 +53,38 @@ class RecipeIngredientModelTest extends TestCase {
 
 	}
 
+	public function testRecipeIngredientValidation() {
+    	$faker = \Faker\Factory::create();
+
+		$recipe = parent::createFakeRecipe();
+
+		$ri = new \Models\RecipeIngredient();
+       
+       	$this->assertFalse( $ri->validate() );
+
+       	// print_r($ri->errors()->first("recipe_id"));
+       	// print_r($ri->errors()->first("quantity"));
+       	// print_r($ri->errors()->first("unit_of_measure_id"));
+       	// print_r($ri->errors()->first("ingredient_id"));
+
+		$this->assertTrue( $ri->errors()->first("recipe_id") == "The recipe id field is required." );
+		$this->assertTrue( $ri->errors()->first("quantity") == "The quantity field is required." );
+		$this->assertTrue( $ri->errors()->first("unit_of_measure_id") == "The unit of measure id field is required." );
+		$this->assertTrue( $ri->errors()->first("ingredient_id") == "The ingredient id field is required." );
+
+		$ri->quantity = 2;
+		$ri->setUnitOfMeasure( \Models\UnitOfMeasure::where('name', 'like', 'cup')->first() );
+		$ri->setIngredient( \Models\Ingredient::where('name', 'like', 'flour')->first() );
+		$ri->setRecipe($recipe);
+		$this->assertTrue( $ri->validate() );
+		unset($ri);
+	}
+
+	public function testInvalidRecipeIngredientCannotSave() {
+
+		$model = new \Models\RecipeIngredient();
+		$model->quantity = 5;
+
+		$this->assertFalse( $model->save() );
+	}
 }

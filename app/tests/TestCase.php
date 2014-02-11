@@ -117,6 +117,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 		$msg = new \Models\Message( array( 
 			"sender_id" => $sender->id, 
+			"household_id" => $sender->household->id,
 			"receiver_id" => ($receiver) ? $receiver->id : '', 
 			"message" => $faker->paragraph($nbSentences = 5) ) );
 
@@ -162,15 +163,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     	$tmp = array(
             'name' => $faker->bs,
             'file_name' => $faker->name . "." . $faker->fileExtension,
-            'cdn_url' => $faker->url,
+            'cdn_url' => $faker->url,           
         );
 
 		$pic = new \Models\Picture( $tmp );
 		
 		// Add the Picture Owner
 		if ( $owner )
-			$pic->owner()->associate($owner);
-
+			$pic->owner()->associate($owner);			
+		
 		return $pic;
 
 	}

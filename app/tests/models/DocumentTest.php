@@ -90,7 +90,7 @@ class DocumentModelTest extends TestCase {
 		$doc->household_id = $user->household_id;
 		
         $this->assertTrue( $doc->validate() );
-
+        unset($doc);
 	}
 
 	public function testInvalidDocumentCannotSave() {

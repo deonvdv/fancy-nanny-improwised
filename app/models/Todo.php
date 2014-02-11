@@ -40,8 +40,8 @@ class Todo extends BaseModel {
     }
 
     public function setHousehold(\Models\Household $household) {
-        $this->save();
         $this->household()->associate( $household );
+        $this->save();
     }
 
     public function setAssignedBy(\Models\User $user) {

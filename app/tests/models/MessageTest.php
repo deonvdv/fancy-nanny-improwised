@@ -87,7 +87,7 @@ class MessageModelTest extends TestCase {
 		// var_dump( $msg->validate() );
 		// var_dump( $msg->errors() );
 		$this->assertTrue( $msg->validate() );
-
+		unset($msg);
 	}
 
 	public function testInvalidMessageCannotSave() {

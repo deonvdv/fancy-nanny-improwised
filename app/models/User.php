@@ -22,10 +22,17 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	protected $hidden = array('password');
 
 	public static $rules = array(
-  //       "name" => "required|between:4,100", 
-  //       "email" => "required|email|unique:users", 
-  //       "household_id" => "required_if:role,parent|required_if:role,gaurdian|required_if:role,child|required_if:role,staff|size:36", 
+           "name" => "required|between:4,100", 
+           "email" => "required|email", 
+           // "household_id" => "required_if:role,parent|required_if:role,gaurdian|
+           //  required_if:role,child|required_if:role,staff|
+           //  regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/", 
 		// 'password' => 'required|alpha_num|min:8',
+            "street" => "required|between:3,100",
+            "city"   => "required|between:2,50",
+            "zip"    => "required|between:5,20",
+            "country" => "required|between:2,50",
+
     );
 
 
@@ -86,7 +93,8 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	public function pictures()
     {
-        return $this->morphMany('Models\Picture', 'imageable');
+        //return $this->morphMany('Models\Picture', 'imageable');
+        return $this->hasMany('Models\Picture', 'owner_id');
     }
 
 

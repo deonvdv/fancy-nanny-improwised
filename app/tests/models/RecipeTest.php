@@ -115,13 +115,13 @@ class RecipeModelTest extends TestCase {
        
        	$this->assertFalse( $recipe->validate() );
 
-       	print_r($recipe->errors()->first("name"));
-       	print_r($recipe->errors()->first("description"));
-       	print_r($recipe->errors()->first("instructions"));
+       	// print_r($recipe->errors()->first("name"));
+       	// print_r($recipe->errors()->first("description"));
+       	// print_r($recipe->errors()->first("instructions"));
 
-       	print_r($recipe->errors()->first("preparation_time"));
-       	print_r($recipe->errors()->first("cooking_time"));
-       	print_r($recipe->errors()->first("author_id"));
+       	// print_r($recipe->errors()->first("preparation_time"));
+       	// print_r($recipe->errors()->first("cooking_time"));
+       	// print_r($recipe->errors()->first("author_id"));
 
 		$this->assertTrue( $recipe->errors()->first("name") == "The name field is required." );
 		$this->assertTrue( $recipe->errors()->first("description") == "The description field is required." );

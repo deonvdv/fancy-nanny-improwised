@@ -179,8 +179,8 @@ class UserModelTest extends TestCase {
         $this->assertTrue(count($found->todos) == 1);
 
         //Test pictures
-        print_r('pictures:'.count($found->pictures));
-        $this->assertTrue(count($found->pictures) == 2);
+        //print_r('pictures:'.count($found->pictures));
+        $this->assertTrue(count($found->pictures) == 3);
 
         //Test favoriterecipe
         $this->assertTrue(count($found->favoriterecipes) == 1);
@@ -195,5 +195,59 @@ class UserModelTest extends TestCase {
 		$this->assertTrue($found->delete());
 		
 	}
+
+    public function testUserValidation() {
+        $faker = \Faker\Factory::create();
+
+        $newuser = new \Models\User();
+        $newuser->name = "";
+        $newuser->email = "";
+        
+        $this->assertFalse( $newuser->validate() );
+        
+        $this->assertTrue( $newuser->errors()->first("name") == "The name field is required." );
+        $this->assertTrue( $newuser->errors()->first("email") == "The email field is required." );
+        $this->assertTrue( $newuser->errors()->first("street") == "The street field is required." );
+        $this->assertTrue( $newuser->errors()->first("city") == "The city field is required." );
+        $this->assertTrue( $newuser->errors()->first("zip") == "The zip field is required." );
+        $this->assertTrue( $newuser->errors()->first("country") == "The country field is required." );
+
+
+        $newuser->name = $faker->sentence(200);
+        $newuser->email = $faker->sentence(200);
+        $newuser->street = $faker->sentence(200);
+        $newuser->city = $faker->sentence(200);
+        $newuser->zip = $faker->sentence(200);
+        $newuser->country = $faker->sentence(200);
+        
+        $this->assertFalse( $newuser->validate() );
+        
+        $this->assertTrue( $newuser->errors()->first("name") == "The name must be between 4 and 100 characters." );
+        $this->assertTrue( $newuser->errors()->first("email") == "The email format is invalid." );
+        $this->assertTrue( $newuser->errors()->first("street") == "The street must be between 3 and 100 characters." );
+        $this->assertTrue( $newuser->errors()->first("city") == "The city must be between 2 and 50 characters." );
+        $this->assertTrue( $newuser->errors()->first("zip") == "The zip must be between 5 and 20 characters." );
+        $this->assertTrue( $newuser->errors()->first("country") == "The country must be between 2 and 50 characters." );
+
+
+        $newuser->name = $faker->text(15);
+        $newuser->email = $faker->email;
+        $newuser->street = $faker->text(80);
+        $newuser->city = $faker->text(35);
+        $newuser->zip = $faker->text(7);
+        $newuser->country = $faker->text(30);
+      
+        $this->assertTrue( $newuser->validate() );
+        
+        unset($newuser);
+    }
+
+    public function testInvalidUserCannotSave() {
+
+        $model = new \Models\User();
+        $model->name = "aa";
+
+        $this->assertFalse( $model->save() );
+    }
 
 }

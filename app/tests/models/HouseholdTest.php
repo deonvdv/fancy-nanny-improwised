@@ -27,8 +27,8 @@ class HouseholdModelTest extends TestCase {
 		$doc = parent::createFakeDocument();
 		$doc->setOwner( $user );
         $household->addDocument( $doc );
-
-		//Add Messages
+        
+        //Add Messages
 		$msg = parent::createFakeMessage($user, $user);
 		$household->addMessage( $msg );
 
@@ -53,7 +53,7 @@ class HouseholdModelTest extends TestCase {
 		//Test documents
 		$this->assertTrue(count($found->documents) == 1);
 		$this->assertTrue($found->documents[0]->owner->id == $user->id );
-		$this->assertTrue($found->documents[0]->owner->household->id == $user->household->id );
+		$this->assertTrue($found->documents[0]->household->id == $user->household->id );
 
 		//Test members
 		$this->assertTrue(count($found->members) == 1);

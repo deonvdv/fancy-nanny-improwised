@@ -234,10 +234,15 @@ class UserModelTest extends TestCase {
         $newuser->email = $faker->email;
         $newuser->street = $faker->text(80);
         $newuser->city = $faker->text(35);
-        $newuser->zip = $faker->text(7);
+        $newuser->zip = $faker->postcode;
         $newuser->country = $faker->text(30);
       
+        if ( !$newuser->validate() ) {
+            var_dump( $newuser->errors() );
+            var_dump( $newuser );
+        }
         $this->assertTrue( $newuser->validate() );
+        // print_r( $newuser->errors() );
         
         unset($newuser);
     }

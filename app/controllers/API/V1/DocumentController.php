@@ -26,7 +26,7 @@ class DocumentController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -72,7 +72,7 @@ class DocumentController extends BaseController {
 		{
 			$status = $documents->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $documents->toArray(),
@@ -82,7 +82,7 @@ class DocumentController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $documents->toArray(),
@@ -101,29 +101,40 @@ class DocumentController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$documents = \Models\Document::find($id);
-		if(count($documents) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $documents->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		try {
+			$document = \Models\Document::find($id);
+			if(count($document) > 0)
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success' => true,
+						'data'    => $document->toArray(),
+						)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Document with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Documents ...'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
-        // return View::make('documents.show');
 	}
 
 	/**
@@ -160,7 +171,7 @@ class DocumentController extends BaseController {
 
 			$status = $documents->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $documents->toArray(),
@@ -170,11 +181,11 @@ class DocumentController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Document with id '.$id
+					'message'	=> 'Could not find Document with id: '.$id
 				),
 				404
 			);
@@ -194,7 +205,7 @@ class DocumentController extends BaseController {
 		if(!is_null($documents))
 		{
 			$status = $documents->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $documents->toArray(),
@@ -204,11 +215,11 @@ class DocumentController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Document with id '.$id
+					'message'	=> 'Could not find Document with id: '.$id
 				),
 				404
 			);

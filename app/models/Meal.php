@@ -28,6 +28,7 @@ class Meal extends BaseModel {
     }	
 
     public function addRecipe(\Models\Recipe $recipe) {
+        $recipe->save();
         $this->save();
         $this->recipes()->attach( $recipe );
     }

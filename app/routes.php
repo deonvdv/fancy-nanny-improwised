@@ -45,6 +45,8 @@ Route::group(array(
         
         Route::resource('category', 'API\V1\CategoryController');
         Route::get('categories', 'API\V1\CategoryController@index');
+        Route::get('categories/page/{pagenum}', 'API\V1\CategoryController@index');
+        Route::get('categories/page/{pagenum}/{itemsperpage}', 'API\V1\CategoryController@index');
         
         Route::resource('tag', 'API\V1\TagController');
         Route::get('tags', 'API\V1\TagController@index');

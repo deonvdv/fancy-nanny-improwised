@@ -26,7 +26,7 @@ class RecipeReviewController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -72,7 +72,7 @@ class RecipeReviewController extends BaseController {
 		{
 			$status = $recipereviews->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $recipereviews->toArray(),
@@ -82,7 +82,7 @@ class RecipeReviewController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $recipereviews->toArray(),
@@ -101,29 +101,40 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$recipereviews = \Models\RecipeReview::find($id);
-		if(count($recipereviews) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $recipereviews->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		try {
+			$recipereview = \Models\RecipeReview::find($id);
+			if(count($recipereview) > 0)
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success' => true,
+						'data'    => $recipereview->toArray(),
+						)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find RecipeReview with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find RecipeReviews ...'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
-        // return View::make('recipereviews.show');
 	}
 
 	/**
@@ -160,7 +171,7 @@ class RecipeReviewController extends BaseController {
 
 			$status = $recipereviews->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $recipereviews->toArray(),
@@ -170,11 +181,11 @@ class RecipeReviewController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find RecipeReview with id '.$id
+					'message'	=> 'Could not find RecipeReview with id: '.$id
 				),
 				404
 			);
@@ -194,7 +205,7 @@ class RecipeReviewController extends BaseController {
 		if(!is_null($recipereviews))
 		{
 			$status = $recipereviews->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $recipereviews->toArray(),
@@ -204,11 +215,11 @@ class RecipeReviewController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find RecipeReview with id '.$id
+					'message'	=> 'Could not find RecipeReview with id: '.$id
 				),
 				404
 			);

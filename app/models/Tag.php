@@ -32,6 +32,7 @@ class Tag extends BaseModel {
 
 
     public function setOwner(\Models\User $user) {
+        $user->save();
         $this->owner()->associate( $user );
         $this->household()->associate( $user->household );
         $this->tagable_id = $user->id;

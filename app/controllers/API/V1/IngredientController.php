@@ -26,7 +26,7 @@ class IngredientController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -72,7 +72,7 @@ class IngredientController extends BaseController {
 		{
 			$status = $ingredients->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $ingredients->toArray(),
@@ -82,7 +82,7 @@ class IngredientController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $ingredients->toArray(),
@@ -103,24 +103,23 @@ class IngredientController extends BaseController {
 	{
 		try
 		{
-			$ingredients = \Models\Ingredient::find($id);
-			if(count($ingredients) > 0)
+			$ingredient = \Models\Ingredient::find($id);
+			if(count($ingredient) > 0)
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success' => true,
-						'data'    => $ingredients->toArray(),
-						'message' => 'Success ...'
+						'data'    => $ingredient->toArray(),
 						)
 				);
 			}
 			else
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success'	=> false,
 						'data'		=> null,
-						'message'	=> 'Can not find Ingredient with id:'.$id
+						'message'	=> 'Could not find Ingredient with id: '.$id
 					),
 					404
 				);
@@ -128,13 +127,13 @@ class IngredientController extends BaseController {
 		}
 		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'There is some error to process your request'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
         		),
-        		404
+        		500
         	);
 		}
 		
@@ -175,7 +174,7 @@ class IngredientController extends BaseController {
 
 			$status = $ingredients->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $ingredients->toArray(),
@@ -185,11 +184,11 @@ class IngredientController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Ingredient with id '.$id
+					'message'	=> 'Could not find Ingredient with id: '.$id
 				),
 				404
 			);
@@ -209,7 +208,7 @@ class IngredientController extends BaseController {
 		if(!is_null($ingredients))
 		{
 			$status = $ingredients->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $ingredients->toArray(),
@@ -219,11 +218,11 @@ class IngredientController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Ingredient with id '.$id
+					'message'	=> 'Could not find Ingredient with id: '.$id
 				),
 				404
 			);

@@ -119,47 +119,56 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
     }
 
     public function addDocument(\Models\Document $document) {
+        $document->save();
         $this->save();
         $this->documents()->save( $document );
     }
 
     public function addEvent(\Models\Event $event) {
+        $event->save();
         $this->save();
         $this->events()->save( $event );
     }
 
     public function addMessageSent(\Models\Message $message) {
+        $message->save();
         $this->save();
         $this->messages_sent()->save( $message );
     }
 
     public function addMessageReceived(\Models\Message $message) {
+        $message->save();
         $this->save();
         $this->messages_received()->save( $message );
     }
 
     public function addNotification(\Models\Notification $notification) {
+        $notification->save();
         $this->save();
         $this->notifications()->save( $notification );
     }
 
     public function addRecipe(\Models\Recipe $recipe) {
+        $recipe->save();
         $this->save();
         $this->recipes()->save( $recipe );
     }
 
     public function addFavoriteRecipe(\Models\Recipe $recipe) {
+        $recipe->save();
         $this->save();
         $this->favoriterecipes()->attach( $recipe );
     }
 
     public function addTag(\Models\Tag $tag) {
+        $tag->save();
         $this->save();
         $this->tags()->save( $tag );
         $tag->setOwner( $this );      
     }
 
     public function addTodo(\Models\Todo $todo) {
+        $todo->save();
         $this->save();
         $this->todos()->save( $todo );
 		$todo->setOwner( $this );              

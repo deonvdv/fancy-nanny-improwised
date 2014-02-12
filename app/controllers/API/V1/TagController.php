@@ -26,7 +26,7 @@ class TagController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -72,7 +72,7 @@ class TagController extends BaseController {
 		{
 			$status = $tag->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $tag->toArray(),
@@ -82,7 +82,7 @@ class TagController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $tag->toArray(),
@@ -106,21 +106,20 @@ class TagController extends BaseController {
 			$tag = \Models\Tag::find($id);
 			if(count($tag) > 0)
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success' => true,
 						'data'    => $tag->toArray(),
-						'message' => 'Success ...'
 						)
 				);
 			}
 			else
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success'	=> false,
 						'data'		=> null,
-						'message'	=> 'Can not find Tag with id:'.$id,
+						'message'	=> 'Could not find Tag with id: '.$id,
 					),
 					404
 				);
@@ -128,13 +127,13 @@ class TagController extends BaseController {
 		}
 		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'There is some error to process your request'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
         		),
-        		404
+        		500
         	);
 		}
 		
@@ -175,7 +174,7 @@ class TagController extends BaseController {
 
 			$status = $tag->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $tag->toArray(),
@@ -185,11 +184,11 @@ class TagController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Tag with id '.$id
+					'message'	=> 'Could not find Tag with id: '.$id
 				),
 				404
 			);
@@ -209,7 +208,7 @@ class TagController extends BaseController {
 		if(!is_null($tag))
 		{
 			$status = $tag->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $tag->toArray(),
@@ -219,11 +218,11 @@ class TagController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Tag with id '.$id
+					'message'	=> 'Could not find Tag with id: '.$id
 				),
 				404
 			);

@@ -43,16 +43,19 @@ class RecipeIngredient extends BaseModel {
 
 
     public function setRecipe(\Models\Recipe $recipe) {
+        $recipe->save();
         $this->recipe()->associate( $recipe );
         $this->save();   
     }
 
     public function setUnitOfMeasure(\Models\UnitOfMeasure $unit_of_measure) {
+        $unit_of_measure->save();
         $this->unit_of_measure()->associate( $unit_of_measure );
         $this->save();
     }
 
     public function setIngredient(\Models\Ingredient $ingredient) {
+        $ingredient->save();
         $this->ingredient()->associate( $ingredient );
         $this->save(); 
     }

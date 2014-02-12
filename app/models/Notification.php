@@ -22,12 +22,14 @@ class Notification extends BaseModel {
     }
 
     public function setUser(\Models\User $user) {
+        $user->save();
         $this->user()->associate( $user );
         $this->household()->associate( $user->household );
         $this->save();
     }
 
     public function setHousehold(\Models\Household $household) {
+        $household->save();
         $this->household()->associate( $household );
         $this->save();
     }

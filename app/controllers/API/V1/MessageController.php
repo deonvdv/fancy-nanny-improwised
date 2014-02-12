@@ -26,7 +26,7 @@ class MessageController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -72,7 +72,7 @@ class MessageController extends BaseController {
 		{
 			$status = $message->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $message->toArray(),
@@ -82,7 +82,7 @@ class MessageController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $message->toArray(),
@@ -103,24 +103,23 @@ class MessageController extends BaseController {
 	{
 		try
 		{
-			$messages = \Models\Message::find($id);
-			if(count($messages) > 0)
+			$message = \Models\Message::find($id);
+			if(count($message) > 0)
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success' => true,
-						'data'    => $messages->toArray(),
-						'message' => 'Success ...'
+						'data'    => $message->toArray(),
 						)
 				);
 			}
 			else
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success'	=> false,
 						'data'		=> null,
-						'message'	=> 'Can not find Message with id '.$id
+						'message'	=> 'Could not find Message with id: '.$id
 					),
 					404
 				);
@@ -128,14 +127,14 @@ class MessageController extends BaseController {
 		}
 		catch(\Exception $ex)
 		{
-			return Response::json(
-					array(
-						'success'	=> false,
-						'data'		=> null,
-						'message'	=> 'There is some error to process your request'
-					),
-					404
-				);
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
 		}
 		
         // return View::make('messages.show');
@@ -174,7 +173,7 @@ class MessageController extends BaseController {
 
 			$status = $message->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $message->toArray(),
@@ -184,11 +183,11 @@ class MessageController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Message with id '.$id
+					'message'	=> 'Could not find Message with id: '.$id
 				),
 				404
 			);
@@ -208,7 +207,7 @@ class MessageController extends BaseController {
 		if(!is_null($message))
 		{
 			$status = $message->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $message->toArray(),
@@ -218,11 +217,11 @@ class MessageController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Message with id '.$id
+					'message'	=> 'Could not find Message with id: '.$id
 				),
 				404
 			);

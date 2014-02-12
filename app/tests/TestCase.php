@@ -130,7 +130,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     	$faker = \Faker\Factory::create();
 
 		$tag = new \Models\Tag( array( 
-			'name'         => $faker->word,
+			'name'         => $faker->sentence(3, false),
 			'color'        => $faker->hexcolor ) );
 
 		if ( $owner )

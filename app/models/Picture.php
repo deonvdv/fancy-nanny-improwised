@@ -25,6 +25,7 @@ class Picture extends BaseModel {
     }    
 
     public function setOwner(\Models\User $user) {
+        $user->save();
         $this->owner()->associate( $user );
         $this->imageable_id = $user->id;
         $this->imageable_type = '\Models\User';

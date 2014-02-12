@@ -23,12 +23,14 @@ class Document extends BaseModel {
 
     public function setOwner(\Models\User $user) {
         // print_r($user);
+        $user->save();
         $this->owner()->associate( $user );
         $this->household()->associate( $user->household );
         $this->save();
     }
 
     public function setHousehold(\Models\Household $household) {
+        $household->save();
         $this->household()->associate( $household );
         $this->save();
     }

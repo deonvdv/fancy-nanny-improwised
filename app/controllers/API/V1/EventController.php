@@ -26,7 +26,7 @@ class EventController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -72,7 +72,7 @@ class EventController extends BaseController {
 		{
 			$status = $events->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $events->toArray(),
@@ -82,7 +82,7 @@ class EventController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $events->toArray(),
@@ -101,29 +101,40 @@ class EventController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$events = \Models\Event::find($id);
-		if(count($events) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $events->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		try {
+			$event = \Models\Event::find($id);
+			if(count($event) > 0)
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success' => true,
+						'data'    => $event->toArray(),
+						)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Event with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Events ...'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
-        // return View::make('events.show');
 	}
 
 	/**
@@ -160,7 +171,7 @@ class EventController extends BaseController {
 
 			$status = $events->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $events->toArray(),
@@ -170,11 +181,11 @@ class EventController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Event with id '.$id
+					'message'	=> 'Could not find Event with id: '.$id
 				),
 				404
 			);
@@ -194,7 +205,7 @@ class EventController extends BaseController {
 		if(!is_null($events))
 		{
 			$status = $events->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $events->toArray(),
@@ -204,11 +215,11 @@ class EventController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Event with id '.$id
+					'message'	=> 'Could not find Event with id: '.$id
 				),
 				404
 			);
@@ -230,7 +241,7 @@ class EventController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -242,11 +253,11 @@ class EventController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Event Tags Event id:'.$id
+					'message'	=> 'Could not find Event Tags Event id:'.$id
         		),
         		404
         	);
@@ -268,7 +279,7 @@ class EventController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -280,11 +291,11 @@ class EventController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Event Tags Event id:'.$id
+					'message'	=> 'Could not find Event Tags Event id:'.$id
         		),
         		404
         	);

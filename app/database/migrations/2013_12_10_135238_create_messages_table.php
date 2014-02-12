@@ -16,7 +16,7 @@ class CreateMessagesTable extends Migration {
 			$table->string('id', 36)->primary();
 			$table->string('household_id', 36);
 			$table->string('sender_id', 36);
-			$table->string('receiver_id', 36);
+			$table->string('receiver_id', 36)->nullable();
 			$table->text('message');
 			$table->date('date');
 			$table->softDeletes();

@@ -44,42 +44,52 @@ class Household extends BaseModel {
 
 
     public function addDocument(\Models\Document $document) {
+        $document->save();
         $this->save();
         $this->documents()->save( $document );
+        // or
+        // $document->household_id = $this->id;
     }
 
     public function addMember(\Models\User $member) {
+        $member->save();
         $this->save();
         $this->members()->save( $member );
         $member->setHousehold( $this );
     }
 
     public function addMessage(\Models\Message $message) {
+        $message->save();
         $this->save();
         $this->messages()->save( $message );
     }
 
     public function addTag(\Models\Tag $tag) {
+        $tag->save();
         $this->save();
         $this->tags()->save( $tag );
     }
 
     public function addMeal(\Models\Meal $meal) {
+        $meal->save();
         $this->save();
         $this->meals()->save( $meal );
     }
 
     public function addEvent(\Models\Event $event) {
+        $event->save();
         $this->save();
         $this->events()->save( $event );
     }
 
     public function addTodo(\Models\Todo $todo) {
+        $todo->save();
         $this->save();
         $this->todos()->save( $todo );
     }
 
     public function addNotification(\Models\Notification $notification) {
+        $notification->save();
         $this->save();
         $this->notifications()->save( $notification );
     }

@@ -52,31 +52,37 @@ class Recipe extends BaseModel {
 
 
     public function setAuthor(\Models\User $user) {
+        $user->save();
         $this->author()->associate( $user );
         $this->save();
     }
 
     public function setCategory(\Models\Category $category) {
+        $category->save();
         $this->save();
         $this->category()->associate( $category );
     }
 
     public function addTag(\Models\Tag $tag) {
+        $tag->save();
         $this->save();
         $this->tags()->save( $tag );
     }
 
     public function addPicture(\Models\Picture $picture) {
+        $picture->save();
         $this->save();
         $this->pictures()->save( $picture );
     }
 
     public function addRecipeIngredient(\Models\RecipeIngredient $recipeIngredient) {
+        $recipeIngredient->save();
         $this->save();
         $this->recipe_ingredients()->save( $recipeIngredient );
     }
 
     public function addReview(\Models\RecipeReview $recipeReview) {
+        $recipeReview->save();
         $this->save();
         $this->reviews()->save( $recipeReview );
     }

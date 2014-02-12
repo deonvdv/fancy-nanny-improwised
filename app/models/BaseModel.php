@@ -24,6 +24,8 @@ class BaseModel extends Eloquent {
 
     public function validate() {
         // echo "Validating....\n";
+        $this->errors = array();
+        
         $validator = \Validator::make($this->attributes, static::$rules);
 
         // check for failure

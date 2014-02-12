@@ -34,22 +34,26 @@ class Todo extends BaseModel {
 
 
     public function setOwner(\Models\User $user) {
+        $user->save();
         $this->owner()->associate( $user );
         $this->household()->associate( $user->household );
         $this->save();
     }
 
     public function setHousehold(\Models\Household $household) {
+        $household->save();
         $this->household()->associate( $household );
         $this->save();
     }
 
     public function setAssignedBy(\Models\User $user) {
+        $user->save();
         $this->assigned_by()->associate( $user );
         $this->save();
     }
 
     public function setAssignedTo(\Models\User $user) {
+        $user->save();
         $this->assigned_to()->associate( $user );
         $this->save();
     }

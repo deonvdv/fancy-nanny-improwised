@@ -39,17 +39,20 @@ class Event extends BaseModel {
     }
 
     public function setOwner(\Models\User $user) {
-        $this->save();
+        $user->save();
         $this->owner()->associate( $user );
         $this->household()->associate( $user->household );
+        $this->save();
     }
 
     public function setHousehold(\Models\Household $household) {
-        $this->save();
+        $household->save();
         $this->household()->associate( $household );
+        $this->save();
     }
 
     public function addAttendee(\Models\User $user) {
+        $user->save();
         $this->save();
         $this->attendees()->attach( $user );
     }

@@ -22,8 +22,10 @@ class Category extends BaseModel {
     }	
 
     public function setParent(\Models\Category $category) {
-        $this->save();
+        $category->save();
         $this->parent()->associate( $category );
+        $this->save();
+        
     }
 
 }

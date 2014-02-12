@@ -32,18 +32,21 @@ class Message extends BaseModel {
 
 
     public function setSender(\Models\User $user) {
+        $user->save();
         $this->sender()->associate( $user );
         $this->save();
     }
 
     public function setReceiver(\Models\User $user = null) {
         if ( $user ) {
+            $user->save();
             $this->receiver()->associate( $user );
             $this->save();
         }
     }
 
     public function setHousehold(\Models\Household $household) {
+        $household->save();
         $this->household()->associate( $household );
         $this->save();
     }

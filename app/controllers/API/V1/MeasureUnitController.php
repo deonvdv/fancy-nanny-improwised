@@ -26,7 +26,7 @@ class MeasureUnitController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -72,7 +72,7 @@ class MeasureUnitController extends BaseController {
 		{
 			$status = $units_of_measures->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $units_of_measures->toArray(),
@@ -82,7 +82,7 @@ class MeasureUnitController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $units_of_measures->toArray(),
@@ -106,21 +106,20 @@ class MeasureUnitController extends BaseController {
 			$unit_of_measure = \Models\UnitOfMeasure::find($id);
 			if(count($unit_of_measure) > 0)
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success' => true,
 						'data'    => $unit_of_measure->toArray(),
-						'message' => 'Success ...'
 						)
 				);
 			}
 			else
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success'	=> false,
 						'data'		=> null,
-						'message'	=> 'Can not find Unit of Measure with id:'.$id
+						'message'	=> 'Could not find Unit of Measure with id: '.$id
 					),
 					404
 				);
@@ -128,13 +127,13 @@ class MeasureUnitController extends BaseController {
 		}
 		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'There is some error to process your request'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
         		),
-        		404
+        		500
         	);
 		}
 		
@@ -175,7 +174,7 @@ class MeasureUnitController extends BaseController {
 
 			$status = $units_of_measures->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $units_of_measures->toArray(),
@@ -185,11 +184,11 @@ class MeasureUnitController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find UnitOfMeasure with id '.$id
+					'message'	=> 'Could not find UnitOfMeasure with id: '.$id
 				),
 				404
 			);
@@ -209,7 +208,7 @@ class MeasureUnitController extends BaseController {
 		if(!is_null($units_of_measures))
 		{
 			$status = $units_of_measures->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $units_of_measures->toArray(),
@@ -219,11 +218,11 @@ class MeasureUnitController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find UnitOfMeasure with id '.$id
+					'message'	=> 'Could not find UnitOfMeasure with id: '.$id
 				),
 				404
 			);

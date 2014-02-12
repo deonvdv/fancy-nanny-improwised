@@ -27,7 +27,7 @@ class CategoryController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -71,19 +71,35 @@ class CategoryController extends BaseController {
 
 		try
 		{
-			$status = $category->save();
+			if ( $category->validate() ) {
+				$category->save();
 
-			return Response::json(
-				array(
-					'success'	=> $status,
-					'data'		=> $category->toArray(),
-					'message'	=> 'New Category created sucessfully!'
-				)
-			);
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $category->toArray(),
+						'message'	=> 'New Category created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/category/'.$category->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $category->errors()->toArray(),
+						'message'	=> 'New Category created sucessfully!'
+					),
+					400
+				);
+			}
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $category->toArray(),
@@ -104,24 +120,23 @@ class CategoryController extends BaseController {
 	{
 		try
 		{
-			$category = \Models\Category::find($id);
+			$category = \Models\Category::with('parent')->find($id);
 			if(count($category) > 0)
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success' => true,
 						'data'    => $category->toArray(),
-						'message' => 'Success ...'
 						)
 				);
 			}
 			else
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success'	=> false,
 						'data'		=> null,
-						'message'	=> 'Can not find Category with id:'.$id
+						'message'	=> 'Could not find Category with id: '.$id
 					),
 					404
 				);
@@ -129,14 +144,14 @@ class CategoryController extends BaseController {
 		}
 		catch(\Exception $ex)
 		{
-			return Response::json(
-					array(
-						'success'	=> false,
-						'data'		=> null,
-						'message'	=> 'There is some error to process your request'
-					),
-					404
-				);
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
 		}
 		
         
@@ -176,7 +191,7 @@ class CategoryController extends BaseController {
 
 			$status = $category->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $category->toArray(),
@@ -186,11 +201,11 @@ class CategoryController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Category with id '.$id
+					'message'	=> 'Could not find Category with id: '.$id
 				),
 				404
 			);
@@ -210,7 +225,7 @@ class CategoryController extends BaseController {
 		if(!is_null($category))
 		{
 			$status = $category->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $category->toArray(),
@@ -220,11 +235,11 @@ class CategoryController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Category with id '.$id
+					'message'	=> 'Could not find Category with id: '.$id
 				),
 				404
 			);

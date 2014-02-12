@@ -26,7 +26,7 @@ class NotificationController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -72,7 +72,7 @@ class NotificationController extends BaseController {
 		{
 			$status = $notifications->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $notifications->toArray(),
@@ -82,7 +82,7 @@ class NotificationController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $notifications->toArray(),
@@ -101,29 +101,40 @@ class NotificationController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$notifications = \Models\Notification::find($id);
-		if(count($notifications) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $notifications->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		try {
+			$notification = \Models\Notification::find($id);
+			if(count($notification) > 0)
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success' => true,
+						'data'    => $notification->toArray(),
+						)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Notification with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Notifications ...'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
-        // return View::make('notifications.show');
 	}
 
 	/**
@@ -160,7 +171,7 @@ class NotificationController extends BaseController {
 
 			$status = $notifications->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $notifications->toArray(),
@@ -170,11 +181,11 @@ class NotificationController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Notification with id '.$id
+					'message'	=> 'Could not find Notification with id: '.$id
 				),
 				404
 			);
@@ -194,7 +205,7 @@ class NotificationController extends BaseController {
 		if(!is_null($notifications))
 		{
 			$status = $notifications->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $notifications->toArray(),
@@ -204,11 +215,11 @@ class NotificationController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Notification with id '.$id
+					'message'	=> 'Could not find Notification with id: '.$id
 				),
 				404
 			);

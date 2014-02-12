@@ -26,7 +26,7 @@ class PictureController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -72,7 +72,7 @@ class PictureController extends BaseController {
 		{
 			$status = $pictures->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $pictures->toArray(),
@@ -82,7 +82,7 @@ class PictureController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $pictures->toArray(),
@@ -101,29 +101,40 @@ class PictureController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$pictures = \Models\Picture::find($id);
-		if(count($pictures) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $pictures->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		try {
+			$picture = \Models\Picture::find($id);
+			if(count($picture) > 0)
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success' => true,
+						'data'    => $picture->toArray(),
+						)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Picture with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Pictures ...'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
-        // return View::make('pictures.show');
 	}
 
 	/**
@@ -160,7 +171,7 @@ class PictureController extends BaseController {
 
 			$status = $pictures->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $pictures->toArray(),
@@ -170,11 +181,11 @@ class PictureController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Picture with id '.$id
+					'message'	=> 'Could not find Picture with id: '.$id
 				),
 				404
 			);
@@ -194,7 +205,7 @@ class PictureController extends BaseController {
 		if(!is_null($pictures))
 		{
 			$status = $pictures->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $pictures->toArray(),
@@ -204,11 +215,11 @@ class PictureController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Picture with id '.$id
+					'message'	=> 'Could not find Picture with id: '.$id
 				),
 				404
 			);

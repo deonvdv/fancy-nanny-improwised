@@ -48,7 +48,7 @@ class MealController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -94,7 +94,7 @@ class MealController extends BaseController {
 		{
 			$status = $meals->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $meals->toArray(),
@@ -104,7 +104,7 @@ class MealController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $meals->toArray(),
@@ -123,29 +123,40 @@ class MealController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$meals = \Models\Meal::find($id);
-		if(count($meals) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $meals->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		try {
+			$meal = \Models\Meal::find($id);
+			if(count($meal) > 0)
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success' => true,
+						'data'    => $meal->toArray(),
+						)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Meal with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Meals ...'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
-        // return View::make('meals.show');
 	}
 
 	/**
@@ -182,7 +193,7 @@ class MealController extends BaseController {
 
 			$status = $meals->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $meals->toArray(),
@@ -192,11 +203,11 @@ class MealController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Meal with id '.$id
+					'message'	=> 'Could not find Meal with id: '.$id
 				),
 				404
 			);
@@ -216,7 +227,7 @@ class MealController extends BaseController {
 		if(!is_null($meals))
 		{
 			$status = $meals->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $meals->toArray(),
@@ -226,11 +237,11 @@ class MealController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Meal with id '.$id
+					'message'	=> 'Could not find Meal with id: '.$id
 				),
 				404
 			);
@@ -252,7 +263,7 @@ class MealController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -264,11 +275,11 @@ class MealController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find MealsRecipes for Meal id : '.$id
+					'message'	=> 'Could not find MealsRecipes for Meal id : '.$id
         		),
         		404
         	);
@@ -290,7 +301,7 @@ class MealController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -302,11 +313,11 @@ class MealController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find MealTags for Meal id : '.$id
+					'message'	=> 'Could not find MealTags for Meal id : '.$id
         		),
         		404
         	);

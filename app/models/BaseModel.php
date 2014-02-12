@@ -25,7 +25,7 @@ class BaseModel extends Eloquent {
     public function validate() {
         // echo "Validating....\n";
         $this->errors = array();
-        
+
         $validator = \Validator::make($this->attributes, static::$rules);
 
         // check for failure
@@ -102,7 +102,7 @@ class BaseModel extends Eloquent {
     public static function fields(){
         $table = (new static)->getTable();
 
-        foreach(DB::select('SHOW COLUMNS FROM '.$table) as $column)
+        foreach(\DB::select('SHOW COLUMNS FROM '.$table) as $column)
         {
             $columns[] = $column->Field;
         }

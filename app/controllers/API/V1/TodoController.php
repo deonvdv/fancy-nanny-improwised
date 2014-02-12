@@ -26,7 +26,7 @@ class TodoController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -72,7 +72,7 @@ class TodoController extends BaseController {
 		{
 			$status = $todos->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $todos->toArray(),
@@ -82,7 +82,7 @@ class TodoController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $todos->toArray(),
@@ -101,29 +101,40 @@ class TodoController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$todos = \Models\Todo::find($id);
-		if(count($todos) > 0)
-		{
-			return Response::json(
-				array(
-					'success' => true,
-					'data'    => $todos->toArray(),
-					'message' => 'Success ...'
-					)
-			);
+		try {
+			$todo = \Models\Todo::find($id);
+			if(count($todo) > 0)
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success' => true,
+						'data'    => $todo->toArray(),
+						)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Todo with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Todos ...'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
-        // return View::make('todos.show');
 	}
 
 	/**
@@ -160,7 +171,7 @@ class TodoController extends BaseController {
 
 			$status = $todos->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $todos->toArray(),
@@ -170,11 +181,11 @@ class TodoController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Todo with id '.$id
+					'message'	=> 'Could not find Todo with id: '.$id
 				),
 				404
 			);
@@ -194,7 +205,7 @@ class TodoController extends BaseController {
 		if(!is_null($todos))
 		{
 			$status = $todos->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $todos->toArray(),
@@ -204,11 +215,11 @@ class TodoController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Todo with id '.$id
+					'message'	=> 'Could not find Todo with id: '.$id
 				),
 				404
 			);
@@ -230,7 +241,7 @@ class TodoController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -242,11 +253,11 @@ class TodoController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Tags for Todo id:'.$id
+					'message'	=> 'Could not find Tags for Todo id:'.$id
         		),
         		404
         	);

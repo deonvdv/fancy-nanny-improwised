@@ -16,7 +16,7 @@ class HouseholdController extends BaseController {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Response::json
+	 * @return \parent::buildJsonResponse
 	 */
 	public function index($page = 1)
 	{
@@ -33,7 +33,7 @@ class HouseholdController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -78,7 +78,7 @@ class HouseholdController extends BaseController {
 		{
 			$status = $household->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $household->toArray(),
@@ -88,7 +88,7 @@ class HouseholdController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $household->toArray(),
@@ -117,21 +117,20 @@ class HouseholdController extends BaseController {
 
 	        if(!is_null($household))
 	        {
-	        	return Response::json(
+	        	return parent::buildJsonResponse(
 	        		array(
 	        			'success'	=> true,
 	        			'data'		=> $household->toArray(),
-	        			'message'	=> 'success..'
 	        		)
 	        	);
 	        }
 	        else
 	        {
-	        	return Response::json(
+	        	return parent::buildJsonResponse(
 	        		array(
 	        			'success'	=> false,
 	        			'data'		=> null,
-						'message'	=> 'Can not find Household with id:'.$id
+						'message'	=> 'Could not find Household with id: '.$id
 	        		),
 	        		404
 	        	);
@@ -139,13 +138,13 @@ class HouseholdController extends BaseController {
 		}
 		catch(\Exception $e)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'There is some error to process your request'
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
         		),
-        		404
+        		500
         	);
 		}
         
@@ -185,7 +184,7 @@ class HouseholdController extends BaseController {
 
 			$status = $household->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $household->toArray(),
@@ -195,11 +194,11 @@ class HouseholdController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$id
+					'message'	=> 'Could not find Household with id: '.$id
 				),
 				404
 			);
@@ -219,7 +218,7 @@ class HouseholdController extends BaseController {
 		if(!is_null($household))
 		{
 			$status = $household->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $household->toArray(),
@@ -229,11 +228,11 @@ class HouseholdController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$id
+					'message'	=> 'Could not find Household with id: '.$id
 				),
 				404
 			);
@@ -255,7 +254,7 @@ class HouseholdController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -267,11 +266,11 @@ class HouseholdController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$householdId
+					'message'	=> 'Could not find Household with id '.$householdId
         		),
         		404
         	);
@@ -293,7 +292,7 @@ class HouseholdController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -305,11 +304,11 @@ class HouseholdController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$householdId
+					'message'	=> 'Could not find Household with id '.$householdId
         		),
         		404
         	);
@@ -331,7 +330,7 @@ class HouseholdController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -343,11 +342,11 @@ class HouseholdController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$householdId
+					'message'	=> 'Could not find Household with id '.$householdId
         		),
         		404
         	);
@@ -369,7 +368,7 @@ class HouseholdController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -381,11 +380,11 @@ class HouseholdController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$householdId
+					'message'	=> 'Could not find Household with id '.$householdId
         		),
         		404
         	);
@@ -407,7 +406,7 @@ class HouseholdController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -419,11 +418,11 @@ class HouseholdController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$householdId
+					'message'	=> 'Could not find Household with id '.$householdId
         		),
         		404
         	);
@@ -445,7 +444,7 @@ class HouseholdController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -457,11 +456,11 @@ class HouseholdController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$householdId
+					'message'	=> 'Could not find Household with id '.$householdId
         		),
         		404
         	);
@@ -483,7 +482,7 @@ class HouseholdController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -495,11 +494,11 @@ class HouseholdController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$householdId
+					'message'	=> 'Could not find Household with id '.$householdId
         		),
         		404
         	);
@@ -521,7 +520,7 @@ class HouseholdController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -533,11 +532,11 @@ class HouseholdController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Household with id '.$householdId
+					'message'	=> 'Could not find Household with id '.$householdId
         		),
         		404
         	);

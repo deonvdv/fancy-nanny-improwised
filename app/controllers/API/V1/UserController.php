@@ -49,7 +49,7 @@ class UserController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,
@@ -95,7 +95,7 @@ class UserController extends BaseController {
 		{
 			$status = $user->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $user->toArray(),
@@ -105,7 +105,7 @@ class UserController extends BaseController {
 		}
 		catch(\Exception $ex)
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $user->toArray(),
@@ -126,25 +126,24 @@ class UserController extends BaseController {
 	{
 		try
 		{
-			$users = \Models\User::where('id','=',$id)->firstOrFail();
+			$user = \Models\User::where('id','=',$id)->firstOrFail();
 			
-			if(count($users) > 0)
+			if(count($user) > 0)
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success' => true,
-						'data'    => $users->toArray(),
-						'message' => 'Success ...'
+						'data'    => $user->toArray(),
 						)
 				);
 			}
 			else
 			{
-				return Response::json(
+				return parent::buildJsonResponse(
 					array(
 						'success'	=> false,
 						'data'		=> null,
-						'message'	=> 'Can not find User with id '.$id
+						'message'	=> 'Could not find User with id: '.$id
 					),
 					404
 				);
@@ -152,14 +151,14 @@ class UserController extends BaseController {
 		}
 		catch(\Exception $ex)
 		{
-			return Response::json(
-					array(
-						'success'	=> false,
-						'data'		=> null,
-						'message'	=> 'There is some error to process your request'
-					),
-					404
-				);
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
 		}
 		
 		
@@ -200,7 +199,7 @@ class UserController extends BaseController {
 
 			$status = $user->save();
 
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $user->toArray(),
@@ -210,11 +209,11 @@ class UserController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find User with id '.$id
+					'message'	=> 'Could not find User with id: '.$id
 				),
 				404
 			);
@@ -234,7 +233,7 @@ class UserController extends BaseController {
 		if(!is_null($user))
 		{
 			$status = $user->delete();
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> $status,
 					'data'		=> $user->toArray(),
@@ -244,11 +243,11 @@ class UserController extends BaseController {
 		}
 		else
 		{
-			return Response::json(
+			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Can not find User with id '.$id
+					'message'	=> 'Could not find User with id: '.$id
 				),
 				404
 			);
@@ -271,7 +270,7 @@ class UserController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -283,11 +282,11 @@ class UserController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Pictures for User id:'.$id
+					'message'	=> 'Could not find Pictures for User id:'.$id
         		),
         		404
         	);
@@ -310,7 +309,7 @@ class UserController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -322,11 +321,11 @@ class UserController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find Recipes for User id:'.$id
+					'message'	=> 'Could not find Recipes for User id:'.$id
         		),
         		404
         	);
@@ -349,7 +348,7 @@ class UserController extends BaseController {
 				$message[] = 'No records found in this collection.';
 			}
 
-	        return Response::json(
+	        return parent::buildJsonResponse(
 	        	array(
 	        		'success'		=> true,
 	        		'page'			=> (int) $page,
@@ -361,11 +360,11 @@ class UserController extends BaseController {
 	        	)
 	        );
 		} else {
-        	return Response::json(
+        	return parent::buildJsonResponse(
         		array(
         			'success'	=> false,
         			'data'		=> null,
-					'message'	=> 'Can not find FavoriteRecipes for User id:'.$id
+					'message'	=> 'Could not find FavoriteRecipes for User id:'.$id
         		),
         		404
         	);
@@ -386,7 +385,7 @@ class UserController extends BaseController {
 			$message[] = 'No records found in this collection.';
 		}
 
-        return Response::json(
+        return parent::buildJsonResponse(
         	array(
         		'success'		=> true,
         		'page'			=> (int) $page,

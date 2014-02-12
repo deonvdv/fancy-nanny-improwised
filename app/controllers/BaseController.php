@@ -15,4 +15,14 @@ class BaseController extends Controller {
 		}
 	}
 
+	protected function buildJsonResponse($content = array(), $HTTPStatusCode = 200) {
+		$content["meta"] = $this->buildMeta();
+		return Response::json( $content, $HTTPStatusCode );
+	}
+
+	protected function buildMeta() {
+		$meta = array();
+		$meta["uri"] = Request::path();
+		return $meta;
+	}
 }

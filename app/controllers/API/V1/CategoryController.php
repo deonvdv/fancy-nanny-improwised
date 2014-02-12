@@ -12,33 +12,46 @@ class CategoryController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index($page = 1)
+	public function index($page = 1, $itemsPerPage = 20)
 	{
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+		try 
+		{
+			$message      = array();
+			$page         = (int) $page < 1 ? 1 : $page;
+			$itemsPerPage = (int) $itemsPerPage < 1 ? 20 : $itemsPerPage;
+			$skip         = ($page-1)*$itemsPerPage;
 
-        $collection = \Models\Category::skip($skip)->take($itemPerPage)->get();
-		$itemCount	= \Models\Category::count();
-		$totalPage 	= ceil($itemCount/$itemPerPage);
+	        $collection = \Models\Category::orderBy('name')->skip($skip)->take($itemsPerPage)->get();
+			$itemCount	= \Models\Category::count();
+			$totalPage 	= ceil($itemCount/$itemsPerPage);
 
-		if($collection->isEmpty()){
-			$message[] = 'No records found in this collection.';
+			if($collection->isEmpty()) {
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return parent::buildJsonResponse(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'items_per_page'	=> (int) $itemsPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
 		}
-
-        return parent::buildJsonResponse(
-        	array(
-        		'success'		=> true,
-        		'page'			=> (int) $page,
-        		'item_per_page'	=> (int) $itemPerPage,
-        		'total_item'	=> (int) $itemCount,
-        		'total_page'	=> (int) $totalPage,
-        		'data'			=> $collection->toArray(),
-        		'message'		=> implode($message, "\n")
-        	)
-        );
-        // return View::make('categories.index');
+		catch(\Exception $e)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
 	}
 
 	/**
@@ -58,19 +71,19 @@ class CategoryController extends BaseController {
 	 */
 	public function store()
 	{
-		$category = new \Models\Category;
-		$input = Input::all();
-
-		foreach($category->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$category->$field = $input[$field];
-			}
-		}
-
 		try
 		{
+			$category = new \Models\Category;
+			$input = Input::all();
+
+			foreach($category->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$category->$field = $input[$field];
+				}
+			}
+
 			if ( $category->validate() ) {
 				$category->save();
 
@@ -91,7 +104,7 @@ class CategoryController extends BaseController {
 					array(
 						'success'	=> false,
 						'data'		=> $category->errors()->toArray(),
-						'message'	=> 'New Category created sucessfully!'
+						'message'	=> 'Error adding Category!'
 					),
 					400
 				);
@@ -103,7 +116,7 @@ class CategoryController extends BaseController {
 				array(
 					'success'	=> false,
 					'data'		=> $category->toArray(),
-					'message'	=> $e->getMessage()
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
@@ -127,7 +140,7 @@ class CategoryController extends BaseController {
 					array(
 						'success' => true,
 						'data'    => $category->toArray(),
-						)
+					)
 				);
 			}
 			else
@@ -141,8 +154,8 @@ class CategoryController extends BaseController {
 					404
 				);
 			}
-		}
-		catch(\Exception $ex)
+		} 
+		catch(\Exception $ex) 
 		{
 			return parent::buildJsonResponse(
 				array(
@@ -153,8 +166,6 @@ class CategoryController extends BaseController {
 				500
 			);
 		}
-		
-        
 	}
 
 	/**
@@ -176,38 +187,63 @@ class CategoryController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$category = \Models\Category::find($id);
-		$input = Input::all();
-
-		if(!is_null($category))
+		try 
 		{
-			foreach(\Models\Category::fields() as $field)
+			$category = \Models\Category::find($id);
+			$input = Input::all();
+
+			if(!is_null($category))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\Category::fields() as $field)
 				{
-					$category->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$category->$field = $input[$field];
+					}
+				}
+
+				if ( $category->validate() ) {
+					$category->save();
+
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> true,
+							'data'		=> $category->toArray(),
+							'message'	=> 'Category updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> false,
+							'data'		=> $category->errors()->toArray(),
+							'message'	=> 'Error updating Category!'
+						),
+						400
+					);
 				}
 			}
-
-			$status = $category->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $category->toArray(),
-					'message'	=> 'Category updated sucessfully!'
-				)
-			);
-		}
-		else
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Category with id: '.$id
+					),
+					404
+				);
+			}
+		} 
+		catch(\Exception $ex) 
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Category with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
 	}
@@ -220,28 +256,42 @@ class CategoryController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$category = \Models\Category::find($id);
-
-		if(!is_null($category))
+		try 
 		{
-			$status = $category->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $category->toArray(),
-					'message'	=> ($status) ? 'Category deleted successfully!' : 'Error occured while deleting Category'
-				)
-			);
-		}
-		else
+			$category = \Models\Category::find($id);
+
+			if(!is_null($category))
+			{
+				$status = $category->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $category->toArray(),
+						'message'	=> ($status) ? 'Category deleted successfully!' : 'Error occured while deleting Category'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Category with id: '.$id
+					),
+					404
+				);
+			}
+		} 
+		catch(\Exception $ex) 
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Category with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
 	}

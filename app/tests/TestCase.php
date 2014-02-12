@@ -139,6 +139,23 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		return $tag;		
 	}
 
+	public function createFakeTodo(\Models\User $owner = null ){
+		$faker = \Faker\Factory::create();
+
+		$todo = new \Models\Todo( array(
+			'title' 		=> $faker->text(15),
+			'description'	=> $faker->text,
+			'due_date'		=> $faker->date,
+			'is_complete'	=> false,
+			'notify'		=> $faker->word, ));
+
+		if( $owner )
+			$todo->setOwner( $owner );
+
+		return $todo;
+
+	}
+
 	public function createFakeRecipe() {
     	$faker = \Faker\Factory::create();
 

@@ -11,33 +11,46 @@ class RecipeIngredientController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index($page = 1)
+	public function index($page = 1, $itemsPerPage = 20)
 	{
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+		try
+		{
+			$message      = array();
+			$page         = (int) $page < 1 ? 1 : $page;
+			$itemsPerPage = (int) $itemsPerPage < 1 ? 20 : $itemsPerPage;
+			$skip         = ($page-1)*$itemsPerPage;
 
-        $collection = \Models\RecipeIngredient::skip($skip)->take($itemPerPage)->get();
-		$itemCount	= \Models\RecipeIngredient::count();
-		$totalPage 	= ceil($itemCount/$itemPerPage);
+	        $collection = \Models\RecipeIngredient::orderBy('quantity')->skip($skip)->take($itemsPerPage)->get();
+			$itemCount	= \Models\RecipeIngredient::count();
+			$totalPage 	= ceil($itemCount/$itemsPerPage);
 
-		if($collection->isEmpty()){
-			$message[] = 'No records found in this collection.';
+			if($collection->isEmpty()) {
+				$message[] = 'No records found in this collection.';
+			}
+
+	        return parent::buildJsonResponse(
+	        	array(
+	        		'success'		=> true,
+	        		'page'			=> (int) $page,
+	        		'items_per_page'	=> (int) $itemsPerPage,
+	        		'total_item'	=> (int) $itemCount,
+	        		'total_page'	=> (int) $totalPage,
+	        		'data'			=> $collection->toArray(),
+	        		'message'		=> implode($message, "\n")
+	        	)
+	        );
 		}
-
-        return parent::buildJsonResponse(
-        	array(
-        		'success'		=> true,
-        		'page'			=> (int) $page,
-        		'item_per_page'	=> (int) $itemPerPage,
-        		'total_item'	=> (int) $itemCount,
-        		'total_page'	=> (int) $totalPage,
-        		'data'			=> $collection->toArray(),
-        		'message'		=> implode($message, "\n")
-        	)
-        );
-        // return View::make('recipeingredients.index');
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}		
 	}
 
 	/**

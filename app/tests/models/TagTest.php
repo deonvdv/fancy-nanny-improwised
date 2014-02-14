@@ -41,8 +41,7 @@ class TagModelTest extends TestCase {
 		$this->assertTrue($found->name == $tag->name);
 		$this->assertTrue($found->color == $tag->color);
 		$this->assertTrue($found->owner->id == $user->id);
-		$this->assertTrue($found->household->id == $user->household->id);
-
+		
 		// Delete
 		$this->assertTrue( $found->delete() );
 	}
@@ -62,7 +61,6 @@ class TagModelTest extends TestCase {
 		$this->assertTrue( $tag->errors()->first("name") == "The name must be at least 3 characters." );
 		$this->assertTrue( $tag->errors()->first("color") == "The color field is required." );
 		$this->assertTrue( $tag->errors()->first("owner_id") == "The owner id field is required." );
-		$this->assertTrue( $tag->errors()->first("household_id") == "The household id field is required." );
 		$this->assertTrue( $tag->errors()->first("tagable_id") == "The tagable id field is required." );
 		$this->assertTrue( $tag->errors()->first("tagable_type") == "The tagable type field is required." );
 

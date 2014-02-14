@@ -7,8 +7,7 @@ class MessageTableSeeder extends Seeder {
     	$faker = \Faker\Factory::create();
     	$messages = array(
     		'id' => $faker->uuid,
-    		'household_id' => $faker->uuid,
-            'sender_id' => $faker->uuid,
+    		'sender_id' => $faker->uuid,
             'receiver_id' => $faker->uuid,
     		'message' => $faker->text,
     	);

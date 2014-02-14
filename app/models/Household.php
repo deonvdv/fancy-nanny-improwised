@@ -9,46 +9,12 @@ class Household extends BaseModel {
         "name" => "required|between:4,255", 
     );
 
-    public function documents() {
-        return $this->hasMany('Models\Document');
-    }
-
     public function members() {
         return $this->hasMany('Models\User');
     }
 
-    public function messages() {
-        return $this->hasMany('Models\Message');
-    }
-
-    public function tags() {
-        return $this->hasMany('Models\Tag');
-    }
-
     public function meals() {
         return $this->hasMany('Models\Meal');
-    }
-
-    public function events() {
-        return $this->hasMany('Models\Event');
-    }
-
-    public function todos() {
-        return $this->hasMany('Models\Todo');
-    }
-
-    public function notifications() {
-        return $this->hasMany('Models\Notification');
-    }
-
-
-
-    public function addDocument(\Models\Document $document) {
-        $document->save();
-        $this->save();
-        $this->documents()->save( $document );
-        // or
-        // $document->household_id = $this->id;
     }
 
     public function addMember(\Models\User $member) {
@@ -58,42 +24,10 @@ class Household extends BaseModel {
         $member->setHousehold( $this );
     }
 
-    public function addMessage(\Models\Message $message) {
-        $message->save();
-        $this->save();
-        $this->messages()->save( $message );
-    }
-
-    public function addTag(\Models\Tag $tag) {
-        $tag->save();
-        $this->save();
-        $this->tags()->save( $tag );
-    }
-
-    public function addMeal(\Models\Meal $meal) {
+   public function addMeal(\Models\Meal $meal) {
         $meal->save();
         $this->save();
         $this->meals()->save( $meal );
     }
-
-    public function addEvent(\Models\Event $event) {
-        $event->save();
-        $this->save();
-        $this->events()->save( $event );
-    }
-
-    public function addTodo(\Models\Todo $todo) {
-        $todo->save();
-        $this->save();
-        $this->todos()->save( $todo );
-    }
-
-    public function addNotification(\Models\Notification $notification) {
-        $notification->save();
-        $this->save();
-        $this->notifications()->save( $notification );
-    }
-
-
 
 }

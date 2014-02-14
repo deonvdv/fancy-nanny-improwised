@@ -7,18 +7,12 @@ class Message extends BaseModel {
 
     public static $rules = array(
         'id' => 'required|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
-        'household_id' => 'required|exists:households,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
         'sender_id' => 'required|exists:users,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
         'receiver_id' => 'exists:users,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
         'message' => 'required',
     );
 	
 	protected $table = 'messages';
-
-	public function household()
-    {
-        return $this->belongsTo('Models\Household');
-    }
 
 	public function sender()
     {
@@ -43,12 +37,6 @@ class Message extends BaseModel {
             $this->receiver()->associate( $user );
             $this->save();
         }
-    }
-
-    public function setHousehold(\Models\Household $household) {
-        $household->save();
-        $this->household()->associate( $household );
-        $this->save();
     }
 
 }

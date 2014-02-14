@@ -10,7 +10,6 @@ class EventTableSeeder extends Seeder {
 
         $faker = \Faker\Factory::create();
         $types = ['travel', 'call', 'meeting'];
-        $households = \Models\Household::all();
         $users = \Models\User::all();
 
         for ($i = 0; $i < 100; $i++) {
@@ -27,12 +26,8 @@ class EventTableSeeder extends Seeder {
             $event->minutes_before = $faker->randomDigitNotNull;
             $event->type = $types[rand(0, count($types)-1)];
 
-            $curhousehold = $households[rand(0, count($households)-1)];
-            $event->household_id = $curhousehold->id;
             $owner = $users[rand(0, count($users)-1)];
             $owner->events()->save($event);
-
-            $curhousehold->events()->save($event);
 
             for($j = 0; $j < 5; $j++){
                 $attendee = $users[$j];

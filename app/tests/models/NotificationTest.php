@@ -39,9 +39,6 @@ class NotificationModelTest extends TestCase {
 		$this->assertTrue($found->message == $notification->message);
 		$this->assertTrue($found->reference == $notification->reference);
 
-		//Test Household
-		$this->assertTrue($found->household->id == $user->household->id);
-
 		// echo "\nNotification Test: User Id: " . $user->id;
 		// echo "\nNotification Test: User Household Id: " . $user->household->id . "\n";
 
@@ -69,7 +66,6 @@ class NotificationModelTest extends TestCase {
 
 		$this->assertTrue( $notification->errors()->first("to") == "The to must be at least 3 characters." );
 		$this->assertTrue( $notification->errors()->first("message") == "The message must be at least 3 characters." );
-		$this->assertTrue( $notification->errors()->first("household_id") == "The household id field is required." );
 		$this->assertTrue( $notification->errors()->first("user_id") == "The user id field is required." );
 
 		$notification->to = $faker->text(100);

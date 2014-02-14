@@ -7,7 +7,6 @@ class Todo extends BaseModel {
 
 	public static $rules = array(
         'id' => 'required|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
-        'household_id' => 'required|exists:households,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
         'owner_id' => 'required|exists:users,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
         'title' => 'required|min:3|max:50',
         'due_date' => 'required|date',
@@ -19,11 +18,6 @@ class Todo extends BaseModel {
     public function owner()
     {
         return $this->belongsTo('Models\User');
-    }
-
-	public function household()
-    {
-        return $this->belongsTo('Models\Household');
     }
 
 	public function tags()
@@ -45,13 +39,6 @@ class Todo extends BaseModel {
     public function setOwner(\Models\User $user) {
         $user->save();
         $this->owner()->associate( $user );
-        $this->household()->associate( $user->household );
-        $this->save();
-    }
-
-    public function setHousehold(\Models\Household $household) {
-        $household->save();
-        $this->household()->associate( $household );
         $this->save();
     }
 

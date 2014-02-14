@@ -117,7 +117,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 		$msg = new \Models\Message( array( 
 			"sender_id" => $sender->id, 
-			"household_id" => $sender->household->id,
 			"receiver_id" => ($receiver) ? $receiver->id : '', 
 			"message" => $faker->paragraph($nbSentences = 5) ) );
 

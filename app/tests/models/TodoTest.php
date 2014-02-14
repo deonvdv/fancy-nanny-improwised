@@ -19,10 +19,6 @@ class TodoTest extends TestCase {
 
 		$newtodo = parent::createFakeTodo( $user );
 
-		// Set household
-		$newtodo->sethousehold( $user->household );
-
-		
 		// Set AssignedBy
 		$newtodo->setAssignedBy( $user );
 		
@@ -30,7 +26,8 @@ class TodoTest extends TestCase {
 		$newtodo->setAssignedTo( $user );
 
 		$newtodo->minutes_before = 20;
-
+		// var_dump( $newtodo->validate() );
+		// var_dump( $newtodo->errors());
 		$this->assertTrue( $newtodo->validate() );
 		$newtodo->save();	
 		$id = $newtodo->id;
@@ -47,9 +44,6 @@ class TodoTest extends TestCase {
 		$this->assertTrue($found->title == $newtodo->title);
 		$this->assertTrue($found->owner->id == $newtodo->owner_id);
 		$this->assertTrue($found->owner->id == $user->id);
-		$this->assertTrue($found->household->id == $newtodo->household_id);
-		$this->assertTrue($found->household->id == $user->household_id);
-		$this->assertTrue($found->household->id == $user->household->id);
 		$this->assertTrue($found->assigned_by == $user->id);
 		$this->assertTrue($found->assigned_to == $user->id);
 		$this->assertTrue($found->minutes_before == $newtodo->minutes_before);
@@ -69,7 +63,6 @@ class TodoTest extends TestCase {
 		
 		$this->assertFalse( $newtodo->validate() );
 		
-		$this->assertTrue( $newtodo->errors()->first("household_id") == "The household id field is required." );
 		$this->assertTrue( $newtodo->errors()->first("owner_id") == "The owner id field is required." );
 		$this->assertTrue( $newtodo->errors()->first("title") == "The title field is required." );
 		$this->assertTrue( $newtodo->errors()->first("due_date") == "The due date field is required." );
@@ -87,9 +80,6 @@ class TodoTest extends TestCase {
 
 		$this->assertFalse( $newtodo->validate() );
 		
-		
-
-		$this->assertTrue( $newtodo->errors()->first("household_id") == "The selected household id is invalid." );
 		$this->assertTrue( $newtodo->errors()->first("owner_id") == "The selected owner id is invalid." );
 		$this->assertTrue( $newtodo->errors()->first("title") == "The title must be at least 3 characters." );
 		$this->assertTrue( $newtodo->errors()->first("due_date") == "The due date is not a valid date." );
@@ -97,9 +87,7 @@ class TodoTest extends TestCase {
 		$this->assertTrue( $newtodo->errors()->first("assigned_to") == "The selected assigned to is invalid." );
 		$this->assertTrue( $newtodo->errors()->first("minutes_before") == "The minutes before must be an integer." );
 
-		
 		$newtodo->setOwner( $user );
-		$newtodo->setHousehold( $user->household );
 		$newtodo->title = $faker->text(15);
 		$newtodo->due_date = $faker->date;
 		$newtodo->setAssignedBy( $user );

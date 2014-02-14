@@ -60,9 +60,6 @@ class EventModelTest extends TestCase {
 		$this->assertTrue($found->minutes_before == $newevent->minutes_before);
 		$this->assertTrue($found->type == $newevent->type);
 
-		//Test Household
-		$this->assertTrue($found->household->id == $newevent->household_id);
-
 		//Test User	
 		$this->assertTrue($found->owner->id == $newevent->owner_id);
 
@@ -100,11 +97,11 @@ class EventModelTest extends TestCase {
 		// print_r( $event->errors()->first("owner_id") );
 
 		$this->assertTrue( $event->errors()->first("owner_id") == "The owner id field is required." );
-		$this->assertTrue( $event->errors()->first("household_id") == "The household id field is required." );
 		$this->assertTrue( $event->errors()->first("title") == "The title must be at least 3 characters." );
 		$this->assertTrue( $event->errors()->first("event_date") == "The event date is not a valid date." );
 		$this->assertTrue( $event->errors()->first("start_time") == "The start time does not match the format H:i:s." );
 		$this->assertTrue( $event->errors()->first("end_time") == "The end time does not match the format H:i:s." );
+		$this->assertTrue( $event->errors()->first("minutes_before") == "The minutes before field is required." );
 
         $event->title = ucwords($faker->bs);
         $event->description = $faker->text;
@@ -113,13 +110,20 @@ class EventModelTest extends TestCase {
         $event->start_time = $faker->time($format = 'H:i:s');
         $event->end_time = $faker->time($format = 'H:i:s');
         $event->notify = $faker->boolean;
+        $event->all_day = $faker->boolean;
         $event->type = 'travel';
 
 		// set Owner
         $event->setOwner( $user );
+        $event->minutes_before = 200;
 
-		// var_dump( $event->validate() );
+        $this->assertFalse( $event->validate() );
+   		// var_dump( $event->validate() );
 		// var_dump( $event->errors() );
+        $this->assertTrue( $event->errors()->first("minutes_before") == "The minutes before must be between 1 and 59." );
+
+		$event->minutes_before = 20;
+		
 		$this->assertTrue( $event->validate() );
 		unset($event);
 	}

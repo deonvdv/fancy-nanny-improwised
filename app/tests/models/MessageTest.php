@@ -23,8 +23,6 @@ class MessageModelTest extends TestCase {
 			
 		$msg = new \Models\Message();
 
-		//Set Household
-		$msg->setHousehold( $sender->household );
 		$msg->message = $faker->text;
 		$msg->sender_id = $sender->id;
 		//$msg->setSender( $sender );
@@ -42,9 +40,6 @@ class MessageModelTest extends TestCase {
 		// Test Message
 		$this->assertTrue($found->id == $msg->id);
 		$this->assertTrue($found->name == $msg->name);
-
-		// Test Household
-		$this->assertTrue($found->household->id == $sender->household->id);
 
 		// Test Sender
 		$this->assertTrue($found->sender->id == $sender->id);
@@ -74,11 +69,9 @@ class MessageModelTest extends TestCase {
 		// print_r( $msg->errors()->first("household_id") );
 		// print_r( $msg->errors()->first("owner_id") );
 
-		$this->assertTrue( $msg->errors()->first("household_id") == "The household id field is required." );
 		$this->assertTrue( $msg->errors()->first("sender_id") == "The sender id field is required." );
 		$this->assertTrue( $msg->errors()->first("message") == "The message field is required." );
 
-		$msg->setHousehold( $user->household );
 		$msg->message = $faker->text(100);
 		//$msg->setSender( $user );
 		$msg->sender_id = $user->id;

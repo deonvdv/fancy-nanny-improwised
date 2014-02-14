@@ -50,9 +50,6 @@ class DocumentModelTest extends TestCase {
 		$this->assertTrue($found->cdn_url == $doc->cdn_url);
 		$this->assertTrue($found->private == $doc->private);
 
-		//Test Household
-		$this->assertTrue($found->household->id == $user->household_id);
-
 		// echo "\nDocument Test: User Id: " . $user->id;
 		// echo "\nDocument Test: User Household Id: " . $user->household->id . "\n";
 	
@@ -80,7 +77,6 @@ class DocumentModelTest extends TestCase {
 
 		$this->assertTrue( $doc->errors()->first("name") == "The name must be at least 3 characters." );
 		$this->assertTrue( $doc->errors()->first("file_name") == "The file name must be at least 3 characters." );
-		$this->assertTrue( $doc->errors()->first("household_id") == "The household id field is required." );
 		$this->assertTrue( $doc->errors()->first("owner_id") == "The owner id field is required." );
 
 		$doc->name = $faker->text(100);

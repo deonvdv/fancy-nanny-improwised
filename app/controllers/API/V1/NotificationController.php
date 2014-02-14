@@ -70,42 +70,58 @@ class NotificationController extends BaseController {
 	 */
 	public function store()
 	{
-		$notifications = new \Models\Notification;
-		$input = Input::all();
-
-		foreach($notifications->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$notifications->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $notifications->save();
+			$notification = new \Models\Notification;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $notifications->toArray(),
-					'message'	=> 'New Notification created sucessfully!'
-				)
-			);
+			foreach($notification->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$notification->$field = $input[$field];
+				}
+			}
+
+			if ( $notification->validate() ) {
+				$notification->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $notification->toArray(),
+						'message'	=> 'New Notification created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/notification/'.$notification->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $notification->errors()->toArray(),
+						'message'	=> 'Error adding Notification!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
-					'data'		=> $notifications->toArray(),
-					'message'	=> $e->getMessage()
+					'data'		=> $notification->toArray(),
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
-	}
-
+	}	
+	
 	/**
 	 * Display the specified resource.
 	 *

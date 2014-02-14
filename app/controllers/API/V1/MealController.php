@@ -92,42 +92,58 @@ class MealController extends BaseController {
 	 */
 	public function store()
 	{
-		$meals = new \Models\Meal;
-		$input = Input::all();
-
-		foreach($meals->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$meals->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $meals->save();
+			$meal = new \Models\Meal;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $meals->toArray(),
-					'message'	=> 'New Meal created sucessfully!'
-				)
-			);
+			foreach($meal->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$meal->$field = $input[$field];
+				}
+			}
+
+			if ( $meal->validate() ) {
+				$meal->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $meal->toArray(),
+						'message'	=> 'New Meal created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/meal/'.$meal->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $meal->errors()->toArray(),
+						'message'	=> 'Error adding Meal!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
-					'data'		=> $meals->toArray(),
-					'message'	=> $e->getMessage()
+					'data'		=> $meal->toArray(),
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
 	}
-
+	
 	/**
 	 * Display the specified resource.
 	 *

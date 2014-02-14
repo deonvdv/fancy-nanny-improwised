@@ -70,42 +70,57 @@ class DocumentController extends BaseController {
 	 */
 	public function store()
 	{
-		$documents = new \Models\Document;
-		$input = Input::all();
-
-		foreach($documents->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$documents->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $documents->save();
+			$document = new \Models\Document;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $documents->toArray(),
-					'message'	=> 'New Document created sucessfully!'
-				)
-			);
+			foreach($document->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$document->$field = $input[$field];
+				}
+			}
+
+			if ( $document->validate() ) {
+				$document->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $category->toArray(),
+						'message'	=> 'New Document created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/document/'.$document->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $document->errors()->toArray(),
+						'message'	=> 'Error adding Document!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
-					'data'		=> $documents->toArray(),
-					'message'	=> $e->getMessage()
+					'data'		=> $document->toArray(),
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
 	}
-
 	/**
 	 * Display the specified resource.
 	 *

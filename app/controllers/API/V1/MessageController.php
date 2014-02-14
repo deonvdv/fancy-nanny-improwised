@@ -70,42 +70,58 @@ class MessageController extends BaseController {
 	 */
 	public function store()
 	{
-		$message = new \Models\User;
-		$input = Input::all();
-
-		foreach($message->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$message->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $message->save();
+			$message = new \Models\Message;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $message->toArray(),
-					'message'	=> 'New Message created sucessfully!'
-				)
-			);
+			foreach($message->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$message->$field = $input[$field];
+				}
+			}
+
+			if ( $message->validate() ) {
+				$message->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $message->toArray(),
+						'message'	=> 'New Message created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/message/'.$message->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $message->errors()->toArray(),
+						'message'	=> 'Error adding Message!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $message->toArray(),
-					'message'	=> $e->getMessage()
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
 	}
-
+	
 	/**
 	 * Display the specified resource.
 	 *

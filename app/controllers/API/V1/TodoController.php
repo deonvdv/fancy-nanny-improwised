@@ -70,42 +70,58 @@ class TodoController extends BaseController {
 	 */
 	public function store()
 	{
-		$todos = new \Models\Todo;
-		$input = Input::all();
-
-		foreach($todos->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$todos->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $todos->save();
+			$todo = new \Models\Todo;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $todos->toArray(),
-					'message'	=> 'New Todo created sucessfully!'
-				)
-			);
+			foreach($todo->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$todo->$field = $input[$field];
+				}
+			}
+
+			if ( $todo->validate() ) {
+				$todo->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $todo->toArray(),
+						'message'	=> 'New Todo created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/todo/'.$todo->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $todo->errors()->toArray(),
+						'message'	=> 'Error adding Todo!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
-					'data'		=> $todos->toArray(),
-					'message'	=> $e->getMessage()
+					'data'		=> $todo->toArray(),
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
 	}
-
+	
 	/**
 	 * Display the specified resource.
 	 *

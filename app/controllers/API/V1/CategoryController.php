@@ -110,7 +110,7 @@ class CategoryController extends BaseController {
 				);
 			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(

@@ -70,42 +70,58 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function store()
 	{
-		$units_of_measures = new \Models\UnitOfMeasure;
-		$input = Input::all();
-
-		foreach($units_of_measures->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$units_of_measures->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $units_of_measures->save();
+			$units_of_measure = new \Models\UnitOfMeasure;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $units_of_measures->toArray(),
-					'message'	=> 'New UnitOfMeasure created sucessfully!'
-				)
-			);
+			foreach($units_of_measure->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$units_of_measure->$field = $input[$field];
+				}
+			}
+
+			if ( $units_of_measure->validate() ) {
+				$units_of_measure->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $units_of_measure->toArray(),
+						'message'	=> 'New UnitsOfMeasure created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/units_of_measure/'.$units_of_measure->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $units_of_measure->errors()->toArray(),
+						'message'	=> 'Error adding UnitsOfMeasure!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
-					'data'		=> $units_of_measures->toArray(),
-					'message'	=> $e->getMessage()
+					'data'		=> $units_of_measure->toArray(),
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
 	}
-
+	
 	/**
 	 * Display the specified resource.
 	 *

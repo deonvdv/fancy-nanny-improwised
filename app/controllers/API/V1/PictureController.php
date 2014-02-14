@@ -68,43 +68,60 @@ class PictureController extends BaseController {
 	 *
 	 * @return Response
 	 */
+	
 	public function store()
 	{
-		$pictures = new \Models\Picture;
-		$input = Input::all();
-
-		foreach($pictures->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$pictures->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $pictures->save();
+			$picture = new \Models\Picture;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $pictures->toArray(),
-					'message'	=> 'New Picture created sucessfully!'
-				)
-			);
+			foreach($picture->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$picture->$field = $input[$field];
+				}
+			}
+
+			if ( $picture->validate() ) {
+				$picture->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $picture->toArray(),
+						'message'	=> 'New Picture created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/picture/'.$picture->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $picture->errors()->toArray(),
+						'message'	=> 'Error adding Picture!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
-					'data'		=> $pictures->toArray(),
-					'message'	=> $e->getMessage()
+					'data'		=> $picture->toArray(),
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
-	}
+	}	
 
 	/**
 	 * Display the specified resource.

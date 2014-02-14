@@ -70,36 +70,52 @@ class TagController extends BaseController {
 	 */
 	public function store()
 	{
-		$tag = new \Models\Tag;
-		$input = Input::all();
-
-		foreach($tag->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$tag->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $tag->save();
+			$tag = new \Models\Tag;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $tag->toArray(),
-					'message'	=> 'New Tag created sucessfully!'
-				)
-			);
+			foreach($tag->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$tag->$field = $input[$field];
+				}
+			}
+
+			if ( $tag->validate() ) {
+				$tag->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $tag->toArray(),
+						'message'	=> 'New Tag created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/tag/'.$tag->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $tag->errors()->toArray(),
+						'message'	=> 'Error adding Todo!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $tag->toArray(),
-					'message'	=> $e->getMessage()
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);

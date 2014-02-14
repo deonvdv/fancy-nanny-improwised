@@ -93,28 +93,44 @@ class UserController extends BaseController {
 	 */
 	public function store()
 	{
-		$user = new \Models\User;
-		$input = Input::all();
-
-		foreach($user->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$user->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $user->save();
+			$user = new \Models\User;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $user->toArray(),
-					'message'	=> 'New User created sucessfully!'
-				)
-			);
+			foreach($user->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$user->$field = $input[$field];
+				}
+			}
+
+			if ( $user->validate() ) {
+				$user->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $user->toArray(),
+						'message'	=> 'New User created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/user/'.$user->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $user->errors()->toArray(),
+						'message'	=> 'Error adding User!'
+					),
+					400
+				);
+			}
 		}
 		catch(\Exception $ex)
 		{
@@ -122,13 +138,13 @@ class UserController extends BaseController {
 				array(
 					'success'	=> false,
 					'data'		=> $user->toArray(),
-					'message'	=> $ex->getMessage()
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
 	}
-
+	
 	/**
 	 * Display the specified resource.
 	 *

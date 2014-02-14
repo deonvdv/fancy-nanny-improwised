@@ -70,42 +70,58 @@ class EventController extends BaseController {
 	 */
 	public function store()
 	{
-		$events = new \Models\Event;
-		$input = Input::all();
-
-		foreach($events->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$events->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $events->save();
+			$event = new \Models\Event;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $events->toArray(),
-					'message'	=> 'New Event created sucessfully!'
-				)
-			);
+			foreach($event->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$event->$field = $input[$field];
+				}
+			}
+
+			if ( $event->validate() ) {
+				$event->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $category->toArray(),
+						'message'	=> 'New Event created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/event/'.$event->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $event->errors()->toArray(),
+						'message'	=> 'Error adding Event!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
-					'data'		=> $events->toArray(),
-					'message'	=> $e->getMessage()
+					'data'		=> $document->toArray(),
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
 	}
-
+	
 	/**
 	 * Display the specified resource.
 	 *

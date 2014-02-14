@@ -77,41 +77,56 @@ class HouseholdController extends BaseController {
 	 */
 	public function store()
 	{
-		$household = new \Models\Household;
-		$input = Input::all();
-
-		foreach($household->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$household->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $household->save();
+			$household = new \Models\Household;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $household->toArray(),
-					'message'	=> 'New Household created sucessfully!'
-				)
-			);
+			foreach($household->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$household->$field = $input[$field];
+				}
+			}
+
+			if ( $household->validate() ) {
+				$household->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $household->toArray(),
+						'message'	=> 'New Household created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/household/'.$household->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $household->errors()->toArray(),
+						'message'	=> 'Error adding Household!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> $household->toArray(),
-					'message'	=> $e->getMessage()
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
-
 	}
 
 	/**

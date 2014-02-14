@@ -70,41 +70,57 @@ class IngredientController extends BaseController {
 	 */
 	public function store()
 	{
-		$ingredients = new \Models\Ingredient;
-		$input = Input::all();
-
-		foreach($ingredients->fields() as $field)
-		{
-			if(isset($input[$field]))
-			{
-				$ingredients->$field = $input[$field];
-			}
-		}
-
 		try
 		{
-			$status = $ingredients->save();
+			$ingredient = new \Models\Ingredient;
+			$input = Input::all();
 
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $ingredients->toArray(),
-					'message'	=> 'New Ingredient created sucessfully!'
-				)
-			);
+			foreach($ingredient->fields() as $field)
+			{
+				if(isset($input[$field]))
+				{
+					$ingredient->$field = $input[$field];
+				}
+			}
+
+			if ( $ingredient->validate() ) {
+				$ingredient->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $ingredient->toArray(),
+						'message'	=> 'New Ingredient created sucessfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/ingredient/'.$ingredient->id);
+
+				return $response;
+			} else {
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> $ingredient->errors()->toArray(),
+						'message'	=> 'Error adding Ingredient!'
+					),
+					400
+				);
+			}
 		}
-		catch(\Exception $e)
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
-					'data'		=> $ingredients->toArray(),
-					'message'	=> $e->getMessage()
+					'data'		=> $ingredient->toArray(),
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
 				500
 			);
 		}
-	}
+	}	
 
 	/**
 	 * Display the specified resource.

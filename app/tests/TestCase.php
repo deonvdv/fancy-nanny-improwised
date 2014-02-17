@@ -104,9 +104,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		if ( $owner )
 			$doc->setOwner( $owner );
 
-        $doc->save();
-
-		return $doc;
+        return $doc;
 	}
 
 	public function createFakeMessage(\Models\User $sender, \Models\User $receiver = null) {

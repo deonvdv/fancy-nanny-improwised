@@ -89,7 +89,7 @@ class DocumentController extends BaseController {
 				$response = parent::buildJsonResponse(
 					array(
 						'success'	=> true,
-						'data'		=> $category->toArray(),
+						'data'		=> $document->toArray(),
 						'message'	=> 'New Document created sucessfully!'
 					),
 					201
@@ -204,7 +204,7 @@ class DocumentController extends BaseController {
 					$document->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $document->toArray(),
 							'message'	=> 'Document updated sucessfully!'
 						)
@@ -212,7 +212,7 @@ class DocumentController extends BaseController {
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $document->errors()->toArray(),
 							'message'	=> 'Error updating Document!'
 						)

@@ -89,7 +89,7 @@ class EventController extends BaseController {
 				$response = parent::buildJsonResponse(
 					array(
 						'success'	=> true,
-						'data'		=> $category->toArray(),
+						'data'		=> $event->toArray(),
 						'message'	=> 'New Event created sucessfully!'
 					),
 					201
@@ -202,10 +202,10 @@ class EventController extends BaseController {
 				}
 
 				if( $event->validate()) {
-					$events->save();
+					$event->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $event->toArray(),
 							'message'	=> 'Event updated sucessfully!'
 						)
@@ -213,7 +213,7 @@ class EventController extends BaseController {
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $event->errors()->toArray(),
 							'message'	=> 'Error updating Event!'
 						)
@@ -258,7 +258,7 @@ class EventController extends BaseController {
 		{
 			$event = \Models\Event::find($id);
 
-			if(!is_null($events))
+			if(!is_null($event))
 			{
 				$status = $event->delete();
 				return parent::buildJsonResponse(

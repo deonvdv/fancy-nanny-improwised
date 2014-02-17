@@ -152,7 +152,8 @@ class MealController extends BaseController {
 	 */
 	public function show($id)
 	{
-		try {
+		try 
+		{
 			$meal = \Models\Meal::find($id);
 			if(count($meal) > 0)
 			{
@@ -207,40 +208,63 @@ class MealController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$meals = \Models\Meal::find($id);
-		$input = Input::all();
-
-		if(!is_null($meals))
+		try
 		{
-			foreach(\Models\Meal::fields() as $field)
+			$meal = \Models\Meal::find($id);
+			$input = Input::all();
+
+			if(!is_null($meal))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\Meal::fields() as $field)
 				{
-					$meals->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$meals->$field = $input[$field];
+					}
+				}
+
+				if( $meal->validate()){
+					$meal->save();
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $meal->toArray(),
+							'message'	=> 'Meal updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $meal->errors()->toArray(),
+							'message'	=> 'Error updating Meal!'
+						)
+					);
 				}
 			}
-
-			$status = $meals->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $meals->toArray(),
-					'message'	=> 'Meal updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Meal with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Meal with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
-		}
+		}		
 	}
 
 	/**
@@ -251,105 +275,151 @@ class MealController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$meals = \Models\Meal::find($id);
-
-		if(!is_null($meals))
+		try
 		{
-			$status = $meals->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $meals->toArray(),
-					'message'	=> ($status) ? 'Meal deleted successfully!' : 'Error occured while deleting Meal'
-				)
-			);
+			$meal = \Models\Meal::find($id);
+
+			if(!is_null($meal))
+			{
+				$status = $meal->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $meal->toArray(),
+						'message'	=> ($status) ? 'Meal deleted successfully!' : 'Error occured while deleting Meal'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Meal with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Meal with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
+		
 	}
 
-	public function recipes($id, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function recipes($id, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Meal::find($id) ) {
-	        $collection = \Models\Meal::find($id)->recipes()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Meal::find($id)->recipes()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Meal::find($id) ) {
+		        $collection = \Models\Meal::find($id)->recipes()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Meal::find($id)->recipes()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find MealsRecipes for Meal id : '.$id
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find MealsRecipes for Meal id : '.$id
-        		),
-        		404
-        	);
 		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}		
 	}
 	
-	public function tags($id, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function tags($id, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Meal::find($id) ) {
-	        $collection = \Models\Meal::find($id)->tags()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Meal::find($id)->tags()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Meal::find($id) ) {
+		        $collection = \Models\Meal::find($id)->tags()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Meal::find($id)->tags()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find MealTags for Meal id : '.$id
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find MealTags for Meal id : '.$id
-        		),
-        		404
-        	);
 		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+		
 	}
 }

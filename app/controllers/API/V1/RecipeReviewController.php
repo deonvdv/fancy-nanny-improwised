@@ -129,7 +129,8 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function show($id)
 	{
-		try {
+		try 
+		{
 			$recipereview = \Models\RecipeReview::find($id);
 			if(count($recipereview) > 0)
 			{
@@ -184,40 +185,63 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$recipereviews = \Models\RecipeReview::find($id);
-		$input = Input::all();
-
-		if(!is_null($recipereviews))
+		try
 		{
-			foreach(\Models\RecipeReview::fields() as $field)
+			$recipereviews = \Models\RecipeReview::find($id);
+			$input = Input::all();
+
+			if(!is_null($recipereviews))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\RecipeReview::fields() as $field)
 				{
-					$recipereviews->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$recipereviews->$field = $input[$field];
+					}
+				}
+
+				if($recipereviews->validate()){
+					$recipereviews->save();
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $recipereviews->toArray(),
+							'message'	=> 'RecipeReview updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $recipereviews->errors()->toArray(),
+							'message'	=> 'Error updating RecipeReview!'
+						)
+					);
 				}
 			}
-
-			$status = $recipereviews->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $recipereviews->toArray(),
-					'message'	=> 'RecipeReview updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find RecipeReview with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find RecipeReview with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
-		}
+		}		
 	}
 
 	/**
@@ -228,28 +252,42 @@ class RecipeReviewController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$recipereviews = \Models\RecipeReview::find($id);
-
-		if(!is_null($recipereviews))
+		try
 		{
-			$status = $recipereviews->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $recipereviews->toArray(),
-					'message'	=> ($status) ? 'RecipeReview deleted successfully!' : 'Error occured while deleting RecipeReview'
-				)
-			);
+			$recipereviews = \Models\RecipeReview::find($id);
+
+			if(!is_null($recipereviews))
+			{
+				$status = $recipereviews->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $recipereviews->toArray(),
+						'message'	=> ($status) ? 'RecipeReview deleted successfully!' : 'Error occured while deleting RecipeReview'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find RecipeReview with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find RecipeReview with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
 	}

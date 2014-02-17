@@ -164,9 +164,7 @@ class TagController extends BaseController {
         		),
         		500
         	);
-		}
-		
-        // return View::make('tags.show');
+		}		
 	}
 
 	/**
@@ -188,40 +186,65 @@ class TagController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$tag = \Models\Tag::find($id);
-		$input = Input::all();
-
-		if(!is_null($tag))
+		try
 		{
-			foreach(\Models\Tag::fields() as $field)
+			$tag = \Models\Tag::find($id);
+			$input = Input::all();
+
+			if(!is_null($tag))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\Tag::fields() as $field)
 				{
-					$tag->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$tag->$field = $input[$field];
+					}
 				}
+
+				if($tag->validate()) {
+					$status = $tag->save();
+
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $tag->toArray(),
+							'message'	=> 'Tag updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $tag->errors()->toArray(),
+							'message'	=> 'Error updating Tag!'
+						)
+					);
+				}
+				
 			}
-
-			$status = $tag->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $tag->toArray(),
-					'message'	=> 'Tag updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Tag with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Could not find Tag with id: '.$id
-				),
-				404
-			);
-		}
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+        		),
+        		500
+        	);
+		}		
 	}
 
 	/**
@@ -232,30 +255,44 @@ class TagController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$tag = \Models\Tag::find($id);
+		try
+		{
+			$tag = \Models\Tag::find($id);
 
-		if(!is_null($tag))
-		{
-			$status = $tag->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $tag->toArray(),
-					'message'	=> ($status) ? 'Tag deleted successfully!' : 'Error occured while deleting Tag'
-				)
-			);
+			if(!is_null($tag))
+			{
+				$status = $tag->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $tag->toArray(),
+						'message'	=> ($status) ? 'Tag deleted successfully!' : 'Error occured while deleting Tag'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Tag with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Could not find Tag with id: '.$id
-				),
-				404
-			);
-		}
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+        		),
+        		500
+        	);
+		}		
 	}
 
 }

@@ -130,7 +130,8 @@ class EventController extends BaseController {
 	 */
 	public function show($id)
 	{
-		try {
+		try 
+		{
 			$event = \Models\Event::find($id);
 			if(count($event) > 0)
 			{
@@ -185,40 +186,64 @@ class EventController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$events = \Models\Event::find($id);
-		$input = Input::all();
-
-		if(!is_null($events))
+		try
 		{
-			foreach(\Models\Event::fields() as $field)
+			$event = \Models\Event::find($id);
+			$input = Input::all();
+
+			if(!is_null($event))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\Event::fields() as $field)
 				{
-					$events->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$event->$field = $input[$field];
+					}
 				}
+
+				if( $event->validate()) {
+					$events->save();
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $event->toArray(),
+							'message'	=> 'Event updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $event->errors()->toArray(),
+							'message'	=> 'Error updating Event!'
+						)
+					);
+				}
+				
 			}
-
-			$status = $events->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $events->toArray(),
-					'message'	=> 'Event updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Event with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Event with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
-		}
+		}		
 	}
 
 	/**
@@ -229,106 +254,151 @@ class EventController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$events = \Models\Event::find($id);
-
-		if(!is_null($events))
+		try
 		{
-			$status = $events->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $events->toArray(),
-					'message'	=> ($status) ? 'Event deleted successfully!' : 'Error occured while deleting Event'
-				)
-			);
+			$event = \Models\Event::find($id);
+
+			if(!is_null($events))
+			{
+				$status = $event->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $event->toArray(),
+						'message'	=> ($status) ? 'Event deleted successfully!' : 'Error occured while deleting Event'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Event with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Event with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
-		}
+		}		
 	}
 
-	public function tags($id, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function tags($id, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Event::find($id) ) {
-	        $collection = \Models\Event::find($id)->tags()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Event::find($id)->tags()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Event::find($id) ) {
+		        $collection = \Models\Event::find($id)->tags()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Event::find($id)->tags()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Event Tags Event id:'.$id
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Event Tags Event id:'.$id
-        		),
-        		404
-        	);
 		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}		
 	}
 
-	public function attendees($id, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function attendees($id, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Event::find($id) ) {
-	        $collection = \Models\Event::find($id)->attendees()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Event::find($id)->attendees()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Event::find($id) ) {
+		        $collection = \Models\Event::find($id)->attendees()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Event::find($id)->attendees()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Event Tags Event id:'.$id
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Event Tags Event id:'.$id
-        		),
-        		404
-        	);
 		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}	
+		
 	}
 
 }

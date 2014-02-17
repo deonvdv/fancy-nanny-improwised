@@ -130,7 +130,8 @@ class NotificationController extends BaseController {
 	 */
 	public function show($id)
 	{
-		try {
+		try 
+		{
 			$notification = \Models\Notification::find($id);
 			if(count($notification) > 0)
 			{
@@ -185,38 +186,61 @@ class NotificationController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$notifications = \Models\Notification::find($id);
-		$input = Input::all();
-
-		if(!is_null($notifications))
+		try
 		{
-			foreach(\Models\Notification::fields() as $field)
+			$notification = \Models\Notification::find($id);
+			$input = Input::all();
+
+			if(!is_null($notification))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\Notification::fields() as $field)
 				{
-					$notifications->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$notification->$field = $input[$field];
+					}
 				}
+
+				if($notification->validate()){
+					$notification->save();
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $notification->toArray(),
+							'message'	=> 'Notification updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $notification->errors()->toArray(),
+							'message'	=> 'Error updating Notification!'
+						)
+					);
+				}				
 			}
-
-			$status = $notifications->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $notifications->toArray(),
-					'message'	=> 'Notification updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Notification with id: '.$id
+					),
+					404
+				);
+			}			
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Notification with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
 	}
@@ -229,28 +253,42 @@ class NotificationController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$notifications = \Models\Notification::find($id);
-
-		if(!is_null($notifications))
+		try
 		{
-			$status = $notifications->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $notifications->toArray(),
-					'message'	=> ($status) ? 'Notification deleted successfully!' : 'Error occured while deleting Notification'
-				)
-			);
+			$notification = \Models\Notification::find($id);
+
+			if(!is_null($notification))
+			{
+				$status = $notification->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $notification->toArray(),
+						'message'	=> ($status) ? 'Notification deleted successfully!' : 'Error occured while deleting Notification'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Notification with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Notification with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
 	}

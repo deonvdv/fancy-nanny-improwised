@@ -164,8 +164,7 @@ class RecipeIngredientController extends BaseController {
         		),
         		500
         	);
-		}
-		  
+		}		  
 	}
 
 	/**
@@ -187,40 +186,63 @@ class RecipeIngredientController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$recipeingredients = \Models\RecipeIngredient::find($id);
-		$input = Input::all();
-
-		if(!is_null($recipeingredients))
+		try
 		{
-			foreach(\Models\RecipeIngredient::fields() as $field)
+			$recipeingredient = \Models\RecipeIngredient::find($id);
+			$input = Input::all();
+
+			if(!is_null($recipeingredient))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\RecipeIngredient::fields() as $field)
 				{
-					$recipeingredients->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$recipeingredient->$field = $input[$field];
+					}
+				}
+
+				if($recipeingredient->validate()){
+					$recipeingredient->save();
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $recipeingredients->toArray(),
+							'message'	=> 'RecipeIngredient updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $recipeingredient->errors()->toArray(),
+							'message'	=> 'Error updating RecipeIngredient!'
+						)
+					);
 				}
 			}
-
-			$status = $recipeingredients->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $recipeingredients->toArray(),
-					'message'	=> 'RecipeIngredient updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find RecipeIngredient with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Could not find RecipeIngredient with id: '.$id
-				),
-				404
-			);
-		}
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+        		),
+        		500
+        	);
+		}		
 	}
 
 	/**
@@ -231,30 +253,45 @@ class RecipeIngredientController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$recipeingredients = \Models\RecipeIngredient::find($id);
+		try
+		{
+			$recipeingredient = \Models\RecipeIngredient::find($id);
 
-		if(!is_null($recipeingredients))
-		{
-			$status = $recipeingredients->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $recipeingredients->toArray(),
-					'message'	=> ($status) ? 'RecipeIngredient deleted successfully!' : 'Error occured while deleting RecipeIngredient'
-				)
-			);
+			if(!is_null($recipeingredient))
+			{
+				$status = $recipeingredient->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $recipeingredient->toArray(),
+						'message'	=> ($status) ? 'RecipeIngredient deleted successfully!' : 'Error occured while deleting RecipeIngredient'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find RecipeIngredient with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Could not find RecipeIngredient with id: '.$id
-				),
-				404
-			);
-		}
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+        		),
+        		500
+        	);
+		}	
+		
 	}
 
 }

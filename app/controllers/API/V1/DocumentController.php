@@ -129,7 +129,8 @@ class DocumentController extends BaseController {
 	 */
 	public function show($id)
 	{
-		try {
+		try 
+		{
 			$document = \Models\Document::find($id);
 			if(count($document) > 0)
 			{
@@ -184,40 +185,63 @@ class DocumentController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$documents = \Models\Document::find($id);
-		$input = Input::all();
-
-		if(!is_null($documents))
+		try
 		{
-			foreach(\Models\Document::fields() as $field)
+			$document = \Models\Document::find($id);
+			$input = Input::all();
+
+			if(!is_null($document))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\Document::fields() as $field)
 				{
-					$documents->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$document->$field = $input[$field];
+					}
+				}
+
+				if( $document->validate() ){
+					$document->save();
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $document->toArray(),
+							'message'	=> 'Document updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $document->errors()->toArray(),
+							'message'	=> 'Error updating Document!'
+						)
+					);
 				}
 			}
-
-			$status = $documents->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $documents->toArray(),
-					'message'	=> 'Document updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Document with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Document with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
-		}
+		}		
 	}
 
 	/**
@@ -228,30 +252,44 @@ class DocumentController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$documents = \Models\Document::find($id);
-
-		if(!is_null($documents))
+		try
 		{
-			$status = $documents->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $documents->toArray(),
-					'message'	=> ($status) ? 'Document deleted successfully!' : 'Error occured while deleting Document'
-				)
-			);
+			$documents = \Models\Document::find($id);
+
+			if(!is_null($documents))
+			{
+				$status = $documents->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $documents->toArray(),
+						'message'	=> ($status) ? 'Document deleted successfully!' : 'Error occured while deleting Document'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Document with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Document with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
-		}
+		}		
 	}
 
 }

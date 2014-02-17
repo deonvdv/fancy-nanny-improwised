@@ -198,40 +198,63 @@ class HouseholdController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$household = \Models\Household::find($id);
-		$input = Input::all();
-
-		if(!is_null($household))
+		try
 		{
-			foreach(\Models\Household::fields() as $field)
+			$household = \Models\Household::find($id);
+			$input = Input::all();
+
+			if(!is_null($household))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\Household::fields() as $field)
 				{
-					$household->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$household->$field = $input[$field];
+					}
 				}
+
+				if ( $household->validate() ){
+					$household->save();
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $household->toArray(),
+							'message'	=> 'Household updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $household->errors()->toArray(),
+							'message'	=> 'Error updating Household!'
+						)
+					);
+				}				
 			}
-
-			$status = $household->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $household->toArray(),
-					'message'	=> 'Household updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Household with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Household with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
-		}
+		}		
 	}
 
 	/**
@@ -242,334 +265,468 @@ class HouseholdController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$household = \Models\Household::find($id);
-
-		if(!is_null($household))
+		try
 		{
-			$status = $household->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $household->toArray(),
-					'message'	=> ($status) ? 'Household deleted successfully!' : 'Error occured while deleting Household'
-				)
-			);
+			$household = \Models\Household::find($id);
+
+			if(!is_null($household))
+			{
+				$status = $household->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $household->toArray(),
+						'message'	=> ($status) ? 'Household deleted successfully!' : 'Error occured while deleting Household'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Household with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Household with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
+			);
+		}		
+	}
+
+	public function documents($householdId, $page = 1){
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
+
+			if ( \Models\Household::find($householdId) ) {
+		        $collection = \Models\Household::find($householdId)->documents()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Household::find($householdId)->documents()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
+
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Household with id '.$householdId
+	        		),
+	        		404
+	        	);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
 			);
 		}
 	}
 
-	public function documents($householdId, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function messages($householdId, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Household::find($householdId) ) {
-	        $collection = \Models\Household::find($householdId)->documents()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Household::find($householdId)->documents()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Household::find($householdId) ) {
+		        $collection = \Models\Household::find($householdId)->messages()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Household::find($householdId)->messages()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Household with id '.$householdId
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Household with id '.$householdId
-        		),
-        		404
-        	);
 		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}		
 	}
 
-	public function messages($householdId, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function tags($householdId, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Household::find($householdId) ) {
-	        $collection = \Models\Household::find($householdId)->messages()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Household::find($householdId)->messages()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Household::find($householdId) ) {
+		        $collection = \Models\Household::find($householdId)->tags()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Household::find($householdId)->tags()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Household with id '.$householdId
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Household with id '.$householdId
-        		),
-        		404
-        	);
 		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}		
 	}
 
-	public function tags($householdId, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function members($householdId, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Household::find($householdId) ) {
-	        $collection = \Models\Household::find($householdId)->tags()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Household::find($householdId)->tags()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Household::find($householdId) ) {
+		        $collection = \Models\Household::find($householdId)->members()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Household::find($householdId)->members()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Household with id '.$householdId
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Household with id '.$householdId
-        		),
-        		404
-        	);
 		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}		
 	}
 
-	public function members($householdId, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function meals($householdId, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Household::find($householdId) ) {
-	        $collection = \Models\Household::find($householdId)->members()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Household::find($householdId)->members()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Household::find($householdId) ) {
+		        $collection = \Models\Household::find($householdId)->tags()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Household::find($householdId)->tags()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Household with id '.$householdId
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Household with id '.$householdId
-        		),
-        		404
-        	);
 		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}			
 	}
 
-	public function meals($householdId, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function events($householdId, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Household::find($householdId) ) {
-	        $collection = \Models\Household::find($householdId)->tags()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Household::find($householdId)->tags()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Household::find($householdId) ) {
+		        $collection = \Models\Household::find($householdId)->events()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Household::find($householdId)->events()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Household with id '.$householdId
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Household with id '.$householdId
-        		),
-        		404
-        	);
 		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}		
 	}
 
-	public function events($householdId, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function todos($householdId, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Household::find($householdId) ) {
-	        $collection = \Models\Household::find($householdId)->events()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Household::find($householdId)->events()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Household::find($householdId) ) {
+		        $collection = \Models\Household::find($householdId)->todos()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Household::find($householdId)->todos()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Household with id '.$householdId
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Household with id '.$householdId
-        		),
-        		404
-        	);
 		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}		
 	}
 
-	public function todos($householdId, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
+	public function notifications($householdId, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
 
-		if ( \Models\Household::find($householdId) ) {
-	        $collection = \Models\Household::find($householdId)->todos()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Household::find($householdId)->todos()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
+			if ( \Models\Household::find($householdId) ) {
+		        $collection = \Models\Household::find($householdId)->notifications()->skip($skip)->take($itemPerPage)->get();
+				$itemCount	= \Models\Household::find($householdId)->notifications()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
 
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Household with id '.$householdId
+	        		),
+	        		404
+	        	);
 			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Household with id '.$householdId
-        		),
-        		404
-        	);
 		}
-	}
-
-	public function notifications($householdId, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
-
-		if ( \Models\Household::find($householdId) ) {
-	        $collection = \Models\Household::find($householdId)->notifications()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Household::find($householdId)->notifications()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
-
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
-			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Household with id '.$householdId
-        		),
-        		404
-        	);
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
 		}
+		
 	}
 
 }

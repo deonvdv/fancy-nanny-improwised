@@ -165,8 +165,6 @@ class MessageController extends BaseController {
 				500
 			);
 		}
-		
-        // return View::make('messages.show');
 	}
 
 	/**
@@ -188,39 +186,63 @@ class MessageController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$message = \Models\Message::find($id);
-		$input = Input::all();
-		if(!is_null($message))
+		try
 		{
-			foreach(\Models\Message::fields() as $field)
+			$message = \Models\Message::find($id);
+			$input = Input::all();
+			if(!is_null($message))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\Message::fields() as $field)
 				{
-					$message->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$message->$field = $input[$field];
+					}
 				}
+
+				if($message->validate()){
+					$message->save();
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $message->toArray(),
+							'message'	=> 'Messages updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $message->errors()->toArray(),
+							'message'	=> 'Error updating Messages!'
+						)
+					);
+				}		
+				
 			}
-
-			$status = $message->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $message->toArray(),
-					'message'	=> 'Messages updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Message with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Message with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
-		}
+		}		
 	}
 
 	/**
@@ -231,30 +253,45 @@ class MessageController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$message = \Models\Message::find($id);
-
-		if(!is_null($message))
+		try
 		{
-			$status = $message->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $message->toArray(),
-					'message'	=> ($status) ? 'Message deleted successfully!' : 'Error occured while deleting User'
-				)
-			);
+			$message = \Models\Message::find($id);
+
+			if(!is_null($message))
+			{
+				$status = $message->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $message->toArray(),
+						'message'	=> ($status) ? 'Message deleted successfully!' : 'Error occured while deleting User'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Message with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Message with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
 		}
+		
 	}
 
 }

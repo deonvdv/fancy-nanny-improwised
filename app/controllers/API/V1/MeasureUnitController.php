@@ -164,9 +164,7 @@ class MeasureUnitController extends BaseController {
         		),
         		500
         	);
-		}
-		
-        // return View::make('measureunits.show');
+		}		
 	}
 
 	/**
@@ -188,40 +186,62 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$units_of_measures = \Models\UnitOfMeasure::find($id);
-		$input = Input::all();
-
-		if(!is_null($units_of_measures))
+		try
 		{
-			foreach(\Models\UnitOfMeasure::fields() as $field)
+			$units_of_measures = \Models\UnitOfMeasure::find($id);
+			$input = Input::all();
+
+			if(!is_null($units_of_measures))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\UnitOfMeasure::fields() as $field)
 				{
-					$units_of_measures->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$units_of_measures->$field = $input[$field];
+					}
 				}
+
+				if($units_of_measures->validate()){
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $units_of_measures->toArray(),
+							'message'	=> 'UnitOfMeasure updated sucessfully!'
+						)
+					);
+				} else {
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $units_of_measures->errors()->toArray(),
+							'message'	=> 'Error updating UnitOfMeasure!'
+						)
+					);
+				}				
 			}
-
-			$status = $units_of_measures->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $units_of_measures->toArray(),
-					'message'	=> 'UnitOfMeasure updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find UnitOfMeasure with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Could not find UnitOfMeasure with id: '.$id
-				),
-				404
-			);
-		}
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+        		),
+        		500
+        	);
+		}			
 	}
 
 	/**
@@ -232,30 +252,45 @@ class MeasureUnitController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$units_of_measures = \Models\UnitOfMeasure::find($id);
+		try
+		{
+			$units_of_measures = \Models\UnitOfMeasure::find($id);
 
-		if(!is_null($units_of_measures))
-		{
-			$status = $units_of_measures->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $units_of_measures->toArray(),
-					'message'	=> ($status) ? 'UnitOfMeasure deleted successfully!' : 'Error occured while deleting UnitOfMeasure'
-				)
-			);
+			if(!is_null($units_of_measures))
+			{
+				$status = $units_of_measures->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $units_of_measures->toArray(),
+						'message'	=> ($status) ? 'UnitOfMeasure deleted successfully!' : 'Error occured while deleting UnitOfMeasure'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find UnitOfMeasure with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
-				array(
-					'success'	=> false,
-					'data'		=> null,
-					'message'	=> 'Could not find UnitOfMeasure with id: '.$id
-				),
-				404
-			);
+        		array(
+        			'success'	=> false,
+        			'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+        		),
+        		500
+        	);
 		}
+		
 	}
 
 }

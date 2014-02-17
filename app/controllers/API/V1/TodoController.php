@@ -130,7 +130,8 @@ class TodoController extends BaseController {
 	 */
 	public function show($id)
 	{
-		try {
+		try 
+		{
 			$todo = \Models\Todo::find($id);
 			if(count($todo) > 0)
 			{
@@ -185,40 +186,65 @@ class TodoController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$todos = \Models\Todo::find($id);
-		$input = Input::all();
-
-		if(!is_null($todos))
+		try
 		{
-			foreach(\Models\Todo::fields() as $field)
+			$todo = \Models\Todo::find($id);
+			$input = Input::all();
+
+			if(!is_null($todo))
 			{
-				if(isset($input[$field]))
+				foreach(\Models\Todo::fields() as $field)
 				{
-					$todos->$field = $input[$field];
+					if(isset($input[$field]))
+					{
+						$todos->$field = $input[$field];
+					}
 				}
+
+				if($todo->validate()){
+						return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $todo->toArray(),
+							'message'	=> 'Todo updated sucessfully!'
+						)
+					);	
+				}
+				else
+				{
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> $status,
+							'data'		=> $todo->errors()->toArray(),
+							'message'	=> 'Error updating Todo!'
+						)
+					);	
+				}
+				
 			}
-
-			$status = $todos->save();
-
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $todos->toArray(),
-					'message'	=> 'Todo updated sucessfully!'
-				)
-			);
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Todo with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Todo with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
 			);
-		}
+		}		
 	}
 
 	/**
@@ -229,68 +255,99 @@ class TodoController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$todos = \Models\Todo::find($id);
-
-		if(!is_null($todos))
+		try
 		{
-			$status = $todos->delete();
-			return parent::buildJsonResponse(
-				array(
-					'success'	=> $status,
-					'data'		=> $todos->toArray(),
-					'message'	=> ($status) ? 'Todo deleted successfully!' : 'Error occured while deleting Todo'
-				)
-			);
+			$todo = \Models\Todo::find($id);
+
+			if(!is_null($todos))
+			{
+				$status = $todo->delete();
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> $status,
+						'data'		=> $todos->toArray(),
+						'message'	=> ($status) ? 'Todo deleted successfully!' : 'Error occured while deleting Todo'
+					)
+				);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Todo with id: '.$id
+					),
+					404
+				);
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
 			return parent::buildJsonResponse(
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'Could not find Todo with id: '.$id
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
 				),
-				404
+				500
+			);
+		}		
+	}
+
+	public function tags($id, $page = 1)
+	{
+		try
+		{
+				$message 	= array();
+				$page 		= (int) $page < 1 ? 1 : $page;
+				$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+				$skip 		= ($page-1)*$itemPerPage;
+
+				if ( \Models\Todo::find($id) ) 
+				{
+			        $collection = \Models\Todo::find($id)->tags()->skip($skip)->take($itemPerPage)->get();
+					$itemCount	= \Models\Todo::find($id)->tags()->count();
+					$totalPage 	= ceil($itemCount/$itemPerPage);
+
+					if($collection->isEmpty()){
+						$message[] = 'No records found in this collection.';
+					}
+
+			        return parent::buildJsonResponse(
+			        	array(
+			        		'success'		=> true,
+			        		'page'			=> (int) $page,
+			        		'item_per_page'	=> (int) $itemPerPage,
+			        		'total_item'	=> (int) $itemCount,
+			        		'total_page'	=> (int) $totalPage,
+			        		'data'			=> $collection->toArray(),
+			        		'message'		=> implode($message, "\n")
+			        	)
+			        );
+				} 
+				else 
+				{
+		        	return parent::buildJsonResponse(
+		        		array(
+		        			'success'	=> false,
+		        			'data'		=> null,
+							'message'	=> 'Could not find Tags for Todo id:'.$id
+		        		),
+		        		404
+		        	);
+				}
+		}		
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
 			);
 		}
 	}
-
-	public function tags($id, $page = 1){
-		$message 	= array();
-		$page 		= (int) $page < 1 ? 1 : $page;
-		$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-		$skip 		= ($page-1)*$itemPerPage;
-
-		if ( \Models\Todo::find($id) ) {
-	        $collection = \Models\Todo::find($id)->tags()->skip($skip)->take($itemPerPage)->get();
-			$itemCount	= \Models\Todo::find($id)->tags()->count();
-			$totalPage 	= ceil($itemCount/$itemPerPage);
-
-			if($collection->isEmpty()){
-				$message[] = 'No records found in this collection.';
-			}
-
-	        return parent::buildJsonResponse(
-	        	array(
-	        		'success'		=> true,
-	        		'page'			=> (int) $page,
-	        		'item_per_page'	=> (int) $itemPerPage,
-	        		'total_item'	=> (int) $itemCount,
-	        		'total_page'	=> (int) $totalPage,
-	        		'data'			=> $collection->toArray(),
-	        		'message'		=> implode($message, "\n")
-	        	)
-	        );
-		} else {
-        	return parent::buildJsonResponse(
-        		array(
-        			'success'	=> false,
-        			'data'		=> null,
-					'message'	=> 'Could not find Tags for Todo id:'.$id
-        		),
-        		404
-        	);
-		}
-	}
-
 }

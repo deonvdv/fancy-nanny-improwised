@@ -71,7 +71,7 @@ class DocumentAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->message == 'Error updating Document!' );
 
 
-		// now delete the category
+		// now delete the document
 		$response = $this->call('DELETE', '/api/v1/document/'.$recordId );
 		$this->assertTrue( $response->getData()->success );
 		$this->assertTrue( $response->getData()->message == 'Document deleted successfully!' );

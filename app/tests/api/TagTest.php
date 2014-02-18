@@ -8,4 +8,80 @@ class TagAPITest extends TestCase {
 		$this->assertTrue($this->client->getResponse()->isOk());
 	}
 
+	public function testStoreGetUpdateAndDeleteTag() 
+	{
+		$faker = \Faker\Factory::create();
+
+		$user = parent::createFakeUser();
+
+		$tagName = $faker->sentence(3, false);
+		$tagColor = $faker->hexcolor;
+
+		$response = $this->call('POST', '/api/v1/tag', 
+					array('owner_id' => $user->id,
+						"name"      => $tagName, 
+						"color" => $tagColor, 
+						"tagable_id"	=> $user->id,  
+						"tagable_type"   => "User" ) );
+		$recordId = $response->getData()->data->id;
+
+		// Test that record was added
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( $recordId != '' );
+		$this->assertTrue( $response->getData()->data->name == $tagName );
+		$this->assertTrue( $response->getData()->data->color == $tagColor );
+		$this->assertTrue( $response->getData()->data->owner_id == $user->id );
+		$this->assertTrue( $response->getData()->data->tagable_id == $user->id );
+		$this->assertTrue( $response->getData()->data->tagable_type == "User" );
+		$this->assertTrue( $response->getData()->message == 'New Tag created sucessfully!' );
+
+
+		// test that location header is set
+		$this->assertTrue( stripos( $response->headers, "Location:" ) !== false );
+		$this->assertTrue( stripos( $response->headers, "/tag/".$recordId ) !== false );
+		
+
+		// verify insert was sucessful
+		$response = $this->call('GET', '/api/v1/tag/'.$recordId );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( $response->getData()->data->id == $recordId );
+		$this->assertTrue( $response->getData()->data->name == $tagName );
+		$this->assertTrue( $response->getData()->data->color == $tagColor );
+		$this->assertTrue( $response->getData()->data->owner_id == $user->id );
+		$this->assertTrue( $response->getData()->data->tagable_id == $user->id );
+		$this->assertTrue( $response->getData()->data->tagable_type == "User" );
+		
+		// edit tag
+		$response = $this->call('PUT', '/api/v1/tag/'.$recordId, array('name' => $tagName."_changed") );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( $response->getData()->data->id == $recordId );
+		$this->assertTrue( $response->getData()->data->name == $tagName."_changed" );
+		$this->assertTrue( $response->getData()->message == 'Tag updated sucessfully!' );
+
+
+		// verify update was sucessful
+		$response = $this->call('GET', '/api/v1/tag/'.$recordId );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( $response->getData()->data->id == $recordId );
+		$this->assertTrue( $response->getData()->data->name == $tagName."_changed" );
+
+
+		// make invalid update
+		$response = $this->call('PUT', '/api/v1/tag/'.$recordId, array('name' => "x") );	// name is too short
+		$this->assertFalse( $response->getData()->success );
+		$this->assertTrue( $response->getData()->message == 'Error updating Tag!' );
+
+
+		// now delete the Tag
+		$response = $this->call('DELETE', '/api/v1/tag/'.$recordId );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( $response->getData()->message == 'Tag deleted successfully!' );
+
+
+		// verify delete was sucessful
+		$response = $this->call('GET', '/api/v1/tag/'.$recordId );
+		$this->assertFalse( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'Could not find Tag with id' ) !== false );
+		
+	}
 }

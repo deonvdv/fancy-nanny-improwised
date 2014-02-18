@@ -202,11 +202,11 @@ class TagController extends BaseController {
 				}
 
 				if($tag->validate()) {
-					$status = $tag->save();
+					$tag->save();
 
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $tag->toArray(),
 							'message'	=> 'Tag updated sucessfully!'
 						)
@@ -214,7 +214,7 @@ class TagController extends BaseController {
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $tag->errors()->toArray(),
 							'message'	=> 'Error updating Tag!'
 						)

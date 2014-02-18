@@ -1,7 +1,7 @@
 <?php
 
 namespace Models;
-
+use DB;
 class Document extends BaseModel {
 	protected $guarded = array('id');
 
@@ -21,5 +21,14 @@ class Document extends BaseModel {
         $user->save();
         $this->owner()->associate( $user );
         $this->save();
+    }
+
+    public static function byHousehold($householdId) {
+        return DB::table('documents')
+            ->join('users', 'documents.owner_id', '=', 'users.id')
+            ->where('users.household_id', '=', $householdId)
+            ->select('documents.id','documents.owner_id',
+                'documents.name', 'documents.file_name', 
+                'documents.cdn_url');
     }
 }

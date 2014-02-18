@@ -93,7 +93,7 @@ class EventAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->message == 'Error updating Event!' );
 
 
-		// now delete the category
+		// now delete the event
 		$response = $this->call('DELETE', '/api/v1/event/'.$recordId );
 		$this->assertTrue( $response->getData()->success );
 		$this->assertTrue( $response->getData()->message == 'Event deleted successfully!' );

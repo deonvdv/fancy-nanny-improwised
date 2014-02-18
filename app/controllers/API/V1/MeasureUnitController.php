@@ -148,7 +148,7 @@ class MeasureUnitController extends BaseController {
 					array(
 						'success'	=> false,
 						'data'		=> null,
-						'message'	=> 'Could not find Unit of Measure with id: '.$id
+						'message'	=> 'Could not find UnitsOfMeasure with id: '.$id
 					),
 					404
 				);
@@ -201,20 +201,21 @@ class MeasureUnitController extends BaseController {
 					}
 				}
 
-				if($units_of_measures->validate()){
+				if( $units_of_measures->validate() ){
+					$units_of_measures->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $units_of_measures->toArray(),
-							'message'	=> 'UnitOfMeasure updated sucessfully!'
+							'message'	=> 'UnitsOfMeasure updated sucessfully!'
 						)
 					);
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $units_of_measures->errors()->toArray(),
-							'message'	=> 'Error updating UnitOfMeasure!'
+							'message'	=> 'Error updating UnitsOfMeasure!'
 						)
 					);
 				}				
@@ -225,7 +226,7 @@ class MeasureUnitController extends BaseController {
 					array(
 						'success'	=> false,
 						'data'		=> null,
-						'message'	=> 'Could not find UnitOfMeasure with id: '.$id
+						'message'	=> 'Could not find UnitsOfMeasure with id: '.$id
 					),
 					404
 				);
@@ -263,7 +264,7 @@ class MeasureUnitController extends BaseController {
 					array(
 						'success'	=> $status,
 						'data'		=> $units_of_measures->toArray(),
-						'message'	=> ($status) ? 'UnitOfMeasure deleted successfully!' : 'Error occured while deleting UnitOfMeasure'
+						'message'	=> ($status) ? 'UnitsOfMeasure deleted successfully!' : 'Error occured while deleting UnitOfMeasure'
 					)
 				);
 			}
@@ -273,7 +274,7 @@ class MeasureUnitController extends BaseController {
 					array(
 						'success'	=> false,
 						'data'		=> null,
-						'message'	=> 'Could not find UnitOfMeasure with id: '.$id
+						'message'	=> 'Could not find UnitsOfMeasure with id: '.$id
 					),
 					404
 				);

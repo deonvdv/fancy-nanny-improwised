@@ -70,6 +70,41 @@ class HouseholdAPITest extends TestCase {
 		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/documents/' );
 		$this->assertTrue( $response->getData()->success );
 		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+		
+		//Get relevant messages
+		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/messages/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+		
+		//Get relevant tags
+		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/tags/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+		
+		//Get relevant members
+		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/members/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+		
+		//Get relevant meals
+		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/meals/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+	
+		//Get relevant events
+		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/events/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+	
+		//Get relevant todos
+		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/todos/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+	
+		//Get relevant notifications
+		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/notifications/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
 	
 		// now delete the household
 		$response = $this->call('DELETE', '/api/v1/household/'.$recordId );

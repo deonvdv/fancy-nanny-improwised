@@ -17,6 +17,30 @@ class Household extends BaseModel {
         return $this->hasMany('Models\Meal');
     }
 
+    public function documents() {
+        return $this->hasManyThrough('\Models\Document', '\Models\User','household_id','owner_id');
+    }
+
+    public function messages() {
+        return $this->hasManyThrough('\Models\Message', '\Models\User','household_id','receiver_id');
+    }
+
+    public function tags() {
+        return $this->hasManyThrough('\Models\Tag', '\Models\User','household_id','owner_id');
+    }
+
+    public function events() {
+        return $this->hasManyThrough('\Models\Event', '\Models\User','household_id','owner_id');
+    }
+
+    public function todos() {
+        return $this->hasManyThrough('\Models\Todo', '\Models\User','household_id','owner_id');
+    }
+
+    public function notifications() {
+        return $this->hasManyThrough('\Models\Notification', '\Models\User');
+    }
+
     public function addMember(\Models\User $member) {
         $member->save();
         $this->save();

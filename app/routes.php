@@ -11,6 +11,14 @@
 |
 */
 
+// =============================================
+// HOME PAGE ===================================
+// =============================================
+Route::get('/', function()
+{
+    return View::make('index');
+});
+
 /**
  * API Route
  */
@@ -139,10 +147,7 @@ Route::group(array(
     }
 );
 
-Route::get('/', function()
+App::missing(function($exception)
 {
-	return View::make('hello');
-});
-Route::get('/api/v1', function(){
-    return View::make('api');
+    return View::make('index');
 });

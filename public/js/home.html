@@ -1,0 +1,70 @@
+<ul>
+  <li>
+    from here on
+  </li>
+  <li>
+    manu links views
+  </li>
+  <li>
+    will be loaded
+  </li>
+  <li>
+    using ng-view
+  </li>
+</ul>
+
+<h1>Authenticated User Home Page</h1>
+
+Welcome {{ user }}
+
+<!-- angular-view has loads other views of the main nav links  -->
+<div class="col-md-8 col-md-offset-2">
+
+  <div ng-view></div>
+  <!-- PAGE TITLE -->
+  <div class="page-header">
+    <h4>Fancy-Nanny System</h4>
+  </div>
+
+  <div ng-controller="mainController">
+    <form ng-submit="submitHousehold()">
+      <!-- Name -->
+      <div class="form-group">
+        <input type="text" class="form-control input-sm" name="name" ng-model="householdData.name" placeholder="Name">
+      </div>
+
+      <!-- Emergency Contact -->
+      <div class="form-group">
+        <textarea type="text" class="form-control input-lg" name="emergency_contacts" 
+        ng-model="householdData.emergency_contacts" placeholder="Emergency Contacts" >
+        </textarea>
+      </div>
+
+      <!-- Critical Information -->
+      <div class="form-group">
+        <textarea type="text" class="form-control input-lg" name="critical_information" 
+        ng-model="householdData.critical_information" placeholder="Critical Information">
+        </textarea>
+      </div>
+      
+      <!-- SUBMIT BUTTON -->
+      <div class="form-group text-right"> 
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+      </div>
+    </form>
+
+    <!-- LOADING ICON -->
+    <!-- show loading icon if the loading variable is set to true -->
+    <p class="text-center" ng-show="loading"><span class="fa fa-meh-o fa-5x fa-spin"></span></p>
+
+    <!-- THE COMMENTS -->
+    <!-- hide these household if the loading variable is true -->
+    <div class="household" ng-hide="loading" ng-repeat="household in households">
+      <h3>Household #{{ household.id }} <small>by {{ household.name }}</h3>
+      <p>{{ household.emergency_contacts }}</p>
+      <p>{{ household.critical_information }}</p>
+      <p><a href="#" ng-click="deleteHousehold(household.id)" class="text-muted">Delete</a></p>
+    </div>
+
+  </div>
+</div>

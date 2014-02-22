@@ -1,0 +1,7 @@
+<h1>Home Page</h1>
+<button type="submit" class="btn" ng-click="logout()">Sign out</button>
+<div class="household" ng-repeat="household in households">
+           <h3>Household #{{ household.id }} <small>by {{ household.name }}</h3>
+           <p>{{ household.emergency_contacts }}</p>
+           <p>{{ household.critical_information }}</p>
+ </div>

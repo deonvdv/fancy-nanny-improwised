@@ -1,6 +1,12 @@
 var app = angular.module('fancyNannyApp', ['mainCtrl', 'householdService', ]);
 // var app = angular.module('fancyNannyApp',['mainCtrl', 'householdService','ngRoute']);
 
+app.config(['$routeProvider', function($routeProvider) {
+	$routeProvider.when('/login', { templateUrl: 'login.html', controller: 'loginCtrl' });
+	$routeProvider.when('/main', { templateUrl: 'main.html', controller: 'mainCtrl' });
+	$routeProvider.otherwise({ redirectTo: '/main' });
+}]);
+
 // app.config(function($routeProvider) {
 //   $routeProvider.when('/login', {
 //     templateUrl: 'js/login.html',

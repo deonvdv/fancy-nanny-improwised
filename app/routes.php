@@ -26,6 +26,8 @@ Route::get('/', function()
 Route::group(array(
         'prefix'    => 'api/v1'
     ), function(){
+        Route::resource('authenticate', 'AuthenticationController');
+
         Route::get('households', 'API\V1\HouseholdController@index');
         Route::resource('household', 'API\V1\HouseholdController');
         Route::get('households/page/{pagenum}', 'API\V1\HouseholdController@index');

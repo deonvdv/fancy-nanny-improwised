@@ -193,11 +193,16 @@ Meals
 				
 				Calendar View: Each meal category is color coded, so meals could be easily 
 				identified. For this view, we're only interested in the Meal name, Category 
-				and Tags
+				and Tags. In the sidebar, add list of favorite recipes and allow to drag and 
+				drop onto the calendar. Below the favorite recipes, add a search box that will
+				search recipes and display results. Allow user to drag recipe onto calendar.
 				
 				TimeLine View: Each meal category is color coded, so meals could be easily 
 				identified. For this view, we're only interested in the Meal name, Picture 
-				thumbnail, Short Description, Category and Tags
+				thumbnail, Short Description, Category and Tags.In the sidebar, add list of 
+				favorite recipes and allow to drag and drop onto the calendar. Below the 
+				favorite recipes, add a search box that will search recipes and display results. 
+				Allow user to drag recipe onto calendar.
 				
 				Search View: Filter by Category, Recipe, Tag, Favorite and Keyword. For the 
 				results list view, we're only interested in the Meal name, Picture thumbnail, 

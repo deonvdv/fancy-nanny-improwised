@@ -12,7 +12,9 @@ class DropRecipesCategoriesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::drop('recipes_categories');
+		if(Schema::hasTable('recipes_categories')){
+			Schema::drop('recipes_categories');
+		}		
 	}
 
 	/**

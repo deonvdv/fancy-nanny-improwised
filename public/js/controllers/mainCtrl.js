@@ -3,7 +3,7 @@ angular.module('mainCtrl', [])
 	.controller('mainController', function($scope, $http, Household) {
 
 		
-			// object to hold all the data for the new comment form
+		// object to hold all the data for the new comment form
 		$scope.householdData = {};
 
 		// loading variable to show the spinning loading icon

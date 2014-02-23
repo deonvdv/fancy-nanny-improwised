@@ -524,3 +524,5 @@ class UserController extends BaseController {
 			);
 		}	
 	}
+}
+

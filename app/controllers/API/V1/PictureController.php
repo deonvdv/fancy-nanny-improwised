@@ -217,6 +217,7 @@ class PictureController extends BaseController {
 							'data'		=> $picture->errors()->toArray(),
 							'message'	=> 'Error updating Picture!'
 						)
+					);
 				}				
 			}
 			else

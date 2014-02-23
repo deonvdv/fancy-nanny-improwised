@@ -33,6 +33,143 @@ and allergies for the household members.
 
 
 -------------------------------------------------
+UI
+-------------------------------------------------
+Users need to be logged in to use the app.
+
+Design: Color: ??
+		Left nav - see http://condorthemes.com/flatdream/index.html
+
+		Top Bar: 	Household name | User Profile Pic + name (dropdown - Profile, Settings, Logout)
+					User Dropdown - pop-up forms like in http://condorthemes.com/flatdream/ui-modals.html -> Nifty Forms -> Basic Form.
+					Settings: 
+
+		Sidebar:
+			- Sidebar should be fixed, ie always in signt when user scrolls
+
+		Tables / Lists:
+			- See Custom Tables -> http://condorthemes.com/flatdream/tables-general.html
+			- Row highlites
+			- Clicking on row brings up edit popup form
+			- Popup form contains big red delete button when allowed
+
+
+Dashboard:
+	Widgets/Portlets
+		- Emergency Contacts
+		- Critical Information
+		- Household Members
+			- Show picture, name, tel#s,email
+		- Message Board
+			- show last x messages to and from logged in user (and messages to all users)
+			- click through to Message Board
+		- Recently Added Recipes
+			- show last 5
+			- click through to Recipes
+		- Today's Meals
+			- Show summary 
+			- Click through to calendar
+		- Today's Todo's
+			- Show top 5 todo's assiged by or assinged to logged in user
+			- Click through to calendar
+		- Today's Events
+			- Show type, description, optional time
+			- Click through to calendar
+		- Recent comments to your recipes
+			- only visible if you actually have recipes
+Message Board
+	- Sidebar: Add message
+	- View:
+		- show list of messages
+		- Infinate scroll-down - loads more as user scrolls down
+Calendar
+	- View
+		- See: http://condorthemes.com/flatdream/ui-calendar.html
+		- Default to this week
+		- Shows:
+			- meals
+			- events
+			- todos
+	- Right Sidebar
+		- allow to add todo
+			- drag onto calendar
+		- allow to add event
+			- drag onto calendar
+		- allow to add meal
+			- Recipe Quicksearch
+				- Keyword search by default
+				- Filters hidden but can be revealed
+			- Show list of matches
+			- Allow to drag onto calendar
+Recipes
+	- Widgets/Portlets:
+		- Recently added Recipes (top x)
+	- Filters
+		- Keyword (found anywhere in recipe and its ingredients)
+		- Category
+		- user-added Tags
+		- Ingredients
+	- Sidebar
+		- Show list of user's tags
+		    - allow user to drag tag onto recipe
+		    - allow user to create new tags
+		- Family's favorite recipes (top x)
+		- Add recipe
+			- encourage user to add new recipe
+	- View
+		- Display list of recipes matching filters
+			- Picture, name, brief description, category, prep-time, cook-time, tags
+		- Infinate scroll-down - loads more as user scrolls down
+		- Allow user to "star" a recipe, ie add to favorites list
+Recipe Detail:
+	- Sidebar
+		- Show list of user's tags
+		- allow user to drag tag onto recipe
+	- View
+		- show entire recipe
+		- show recipe comments
+		- allow user to add a comment
+Add Recipe
+	- Form:
+		- Name
+		- Description
+		- Ingredients
+			- start with 5 ingredients 
+			    - allow to add more
+			    - allow to delete one
+			- allow 3 input fields (horizontal)
+				- qty (allow only numbers, eg 1, 1.5, 15, 2.25 etc)
+				- unit of measure
+				- ingredient
+			- use predictive text on Unit of Measure and Ingredient
+			- if Ingredient does not exist, it shold be aded to DB
+		- Instructions
+Shopping List:
+	- Defaults to next 7 days
+	    - Allow user to change date range (in sidebar)
+    - View
+    	- list of ingredients
+    		- name, unit of measure, qty
+Documents:
+	- Sidebar
+		- allow user to add documents: see http://condorthemes.com/flatdream/form-upload.html
+	- View: list of documents
+		- use different icons based on filename, eg W for word docs
+		- allow user to update description
+		- allow user to delete document (only if owner)
+Tags:
+	- Add
+		- allow user to add tag (name + color)
+	- View:
+		- show list of user's tags
+		- allow user to change tag color - popup form
+		- allow user to rename tag - popup form
+		- allow user to delete tag
+
+
+
+
+-------------------------------------------------
 Objects
 -------------------------------------------------
 
@@ -128,7 +265,7 @@ UnitsOfMeasure
 				/v1/units_of_measure/{id}
 
 
-Ingedients
+Ingredients
 	Summary:	Itemized ingredients like Flour, Egg, Water, Olive Oil, etc
 	Parameters:	id, name
 	Methods: 	index, create, store, show, edit, update, destroy
@@ -140,7 +277,7 @@ Recipe_Ingredients
 	Summary:	Place to store ingredients for a specific recipe, eg 1 x Tbsp Plain 
 				Flour. Unit of Measure is "tbsp" and ingredient is "Plain Flour"
 	UI Notes:	When adding a recipe, and adding recipe ingredients, allow a input 
-				area for Quantity, numberic (allow for fractions like 0.5 and whole 
+				area for Quantity, numeric (allow for fractions like 0.5 and whole 
 				numbers like 5 or 5.5 ), and allow for predictive search window 
 				for Unit of Measure. When user types in "t", return "tsp", "tbsp", 
 				etc. Allow for another predicitve text area for ingredient, eg user 

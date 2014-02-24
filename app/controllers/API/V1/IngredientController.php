@@ -188,33 +188,33 @@ class IngredientController extends BaseController {
 	{
 		try
 		{
-			$ingredients = \Models\Ingredient::find($id);
+			$ingredient = \Models\Ingredient::find($id);
 			$input = Input::all();
 
-			if(!is_null($ingredients))
+			if(!is_null($ingredient))
 			{
 				foreach(\Models\Ingredient::fields() as $field)
 				{
 					if(isset($input[$field]))
 					{
-						$ingredients->$field = $input[$field];
+						$ingredient->$field = $input[$field];
 					}
 				}
 
-				if( $ingredients->validate() ) {
-					$ingredients->save();
+				if( $ingredient->validate() ) {
+					$ingredient->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
-							'data'		=> $ingredients->toArray(),
+							'success'	=> true,
+							'data'		=> $ingredient->toArray(),
 							'message'	=> 'Ingredient updated sucessfully!'
 						)
 					);
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
-							'data'		=> $ingredients->errors()->toArray(),
+							'success'	=> false,
+							'data'		=> $ingredient->errors()->toArray(),
 							'message'	=> 'Error updating Ingredient!'
 						)
 					);

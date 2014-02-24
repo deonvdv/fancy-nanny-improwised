@@ -246,7 +246,7 @@ class RecipeController extends BaseController {
 					$recipe->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $recipe->toArray(),
 							'message'	=> 'Recipe updated sucessfully!'
 						)
@@ -254,7 +254,7 @@ class RecipeController extends BaseController {
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $recipe->errors()->toArray(),
 							'message'	=> 'Error updating Recipe!'
 						)
@@ -343,7 +343,7 @@ class RecipeController extends BaseController {
 			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
 			$skip 		= ($page-1)*$itemPerPage;
 
-			if ( \Models\RecipeIngredient::find($recipe_id) ) {
+			if ( \Models\Recipe::find($recipe_id) ) {
 		        $collection = \Models\RecipeIngredient::where('recipe_id', '=', $recipe_id)->get();
 				$itemCount	= $collection->count();
 				$totalPage 	= ceil($itemCount/$itemPerPage);
@@ -368,7 +368,7 @@ class RecipeController extends BaseController {
 	        		array(
 	        			'success'	=> false,
 	        			'data'		=> null,
-						'message'	=> 'Could not find Recipe Reviews with recipe id :'.$recipe_id
+						'message'	=> 'Could not find RecipeIngredients with recipe id :'.$recipe_id
 	        		),
 	        		404
 	        	);
@@ -449,7 +449,7 @@ class RecipeController extends BaseController {
 			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
 			$skip 		= ($page-1)*$itemPerPage;
 
-			if ( \Models\RecipeReview::find($recipe_id) ) {
+			if ( \Models\Recipe::find($recipe_id) ) {
 		        $collection = \Models\RecipeReview::where('recipe_id', '=', $recipe_id)->get();
 				$itemCount	= $collection->count();
 				$totalPage 	= ceil($itemCount/$itemPerPage);

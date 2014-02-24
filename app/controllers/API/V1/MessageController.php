@@ -204,17 +204,17 @@ class MessageController extends BaseController {
 					$message->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $message->toArray(),
-							'message'	=> 'Messages updated sucessfully!'
+							'message'	=> 'Message updated sucessfully!'
 						)
 					);
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $message->errors()->toArray(),
-							'message'	=> 'Error updating Messages!'
+							'message'	=> 'Error updating Message!'
 						)
 					);
 				}		

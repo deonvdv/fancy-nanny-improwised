@@ -197,14 +197,15 @@ class TodoController extends BaseController {
 				{
 					if(isset($input[$field]))
 					{
-						$todos->$field = $input[$field];
+						$todo->$field = $input[$field];
 					}
 				}
 
 				if($todo->validate()){
+					$todo->save();
 						return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $todo->toArray(),
 							'message'	=> 'Todo updated sucessfully!'
 						)
@@ -214,7 +215,7 @@ class TodoController extends BaseController {
 				{
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $todo->errors()->toArray(),
 							'message'	=> 'Error updating Todo!'
 						)
@@ -259,13 +260,13 @@ class TodoController extends BaseController {
 		{
 			$todo = \Models\Todo::find($id);
 
-			if(!is_null($todos))
+			if(!is_null($todo))
 			{
 				$status = $todo->delete();
 				return parent::buildJsonResponse(
 					array(
 						'success'	=> $status,
-						'data'		=> $todos->toArray(),
+						'data'		=> $todo->toArray(),
 						'message'	=> ($status) ? 'Todo deleted successfully!' : 'Error occured while deleting Todo'
 					)
 				);

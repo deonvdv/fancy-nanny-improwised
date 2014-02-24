@@ -2,7 +2,7 @@
 
 class RecipeReviewAPITest extends TestCase {
 
-	public function testCategoriesAPI()
+	public function testRecipeReviewsAPI()
 	{
 		$crawler = $this->client->request('GET', '/api/v1/recipe_reviews');
 		$this->assertTrue($this->client->getResponse()->isOk());

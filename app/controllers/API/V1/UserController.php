@@ -155,7 +155,7 @@ class UserController extends BaseController {
 	{
 		try
 		{
-			$user = \Models\User::where('id','=',$id)->firstOrFail();
+			$user = \Models\User::find($id);
 			
 			if(count($user) > 0)
 			{
@@ -289,7 +289,7 @@ class UserController extends BaseController {
 				return parent::buildJsonResponse(
 					array(
 						'success'	=> $status,
-						'data'		=> $category->toArray(),
+						'data'		=> $user->toArray(),
 						'message'	=> ($status) ? 'User deleted successfully!' : 'Error occured while deleting Category'
 					)
 				);

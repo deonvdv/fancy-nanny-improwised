@@ -219,15 +219,15 @@ class MealController extends BaseController {
 				{
 					if(isset($input[$field]))
 					{
-						$meals->$field = $input[$field];
+						$meal->$field = $input[$field];
 					}
 				}
 
-				if( $meal->validate()){
+				if( $meal->validate() ){
 					$meal->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $meal->toArray(),
 							'message'	=> 'Meal updated sucessfully!'
 						)
@@ -235,7 +235,7 @@ class MealController extends BaseController {
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $meal->errors()->toArray(),
 							'message'	=> 'Error updating Meal!'
 						)
@@ -260,7 +260,7 @@ class MealController extends BaseController {
 				array(
 					'success'	=> false,
 					'data'		=> null,
-					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+					'message'	=> 'There was an error while processing your request: '. $ex->getMessage()
 				),
 				500
 			);

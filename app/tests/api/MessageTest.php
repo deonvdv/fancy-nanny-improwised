@@ -64,7 +64,6 @@ class MessageAPITest extends TestCase {
 		// make invalid update
 		$response = $this->call('PUT', '/api/v1/message/'.$recordId, array('message' => "") );	// name is too short
 		$this->assertFalse( $response->getData()->success );
-		var_dump($response->getData()->message);
 		$this->assertTrue( $response->getData()->message == 'Error updating Message!' );
 
 

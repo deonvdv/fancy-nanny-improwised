@@ -205,7 +205,7 @@ class NotificationController extends BaseController {
 					$notification->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $notification->toArray(),
 							'message'	=> 'Notification updated sucessfully!'
 						)
@@ -213,7 +213,7 @@ class NotificationController extends BaseController {
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $notification->errors()->toArray(),
 							'message'	=> 'Error updating Notification!'
 						)

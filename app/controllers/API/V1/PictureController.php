@@ -205,7 +205,7 @@ class PictureController extends BaseController {
 					$picture->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $picture->toArray(),
 							'message'	=> 'Picture updated sucessfully!'
 						)
@@ -213,7 +213,7 @@ class PictureController extends BaseController {
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $picture->errors()->toArray(),
 							'message'	=> 'Error updating Picture!'
 						)

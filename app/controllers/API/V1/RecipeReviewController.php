@@ -95,7 +95,7 @@ class RecipeReviewController extends BaseController {
 					201
 				);
 
-				$response->header('Location', '/recipereview/'.$recipereview->id);
+				$response->header('Location', '/recipe_review/'.$recipereview->id);
 
 				return $response;
 			} else {
@@ -204,7 +204,7 @@ class RecipeReviewController extends BaseController {
 					$recipereviews->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> true,
 							'data'		=> $recipereviews->toArray(),
 							'message'	=> 'RecipeReview updated sucessfully!'
 						)
@@ -212,7 +212,7 @@ class RecipeReviewController extends BaseController {
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $recipereviews->errors()->toArray(),
 							'message'	=> 'Error updating RecipeReview!'
 						)

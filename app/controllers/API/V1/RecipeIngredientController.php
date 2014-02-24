@@ -72,7 +72,7 @@ class RecipeIngredientController extends BaseController {
 	{
 		try
 		{
-			$recipeingredients = new \Models\RecipeIngredient;
+			$recipeingredient = new \Models\RecipeIngredient;
 			$input = Input::all();
 
 			foreach($recipeingredient->fields() as $field)
@@ -95,7 +95,7 @@ class RecipeIngredientController extends BaseController {
 					201
 				);
 
-				$response->header('Location', '/recipeingredient/'.$recipeingredient->id);
+				$response->header('Location', '/recipe_ingredient/'.$recipeingredient->id);
 
 				return $response;
 			} else {
@@ -205,15 +205,15 @@ class RecipeIngredientController extends BaseController {
 					$recipeingredient->save();
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
-							'data'		=> $recipeingredients->toArray(),
+							'success'	=> true,
+							'data'		=> $recipeingredient->toArray(),
 							'message'	=> 'RecipeIngredient updated sucessfully!'
 						)
 					);
 				} else {
 					return parent::buildJsonResponse(
 						array(
-							'success'	=> $status,
+							'success'	=> false,
 							'data'		=> $recipeingredient->errors()->toArray(),
 							'message'	=> 'Error updating RecipeIngredient!'
 						)

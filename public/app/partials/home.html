@@ -4,4 +4,6 @@
            <h3>Household #{{ household.id }} <small>by {{ household.name }}</h3>
            <p>{{ household.emergency_contacts }}</p>
            <p>{{ household.critical_information }}</p>
+           <p>Messages: {{ household.messages }} </p>
+           <p><a href="#" ng-click="deleteHousehold(household.id)" class="text-muted">Delete</a></p>
  </div>

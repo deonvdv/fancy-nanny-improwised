@@ -16,42 +16,49 @@ angular.module('myApp')
                 //Flash.show(response.flash)
             })
         }
-})
-    .controller('homeController',function($scope,$location,Authenticate, Households, Flash){
+    })
+
+    .controller('homeController',function($scope,$location, $http, Authenticate, Households, Flash){
         if (!sessionStorage.authenticated){
             $location.path('/')
             Flash.show("you should be authenticated to access this page");
         }
 
-         // object to hold all the data for the new comment form
+         // object to hold all the data for the households
         $scope.households = {};
 
         // loading variable to show the spinning loading icon
         $scope.loading = true;
-
-        Households.get({},function(response){
-            $scope.households = response.data
-        })       
-
+        
+        // get all the household first and bind it to the $scope.households object
+        Households.get()
+            .success(function(data) {
+                $scope.households = data.data;
+                
+                for(var i = 0; i < $scope.households.length; i ++) {
+                    console.log($scope.households[i].id);
+                    $scope.households[i].messages = {};
+                    Households.getMessages($scope.households[i].id)
+                        .success(function (data) {
+                            $scope.households[i].messages = data.data;
+                        });
+                }
+                $scope.loading = false;
+            });
+       
         $scope.logout = function (){
             Authenticate.get({},function(response){
-                delete sessionStorage.authenticated
-                Flash.show(response.flash)
-                $location.path('/')
-            })
-        }
-
-        $scope.deleteHousehold = function (){
-            Authenticate.get({},function(response){
-                delete sessionStorage.authenticated
-                Flash.show(response.flash)
-                $location.path('/')
+                delete sessionStorage.authenticated;
+                Flash.show(response.flash);
+                $location.path('/');
             })
         }
 
         // function to handle deleting a household
         $scope.deleteHousehold = function(id) {
-            $scope.loading = true; 
+
+            Authenticate.get({}, function(response){
+                $scope.loading = true; 
 
             Households.destroy(id)
                 .success(function(data) {
@@ -64,5 +71,6 @@ angular.module('myApp')
                         });
                      $location.path('/')
                 });
+            });
         };
     })

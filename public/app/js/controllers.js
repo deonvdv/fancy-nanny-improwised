@@ -8,10 +8,14 @@ angular.module('myApp')
             Authenticate.save({
                 'email': $sanitize($scope.email),
                 'password': $sanitize($scope.password)
-            },function() {
-                $location.path('/home')
-                Flash.clear()
+            },function(response) {
+                $location.path('/home');
+                Flash.clear();
                 sessionStorage.authenticated = true;
+                sessionStorage.loggedUser = response.user;
+                sessionStorage.loggedUsername = response.user["name"];
+                sessionStorage.loggedUserId = response.user["id"];
+                sessionStorage.householdId = response.user["household_id"];
             },function(response){
                 //Flash.show(response.flash)
             })
@@ -24,25 +28,34 @@ angular.module('myApp')
             Flash.show("you should be authenticated to access this page");
         }
 
+        // set username of logged in user
+        $scope.username = sessionStorage.loggedUsername;
+
          // object to hold all the data for the households
         $scope.households = {};
+
+        // object to hold all members of the current household
+        $scope.members = {};
 
         // loading variable to show the spinning loading icon
         $scope.loading = true;
         
+        Households.getMembers(sessionStorage.householdId)
+            .success(function(data) {
+                $scope.members = data.data;
+            });
+
         // get all the household first and bind it to the $scope.households object
         Households.get()
             .success(function(data) {
                 $scope.households = data.data;
-                
-                for(var i = 0; i < $scope.households.length; i ++) {
-                    console.log($scope.households[i].id);
-                    $scope.households[i].messages = {};
-                    Households.getMessages($scope.households[i].id)
-                        .success(function (data) {
-                            $scope.households[i].messages = data.data;
-                        });
-                }
+                // for(var i = 0; i < $scope.households.length; i ++) {                    
+                //     $scope.households[i].messages = {};
+                //     Households.getMessages($scope.households[i].id)
+                //         .success(function (data) {
+                //             $scope.households[i].messages = data.data;
+                //         });
+                // }
                 $scope.loading = false;
             });
        
@@ -73,4 +86,6 @@ angular.module('myApp')
                 });
             });
         };
-    })
+    });
+    
+    

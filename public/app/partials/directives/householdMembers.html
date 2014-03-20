@@ -1,0 +1,18 @@
+ <div class="col-lg-12 col-margin-padding">
+  <div class="block block-color block-margin-bottom">
+    <div class="header">              
+      <div class="actions">
+      </div>
+      <h3>Household Members</h3>
+    </div>
+    <div class="content content-box-height content-font" ng-repeat="member in members">
+      <div class="clearfix" >
+        <img src="app/images/1.png" class="img-size">
+        <label class="label-color">name</label>&nbsp;:&nbsp; {{member.name}}<br>
+        <label class="label-color">email</label>&nbsp;:&nbsp; {{member.email}}<br>
+        <label class="label-color">phone</label>&nbsp;:&nbsp; {{member.home_number}}
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>

@@ -5,13 +5,13 @@
       </div>
       <h3>Emergency Contacts</h3>
     </div>
-    <div class="content">
-      <label>john abraham</label>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +55123456789
-      <br>
-      <label>rechal abraham</label>:&nbsp; +55987654321
-      <br>
-      <label>houseowner</label>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +554578912345
-      <br>
+    <div class="content" ng-repeat="contact in emergencycontacts">
+      <label>{{contact.relation}}</label>
+      <br/>
+      <label>Name</label>:&nbsp;{{contact.name}}
+      <br/>
+      <lable>Phone</label>:&nbsp;{{contact.contact_number}}
+      <lable>Email</label>:&nbsp;{{contact.contact_email}}
     </div>
   </div>
 </div>

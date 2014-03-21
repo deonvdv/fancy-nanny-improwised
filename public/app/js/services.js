@@ -4,8 +4,11 @@ angular.module('myApp')
     })
     .factory('Households', function($http) {
         return {
-            get : function() {
+            getAll : function() {
                 return $http.get('/api/v1/household');
+            },
+            get : function(id) {
+                return $http.get('/api/v1/household/' + id);
             },
             getDocuments : function(id) {
                 return $http.get('/api/v1/household/' + id + '/documents');

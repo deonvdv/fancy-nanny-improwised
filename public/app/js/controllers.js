@@ -31,31 +31,40 @@ angular.module('myApp')
         // set username of logged in user
         $scope.username = sessionStorage.loggedUsername;
 
-         // object to hold all the data for the households
-        $scope.households = {};
+         // object to hold all the data for the household
+        $scope.household = {};
 
-        // object to hold all members of the current household
-        $scope.members = {};
+        // object to hold emergency contacts
+        $scope.emergencycontacts = {};
 
         // loading variable to show the spinning loading icon
         $scope.loading = true;
         
-        Households.getMembers(sessionStorage.householdId)
-            .success(function(data) {
-                $scope.members = data.data;
-            });
+        // get household members
+        // Households.getMembers(sessionStorage.householdId)
+        //     .success(function(data) {
+        //         $scope.members = data.data;
+        //     });
 
-        // get all the household first and bind it to the $scope.households object
-        Households.get()
+        //get household information
+       // Households.get(sessionStorage.householdId)
+       //      .success(function(data) {
+       //          $scope.members = data.data;
+       //      });
+
+        // get all the household first and bind it to the $scope.household object
+        Households.get(sessionStorage.householdId)
             .success(function(data) {
-                $scope.households = data.data;
-                // for(var i = 0; i < $scope.households.length; i ++) {                    
-                //     $scope.households[i].messages = {};
-                //     Households.getMessages($scope.households[i].id)
-                //         .success(function (data) {
-                //             $scope.households[i].messages = data.data;
-                //         });
-                // }
+                $scope.household = data.data;
+                var emergencycontacts = JSON.parse(data.data.emergency_contacts);
+                var contacts = Object.keys(emergencycontacts);
+                for(var key in contacts){
+                    var keyname = contacts[key];
+                    var obj = emergencycontacts[keyname];
+                    obj.relation = keyname;
+                    $scope.emergencycontacts = emergencycontacts;
+                }
+                console.log($scope.emergencycontacts);
                 $scope.loading = false;
             });
        

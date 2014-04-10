@@ -2,6 +2,7 @@ angular.module("myApp",['ngResource','ngSanitize'])
     .config(['$routeProvider',function($routeProvider){
         $routeProvider.when('/',{templateUrl:'app/partials/login.html', controller: 'loginController'})
         $routeProvider.when('/home',{templateUrl:'app/partials/home.html', controller: 'homeController'})
+        $routeProvider.when('/todos',{templateUrl:'app/partials/todos.html', controller: 'todoController'})
         $routeProvider.otherwise({redirectTo :'/'})
     }]).config(function($httpProvider){
 

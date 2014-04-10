@@ -313,8 +313,8 @@ angular.module('myApp')
     })
     .factory('Todos', function($http) {
         return {
-            get : function() {
-                return $http.get('/api/v1/todo');
+            get : function(id) {
+                return $http.get('/api/v1/todo/' + id + '/remaining');
             },            
             getTags : function(id) {
                 return $http.get('/api/v1/todo/' + id + '/tags');
@@ -334,31 +334,7 @@ angular.module('myApp')
                 return $http.delete('/api/v1/todo/' + id);
             }
         }
-    })
-    .factory('Todos', function($http) {
-        return {
-            get : function() {
-                return $http.get('/api/v1/todo');
-            },            
-            getTags : function(id) {
-                return $http.get('/api/v1/todo/' + id + '/tags');
-            },
-            show : function(id) {
-                return $http.get('/api/v1/todo/' + id);
-            },
-            save : function(todoData) {
-                return $http({
-                    method: 'POST',
-                    url: '/api/v1/todo',
-                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-                    data: $.param(todoData)
-                });
-            },
-            destroy : function(id) {
-                return $http.delete('/api/v1/todo/' + id);
-            }
-        }
-    })
+    })    
     .factory('Documents', function($http) {
         return {
             get : function() {

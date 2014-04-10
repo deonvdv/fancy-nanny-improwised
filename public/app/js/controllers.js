@@ -22,7 +22,7 @@ angular.module('myApp')
         }
     })
 
-    .controller('homeController',function($scope,$location, $http, Authenticate, Households, Flash){
+    .controller('homeController',function($scope,$location, $http, Authenticate, Households, Todos, Flash){
         if (!sessionStorage.authenticated){
             $location.path('/')
             Flash.show("you should be authenticated to access this page");
@@ -31,8 +31,11 @@ angular.module('myApp')
         // set username of logged in user
         $scope.username = sessionStorage.loggedUsername;
 
-         // object to hold all the data for the household
+        // object to hold all the data for the household
         $scope.household = {};
+
+        // object to hold all the data for the todos
+        $scope.todos = {};
 
         // object to hold emergency contacts
         $scope.emergencycontacts = {};
@@ -64,7 +67,13 @@ angular.module('myApp')
                     obj.relation = keyname;
                     $scope.emergencycontacts = emergencycontacts;
                 }
-                console.log($scope.emergencycontacts);
+
+                //Fetch all Todos for LoggedIn user.
+                Todos.get(sessionStorage.loggedUserId)
+                    .success(function(data) {
+                        $scope.todos = data.data;
+                        sessionStorage.todos = $scope.todos;
+                    });  
                 $scope.loading = false;
             });
        
@@ -95,6 +104,54 @@ angular.module('myApp')
                 });
             });
         };
-    });
+    })
     
+    .controller('todoController',function($scope,$location, $http, Authenticate, Todos, Flash){
+        if (!sessionStorage.authenticated){
+            $location.path('/')
+            Flash.show("you should be authenticated to access this page");
+        }
+
+        // set username of logged in user
+        $scope.username = sessionStorage.loggedUsername;
+
+        // object to hold all the data for the todos
+        $scope.todos = sessionStorage.todos;
+        
+        // loading variable to show the spinning loading icon
+        $scope.loading = true;
+
+        loadData();
+            
+        $scope.refresh = loadData();
+
+        // function to handle deleting a household
+        $scope.deleteHousehold = function(id) {
+
+            Authenticate.get({}, function(response){
+                $scope.loading = true; 
+
+            Households.destroy(id)
+                .success(function(data) {
+
+                    // if successful, we'll need to refresh the household list
+                    Households.get()
+                        .success(function(getData) {
+                            $scope.households = getData.data;
+                            $scope.loading = false;
+                        });
+                     $location.path('/')
+                });
+            });
+        };
+
+        function loadData(){
+            //Fetch all Todos for LoggedIn user.
+            Todos.get(sessionStorage.loggedUserId)
+                .success(function(data) {
+                    console.log( data.data);
+                    $scope.todos = data.data;
+            });  
+        }
+    });
     

@@ -31,6 +31,14 @@ angular.module('myApp')
       		templateUrl: 'app/partials/directives/dashboard.html',
     	};
 	})
+  .directive('fnManagetodo', function() {
+    return {
+        scope: true, 
+          restrict: 'C',
+          replace: true,
+          templateUrl: 'app/partials/directives/managetodo.html',
+      };
+  })
 	.directive('fncriticalInformation', function() {
 		return {
     		scope: true, 

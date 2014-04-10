@@ -44,6 +44,11 @@ color: #FFF;
 	overflow: scroll;
 	overflow-x: hidden;
 }
+.content-1,.content-2{
+	height: 230px;
+	overflow: scroll;
+	overflow-x: hidden;
+}
 /* custom scroll-bar */
 .content-box-height::-webkit-scrollbar-track
 {
@@ -61,7 +66,7 @@ color: #FFF;
 
 .content-box-height::-webkit-scrollbar
 {
-	width: 2px;
+	width: 10px;
 	background-color: #F5F5F5;
 }
 
@@ -78,7 +83,7 @@ color: #FFF;
 
 .emergency-contacts-scrollbar::-webkit-scrollbar
 {
-	width: 2px;
+	width: 10px;
 	background-color: #F5F5F5;
 }
 

@@ -18,7 +18,7 @@ class EventTableSeeder extends Seeder {
             $event->title = ucwords($faker->bs);
             $event->description = $faker->text;
             $event->location = $faker->address;
-            $event->event_date = $faker->date;
+            $event->event_date = $faker->dateTimeBetween('+1 days', '+2 years')->format('Y-m-d');
             $event->start_time = $faker->time($format = 'H:i:s');
             $event->end_time = $faker->time($format = 'H:i:s');
             $event->all_day = $faker->boolean;

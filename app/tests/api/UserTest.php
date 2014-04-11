@@ -113,6 +113,11 @@ class UserAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->success );
 		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
 		
+		//Get relevant upcoming_events
+		$response = $this->call('GET', '/api/v1/user/'.$recordId.'/upcoming_events/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+		
 		// now delete the user
 		$response = $this->call('DELETE', '/api/v1/user/'.$recordId );
 		$this->assertTrue( $response->getData()->success );

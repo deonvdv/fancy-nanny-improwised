@@ -22,7 +22,7 @@ angular.module('myApp')
         }
     })
 
-    .controller('homeController',function($scope,$location, $http, Authenticate, Households, Todos, Flash){
+    .controller('homeController',function($scope,$location, $http, Authenticate, Households, Messages, Todos, Flash){
         if (!sessionStorage.authenticated){
             $location.path('/')
             Flash.show("you should be authenticated to access this page");
@@ -33,6 +33,9 @@ angular.module('myApp')
 
         // object to hold all the data for the household
         $scope.household = {};
+
+        // object to hold all unread messages for the LoggedIn user
+        $scope.messages = {};
 
         // object to hold all the data for the todos
         $scope.todos = {};
@@ -67,14 +70,19 @@ angular.module('myApp')
                     obj.relation = keyname;
                     $scope.emergencycontacts = emergencycontacts;
                 }
-
-                //Fetch all Todos for LoggedIn user.
-                Todos.get(sessionStorage.loggedUserId)
-                    .success(function(data) {
-                        $scope.todos = data.data;
-                        sessionStorage.todos = $scope.todos;
-                    });  
                 $scope.loading = false;
+            });
+
+         //Fetch all Todos for LoggedIn user.
+        Todos.get(sessionStorage.loggedUserId)
+            .success(function(data) {
+                $scope.todos = data.data;                        
+            });        
+
+        //Fetch all Unread messages for LoggedIn user.
+        Messages.getUnread(sessionStorage.loggedUserId)
+            .success(function(data) {
+                $scope.messages = data.data;                        
             });
        
         $scope.logout = function (){
@@ -119,7 +127,7 @@ angular.module('myApp')
         $scope.username = sessionStorage.loggedUsername;
 
         // object to hold all the data for the todos
-        $scope.todos = sessionStorage.todos;
+        //$scope.todos = {};
         
         // loading variable to show the spinning loading icon
         $scope.loading = true;

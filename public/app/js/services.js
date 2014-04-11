@@ -79,6 +79,9 @@ angular.module('myApp')
     })
     .factory('Messages', function($http) {
         return {
+            getUnread : function(id) {
+                return $http.get('/api/v1/message/' + id + '/unread')
+            },
             get : function() {
                 return $http.get('/api/v1/message');
             },

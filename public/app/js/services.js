@@ -52,6 +52,9 @@ angular.module('myApp')
     })
     .factory('Users', function($http) {
         return {
+            getUpcomingEvents : function(id) {
+                return $http.get('/api/v1/user/' + id + '/upcoming_events');
+            },
             getPictures : function(id) {
                 return $http.get('/api/v1/user/' + id + '/pictures');
             },

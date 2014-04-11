@@ -22,7 +22,7 @@ angular.module('myApp')
         }
     })
 
-    .controller('homeController',function($scope,$location, $http, Authenticate, Households, Messages, Todos, Flash){
+    .controller('homeController',function($scope,$location, $http, Authenticate, Users, Households, Messages, Todos, Flash){
         if (!sessionStorage.authenticated){
             $location.path('/')
             Flash.show("you should be authenticated to access this page");
@@ -36,6 +36,9 @@ angular.module('myApp')
 
         // object to hold all unread messages for the LoggedIn user
         $scope.messages = {};
+
+        // object to hold events for the LoggedIn user
+        $scope.events = {};
 
         // object to hold all the data for the todos
         $scope.todos = {};
@@ -73,7 +76,7 @@ angular.module('myApp')
                 $scope.loading = false;
             });
 
-         //Fetch all Todos for LoggedIn user.
+        //Fetch all Todos for LoggedIn user.
         Todos.get(sessionStorage.loggedUserId)
             .success(function(data) {
                 $scope.todos = data.data;                        
@@ -83,6 +86,12 @@ angular.module('myApp')
         Messages.getUnread(sessionStorage.loggedUserId)
             .success(function(data) {
                 $scope.messages = data.data;                        
+            });
+
+        //Fetch all events for LoggedIn user.
+        Users.getUpcomingEvents(sessionStorage.loggedUserId)
+            .success(function(data){
+                $scope.events = data.data;
             });
        
         $scope.logout = function (){

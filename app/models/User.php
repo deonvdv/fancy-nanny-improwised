@@ -63,7 +63,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 
     public function upcoming_events()
     {
-        return $this->attend_events()->where('event_date', '>=', new \DateTime('today'));
+        return $this->attend_events()->where('event_date', '>=', new \DateTime('today'))->orderBy('event_date');
     }
 
 	public function messages_sent()

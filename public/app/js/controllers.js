@@ -106,11 +106,14 @@ angular.module('myApp')
         };
     })
     
-    .controller('todoController',function($scope,$location, $http, Authenticate, Todos, Flash){
-        if (!sessionStorage.authenticated){
-            $location.path('/')
-            Flash.show("you should be authenticated to access this page");
-        }
+    .controller('todoController',function($scope, $controller ,$location, $http, Authenticate, Todos, Flash){
+        
+        // if (!sessionStorage.authenticated){
+        //     $location.path('/')
+        //     Flash.show("you should be authenticated to access this page");
+        // }
+
+        $controller('homeController', {$scope: $scope})
 
         // set username of logged in user
         $scope.username = sessionStorage.loggedUsername;
@@ -124,26 +127,6 @@ angular.module('myApp')
         loadData();
             
         $scope.refresh = loadData();
-
-        // function to handle deleting a household
-        $scope.deleteHousehold = function(id) {
-
-            Authenticate.get({}, function(response){
-                $scope.loading = true; 
-
-            Households.destroy(id)
-                .success(function(data) {
-
-                    // if successful, we'll need to refresh the household list
-                    Households.get()
-                        .success(function(getData) {
-                            $scope.households = getData.data;
-                            $scope.loading = false;
-                        });
-                     $location.path('/')
-                });
-            });
-        };
 
         function loadData(){
             //Fetch all Todos for LoggedIn user.

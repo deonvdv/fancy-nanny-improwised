@@ -50,6 +50,8 @@ Route::group(array(
         Route::get('user/{id}/recipes', 'API\V1\UserController@recipes');
         Route::get('user/{id}/favorite_recipes', 'API\V1\UserController@favorite_recipes');
         Route::get('user/{id}/upcoming_events', 'API\V1\UserController@upcoming_events');
+        Route::get('user/{id}/upcoming_events/page/{pagenum}', 'API\V1\UserController@upcoming_events');
+        Route::get('user/{id}/upcoming_events/page/{pagenum}/{itemsperpage}', 'API\V1\UserController@upcoming_events');
         Route::get('users/page/{pagenum}', 'API\V1\UserController@index');
         Route::get('users/page/{pagenum}/{itemsperpage}', 'API\V1\UserController@index');
 

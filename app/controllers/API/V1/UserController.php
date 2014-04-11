@@ -484,19 +484,19 @@ class UserController extends BaseController {
 		}	
 	}
 
-	public function upcoming_events($id, $page = 1)
+	public function upcoming_events($id, $page = 1, $itemsPerPage = 5)
 	{
 		try
 		{
 			$message 	= array();
 			$page 		= (int) $page < 1 ? 1 : $page;
-			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
-			$skip 		= ($page-1)*$itemPerPage;
+			$itemsPerPage = (int) $itemsPerPage < 1 ? 5 : $itemsPerPage;
+			$skip 		= ($page-1)*$itemsPerPage;
 
 			if ( \Models\User::find($id) ) {
-		        $collection = \Models\User::find($id)->upcoming_events()->skip($skip)->take($itemPerPage)->get();
+		        $collection = \Models\User::find($id)->upcoming_events()->skip($skip)->take($itemsPerPage)->get();
 				$itemCount	= \Models\User::find($id)->upcoming_events()->count();
-				$totalPage 	= ceil($itemCount/$itemPerPage);
+				$totalPage 	= ceil($itemCount/$itemsPerPage);
 
 				if($collection->isEmpty()){
 					$message[] = 'No records found in this collection.';
@@ -506,7 +506,7 @@ class UserController extends BaseController {
 		        	array(
 		        		'success'		=> true,
 		        		'page'			=> (int) $page,
-		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'item_per_page'	=> (int) $itemsPerPage,
 		        		'total_item'	=> (int) $itemCount,
 		        		'total_page'	=> (int) $totalPage,
 		        		'data'			=> $collection->toArray(),

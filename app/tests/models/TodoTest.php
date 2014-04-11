@@ -32,6 +32,12 @@ class TodoTest extends TestCase {
 		$newtodo->save();	
 		$id = $newtodo->id;
 
+		// Get remaining Todo
+		$found = \Models\Todo::where('assigned_to', '=', $user->id)->remaining()->get();
+		$this->assertTrue(count($found) == 1);
+		$this->assertTrue($found[0]->id == $id);
+		$this->assertTrue($found[0]->is_complete == 0);
+
 		//get Todo from database
 		$found = \Models\Todo::where('id', '=', $id)->firstOrFail();
 		// print_r($found);

@@ -57,7 +57,7 @@ class Todo extends BaseModel {
     public function scopeRemaining($query)
     {
         //return $query->where('due_date', '>=', new DateTime('today'));
-        return $query->where('is_complete', '=', '0');
+        return $query->where('is_complete', '=', '0')->orderBy('due_date');
     }
 
 }

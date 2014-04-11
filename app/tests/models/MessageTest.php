@@ -32,6 +32,10 @@ class MessageModelTest extends TestCase {
 
 		$id = $msg->id;
 
+		//Get unread message for receiver user.
+		$found = \Models\Message::where('receiver_id','=',$receiver->id)->unread()->get();
+		$this->assertTrue(count($found) == 1);
+
 		//get Message from database
 		$found = \Models\Message::where('id', '=', $id)->firstOrFail();
 		

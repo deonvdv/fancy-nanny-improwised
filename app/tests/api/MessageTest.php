@@ -31,12 +31,18 @@ class MessageAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->data->message == $message );
 		$this->assertTrue( $response->getData()->message == 'New Message created sucessfully!' );
 
-
 		// test that location header is set
 		$this->assertTrue( stripos( $response->headers, "Location:" ) !== false );
 		$this->assertTrue( stripos( $response->headers, "/message/".$recordId ) !== false );
 		
-
+		// verify that unread is returned
+		$response = $this->call('GET', '/api/v1/message/'.$receiver_id. '/unread' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( $response->getData()->data[0]->id == $recordId );
+		$this->assertTrue( $response->getData()->data[0]->sender_id == $sender_id );
+		$this->assertTrue( $response->getData()->data[0]->receiver_id == $receiver_id );
+		$this->assertTrue( $response->getData()->data[0]->message == $message );		
+		
 		// verify insert was sucessful
 		$response = $this->call('GET', '/api/v1/message/'.$recordId );
 		$this->assertTrue( $response->getData()->success );
@@ -44,7 +50,6 @@ class MessageAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->data->sender_id == $sender_id );
 		$this->assertTrue( $response->getData()->data->receiver_id == $receiver_id );
 		$this->assertTrue( $response->getData()->data->message == $message );
-		
 
 		// edit message
 		$response = $this->call('PUT', '/api/v1/message/'.$recordId, array('message' => $message."_changed") );

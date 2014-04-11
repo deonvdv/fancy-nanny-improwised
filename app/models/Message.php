@@ -24,6 +24,11 @@ class Message extends BaseModel {
         return $this->belongsTo('Models\User','receiver_id');
     }
 
+    public function scopeUnread($query)
+    {
+        return $query->where('is_read', '=', '0')->orderBy('created_at','desc');
+    }
+
 
     public function setSender(\Models\User $user) {
         $user->save();

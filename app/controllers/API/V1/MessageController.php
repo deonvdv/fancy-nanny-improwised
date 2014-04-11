@@ -290,8 +290,63 @@ class MessageController extends BaseController {
 				),
 				500
 			);
+		}		
+	}
+
+	public function unread($id, $page = 1)
+	{
+		try
+		{
+				$message 	= array();
+				$page 		= (int) $page < 1 ? 1 : $page;
+				$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+				$skip 		= ($page-1)*$itemPerPage;
+
+				if ( \Models\Message::where('receiver_id','=',$id) ) 
+				{
+			        $collection = \Models\Message::where('receiver_id','=',$id)->unread()->take($itemPerPage)->get();
+					$itemCount	= \Models\Message::where('receiver_id','=',$id)->unread()->count();
+					$totalPage 	= ceil($itemCount/$itemPerPage);
+
+					if($collection->isEmpty()){
+						$message[] = 'No records found in this collection.';
+					}
+
+			        return parent::buildJsonResponse(
+			        	array(
+			        		'success'		=> true,
+			        		'page'			=> (int) $page,
+			        		'item_per_page'	=> (int) $itemPerPage,
+			        		'total_item'	=> (int) $itemCount,
+			        		'total_page'	=> (int) $totalPage,
+			        		'data'			=> $collection->toArray(),
+			        		'message'		=> implode($message, "\n")
+			        	)
+			        );
+				} 
+				else 
+				{
+		        	return parent::buildJsonResponse(
+		        		array(
+		        			'success'	=> false,
+		        			'data'		=> null,
+							'message'	=> 'Could not find Messages for user with id:'.$id
+		        		),
+		        		404
+		        	);
+				}
+		}		
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
 		}
-		
 	}
 
 }

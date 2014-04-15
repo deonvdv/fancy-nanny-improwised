@@ -40,7 +40,7 @@ angular.module('myApp')
         // object to hold events for the LoggedIn user
         $scope.events = {};
 
-        // object to hold all the data for the todos
+        // object to hold all the data for the todos assigned to LoggedInUser and uncomplete
         $scope.todos = {};
 
         // object to hold emergency contacts
@@ -135,6 +135,50 @@ angular.module('myApp')
         // set username of logged in user
         $scope.username = sessionStorage.loggedUsername;
 
+        // object to hold all the data for the assignedTo todos
+        $scope.assignedToTodos = {};
+
+        // object to hold all the data for the completed todos by LoggedInUser
+        $scope.completedTodos = {};
+        
+        // loading variable to show the spinning loading icon
+        $scope.loading = true;
+
+        loadData();
+            
+        $scope.refresh = loadData();
+
+        function loadData(){
+            //Fetch all Todos for LoggedIn user.
+            Todos.get(sessionStorage.loggedUserId)
+                .success(function(data) {
+                    $scope.todos = data.data;
+            });
+
+            Todos.getAssignedTo(sessionStorage.loggedUserId)
+                .success(function(data) {
+                    $scope.assignedToTodos = data.data;
+            });
+
+            Todos.getCompleted(sessionStorage.loggedUserId)
+                .success(function(data) {
+                    $scope.completedTodos = data.data;
+            });            
+        }
+    })
+
+    .controller('messageController',function($scope, $controller ,$location, $http, Authenticate, Todos, Flash){
+        
+        // if (!sessionStorage.authenticated){
+        //     $location.path('/')
+        //     Flash.show("you should be authenticated to access this page");
+        // }
+
+        $controller('homeController', {$scope: $scope})
+
+        // set username of logged in user
+        $scope.username = sessionStorage.loggedUsername;
+
         // object to hold all the data for the todos
         //$scope.todos = {};
         
@@ -149,9 +193,9 @@ angular.module('myApp')
             //Fetch all Todos for LoggedIn user.
             Todos.get(sessionStorage.loggedUserId)
                 .success(function(data) {
-                    console.log( data.data);
                     $scope.todos = data.data;
             });  
         }
     });
+
     

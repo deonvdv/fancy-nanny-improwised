@@ -296,7 +296,7 @@ class TodoController extends BaseController {
 		}		
 	}
 
-	public function remaining($id, $page = 1)
+	public function assigned($id, $page = 1)
 	{
 		try
 		{
@@ -307,8 +307,120 @@ class TodoController extends BaseController {
 
 				if ( \Models\Todo::where('assigned_to','=',$id) ) 
 				{
-			        $collection = \Models\Todo::where('assigned_to','=',$id)->remaining()->take($itemPerPage)->get();
+			        $collection = \Models\Todo::where('assigned_to','=',$id)->with('assigned_by','assigned_to')->remaining()->take($itemPerPage)->get();
 					$itemCount	= \Models\Todo::where('assigned_to','=',$id)->remaining()->count();
+					$totalPage 	= ceil($itemCount/$itemPerPage);
+
+					if($collection->isEmpty()){
+						$message[] = 'No records found in this collection.';
+					}
+
+			        return parent::buildJsonResponse(
+			        	array(
+			        		'success'		=> true,
+			        		'page'			=> (int) $page,
+			        		'item_per_page'	=> (int) $itemPerPage,
+			        		'total_item'	=> (int) $itemCount,
+			        		'total_page'	=> (int) $totalPage,
+			        		'data'			=> $collection->toArray(),
+			        		'message'		=> implode($message, "\n")
+			        	)
+			        );
+				} 
+				else 
+				{
+		        	return parent::buildJsonResponse(
+		        		array(
+		        			'success'	=> false,
+		        			'data'		=> null,
+							'message'	=> 'Could not find Todo for user with id:'.$id
+		        		),
+		        		404
+		        	);
+				}
+		}		
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
+
+	public function completed($id, $page = 1)
+	{
+		try
+		{
+				$message 	= array();
+				$page 		= (int) $page < 1 ? 1 : $page;
+				$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+				$skip 		= ($page-1)*$itemPerPage;
+
+				if ( \Models\Todo::where('assigned_to','=',$id) ) 
+				{
+			        $collection = \Models\Todo::where('assigned_to','=',$id)->with('assigned_by','assigned_to')->completed()->take($itemPerPage)->get();
+					$itemCount	= \Models\Todo::where('assigned_to','=',$id)->completed()->count();
+					$totalPage 	= ceil($itemCount/$itemPerPage);
+
+					if($collection->isEmpty()){
+						$message[] = 'No records found in this collection.';
+					}
+
+			        return parent::buildJsonResponse(
+			        	array(
+			        		'success'		=> true,
+			        		'page'			=> (int) $page,
+			        		'item_per_page'	=> (int) $itemPerPage,
+			        		'total_item'	=> (int) $itemCount,
+			        		'total_page'	=> (int) $totalPage,
+			        		'data'			=> $collection->toArray(),
+			        		'message'		=> implode($message, "\n")
+			        	)
+			        );
+				} 
+				else 
+				{
+		        	return parent::buildJsonResponse(
+		        		array(
+		        			'success'	=> false,
+		        			'data'		=> null,
+							'message'	=> 'Could not find Todo for user with id:'.$id
+		        		),
+		        		404
+		        	);
+				}
+		}		
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
+
+	public function assignedto($id, $page = 1)
+	{
+		try
+		{
+				$message 	= array();
+				$page 		= (int) $page < 1 ? 1 : $page;
+				$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+				$skip 		= ($page-1)*$itemPerPage;
+
+				if ( \Models\Todo::where('assigned_to','=',$id) ) 
+				{
+			        $collection = \Models\Todo::where('assigned_by','=',$id)->with('assigned_by','assigned_to')->take($itemPerPage)->get();
+					$itemCount	= \Models\Todo::where('assigned_by','=',$id)->count();
 					$totalPage 	= ceil($itemCount/$itemPerPage);
 
 					if($collection->isEmpty()){

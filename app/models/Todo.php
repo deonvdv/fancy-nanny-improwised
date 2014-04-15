@@ -60,4 +60,9 @@ class Todo extends BaseModel {
         return $query->where('is_complete', '=', '0')->orderBy('due_date');
     }
 
+    public function scopeCompleted($query)
+    {
+        return $query->where('is_complete', '=', '1')->orderBy('due_date');
+    }
+
 }

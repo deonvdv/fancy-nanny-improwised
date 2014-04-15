@@ -66,8 +66,8 @@ class TodoAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->data->assigned_by == $user->id );
 		$this->assertTrue( $response->getData()->data->assigned_to == $user->id );
 
-		// verify that remaining todo is returned
-		$response = $this->call('GET', '/api/v1/todo/'.$user->id .'/remaining');
+		// verify that assigned todo is returned
+		$response = $this->call('GET', '/api/v1/todo/'.$user->id .'/assigned');
 		$this->assertTrue( $response->getData()->success );
 		$this->assertTrue( $response->getData()->total_item == 1 );
 		$this->assertTrue( $response->getData()->data[0]->title == $title );
@@ -77,16 +77,43 @@ class TodoAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->data[0]->notify == $notify );
 		$this->assertTrue( $response->getData()->data[0]->minutes_before == $minutes_before );
 		$this->assertTrue( $response->getData()->data[0]->owner_id == $user->id );
-		$this->assertTrue( $response->getData()->data[0]->assigned_by == $user->id );
-		$this->assertTrue( $response->getData()->data[0]->assigned_to == $user->id );
+		$this->assertTrue( $response->getData()->data[0]->assigned_by->id == $user->id );
+		$this->assertTrue( $response->getData()->data[0]->assigned_to->id == $user->id );
+
+		// verify that assignedto todo is returned
+		$response = $this->call('GET', '/api/v1/todo/'.$user->id .'/assignedto');
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( $response->getData()->total_item == 1 );
+		$this->assertTrue( $response->getData()->data[0]->title == $title );
+		$this->assertTrue( $response->getData()->data[0]->description == $description );
+		$this->assertTrue( $response->getData()->data[0]->due_date == $due_date );
+		$this->assertTrue( $response->getData()->data[0]->is_complete == $is_complete );
+		$this->assertTrue( $response->getData()->data[0]->notify == $notify );
+		$this->assertTrue( $response->getData()->data[0]->minutes_before == $minutes_before );
+		$this->assertTrue( $response->getData()->data[0]->owner_id == $user->id );
+		$this->assertTrue( $response->getData()->data[0]->assigned_by->id == $user->id );
+		$this->assertTrue( $response->getData()->data[0]->assigned_to->id == $user->id );
 
 		// edit todo
-		$response = $this->call('PUT', '/api/v1/todo/'.$recordId, array('title' => $title ."_changed") );
+		$response = $this->call('PUT', '/api/v1/todo/'.$recordId, array('title' => $title ."_changed", 'is_complete' => 1) );
 		$this->assertTrue( $response->getData()->success );
 		$this->assertTrue( $response->getData()->data->id == $recordId );
 		$this->assertTrue( $response->getData()->data->title == $title."_changed" );
 		$this->assertTrue( $response->getData()->message == 'Todo updated sucessfully!' );
 
+		// verify that completed todo is returned
+		$response = $this->call('GET', '/api/v1/todo/'.$user->id .'/completed');
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( $response->getData()->total_item == 1 );
+		$this->assertTrue( $response->getData()->data[0]->title == $title."_changed" );
+		$this->assertTrue( $response->getData()->data[0]->description == $description );
+		$this->assertTrue( $response->getData()->data[0]->due_date == $due_date );
+		$this->assertTrue( $response->getData()->data[0]->is_complete == 1 );
+		$this->assertTrue( $response->getData()->data[0]->notify == $notify );
+		$this->assertTrue( $response->getData()->data[0]->minutes_before == $minutes_before );
+		$this->assertTrue( $response->getData()->data[0]->owner_id == $user->id );
+		$this->assertTrue( $response->getData()->data[0]->assigned_by->id == $user->id );
+		$this->assertTrue( $response->getData()->data[0]->assigned_to->id == $user->id );
 
 		// verify update was sucessful
 		$response = $this->call('GET', '/api/v1/todo/'.$recordId );

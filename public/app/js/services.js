@@ -320,8 +320,14 @@ angular.module('myApp')
     .factory('Todos', function($http) {
         return {
             get : function(id) {
-                return $http.get('/api/v1/todo/' + id + '/remaining');
-            },            
+                return $http.get('/api/v1/todo/' + id + '/assigned');
+            },
+            getAssignedTo : function(id) {
+                return $http.get('/api/v1/todo/' + id + '/assignedto');
+            },
+            getCompleted : function(id) {
+                return $http.get('/api/v1/todo/' + id + '/completed');
+            },                     
             getTags : function(id) {
                 return $http.get('/api/v1/todo/' + id + '/tags');
             },

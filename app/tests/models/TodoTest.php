@@ -38,6 +38,21 @@ class TodoTest extends TestCase {
 		$this->assertTrue($found[0]->id == $id);
 		$this->assertTrue($found[0]->is_complete == 0);
 
+		//Mark task completed
+		$found[0]->is_complete = 1;
+		$found[0]->save();
+
+		// Get completed Todo
+		$found = \Models\Todo::where('assigned_to', '=', $user->id)->completed()->get();
+		$this->assertTrue(count($found) == 1);
+		$this->assertTrue($found[0]->id == $id);
+		$this->assertTrue($found[0]->is_complete == 1);
+
+		// Get assignedto Todo
+		$found = \Models\Todo::where('assigned_by', '=', $user->id)->get();
+		$this->assertTrue(count($found) == 1);
+		$this->assertTrue($found[0]->id == $id);
+		
 		//get Todo from database
 		$found = \Models\Todo::where('id', '=', $id)->firstOrFail();
 		// print_r($found);

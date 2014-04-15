@@ -26,25 +26,69 @@
       </div>
       <!--  -->
       <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list">
+
         <div class="block block-color success">
           <div class="header">        
             <div class="actions">
-              <a href="#/todos/"><i class="fa fa-repeat"></i></a>
+              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a> -->
+              <a class="refresh" href="#/todos/"><i class="fa fa-repeat"></i></a>
+              <!-- <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
             </div>
             <h3>Todo's</h3>
           </div>
-
-          <div class="content" ng-repeat="todo in todos">
-            
-            <div class="todo-block clearfix">
-              <h4>{{todo.title}} </h4>
-              <p> {{todo.description}} </p>
-              <p class="date-todo">{{todo.due_date}}</p>
+          <!--  -->
+          <div class="content">
+            <!--  -->
+            <div class="tab-container">
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#Assigned" data-toggle="tab">Assigned</a></li>
+                <li class=""><a href="#Assigned_to" data-toggle="tab">Assigned to</a></li>
+                <li class=""><a href="#Completed" data-toggle="tab">Completed</a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="Assigned">
+                  <div ng-repeat="todo in todos">
+                    <div class="todo-block clearfix">
+                      <h4>{{todo.title}} <span><i class="fa fa-check-circle icon-position"></i></span></h4>
+                      <p>{{todo.description}}</p>
+                      <p class="date-todo">Assigned By : {{todo.assigned_by.name}}</p>
+                      <p class="date-todo">Date :{{todo.due_date}}</p>
+                    </div>
+                  <hr>                 
+                 </div>
+                </div>
+                <div class="tab-pane cont" id="Assigned_to">
+                  <div  ng-repeat="todo in assignedToTodos">
+                    <div class="todo-block clearfix">
+                      <h4>{{todo.title}} 
+                      <span ng-class="{'icon-position-c': todo.is_complete, 'icon-position' : !todo.is_complete}">
+                        <i class="fa fa-check-circle">
+                        </i>
+                      </span></h4>
+                      <p>{{todo.description}}</p>
+                      <p class="date-todo">Assigned To : {{todo.assigned_to.name}}</p>
+                      <p class="date-todo">Date :{{todo.due_date}}</p>
+                    </div>
+                    <hr> 
+                  </div>                
+                </div>
+                <div class="tab-pane cont" id="Completed">
+                  <div ng-repeat="todo in completedTodos">
+                    <div class="todo-block clearfix">
+                      <h4>{{todo.title}} <span><i class="fa fa-check-circle icon-position-c"></i></span></h4>
+                      <p>{{todo.description}}</p>
+                      <p class="date-todo">Assigned By : {{todo.assigned_by.name}}</p>
+                      <p class="date-todo">Date :{{todo.due_date}}</p>
+                    </div>
+                    <hr>
+                  </div>               
+                </div>
+              </div>
             </div>
-            <hr>
-
+            <!--  -->
           </div>
         </div>
+          <!--  -->
       </div>
       <!--  -->
       <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right hidden-xs">
@@ -58,16 +102,123 @@
             <h3>Add New Todo</h3>
           </div>
             <div class="content">
+
                <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
-                <input type="text" class="form-control" placeholder="Name">
+
+                <input type="text" class="form-control" placeholder="Todo Name">
                 <br>
+
+                <input class="form-control datetime" size="16" type="text" value="" placeholder="Todo's Due Date">
+                <br>
+
                 <textarea class="form-control" placeholder="Todo Description"></textarea>
+
+                <div class="form-group">
+                  <div>
+                    <input class="tags" type="hidden" value="" placeholder="Add Tags" />
+                  </div>
+                </div>
                 <br>
+
                 <button type="button" class="btn btn-success">Add</button>
+                <br>
+
               </form>
+
             </div>
         </div>
       </div>
       <!-- <div class="aside-right"></div> -->
-    </div>
+    </div>  
+  <script type="text/javascript">
+    $(document).ready(function(){
+      /*Date Range Picker*/
+      $('#reservation').daterangepicker();
+      $('#reservationtime').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        format: 'MM/DD/YYYY h:mm A'
+      });
+      var cb = function(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        alert("Callback has fired: [" + start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY') + "]");
+      }
+
+      var optionSet1 = {
+        startDate: moment().subtract('days', 29),
+        endDate: moment(),
+        minDate: '01/01/2012',
+        maxDate: '12/31/2014',
+        dateLimit: { days: 60 },
+        showDropdowns: true,
+        showWeekNumbers: true,
+        timePicker: false,
+        timePickerIncrement: 1,
+        timePicker12Hour: true,
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+           'Last 7 Days': [moment().subtract('days', 6), moment()],
+           'Last 30 Days': [moment().subtract('days', 29), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        },
+        opens: 'left',
+        buttonClasses: ['btn btn-default'],
+        applyClass: 'btn-small btn-primary',
+        cancelClass: 'btn-small',
+        format: 'MM/DD/YYYY',
+        separator: ' to ',
+        locale: {
+            applyLabel: 'Submit',
+            cancelLabel: 'Clear',
+            fromLabel: 'From',
+            toLabel: 'To',
+            customRangeLabel: 'Custom',
+            daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+            monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            firstDay: 1
+        }
+      };
+
+      var optionSet2 = {
+        startDate: moment().subtract('days', 7),
+        endDate: moment(),
+        opens: 'left',
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+           'Last 7 Days': [moment().subtract('days', 6), moment()],
+           'Last 30 Days': [moment().subtract('days', 29), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        }
+      };
+
+      $('#reportrange span').html(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+      $('#reportrange').daterangepicker(optionSet1, cb);
+
+      $('#reportrange').on('show', function() { console.log("show event fired"); });
+      $('#reportrange').on('hide', function() { console.log("hide event fired"); });
+      $('#reportrange').on('apply', function(ev, picker) {
+        console.log("apply event fired, start/end dates are "
+          + picker.startDate.format('MMMM D, YYYY')
+          + " to "
+          + picker.endDate.format('MMMM D, YYYY')
+        );
+      });
+      $('#reportrange').on('cancel', function(ev, picker) { console.log("cancel event fired"); });
+      /*Switch*/
+      // $('.switch').bootstrapSwitch();
+
+      /*DateTime Picker*/
+        $(".datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+
+      /*Tags*/
+        $(".tags").select2({tags: 0,width: '100%'});
+
+    });
+</script>
   </div>
+

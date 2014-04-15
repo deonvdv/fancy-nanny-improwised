@@ -118,7 +118,9 @@ Route::group(array(
         Route::resource('todo', 'API\V1\TodoController');
         Route::get('todos', 'API\V1\TodoController@index');
         Route::get('todo/{id}/tags', 'API\V1\TodoController@tags');
-        Route::get('todo/{id}/remaining', 'API\V1\TodoController@remaining');
+        Route::get('todo/{id}/assigned', 'API\V1\TodoController@assigned');
+        Route::get('todo/{id}/assignedto', 'API\V1\TodoController@assignedto');
+        Route::get('todo/{id}/completed', 'API\V1\TodoController@completed');
         Route::get('todos/page/{pagenum}', 'API\V1\TodoController@index');
         Route::get('todos/page/{pagenum}/{itemsperpage}', 'API\V1\TodoController@index');
 

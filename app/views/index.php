@@ -19,10 +19,13 @@
     <script src="../../assets/js/html5shiv.js"></script>
     <script src="../../assets/js/respond.min.js"></script>
   <![endif]-->
-  
+
     <link href="app/css/bootstrap.css" rel="stylesheet">
     <link href="app/css/app.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="app/css/nanoscroller.css" />  
+    <link rel="stylesheet" type="text/css" href="app/css/nanoscroller.css" />
+    <link rel="stylesheet" type="text/css" href="app/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="app/css/daterangepicker-bs3.css" />
+    <link rel="stylesheet" type="text/css" href="app/css/select2.css" />
   	<link rel="stylesheet" type="text/css" href="app/css/style.css">
     <!-- Custom styles for this login -->
     <link href="app/css/login.css" rel="stylesheet">
@@ -33,26 +36,29 @@
 
 <div id="cl-wrapper" ng-view></div>
 
-<script src="app/lib/angular/angular.min.js"></script>
-<script src="app/lib/angular/angular-resource.min.js"></script>
-<script src="app/lib/angular/angular-sanitize.min.js"></script>
-<script src="app/js/app.js"></script>
-<script src="app/js/controllers.js"></script>
-<script src="app/js/directives.js"></script>
-<script src="app/js/filters.js"></script>
-<script src="app/js/services.js"></script>
+<script type="text/javascript" src="app/lib/angular/angular.min.js"></script>
+<script type="text/javascript" src="app/lib/angular/angular-resource.min.js"></script>
+<script type="text/javascript" src="app/lib/angular/angular-sanitize.min.js"></script>
 
-<script src="app/lib/jquery.js"></script>
-<script src="app/lib/jPushMenu.js"></script>
-<script type="text/javascript" src="app/lib/jquery.nanoscroller.js"></script>
-<script type="text/javascript" src="app/lib/jquery-ui.js" ></script>
-<script type="text/javascript" src="app/lib/core.js"></script>
+<script type="text/javascript" src="app/js/app.js"></script>
+<script type="text/javascript" src="app/js/controllers.js"></script>
+<script type="text/javascript" src="app/js/directives.js"></script>
+<script type="text/javascript" src="app/js/filters.js"></script>
+<script type="text/javascript" src="app/js/services.js"></script>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-  <script src="app/lib/bootstrap.min.js"></script>
-
+  <script type="text/javascript" src="app/lib/jquery.js"></script>
+  <script type="text/javascript" src="app/lib/jPushMenu.js"></script>
+  <script type="text/javascript" src="app/lib/jquery.nanoscroller.js"></script>
+  <script type="text/javascript" src="app/lib/jquery-ui.js" ></script>
+  <script type="text/javascript" src="app/lib/core.js"></script>
+  <script type="text/javascript" src="app/lib/bootstrap.min.js"></script>
+  <script type="text/javascript" src="app/lib/moment.min.js"></script>
+  <script type="text/javascript" src="app/lib/daterangepicker.js"></script>
+  <script type="text/javascript" src="app/lib/bootstrap-datetimepicker.min.js"></script>
+  <script type="text/javascript" src="app/lib/select2.min.js" ></script>   
 <script>
     angular.module("myApp").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
 </script>

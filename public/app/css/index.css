@@ -289,9 +289,10 @@ border-top: 1px solid #eee;
 }
 .aside-right textarea{
 	resize:vertical;
+	min-height: 140px;
 }
 .date-todo{
-	color: #b9b9b9;
+	color: #b9b9b9 !important;
 }
 .todo-block{
 	padding: 10px;
@@ -420,6 +421,56 @@ border-top: 1px solid #eee;
 }
 
 /* todo page */
+.todo-list .nav-tabs li.active a{
+	border-top: 2px solid #19b698 !important;
+}
+.icon-position{
+	color: #cbcbcb;
+}
+.icon-position-c{
+	color: #19b698;
+}
+.icon-position:hover,.icon-position-c:hover{
+	cursor: pointer;
+}
+.completed-todos{
+	background-color: rgba(25,182,152,0.2);
+	border-radius: 5px;
+}
+.completed-todos .date-todo{
+	color: #b9b9b9 !important;
+}
+.completed-todos:hover{
+	background-color: rgba(25,182,152,0.3) !important;
+}
+.aside-right .select2-container-multi .select2-choices .select2-search-choice {
+	background-color: #19b698 !important;
+}
+.aside-right .select2-container-multi .select2-choices {
+	padding: 0px !important;
+	background: #fff;
+	box-shadow: none;
+}
+.aside-right .select2-drop-active {
+	border: 1px solid #19b698 !important;
+}
+.select2-results .select2-highlighted {
+	background: none repeat scroll 0 0 #19b698 !important;
+}
+.select2-drop.select2-drop-above.select2-drop-active {
+	border-top: 1px solid #19b698 !important;
+}
+.select2-drop-active {
+	border-bottom: 1px solid #19b698 !important;
+	border-left: 1px solid #19b698 !important;
+	border-right: 1px solid #19b698 !important;
+}
+.select2-container-multi.select2-container-active .select2-choices {
+	border: 1px solid #19b698 !important;
+}
+.select2-result-selectable .select2-match, .select2-result-unselectable .select2-match {
+	text-decoration: none !important;
+}
 @media all and (max-width: 1200px) {
 .block .header h3 {
 	font-size: 22px;

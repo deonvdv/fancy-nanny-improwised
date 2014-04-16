@@ -58,6 +58,8 @@ Route::group(array(
         Route::resource('message', 'API\V1\MessageController');
         Route::get('messages', 'API\V1\MessageController@index');
         Route::get('message/{id}/unread', 'API\V1\MessageController@unread');
+        Route::get('message/{id}/received', 'API\V1\MessageController@received');
+        Route::get('message/{id}/sent', 'API\V1\MessageController@sent');
         Route::get('messages/page/{pagenum}', 'API\V1\MessageController@index');
         Route::get('messages/page/{pagenum}/{itemsperpage}', 'API\V1\MessageController@index');
         

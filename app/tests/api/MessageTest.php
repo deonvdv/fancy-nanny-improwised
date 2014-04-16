@@ -36,12 +36,28 @@ class MessageAPITest extends TestCase {
 		$this->assertTrue( stripos( $response->headers, "/message/".$recordId ) !== false );
 		
 		// verify that unread is returned
-		$response = $this->call('GET', '/api/v1/message/'.$receiver_id. '/unread' );
+		$response = $this->call('GET', '/api/v1/message/'.$receiver_id. '/unread/' );
 		$this->assertTrue( $response->getData()->success );
 		$this->assertTrue( $response->getData()->data[0]->id == $recordId );
 		$this->assertTrue( $response->getData()->data[0]->sender_id == $sender_id );
 		$this->assertTrue( $response->getData()->data[0]->receiver_id == $receiver_id );
-		$this->assertTrue( $response->getData()->data[0]->message == $message );		
+		$this->assertTrue( $response->getData()->data[0]->message == $message );
+
+		// verify that received is returned
+		$response = $this->call('GET', '/api/v1/message/'.$receiver_id. '/received' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( $response->getData()->data[0]->id == $recordId );
+		$this->assertTrue( $response->getData()->data[0]->sender->id == $sender_id );
+		$this->assertTrue( $response->getData()->data[0]->receiver_id == $receiver_id );
+		$this->assertTrue( $response->getData()->data[0]->message == $message );
+
+		// verify that sent is returned
+		$response = $this->call('GET', '/api/v1/message/'.$sender_id. '/sent' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( $response->getData()->data[0]->id == $recordId );
+		$this->assertTrue( $response->getData()->data[0]->sender_id == $sender_id );
+		$this->assertTrue( $response->getData()->data[0]->receiver_id == $receiver_id );
+		$this->assertTrue( $response->getData()->data[0]->message == $message );	
 		
 		// verify insert was sucessful
 		$response = $this->call('GET', '/api/v1/message/'.$recordId );

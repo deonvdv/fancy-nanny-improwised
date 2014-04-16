@@ -167,7 +167,7 @@ angular.module('myApp')
         }
     })
 
-    .controller('messageController',function($scope, $controller ,$location, $http, Authenticate, Todos, Flash){
+    .controller('messageController',function($scope, $controller ,$location, $http, Authenticate, Messages, Flash){
         
         // if (!sessionStorage.authenticated){
         //     $location.path('/')
@@ -179,22 +179,29 @@ angular.module('myApp')
         // set username of logged in user
         $scope.username = sessionStorage.loggedUsername;
 
-        // object to hold all the data for the todos
-        //$scope.todos = {};
+        // object to hold all the data for the ReceivedMessages
+        $scope.receivedMessages = {};
+
+        // object to hold all the data for the SentMessages
+        $scope.sentMessages = {};
         
         // loading variable to show the spinning loading icon
         $scope.loading = true;
 
         loadData();
             
-        $scope.refresh = loadData();
-
         function loadData(){
-            //Fetch all Todos for LoggedIn user.
-            Todos.get(sessionStorage.loggedUserId)
+            //Fetch all ReceivedMessages for LoggedIn user.
+            Messages.getReceived(sessionStorage.loggedUserId)
                 .success(function(data) {
-                    $scope.todos = data.data;
-            });  
+                    $scope.receivedMessages = data.data;
+            });
+
+            //Fetch all SentMessages for LoggedIn user.
+            Messages.getSent(sessionStorage.loggedUserId)
+                .success(function(data) {
+                    $scope.sentMessages = data.data;
+            }); 
         }
     });
 

@@ -544,3 +544,49 @@ border-top: 1px solid #eee;
 }
 }
 /* //calender page */
+
+
+/* Message_board */
+.cl-mcont .block .msg-block {
+	padding: 5px !important;
+}
+.msg-block .media{
+	padding: 15px !important;
+	margin-top: 0px;
+	border-bottom: 1px solid #ebebeb;
+}
+.msg-block .media:last-child{
+	padding: 15px !important;
+	margin-top: 0px;
+	border-bottom: 0px solid #ebebeb;
+}
+.msg-block .media .media-body .media-heading{
+	color: #4aa3df;
+}
+.msg-block .media .media-body .media-heading:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+.msg-block .media:hover{
+	background-color: #f5f5f5;
+}
+.msg-time{
+	color: #cbcbcb;
+}
+.msg-block .nav-tabs li.active a {
+	border-top: 2px solid #4aa3df !important;
+}
+.msg-block .tab-content {
+	padding: 0px;
+}
+.msg-active{
+	background-color: #fafafa;
+	border-bottom: 1px solid #ebebeb;
+}
+.fa-envelope-unread{
+	color: #4aa3df;
+}
+.fa-envelope-read{
+	color: #cbcbcb;
+}
+/* Message_board */

@@ -82,12 +82,18 @@ angular.module('myApp')
     })
     .factory('Messages', function($http) {
         return {
-            getUnread : function(id) {
-                return $http.get('/api/v1/message/' + id + '/unread')
-            },
             get : function() {
                 return $http.get('/api/v1/message');
             },
+            getUnread : function(id) {
+                return $http.get('/api/v1/message/' + id + '/unread')
+            },
+            getReceived : function(id) {
+                return $http.get('/api/v1/message/' + id + '/received')
+            },
+            getSent : function(id) {
+                return $http.get('/api/v1/message/' + id + '/sent')
+            },            
             show : function(id) {
                 return $http.get('/api/v1/message/' + id);
             },

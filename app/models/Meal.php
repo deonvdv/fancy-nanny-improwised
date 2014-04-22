@@ -32,4 +32,12 @@ class Meal extends BaseModel {
         $this->save();
         $this->recipes()->attach( $recipe );
     }
+
+    public function scopeToday($query)
+    {
+        $jd=cal_to_jd(CAL_GREGORIAN,date("m"),date("d"),date("Y"));
+        $day_number = jddayofweek($jd) + 1;
+
+        return $query->where('day_of_week', '=', $day_number);
+    }
 }

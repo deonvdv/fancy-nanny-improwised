@@ -30,7 +30,20 @@ class MealModelTest extends TestCase {
 
 		$id = $newmeal->id;
 
-		//get Meal from database
+		//get Meal for today from database
+		$found = \Models\Meal::where('household_id', '=', $user->household->id)->today()->get();
+		$jd=cal_to_jd(CAL_GREGORIAN,date("m"),date("d"),date("Y"));
+        $day_number = jddayofweek($jd) + 1;
+        if($day_number == 1)
+        {
+        	$this->assertTrue(count($found) == 1);
+        }
+        else
+        {
+        	$this->assertTrue(count($found) == 0);
+        }
+
+        //get Meal from database
 		$found = \Models\Meal::where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";

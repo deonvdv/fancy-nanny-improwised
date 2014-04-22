@@ -3,7 +3,7 @@ angular.module("myApp",['ngResource','ngSanitize'])
         $routeProvider.when('/',{templateUrl:'app/partials/login.html', controller: 'loginController'})
         $routeProvider.when('/home',{templateUrl:'app/partials/home.html', controller: 'homeController'})
         $routeProvider.when('/todos',{templateUrl:'app/partials/todos.html', controller: 'todoController'})
-        $routeProvider.when('/message',{templateUrl:'app/partials/messages.html', controller: 'messageController'})
+        $routeProvider.when('/messages',{templateUrl:'app/partials/messages.html', controller: 'messageController'})
         $routeProvider.otherwise({redirectTo :'/'})
     }]).config(function($httpProvider){
 

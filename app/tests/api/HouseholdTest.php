@@ -91,6 +91,11 @@ class HouseholdAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->success );
 		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
 	
+		//Get relevant todaymeals
+		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/todaymeals/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+
 		//Get relevant events
 		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/events/' );
 		$this->assertTrue( $response->getData()->success );

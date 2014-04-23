@@ -25,7 +25,7 @@ class Meal extends BaseModel {
 
 	public function recipes() {
         return $this->belongsToMany('Models\Recipe', 'meals_recipes');
-    }	
+    }  
 
     public function addRecipe(\Models\Recipe $recipe) {
         $recipe->save();

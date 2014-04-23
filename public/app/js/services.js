@@ -25,6 +25,9 @@ angular.module('myApp')
             getMeals : function(id) {
                 return $http.get('/api/v1/household/' + id + '/meals');
             },
+            getTodayMeals : function(id) {
+                return $http.get('/api/v1/household/' + id + '/todaymeals');
+            },
             getEvents : function(id) {
                 return $http.get('/api/v1/household/' + id + '/events');
             },

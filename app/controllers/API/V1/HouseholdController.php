@@ -581,7 +581,7 @@ class HouseholdController extends BaseController {
 			$skip 		= ($page-1)*$itemPerPage;
 
 			if ( \Models\Household::find($householdId) ) {
-		        $collection = \Models\Household::find($householdId)->meals()->today()->skip($skip)->take($itemPerPage)->get();
+		        $collection = \Models\Household::find($householdId)->meals()->today()->with('recipes','recipes.recipe_ingredients', 'recipes.recipe_ingredients.ingredient')->skip($skip)->take($itemPerPage)->get();
 				$itemCount	= \Models\Household::find($householdId)->meals()->today()->count();
 				$totalPage 	= ceil($itemCount/$itemPerPage);
 

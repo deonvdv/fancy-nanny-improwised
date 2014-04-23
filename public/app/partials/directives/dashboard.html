@@ -92,34 +92,20 @@
               <div class="tab-content">
                 <!-- Breakfast -->
                 <div class="tab-pane cont active" id="breakfast">
-                  <i class="fa fa-chevron-right"></i>
-                  <div class="todo-position">
-                    <label class="label-color">meal name</label>&nbsp;:&nbsp; Pizza
-                    <br>
-                    <label>ingredients </label>&nbsp;:&nbsp;Olive oil,Cornmeal (to slide the pizza onto the pizza stone),Tomato sauce (purée),Mozzarella or Parmesan cheese, shredded,Feta cheese,Mushrooms, thinly sliced,Bell peppers, stems and seeds removed, thinly sliced,Italian sausage, cooked ahead,Chopped fresh basil,Pesto,Pepperoni, thinly sliced,Onions, thinly sliced,Sliced ham,
-                    <br>
-                    <label>description </label>&nbsp;:&nbsp; ....
-                    <br>
-                  </div>
-                  <hr>
-                  <i class="fa fa-chevron-right"></i>
-                  <div class="todo-position">
-                    <label class="label-color">meal name</label>&nbsp;:&nbsp; Pizza
-                    <br>
-                    <label>ingredients </label>&nbsp;:&nbsp;Olive oil,Cornmeal (to slide the pizza onto the pizza stone),Tomato sauce (purée),Mozzarella or Parmesan cheese, shredded,Feta cheese,Mushrooms, thinly sliced,Bell peppers, stems and seeds removed, thinly sliced,Italian sausage, cooked ahead,Chopped fresh basil,Pesto,Pepperoni, thinly sliced,Onions, thinly sliced,Sliced ham,
-                    <br>
-                    <label>description </label>&nbsp;:&nbsp; 
-                    <br>
-                  </div>
-                  <hr>
-                  <i class="fa fa-chevron-right"></i>
-                  <div class="todo-position">
-                    <label class="label-color">meal name</label>&nbsp;:&nbsp; Pizza
-                    <br>
-                    <label>ingredients </label>&nbsp;:&nbsp;Olive oil,Cornmeal (to slide the pizza onto the pizza stone),Tomato sauce (purée),Mozzarella or Parmesan cheese, shredded,Feta cheese,Mushrooms, thinly sliced,Bell peppers, stems and seeds removed, thinly sliced,Italian sausage, cooked ahead,Chopped fresh basil,Pesto,Pepperoni, thinly sliced,Onions, thinly sliced,Sliced ham,
-                    <br>
-                    <label>description </label>&nbsp;:&nbsp; ....
-                    <br>
+                  <div ng-repeat="meal in meals | filter:{slot:'breakfast'}">
+                    <i class="fa fa-chevron-right"></i>
+                    <div class="todo-position" ng-repeat="recipe in meal.recipes">
+                      <label class="label-color">Recipe Name</label>&nbsp;:&nbsp; {{recipe.name}}
+                      <br>
+                      <label>ingredients </label>&nbsp;:&nbsp;
+                      <span ng-repeat="ingredient in recipe.recipe_ingredients">
+                        {{ingredient.ingredient.name}}
+                      </span>
+                      <br>
+                      <label>description </label>&nbsp;:&nbsp; {{recipe.description}}
+                      <br>
+                    </div>
+                    <hr>
                   </div>
                 </div>
                 <!-- //Breakfast -->
@@ -128,34 +114,20 @@
                 
                 <!-- lunch -->
                 <div class="tab-pane cont" id="lunch">
-                  <i class="fa fa-chevron-right"></i>
-                  <div class="todo-position">
-                    <label class="label-color">meal name</label>&nbsp;:&nbsp; Pizza
-                    <br>
-                    <label>ingredients </label>&nbsp;:&nbsp;Olive oil,Cornmeal (to slide the pizza onto the pizza stone),Tomato sauce (purée),Mozzarella or Parmesan cheese, shredded,Feta cheese,Mushrooms, thinly sliced,Bell peppers, stems and seeds removed, thinly sliced,Italian sausage, cooked ahead,Chopped fresh basil,Pesto,Pepperoni, thinly sliced,Onions, thinly sliced,Sliced ham,
-                    <br>
-                    <label>description </label>&nbsp;:&nbsp; 
-                    <br>
-                  </div>
-                  <hr>
-                  <i class="fa fa-chevron-right"></i>
-                  <div class="todo-position">
-                    <label class="label-color">meal name</label>&nbsp;:&nbsp; Pizza
-                    <br>
-                    <label>ingredients </label>&nbsp;:&nbsp;Olive oil,Cornmeal (to slide the pizza onto the pizza stone),Tomato sauce (purée),Mozzarella or Parmesan cheese, shredded,Feta cheese,Mushrooms, thinly sliced,Bell peppers, stems and seeds removed, thinly sliced,Italian sausage, cooked ahead,Chopped fresh basil,Pesto,Pepperoni, thinly sliced,Onions, thinly sliced,Sliced ham,
-                    <br>
-                    <label>description </label>&nbsp;:&nbsp; ....
-                    <br>
-                  </div>
-                  <hr>
-                  <i class="fa fa-chevron-right"></i>
-                  <div class="todo-position">
-                    <label class="label-color">meal name</label>&nbsp;:&nbsp; Pizza
-                    <br>
-                    <label>ingredients </label>&nbsp;:&nbsp;Olive oil,Cornmeal (to slide the pizza onto the pizza stone),Tomato sauce (purée),Mozzarella or Parmesan cheese, shredded,Feta cheese,Mushrooms, thinly sliced,Bell peppers, stems and seeds removed, thinly sliced,Italian sausage, cooked ahead,Chopped fresh basil,Pesto,Pepperoni, thinly sliced,Onions, thinly sliced,Sliced ham,
-                    <br>
-                    <label>description </label>&nbsp;:&nbsp; 
-                    <br>
+                  <div ng-repeat="meal in meals | filter:{slot:'lunch'}">
+                    <i class="fa fa-chevron-right"></i>
+                    <div class="todo-position" ng-repeat="recipe in meal.recipes">
+                      <label class="label-color">Recipe Name</label>&nbsp;:&nbsp; {{recipe.name}}
+                      <br>
+                      <label>ingredients </label>&nbsp;:&nbsp;
+                      <span ng-repeat="ingredient in recipe.recipe_ingredients">
+                        {{ingredient.ingredient.name}}
+                      </span>
+                      <br>
+                      <label>description </label>&nbsp;:&nbsp; {{recipe.description}}
+                      <br>
+                    </div>
+                    <hr>
                   </div>
                 </div>
                 <!-- //lunch -->
@@ -164,24 +136,20 @@
 
                 <!-- dinner -->
                 <div class="tab-pane" id="dinner">      
-                  <i class="fa fa-chevron-right"></i>
-                  <div class="todo-position">
-                    <label class="label-color">meal name</label>&nbsp;:&nbsp; Pizza
-                    <br>
-                    <label>ingredients </label>&nbsp;:&nbsp;Olive oil,Cornmeal (to slide the pizza onto the pizza stone),Tomato sauce (purée),Mozzarella or Parmesan cheese, shredded,Feta cheese,Mushrooms, thinly sliced,Bell peppers, stems and seeds removed, thinly sliced,Italian sausage, cooked ahead,Chopped fresh basil,Pesto,Pepperoni, thinly sliced,Onions, thinly sliced,Sliced ham,
-                    <br>
-                    <label>description </label>&nbsp;:&nbsp; 
-                    <br>
-                  </div>
-                  <hr>
-                  <i class="fa fa-chevron-right"></i>
-                  <div class="todo-position">
-                    <label class="label-color">meal name</label>&nbsp;:&nbsp; Pizza
-                    <br>
-                    <label>ingredients </label>&nbsp;:&nbsp;Olive oil,Cornmeal (to slide the pizza onto the pizza stone),Tomato sauce (purée),Mozzarella or Parmesan cheese, shredded,Feta cheese,Mushrooms, thinly sliced,Bell peppers, stems and seeds removed, thinly sliced,Italian sausage, cooked ahead,Chopped fresh basil,Pesto,Pepperoni, thinly sliced,Onions, thinly sliced,Sliced ham,
-                    <br>
-                    <label>description </label>&nbsp;:&nbsp; ....
-                    <br>
+                  <div ng-repeat="meal in meals | filter:{slot:'dinner'}">
+                    <i class="fa fa-chevron-right"></i>
+                    <div class="todo-position" ng-repeat="recipe in meal.recipes">
+                      <label class="label-color">Recipe Name</label>&nbsp;:&nbsp; {{recipe.name}}
+                      <br>
+                      <label>ingredients </label>&nbsp;:&nbsp;
+                      <span ng-repeat="ingredient in recipe.recipe_ingredients">
+                        {{ingredient.ingredient.name}}
+                      </span>
+                      <br>
+                      <label>description </label>&nbsp;:&nbsp; {{recipe.description}}
+                      <br>
+                    </div>
+                    <hr>
                   </div>
                 </div>
                 <!-- //dinner -->

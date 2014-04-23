@@ -43,6 +43,9 @@ angular.module('myApp')
         // object to hold all the data for the todos assigned to LoggedInUser and uncomplete
         $scope.todos = {};
 
+        // object to hold meals for the household
+        $scope.meals = {};
+
         // object to hold emergency contacts
         $scope.emergencycontacts = {};
 
@@ -74,6 +77,12 @@ angular.module('myApp')
                     $scope.emergencycontacts = emergencycontacts;
                 }
                 $scope.loading = false;
+            });
+
+        //Fetch all Today Meals for LoggedIn Household User.
+        Households.getTodayMeals(sessionStorage.householdId)
+            .success(function(data){
+                $scope.meals = data.data;
             });
 
         //Fetch all Todos for LoggedIn user.

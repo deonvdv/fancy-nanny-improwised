@@ -59,6 +59,7 @@ class DatabaseSeeder extends Seeder {
 	    $this->call('RecipeTableSeeder');
 	    $this->call('TodoTableSeeder');
 		$this->call('MealTableSeeder');
+		$this->call('RecipeIngredientTableSeeder');
 
 	}
 

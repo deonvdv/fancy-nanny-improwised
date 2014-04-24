@@ -105,8 +105,7 @@ angular.module('myApp')
             })
         }
       };
-  });
-
+  })
 
   .directive('fnManagedocuments', function() {
     return {
@@ -115,4 +114,4 @@ angular.module('myApp')
           replace: true,
           templateUrl: 'app/partials/directives/managedocuments.html',
       };
-  })
+  });

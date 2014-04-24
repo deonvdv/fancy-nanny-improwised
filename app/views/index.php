@@ -28,6 +28,8 @@
     <link rel="stylesheet" type="text/css" href="app/css/select2.css" />
     <link rel="stylesheet" type="text/css" href="app/css/bootstrap-multiselect.css"/>
   	<link rel="stylesheet" type="text/css" href="app/css/style.css">
+    <link rel="stylesheet" type="text/css" href="app/css/jasny-bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="app/css/component.css" />
     <!-- Custom styles for this login -->
     <link href="app/css/login.css" rel="stylesheet">
   	<link rel="stylesheet" type="text/css" href="app/css/index.css">
@@ -53,6 +55,8 @@
   <script type="text/javascript" src="app/lib/select2.min.js" ></script>
   <script type="text/javascript" src="app/lib/parsley.js"></script>
   <script type="text/javascript" src="app/lib/bootstrap-multiselect.js"></script>
+  <script type="text/javascript" src="app/lib/jasny-bootstrap.min.js"></script>
+  <script type="text/javascript" src="app/lib/modalEffects.js"></script>
 
   <script type="text/javascript" src="app/lib/angular/angular.min.js"></script>
   <script type="text/javascript" src="app/lib/angular/angular-resource.min.js"></script>

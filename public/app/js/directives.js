@@ -114,4 +114,13 @@ angular.module('myApp')
           replace: true,
           templateUrl: 'app/partials/directives/managedocuments.html',
       };
+  })
+
+  .directive('fnManageshopping', function() {
+    return {
+        scope: true,
+          restrict: 'C',
+          replace: true,
+          templateUrl: 'app/partials/directives/manageshopping.html',
+      };
   });

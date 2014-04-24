@@ -9,6 +9,8 @@ angular.module("myApp",['ngResource','ngSanitize', 'angular.css.injector'])
 
         $routeProvider.when('/documents',{templateUrl:'app/partials/documents.html', controller: 'documentsController'})
 
+        $routeProvider.when('/shopping',{templateUrl:'app/partials/shopping.html', controller: 'shoppingController'})
+
         $routeProvider.otherwise({redirectTo :'/'})
     }]).config(function($httpProvider){
 

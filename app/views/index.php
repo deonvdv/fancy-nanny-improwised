@@ -26,25 +26,17 @@
     <link rel="stylesheet" type="text/css" href="app/css/bootstrap-datetimepicker.min.css" />
     <link rel="stylesheet" type="text/css" href="app/css/daterangepicker-bs3.css" />
     <link rel="stylesheet" type="text/css" href="app/css/select2.css" />
+    <link rel="stylesheet" type="text/css" href="app/css/bootstrap-multiselect.css"/>
   	<link rel="stylesheet" type="text/css" href="app/css/style.css">
     <!-- Custom styles for this login -->
     <link href="app/css/login.css" rel="stylesheet">
   	<link rel="stylesheet" type="text/css" href="app/css/index.css">
-    
+
 </head>
 <body class="animated" ng-app="myApp">
 
 <div id="cl-wrapper" ng-view></div>
 
-<script type="text/javascript" src="app/lib/angular/angular.min.js"></script>
-<script type="text/javascript" src="app/lib/angular/angular-resource.min.js"></script>
-<script type="text/javascript" src="app/lib/angular/angular-sanitize.min.js"></script>
-
-<script type="text/javascript" src="app/js/app.js"></script>
-<script type="text/javascript" src="app/js/controllers.js"></script>
-<script type="text/javascript" src="app/js/directives.js"></script>
-<script type="text/javascript" src="app/js/filters.js"></script>
-<script type="text/javascript" src="app/js/services.js"></script>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -58,7 +50,21 @@
   <script type="text/javascript" src="app/lib/moment.min.js"></script>
   <script type="text/javascript" src="app/lib/daterangepicker.js"></script>
   <script type="text/javascript" src="app/lib/bootstrap-datetimepicker.min.js"></script>
-  <script type="text/javascript" src="app/lib/select2.min.js" ></script>   
+  <script type="text/javascript" src="app/lib/select2.min.js" ></script>
+  <script type="text/javascript" src="app/lib/parsley.js"></script>
+  <script type="text/javascript" src="app/lib/bootstrap-multiselect.js"></script>
+
+  <script type="text/javascript" src="app/lib/angular/angular.min.js"></script>
+  <script type="text/javascript" src="app/lib/angular/angular-resource.min.js"></script>
+  <script type="text/javascript" src="app/lib/angular/angular-sanitize.min.js"></script>
+  <script type="text/javascript" src="app/lib/angular-css-injector.min.js"></script>
+
+  <script type="text/javascript" src="app/js/app.js"></script>
+  <script type="text/javascript" src="app/js/controllers.js"></script>
+  <script type="text/javascript" src="app/js/directives.js"></script>
+  <script type="text/javascript" src="app/js/filters.js"></script>
+  <script type="text/javascript" src="app/js/services.js"></script>
+
 <script>
     angular.module("myApp").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
 </script>

@@ -47,6 +47,24 @@ angular.module('myApp')
           templateUrl: 'app/partials/directives/managemessages.html',
       };
   })
+
+  // this tags class is added to messages.html and todos.html
+  .directive('tags', function() {
+    return {
+          scope: true,
+          restrict: 'C',
+          replace: true,
+          link: function (scope, element) {
+            element.ready(function () {
+                element.select2({
+                  tags: 0,
+                  width: '100%'
+                });
+            })
+        }
+      };
+  })
+
 	.directive('fncriticalInformation', function() {
 		return {
     		scope: true, 
@@ -62,4 +80,39 @@ angular.module('myApp')
       		replace: true,
       		templateUrl: 'app/partials/directives/emergencycontact.html',
     	};
-	});
+	})
+
+  .directive('fnAddrecipes', function() {
+    return {
+        scope: true,
+          restrict: 'C',
+          replace: true,
+          templateUrl: 'app/partials/directives/manage_add_recipes.html',
+      };
+  })
+
+  // this class is added in add_recipes.html
+  .directive('select2', function() {
+    return {
+          scope: true,
+          restrict: 'C',
+          replace: true,
+          link: function (scope, element) {
+            element.ready(function () {
+                element.select2({
+                  width: '100%'
+                });
+            })
+        }
+      };
+  });
+
+
+  .directive('fnManagedocuments', function() {
+    return {
+        scope: true,
+          restrict: 'C',
+          replace: true,
+          templateUrl: 'app/partials/directives/managedocuments.html',
+      };
+  })

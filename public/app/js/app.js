@@ -1,9 +1,14 @@
-angular.module("myApp",['ngResource','ngSanitize'])
+angular.module("myApp",['ngResource','ngSanitize', 'angular.css.injector'])
     .config(['$routeProvider',function($routeProvider){
         $routeProvider.when('/',{templateUrl:'app/partials/login.html', controller: 'loginController'})
         $routeProvider.when('/home',{templateUrl:'app/partials/home.html', controller: 'homeController'})
         $routeProvider.when('/todos',{templateUrl:'app/partials/todos.html', controller: 'todoController'})
         $routeProvider.when('/messages',{templateUrl:'app/partials/messages.html', controller: 'messageController'})
+
+        $routeProvider.when('/add_recipes',{templateUrl:'app/partials/add_recipes.html', controller: 'recipesController'})
+
+        $routeProvider.when('/documents',{templateUrl:'app/partials/documents.html', controller: 'documentsController'})
+
         $routeProvider.otherwise({redirectTo :'/'})
     }]).config(function($httpProvider){
 

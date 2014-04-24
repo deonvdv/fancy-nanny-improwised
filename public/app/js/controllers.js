@@ -183,6 +183,46 @@ angular.module('myApp')
         //     Flash.show("you should be authenticated to access this page");
         // }
 
+
+        $controller('homeController', {$scope: $scope})
+
+        // set username of logged in user
+        $scope.username = sessionStorage.loggedUsername;
+
+        // object to hold all the data for the ReceivedMessages
+        $scope.receivedMessages = {};
+
+        // object to hold all the data for the SentMessages
+        $scope.sentMessages = {};
+
+        // loading variable to show the spinning loading icon
+        $scope.loading = true;
+
+        loadData();
+
+        function loadData(){
+            //Fetch all ReceivedMessages for LoggedIn user.
+            Messages.getReceived(sessionStorage.loggedUserId)
+                .success(function(data) {
+                    $scope.receivedMessages = data.data;
+            });
+
+            //Fetch all SentMessages for LoggedIn user.
+            Messages.getSent(sessionStorage.loggedUserId)
+                .success(function(data) {
+                    $scope.sentMessages = data.data;
+            });
+        }
+    })
+
+
+     .controller('recipesController',function($scope, $controller ,$location, $http, Authenticate, Messages, Flash){
+
+        // if (!sessionStorage.authenticated){
+        //     $location.path('/')
+        //     Flash.show("you should be authenticated to access this page");
+        // }
+
         $controller('homeController', {$scope: $scope})
 
         // set username of logged in user
@@ -212,6 +252,9 @@ angular.module('myApp')
                     $scope.sentMessages = data.data;
             }); 
         }
-    });
+    })
+
+
+;
 
     

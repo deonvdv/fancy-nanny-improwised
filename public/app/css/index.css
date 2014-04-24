@@ -590,3 +590,184 @@ border-top: 1px solid #eee;
 	color: #cbcbcb;
 }
 /* Message_board */
+
+
+/* shopping list */
+.shopping-list .block-flat .header{
+	background-color:white;
+	margin: -20px -20px 0px -20px;
+	padding: 10px;
+	padding-top: 20px;
+	padding-left: 20px;
+	color: black !important;
+}
+.fa-color-black{
+	color: black;
+}
+.shopping-list .table > thead > tr > th {
+    border-bottom: 1px solid #DDD !important;
+}
+/* //shopping-list */
+
+/* file upload */
+.file-upload .table > thead > tr > th {
+    border-bottom: 1px solid #DDD !important;
+}
+.file-upload h3{
+}
+.file-upload h4{
+	position: absolute;
+	top: 18px;
+	right: 20px;
+}
+.file-upload .add-file{
+	color: #0096ff;
+	cursor: pointer;
+}
+.btn-pos{
+	position: absolute;
+	top: 8px;
+	right: 30px;
+}
+.btn-file{
+	color: #0096ff;
+	cursor: pointer;
+	font-size: 18px;
+}
+.btn-file:hover{
+	color: #0064cd;
+}
+.file-upload .header{
+	background-color: white;
+	margin: -20px -20px 0px -20px;
+	padding: 10px;
+	padding-top: 20px;
+	padding-left: 20px;
+	color: black !important;
+}
+.file-upload .btn{
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	border: none;
+}
+.file-upload .add-file:hover{
+	color: #0064cd;
+}
+.office-img{
+	width: 18px;
+}
+.model-custom .modal-header{
+	background-color:#efefef;
+	border-radius: 5px 5px 0 0;
+	padding-top: 28px;
+	height: 79px;
+}
+.model-custom .modal-footer{
+	background-color: #efefef;
+}
+.file-upload ol li{
+	margin-left: -27px;
+}
+.delete-item {
+    font-size: 20px;
+    color: red;
+}
+.cell-3{
+	width: 72%;
+}
+@media (min-width: 768px) and (max-width: 840px) {
+.cell-3{
+	width: 67%;
+}
+}
+/* //file upload */
+
+/* tag */
+.add-tag{
+	position: absolute;
+	top: 27px;
+	right: 40px;
+	color: #0096ff;
+	cursor: pointer;
+	font-size: 18px;
+}
+.add-tag i{
+	font-size: 14px !important;
+}
+.tag table tr td{
+	vertical-align: middle !important;
+}
+.tag table tr td .input-group{
+	margin-bottom: 0px !important;
+}
+.tag table tr td .btn{
+	margin-left: 0px;
+}
+.tag .color-left-padding{
+	padding-left: 0px !important;
+	-moz-padding-start: 1px !important;
+}
+.tag-color-xs{
+	display: inline-block;
+    margin-top: 15px;
+}
+.tag-color-input-xs{
+	width: 136px;
+    margin-top: -26px;
+    margin-left: 56px;
+}
+@media all and (max-width: 768px) {
+.width-color-field{
+	width: 150px;
+}
+}
+
+/* //tag */
+
+/* Event page */
+
+.etable-th-1{
+	width:11%;
+}
+.etable-th-2{
+	width:15%;
+}
+.etable-th-3{
+	width:50%;
+}
+.ol-margin-left{
+	margin-left: -24px;
+}
+@media all and (max-width: 992px) {
+.etable-th-1{
+	width:11%;
+}
+.etable-th-2{
+	width:17%;
+}
+.etable-th-3{
+	width:42%;
+}
+}
+/* //Event page */
+
+/*add Recipes*/
+.form-ingredients .select2-container .select2-choice > .select2-chosen {
+	color: #555555;
+}
+.form-Quantity input::-webkit-input-placeholder {
+      color: #555555;
+}
+.form-Measure input::-webkit-input-placeholder {
+      color: #555555;
+}
+.form-Measure ul .active{
+	background-color: #dddddd !important;
+}
+.form-Measure .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+	background: #8d8d8d;
+}
+.form-Measure .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-menu li > a:hover {
+	background-color: #8d8d8d;
+}
+/* //add Recipes */

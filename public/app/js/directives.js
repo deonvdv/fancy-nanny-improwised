@@ -123,4 +123,27 @@ angular.module('myApp')
           replace: true,
           templateUrl: 'app/partials/directives/manageshopping.html',
       };
+  })
+
+    .directive('fnManagetags', function() {
+    return {
+        scope: true,
+          restrict: 'C',
+          replace: true,
+          templateUrl: 'app/partials/directives/managetags.html',
+      };
+  })
+  .directive('demo2', function() {
+    return {
+          scope: true,
+          restrict: 'C',
+          replace: true,
+          link: function (scope, element) {
+            element.ready(function () {
+                element.colorpicker({
+                  format: 'hex', // force this format
+                });
+            })
+        }
+      };
   });

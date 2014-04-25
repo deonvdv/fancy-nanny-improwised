@@ -11,6 +11,8 @@ angular.module("myApp",['ngResource','ngSanitize', 'angular.css.injector'])
 
         $routeProvider.when('/shopping',{templateUrl:'app/partials/shopping.html', controller: 'shoppingController'})
 
+        $routeProvider.when('/tags',{templateUrl:'app/partials/tags.html', controller: 'tagsController'})
+
         $routeProvider.otherwise({redirectTo :'/'})
     }]).config(function($httpProvider){
 

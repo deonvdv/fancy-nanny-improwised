@@ -22,11 +22,17 @@ angular.module('myApp')
         }
     })
 
-    .controller('homeController',function($scope,$location, $http, Authenticate, Users, Households, Messages, Todos, Flash){
+    .controller('homeController',function($scope,$location, $http, $anchorScroll, Authenticate, Users, Households, Messages, Todos, Flash){
         if (!sessionStorage.authenticated){
             $location.path('/')
             Flash.show("you should be authenticated to access this page");
         }
+
+        $scope.scrollTo = function(id) {
+            $location.hash(id);
+            console.log($location.hash());
+            $anchorScroll();
+      };
 
         // set username of logged in user
         $scope.username = sessionStorage.loggedUsername;

@@ -58,6 +58,9 @@ angular.module('myApp')
             getUpcomingEvents : function(id) {
                 return $http.get('/api/v1/user/' + id + '/upcoming_events');
             },
+            getTags : function(id) {
+                return $http.get('/api/v1/user/' + id + '/tags');
+            },
             getPictures : function(id) {
                 return $http.get('/api/v1/user/' + id + '/pictures');
             },

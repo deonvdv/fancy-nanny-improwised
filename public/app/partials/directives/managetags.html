@@ -51,90 +51,31 @@
           <table class="table no-border hover">
             <thead class="no-border">
               <tr>
-                <th class="" style="width: 20%"><strong>Tag Name</strong></th>
-                <th class="" style="width: 65%"><strong>Tag Color</strong></th>
-                <th class="text-center" style="width: 15%"><strong>Action</strong></th>
+                <th class="" style="width: 50%"><strong>Tag Name</strong></th>
+                <th class="text-center" style="width: 50%"><strong>Action</strong></th>
               </tr>
             </thead>
-            <tbody class="no-border-y">
+            <tbody class="no-border-y" ng-repeat="tag in data.tags" >
               <tr>
-                <td class="">Tag Name</td>
+
                 <td class="">
-
-                  <span class="col-lg-6 color-left-padding">
-                    <span class="input-group demo2">
-                        <input type="text" value="#454545" class="form-control" disabled/>
-                        <span class="input-group-addon"><i></i></span>
-                    </span>
-                  </span>
-
+                    <span style="height:100px;width:200px;background-color:{{tag.color}}">
+                      {{tag.name}}
+                     </span>                  
                 </td>
                 
                 <td class="text-center">
                    <!--  -->
                     <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
-                      <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
+                      <a class="label label-success" href="#" target="_self" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
                     </span>
                     <!--  -->
                     <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
-                      <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
+                      <a class="label label-danger" href="#" target="_self" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
                     </span>
                     <!--  -->
                 </td>
-
-              </tr>
-              <tr>
-                <td class="">Tag Name</td>
-                <td class="">
-
-                  <span class="col-lg-6 color-left-padding">
-                    <span class="input-group demo2">
-                        <input type="text" value="#333333" class="form-control" disabled/>
-                        <span class="input-group-addon"><i></i></span>
-                    </span>
-                  </span>
-
-                  <!-- <span class="col-sm-2 color-left-padding"><input type="text" class="demo1 form-control" value="#5367ce" /></span> -->
-
-                </td>
-
-                <td class="text-center">
-                   <!--  -->
-                    <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
-                      <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
-                    </span>
-                    <!--  -->
-                    <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
-                      <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
-                    </span>
-                    <!--  -->
-                </td>
-
-              </tr>
-              <tr>
-                <td class="">Tag Name</td>
-                <td class="">
-
-                  <span class="col-lg-6 color-left-padding">
-                    <span class="input-group demo2">
-                        <input type="text" value="#dd2020" class="form-control" disabled/>
-                        <span class="input-group-addon"><i></i></span>
-                    </span>
-                  </span>
-
-                </td>
-                <td class="text-center">
-                   <!--  -->
-                    <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
-                      <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
-                    </span>
-                    <!--  -->
-                    <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
-                      <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
-                    </span>
-                    <!--  -->
-                </td>
-              </tr>
+              </tr>              
             </tbody>
           </table>    
           </div>
@@ -215,29 +156,20 @@
           <div class="form">
             <div class="form-group">
               <label>Tag Name</label>
-              <input type="text" class="form-control" placeholder="Tag Name">
+              <input type="text" class="form-control" placeholder="Tag Name" ng-model="data.name" required="" autofocus="">
             </div>
             <!--  -->
             <div class="form-group">
               <label>Color</label>
-              <span class="input-group demo2">
-                  <input type="text" value="" class="form-control" />
-                  <span class="input-group-addon"><i></i></span>
-              </span>
-              <!-- <input type="text" class="form-control" placeholder="File Description"> -->
+              <input colorpicker="hex" class="form-control" required="" type="text" ng-model="data.color" />              
             </div>
             <!--  -->
           </div>
-          <!--  -->
-          <!-- <div class="text-center">
-            <div class="i-circle success"><i class="fa fa-check"></i></div>
-            <h4>Awesome!</h4>
-            <p>Can you say supercalifragilisticoexpialidoso? </p>
-          </div> -->
+          <!--  -->         
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-success btn-flat" data-dismiss="modal">Done</button>
+          <button type="button" class="btn btn-success btn-flat" data-dismiss="modal" ng-click="save()">Done</button>
         </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -296,7 +228,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-          <h3>Delete Document</h3>
+          <h3>Delete Tag</h3>
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         </div>
         <div class="modal-body text-center">

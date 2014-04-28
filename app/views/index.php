@@ -29,7 +29,8 @@
     <link rel="stylesheet" type="text/css" href="app/css/bootstrap-multiselect.css"/>
     <link rel="stylesheet" type="text/css" href="app/css/jasny-bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="app/css/component.css" />
-    <link rel="stylesheet" type="text/css" href="app/css/bootstrap-colorpicker.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="app/css/bootstrap-colorpicker.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="app/css/colorpicker.css">
     <!-- Custom styles for this login -->
     <link href="app/css/login.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="app/css/style.css">
@@ -58,12 +59,14 @@
   <script type="text/javascript" src="app/lib/bootstrap-multiselect.js"></script>
   <script type="text/javascript" src="app/lib/jasny-bootstrap.min.js"></script>
   <script type="text/javascript" src="app/lib/modalEffects.js"></script>
-  <script type="text/javascript" src="app/lib/bootstrap-colorpicker.js"></script>
+  <!-- // <script type="text/javascript" src="app/lib/bootstrap-colorpicker.js"></script> -->
+
 
   <script type="text/javascript" src="app/lib/angular/angular.min.js"></script>
   <script type="text/javascript" src="app/lib/angular/angular-route.js"></script>
   <script type="text/javascript" src="app/lib/angular/angular-resource.min.js"></script>
   <script type="text/javascript" src="app/lib/angular/angular-sanitize.min.js"></script>
+
 
   <script type="text/javascript" src="app/js/app.js"></script>
   <script type="text/javascript" src="app/js/controllers.js"></script>
@@ -74,5 +77,6 @@
 <script>
     angular.module("myApp").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
 </script>
+<script type="text/javascript" src="app/lib/bootstrap-colorpicker-module.js"></script>
 </body>
 </html>

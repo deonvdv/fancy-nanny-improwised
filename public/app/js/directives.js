@@ -1,7 +1,7 @@
 angular.module('myApp')
 	.directive('fnhouseholdMembers', function() {
 		return {
-    		scope: true, 
+    		  scope: true, 
       		restrict: 'C',
       		replace: true,
       		templateUrl: 'app/partials/directives/householdMembers.html',
@@ -9,7 +9,7 @@ angular.module('myApp')
 	})
 	.directive('fnSidebar', function() {
 		return {
-    		scope: true, 
+    		  scope: true, 
       		restrict: 'C',
       		replace: true,
       		templateUrl: 'app/partials/directives/sidebar.html',
@@ -17,7 +17,7 @@ angular.module('myApp')
 	})
 	.directive('fntopNavbar', function() {
 		return {
-    		scope: true, 
+    		  scope: true, 
       		restrict: 'C',
       		replace: true,
       		templateUrl: 'app/partials/directives/topnavbar.html',
@@ -25,7 +25,7 @@ angular.module('myApp')
 	})
 	.directive('fnDashboard', function() {
 		return {
-    		scope: true, 
+    		  scope: true, 
       		restrict: 'C',
       		replace: true,
       		templateUrl: 'app/partials/directives/dashboard.html',
@@ -33,7 +33,7 @@ angular.module('myApp')
 	})
   .directive('fnManagetodo', function() {
     return {
-        scope: true, 
+          scope: true, 
           restrict: 'C',
           replace: true,
           templateUrl: 'app/partials/directives/managetodo.html',
@@ -41,7 +41,7 @@ angular.module('myApp')
   })
   .directive('fnManagemessages', function() {
     return {
-        scope: true, 
+          scope: true, 
           restrict: 'C',
           replace: true,
           templateUrl: 'app/partials/directives/managemessages.html',
@@ -67,7 +67,7 @@ angular.module('myApp')
 
 	.directive('fncriticalInformation', function() {
 		return {
-    		scope: true, 
+    		  scope: true, 
       		restrict: 'C',
       		replace: true,
       		templateUrl: 'app/partials/directives/criticalinformation.html',
@@ -75,7 +75,7 @@ angular.module('myApp')
 	})
 	.directive('fnemergencyContact', function() {
 		return {
-    		scope: true, 
+    		  scope: true, 
       		restrict: 'C',
       		replace: true,
       		templateUrl: 'app/partials/directives/emergencycontact.html',
@@ -84,7 +84,7 @@ angular.module('myApp')
 
   .directive('fnAddrecipes', function() {
     return {
-        scope: true,
+          scope: true,
           restrict: 'C',
           replace: true,
           templateUrl: 'app/partials/directives/manage_add_recipes.html',
@@ -109,7 +109,7 @@ angular.module('myApp')
 
   .directive('fnManagedocuments', function() {
     return {
-        scope: true,
+          scope: true,
           restrict: 'C',
           replace: true,
           templateUrl: 'app/partials/directives/managedocuments.html',
@@ -118,32 +118,18 @@ angular.module('myApp')
 
   .directive('fnManageshopping', function() {
     return {
-        scope: true,
+          scope: true,
           restrict: 'C',
           replace: true,
           templateUrl: 'app/partials/directives/manageshopping.html',
       };
   })
-
-    .directive('fnManagetags', function() {
+  .directive('fnManagetags', function() {
     return {
-        scope: true,
-          restrict: 'C',
+          transclude: true,
+          require:"ngModel",
+          restrict: 'CE',
           replace: true,
-          templateUrl: 'app/partials/directives/managetags.html',
-      };
-  })
-  .directive('demo2', function() {
-    return {
-          scope: true,
-          restrict: 'C',
-          replace: true,
-          link: function (scope, element) {
-            element.ready(function () {
-                element.colorpicker({
-                  format: 'hex', // force this format
-                });
-            })
-        }
+          templateUrl: 'app/partials/directives/managetags.html',          
       };
   });

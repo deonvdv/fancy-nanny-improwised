@@ -1,5 +1,5 @@
 angular.module('myApp')
-    .controller('loginController',function($scope,$sanitize,$location,Authenticate,Flash){
+    .controller('loginController',function($scope, $sanitize, $location, Authenticate, Flash){
         if (sessionStorage.authenticated){
             $location.path('/home');           
         }
@@ -22,17 +22,11 @@ angular.module('myApp')
         }
     })
 
-    .controller('homeController',function($scope,$location, $http, $anchorScroll, Authenticate, Users, Households, Messages, Todos, Flash){
+    .controller('homeController',function($scope, $location, $http, $anchorScroll, Authenticate, Users, Households, Messages, Todos, Flash){
         if (!sessionStorage.authenticated){
             $location.path('/')
             Flash.show("you should be authenticated to access this page");
         }
-
-        $scope.scrollTo = function(id) {
-            $location.hash(id);
-            console.log($location.hash());
-            $anchorScroll();
-      };
 
         // set username of logged in user
         $scope.username = sessionStorage.loggedUsername;
@@ -139,16 +133,8 @@ angular.module('myApp')
     })
     
     .controller('todoController',function($scope, $controller ,$location, $http, Authenticate, Todos, Flash){
-        
-        // if (!sessionStorage.authenticated){
-        //     $location.path('/')
-        //     Flash.show("you should be authenticated to access this page");
-        // }
-
+       
         $controller('homeController', {$scope: $scope})
-
-        // set username of logged in user
-        $scope.username = sessionStorage.loggedUsername;
 
         // object to hold all the data for the assignedTo todos
         $scope.assignedToTodos = {};
@@ -183,17 +169,8 @@ angular.module('myApp')
     })
 
     .controller('messageController',function($scope, $controller ,$location, $http, Authenticate, Messages, Flash){
-        
-        // if (!sessionStorage.authenticated){
-        //     $location.path('/')
-        //     Flash.show("you should be authenticated to access this page");
-        // }
-
-
+       
         $controller('homeController', {$scope: $scope})
-
-        // set username of logged in user
-        $scope.username = sessionStorage.loggedUsername;
 
         // object to hold all the data for the ReceivedMessages
         $scope.receivedMessages = {};
@@ -221,177 +198,64 @@ angular.module('myApp')
         }
     })
 
+     .controller('recipesController',function($scope, $controller , $http ){
 
-     .controller('recipesController',function($scope, $controller ,$location, $http, Authenticate, Messages, Flash){
+        $controller('homeController', {$scope: $scope});
 
-        // if (!sessionStorage.authenticated){
-        //     $location.path('/')
-        //     Flash.show("you should be authenticated to access this page");
-        // }
-
-        $controller('homeController', {$scope: $scope})
-
-        // set username of logged in user
-        $scope.username = sessionStorage.loggedUsername;
-
-        // object to hold all the data for the ReceivedMessages
-        $scope.receivedMessages = {};
-
-        // object to hold all the data for the SentMessages
-        $scope.sentMessages = {};
         
-        // loading variable to show the spinning loading icon
-        $scope.loading = true;
+    })
+
+
+    .controller('documentsController',function($scope, $controller ,$http ){
+
+        $controller('homeController', {$scope: $scope});
+        
+    })
+
+
+    .controller('shoppingController',function($scope, $controller ,$http, Authenticate, Todos, Flash){
+
+        $controller('homeController', {$scope: $scope});
+        
+    })
+
+    .controller('tagsController',function($scope, $controller, $route, $templateCache, $http,  Users, Tags, Flash){
+
+        $controller('homeController', {$scope: $scope});
+       
+        $scope.data = {};
+
+         // object to hold all tags of LoggedInUser
+        $scope.data.tags = {};
+        $scope.data.name = "";
+        $scope.data.color = "";
 
         loadData();
+
+        function loadData(){
+            //Fetch all tags for LoggedInUser
+            Users.getTags(sessionStorage.loggedUserId)
+                .success(function(data){
+                    $scope.data.tags = data.data;
+            });
+        }
+
+        $scope.save = function(){
             
-        function loadData(){
-            //Fetch all ReceivedMessages for LoggedIn user.
-            Messages.getReceived(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.receivedMessages = data.data;
-            });
-
-            //Fetch all SentMessages for LoggedIn user.
-            Messages.getSent(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.sentMessages = data.data;
-            }); 
-        }
-    })
-
-
-    .controller('documentsController',function($scope, $controller ,$location, $http, Authenticate, Todos, Flash){
-
-        // if (!sessionStorage.authenticated){
-        //     $location.path('/')
-        //     Flash.show("you should be authenticated to access this page");
-        // }
-
-        $controller('homeController', {$scope: $scope})
-
-        // set username of logged in user
-        $scope.username = sessionStorage.loggedUsername;
-
-        // object to hold all the data for the assignedTo todos
-        $scope.assignedToTodos = {};
-
-        // object to hold all the data for the completed todos by LoggedInUser
-        $scope.completedTodos = {};
-
-        // loading variable to show the spinning loading icon
-        $scope.loading = true;
-
-        loadData();
-
-        $scope.refresh = loadData();
-
-        function loadData(){
-            //Fetch all Todos for LoggedIn user.
-            Todos.get(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.todos = data.data;
-            });
-
-            Todos.getAssignedTo(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.assignedToTodos = data.data;
-            });
-
-            Todos.getCompleted(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.completedTodos = data.data;
+            Tags.save({
+                'owner_id' : sessionStorage.loggedUserId,
+                'name' : $scope.data.name,
+                'color' : $scope.data.color,
+                "tagable_id" : sessionStorage.loggedUserId,  
+                "tagable_type" : "User"
+           })
+            .success(function(response){
+                var currentPageTemplate = $route.current.templateUrl;
+                $templateCache.remove(currentPageTemplate);
+                $route.reload();
             });
         }
-    })
-
-
-    .controller('shoppingController',function($scope, $controller ,$location, $http, Authenticate, Todos, Flash){
-
-        // if (!sessionStorage.authenticated){
-        //     $location.path('/')
-        //     Flash.show("you should be authenticated to access this page");
-        // }
-
-        $controller('homeController', {$scope: $scope})
-
-        // set username of logged in user
-        $scope.username = sessionStorage.loggedUsername;
-
-        // object to hold all the data for the assignedTo todos
-        $scope.assignedToTodos = {};
-
-        // object to hold all the data for the completed todos by LoggedInUser
-        $scope.completedTodos = {};
-
-        // loading variable to show the spinning loading icon
-        $scope.loading = true;
-
-        loadData();
-
-        $scope.refresh = loadData();
-
-        function loadData(){
-            //Fetch all Todos for LoggedIn user.
-            Todos.get(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.todos = data.data;
-            });
-
-            Todos.getAssignedTo(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.assignedToTodos = data.data;
-            });
-
-            Todos.getCompleted(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.completedTodos = data.data;
-            });
-        }
-    })
-
-    .controller('tagsController',function($scope, $controller ,$location, $http, Authenticate, Todos, Flash){
-
-        // if (!sessionStorage.authenticated){
-        //     $location.path('/')
-        //     Flash.show("you should be authenticated to access this page");
-        // }
-
-        $controller('homeController', {$scope: $scope})
-
-        // set username of logged in user
-        $scope.username = sessionStorage.loggedUsername;
-
-        // object to hold all the data for the assignedTo todos
-        $scope.assignedToTodos = {};
-
-        // object to hold all the data for the completed todos by LoggedInUser
-        $scope.completedTodos = {};
-
-        // loading variable to show the spinning loading icon
-        $scope.loading = true;
-
-        loadData();
-
-        $scope.refresh = loadData();
-
-        function loadData(){
-            //Fetch all Todos for LoggedIn user.
-            Todos.get(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.todos = data.data;
-            });
-
-            Todos.getAssignedTo(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.assignedToTodos = data.data;
-            });
-
-            Todos.getCompleted(sessionStorage.loggedUserId)
-                .success(function(data) {
-                    $scope.completedTodos = data.data;
-            });
-        }
+       
     })
 ;
 

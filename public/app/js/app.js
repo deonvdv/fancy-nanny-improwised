@@ -1,4 +1,4 @@
-angular.module("myApp",['ngResource','ngSanitize','ngRoute'])
+angular.module("myApp",['ngResource', 'ngSanitize', 'ngRoute', 'colorpicker.module'])
     .config(['$routeProvider',function($routeProvider){
         $routeProvider.when('/',{templateUrl:'app/partials/login.html', controller: 'loginController'})
         $routeProvider.when('/home',{templateUrl:'app/partials/home.html', controller: 'homeController'})

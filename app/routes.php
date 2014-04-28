@@ -47,6 +47,7 @@ Route::group(array(
         
         Route::resource('user', 'API\V1\UserController');
         Route::get('users', 'API\V1\UserController@index');
+        Route::get('user/{id}/tags', 'API\V1\UserController@tags');
         Route::get('user/{id}/picture', 'API\V1\UserController@picture');
         Route::get('user/{id}/recipes', 'API\V1\UserController@recipes');
         Route::get('user/{id}/favorite_recipes', 'API\V1\UserController@favorite_recipes');

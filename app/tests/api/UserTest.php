@@ -98,6 +98,11 @@ class UserAPITest extends TestCase {
 		$this->assertFalse( $response->getData()->success );
 		$this->assertTrue( $response->getData()->message == 'Error updating User!' );
 
+		//Get relevant tags
+		$response = $this->call('GET', '/api/v1/user/'.$recordId.'/tags/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+		
 		//Get relevant pictures
 		$response = $this->call('GET', '/api/v1/user/'.$recordId.'/picture/' );
 		$this->assertTrue( $response->getData()->success );

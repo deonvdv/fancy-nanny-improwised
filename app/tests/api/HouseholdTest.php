@@ -54,7 +54,6 @@ class HouseholdAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->data->name == $householdName."_changed" );
 		$this->assertTrue( $response->getData()->message == 'Household updated sucessfully!' );
 
-
 		// verify update was sucessful
 		$response = $this->call('GET', '/api/v1/household/'.$recordId );
 		$this->assertTrue( $response->getData()->success );
@@ -90,7 +89,12 @@ class HouseholdAPITest extends TestCase {
 		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/meals/' );
 		$this->assertTrue( $response->getData()->success );
 		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
-	
+
+		//Get relevant recipes
+		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/recipes/' );
+		$this->assertTrue( $response->getData()->success );
+		$this->assertTrue( stripos( $response->getData()->message, 'No records found in this collection.' ) !== false );
+
 		//Get relevant todaymeals
 		$response = $this->call('GET', '/api/v1/household/'.$recordId.'/todaymeals/' );
 		$this->assertTrue( $response->getData()->success );

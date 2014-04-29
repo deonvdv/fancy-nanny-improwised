@@ -37,6 +37,7 @@ Route::group(array(
         Route::get('household/{id}/tags', 'API\V1\HouseholdController@tags');
         Route::get('household/{id}/members', 'API\V1\HouseholdController@members');
         Route::get('household/{id}/meals', 'API\V1\HouseholdController@meals');
+        Route::get('household/{id}/recipes', 'API\V1\HouseholdController@recipes');
         Route::get('household/{id}/todaymeals', 'API\V1\HouseholdController@todaymeals');
         Route::get('household/{id}/events', 'API\V1\HouseholdController@events');
         Route::get('household/{id}/todos', 'API\V1\HouseholdController@todos');

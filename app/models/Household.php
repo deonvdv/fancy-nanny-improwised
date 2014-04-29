@@ -17,6 +17,10 @@ class Household extends BaseModel {
         return $this->hasMany('Models\Meal');
     }
 
+    public function recipes() {
+        return $this->hasManyThrough('Models\Recipe','Models\User', 'household_id', 'author_id');
+    }
+
     public function documents() {
         return $this->hasManyThrough('\Models\Document', '\Models\User','household_id','owner_id');
     }

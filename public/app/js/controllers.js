@@ -168,7 +168,7 @@ angular.module('myApp')
         }
     })
 
-    .controller('messageController',function($scope, $controller ,$location, $http, Authenticate, Messages, Flash){
+    .controller('messageController',function($scope, $controller, $http, Messages){
        
         $controller('homeController', {$scope: $scope})
 
@@ -198,11 +198,22 @@ angular.module('myApp')
         }
     })
 
-     .controller('recipesController',function($scope, $controller , $http ){
+     .controller('recipesController',function($scope, $controller, $http, Households ){
 
         $controller('homeController', {$scope: $scope});
 
+        // object to hold all the data for the recipes
+        $scope.recipes = {};
         
+        loadrecipes();
+
+        function loadrecipes(){
+            //Fetch all Recipes for LoggedIn user's household.
+            Households.getRecipes(sessionStorage.householdId)
+                .success(function(data) {
+                    $scope.recipes = data.data;
+                });
+        }
     })
 
 
@@ -250,9 +261,7 @@ angular.module('myApp')
                 "tagable_type" : "User"
            })
             .success(function(response){
-                var currentPageTemplate = $route.current.templateUrl;
-                $templateCache.remove(currentPageTemplate);
-                $route.reload();
+                location.reload();
             });
         }
        

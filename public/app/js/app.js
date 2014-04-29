@@ -13,6 +13,10 @@ angular.module("myApp",['ngResource', 'ngSanitize', 'ngRoute', 'colorpicker.modu
 
         $routeProvider.when('/tags',{templateUrl:'app/partials/tags.html', controller: 'tagsController'})
 
+        $routeProvider.when('/recipes',{templateUrl:'app/partials/recipes.html', controller: 'recipesController'})
+
+        $routeProvider.when('/recipe_detail/:recipeId',{templateUrl:'app/partials/recipedetail.html', controller: 'recipesController'})
+
         $routeProvider.otherwise({redirectTo :'/'})
     }]).config(function($httpProvider){
 

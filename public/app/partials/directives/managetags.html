@@ -1,36 +1,6 @@
 <div class="cl-mcont file-upload">
   <br>
   <!--  -->
-  <!-- <div class="form-group">
-    <label class="col-sm-3 control-label">Basic Color Picker</label>
-    <div class="col-sm-6">
-      <input type="text" class="demo1 form-control" value="#5367ce" />
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-3 control-label">Color Picker</label>
-    <div class="col-sm-6">
-      <div class="input-group demo2">
-          <input type="text" value="" class="form-control" />
-          <span class="input-group-addon"><i></i></span>
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-3 control-label">Color Picker</label>
-    <div class="col-sm-6">
-      <div class="well">
-          <div id="demo_endis" class="input-group demo demo-auto colorpicker-component">
-              <input disabled type="text" value="" class="form-control" />
-              <span class="input-group-addon"><i></i></span>
-          </div>
-          <br>
-          <a class="btn btn-sm btn-default enable-button" href="#">Enable</a>
-          <a class="btn btn-sm btn-default disable-button" href="#">Disable</a>
-      </div>
-    </div>
-  </div> -->
-  <!--  -->
   <div class="col-lg-1"></div>
   <!--  -->
   <div class="col-lg-10 hidden-xs">
@@ -59,9 +29,9 @@
               <tr>
 
                 <td class="">
-                    <span style="height:100px;width:200px;background-color:{{tag.color}}">
-                      {{tag.name}}
-                     </span>                  
+                    <span class="tag-color" style="background-color:{{tag.color}}">
+                      &nbsp;{{tag.name}}&nbsp;
+                    </span>
                 </td>
                 
                 <td class="text-center">
@@ -92,49 +62,38 @@
       </div>
       <div class="content">
         <ol>
-          <li>
-            <div>
-              <span><strong>Tag Name&nbsp;:&nbsp;</strong></span><span>Tag Name</span><br>
-              <span class="tag-color-xs"><strong>Color&nbsp;:&nbsp;</strong></span>
-              <span class="input-group demo2 tag-color-input-xs">
-                <input type="text" value="#454545" class="form-control" disabled/>
-                <span class="input-group-addon"><i></i></span>
-              </span>
-              <span><strong>Action&nbsp;:&nbsp;</strong></span>
-              <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
-              <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
-            </div>
-            <hr>
-          </li>
           <!--  -->
-          <li>
+          <li ng-repeat="tag in data.tags">
             <div>
-              <span><strong>Tag Name&nbsp;:&nbsp;</strong></span><span>Tag Name</span><br>
-              <span class="tag-color-xs"><strong>Color&nbsp;:&nbsp;</strong></span>
-              <span class="input-group demo2 tag-color-input-xs">
-                <input type="text" value="#454545" class="form-control" disabled/>
-                <span class="input-group-addon"><i></i></span>
+              <span>
+                <strong>Tag Name&nbsp;:&nbsp;</strong>
               </span>
-              <span><strong>Action&nbsp;:&nbsp;</strong></span>
-              <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
-              <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
-            </div>
-            <hr>
-          </li>
-          <!--  -->
-          <li>
-            <div>
-              <span><strong>Tag Name&nbsp;:&nbsp;</strong></span><span>Tag Name</span><br>
-              <span class="tag-color-xs"><strong>Color&nbsp;:&nbsp;</strong></span>
-              <span class="input-group demo2 tag-color-input-xs">
-                <input type="text" value="#454545" class="form-control" disabled/>
-                <span class="input-group-addon"><i></i></span>
+              <!--  -->
+              <span class="tag-color" style="background-color:{{tag.color}}">
+                &nbsp;{{tag.name}}
               </span>
-              <span><strong>Action&nbsp;:&nbsp;</strong></span>
-              <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
-              <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
+              <!--  -->
+              <br>
+              <br>
+              <!--  -->
+              <span>
+                <strong>Action&nbsp;:&nbsp;</strong>
+              </span>
+              <!--  -->
+              <a class="label label-success" href="#" target="_self" data-toggle="modal" data-target="#md-colored">
+                <i class="fa fa-pencil"></i>
+              </a>&nbsp;
+              <!--  -->
+              <a class="label label-danger" href="#" target="_self" data-toggle="modal" data-target="#md-colored1">
+                <i class="fa fa-times"></i>
+              </a>
+              <!--  -->
+              <br>
+              <!--  -->
             </div>
+            <!--  -->
             <hr>
+            <!--  -->
           </li>
           <!--  -->
         </ol>

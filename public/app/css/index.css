@@ -776,4 +776,122 @@ border-top: 1px solid #eee;
 	box-shadow: 0 0 1px black;
 	margin-top: -45px !important;
 }
+.recipe-image-xs{
+	height: 180px;
+	width: 190px;
+	box-shadow: 0 0 1px black;
+}
 /**/
+
+
+/* user page */
+
+.user-image{
+	height: 150px;
+	width: 150px;
+	/*border: 1px solid #333;*/
+	box-shadow: 0px 0px 5px #a2a2a2;
+	border-radius: 2px;
+}
+.user-profile{
+	font-size: 18px;
+	margin-left: 100px;
+	/*color: #303030;*/
+	font-weight: normal;
+	margin-top: -150px;
+	line-height: 2;
+}
+.user-title1{margin-right: 150px;}
+.user-title2{margin-right: 158px;}
+.user-title3{margin-right: 153px;}
+.user-title4{margin-right: 128px;}
+.user-title5{margin-right: 132px;}
+.user-title6{margin-right: 122px;}
+.user-title7{margin-right: 134px;}
+.user-title8{margin-right: 127px;}
+.user-address{
+	margin-top: -28px;
+	margin-left: 183px;
+	line-height: 1.2;
+}
+.edit_profile a{
+	color: #816bb1 !important;
+	font-size: 18px !important;
+	font-weight: normal !important;
+	text-shadow: none !important;
+}
+.edit_profile a:hover{
+	text-decoration: underline;
+}
+.edit_profile i{
+	color: #816bb1 !important;
+	font-size: 18px !important;
+	font-weight: normal !important;
+	text-shadow: none !important;
+}
+.user .actions{
+	margin-top: 7px !important;
+}
+.edit-field-user{
+	width: 47%;
+	margin-top: -42px;
+	margin-left: 100px;
+}
+.user-profile-edit{
+	font-size: 18px;
+	font-weight: 100 !important;
+	line-height: 2;
+}
+.user-image-1 .fileinput-preview.thumbnail {
+	border: 1px solid #cbcbcb;
+	cursor: pointer;
+}
+.user-image-1 .btn-file{
+	font-size: 13px;
+	color: white;
+	margin-left: 0px;
+}
+.user-image-1 .thumbnail {
+	border-radius: 0px;
+}
+.user-profile-edit label{
+	font-weight: normal !important;
+}
+.user-margin{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+@media all and (max-width: 992px) {
+.user-margin{
+	margin-left: 0px;
+	margin-right: 0px;
+}
+}
+
+@media all and (max-width: 767px) {
+.user-profile{
+	font-size: 18px;
+	margin-left: 0px;
+	/*color: #303030;*/
+	font-weight: normal;
+	margin-top: 0px;
+	line-height: 2;
+}
+.user-title2{margin-right: 68px;}
+.user-title3{margin-right: 63px;}
+.user-title4{margin-right: 38px;}
+.user-title5{margin-right: 42px;}
+.user-title6{margin-right: 32px;}
+.user-title7{margin-right: 44px;}
+.user-title8{margin-right: 39px;}
+.user-address{
+	margin-left: 94px;
+	line-height: 1;
+}
+.edit-field-user{
+	width: 100%;
+	margin-top: -1px;
+	margin-left: 0px;
+}
+}
+/* //user page */

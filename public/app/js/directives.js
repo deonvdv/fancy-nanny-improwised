@@ -148,4 +148,36 @@ angular.module('myApp')
           replace: true,
           templateUrl: 'app/partials/directives/managerecipedetail.html',
       };
+  })
+  .directive('fnManageuserprofile', function() {
+    return {
+          scope: true,
+          restrict: 'C',
+          replace: true,
+          templateUrl: 'app/partials/directives/manageuserprofile.html',
+      };
+  })
+  .directive('fnManageeditprofile', function() {
+    return {
+          scope: true,
+          restrict: 'C',
+          replace: true,
+          templateUrl: 'app/partials/directives/manageeditprofile.html',
+      };
+  })
+  .directive('fnManagecalender', function() {
+    return {
+          scope: true,
+          restrict: 'C',
+          replace: true,
+          templateUrl: 'app/partials/directives/managecalender.html',
+      };
+  })
+  .directive('fnManageevents', function() {
+    return {
+          scope: true,
+          restrict: 'C',
+          replace: true,
+          templateUrl: 'app/partials/directives/manageevents.html',
+      };
   });

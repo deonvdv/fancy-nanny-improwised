@@ -266,6 +266,29 @@ angular.module('myApp')
         }
        
     })
-;
+
+    .controller('userController',function($scope, $controller ,$http ){
+
+        $controller('homeController', {$scope: $scope});
+
+    })
+
+    .controller('editController',function($scope, $controller ,$http ){
+
+        $controller('homeController', {$scope: $scope});
+
+    })
+
+    .controller('calenderController',function($scope, $controller ,$http ){
+
+        $controller('homeController', {$scope: $scope});
+
+    })
+
+    .controller('eventsController',function($scope, $controller ,$http ){
+
+        $controller('homeController', {$scope: $scope});
+
+    });
 
     

@@ -13,12 +13,9 @@ class CreateTaggablesTable extends Migration {
 	public function up()
 	{
 		Schema::create('taggables', function(Blueprint $table) {
-			$table->string('id', 36)->primary();
-			$table->string('taggable_id',36)->index();
+			$table->string('tag_id', 36);
+			$table->string('taggable_id',36);
 			$table->string('taggable_type');
-
-			$table->softDeletes();
-			$table->timestamps();
 		});
 	}
 

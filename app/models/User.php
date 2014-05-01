@@ -36,78 +36,62 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
     );
 
 
-	public function household()
-    {
+	public function household() {
         return $this->belongsTo('Models\Household');
     }
 
-	public function profile_picture()
-    {
+	public function profile_picture() {
         return $this->hasOne('Models\Picture', 'id','profile_picture_id');
     }
 
-	public function documents()
-    {
+	public function documents() {
         return $this->hasMany('Models\Document', 'owner_id');
     }
 
-	public function events()
-    {
+	public function events() {
         return $this->hasMany('Models\Event', 'owner_id');
     }
 
-    public function attend_events()
-    {
+    public function attend_events() {
         return $this->belongsToMany('Models\Event', 'events_attendees');
     }
 
-    public function upcoming_events()
-    {
+    public function upcoming_events() {
         return $this->attend_events()->where('event_date', '>=', new \DateTime('today'))->orderBy('event_date');
     }
 
-	public function messages_sent()
-    {
+	public function messages_sent() {
         return $this->hasMany('Models\Message', 'sender_id');
     }
 
-	public function messages_received()
-    {
+	public function messages_received() {
         return $this->hasMany('Models\Message', 'receiver_id');
     }
 
-	public function notifications()
-    {
+	public function notifications() {
         return $this->hasMany('Models\Notification');
     }
 
-	public function recipes()
-    {
+	public function recipes() {
         return $this->hasMany('Models\Recipe', 'author_id');
     }
 
-    public function favoriterecipes()
-    {
+    public function favoriterecipes() {
     	return $this->belongsToMany('Models\Recipe', 'favorite_recipes');
     }
 
-	public function tags()
-    {
+	public function tags() {
         return $this->hasMany('Models\Tag', 'owner_id');
     }
 
-	public function todos()
-    {
+	public function todos() {
         return $this->hasMany('Models\Todo', 'owner_id');
     }
 
-	public function pictures()
-    {
+	public function pictures() {
         //return $this->morphMany('Models\Picture', 'imageable');
         return $this->hasMany('Models\Picture', 'owner_id');
     }
-
-
 
     public function setHousehold(\Models\Household $household) {
         $household->save();
@@ -125,7 +109,6 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
         // print_r($picture);
         $this->save();
         // $this->profile_picture()->save( $picture );
-        
     }
 
     public function addDocument(\Models\Document $document) {

@@ -20,7 +20,7 @@ class Meal extends BaseModel {
     }
 
 	public function tags() {
-        return $this->morphMany('\Models\Tag', 'tagable');
+        return $this->morphMany('\Models\Tag', 'taggable');
     }
 
 	public function recipes() {
@@ -33,8 +33,7 @@ class Meal extends BaseModel {
         $this->recipes()->attach( $recipe );
     }
 
-    public function scopeToday($query)
-    {
+    public function scopeToday($query) {
         $jd=cal_to_jd(CAL_GREGORIAN,date("m"),date("d"),date("Y"));
         $day_number = jddayofweek($jd) + 1;
 

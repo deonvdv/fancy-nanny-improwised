@@ -14,18 +14,15 @@ class Message extends BaseModel {
 	
 	protected $table = 'messages';
 
-	public function sender()
-    {
+	public function sender() {
         return $this->belongsTo('Models\User','sender_id');
     }
 
-	public function receiver()
-    {
+	public function receiver() {
         return $this->belongsTo('Models\User','receiver_id');
     }
 
-    public function scopeUnread($query)
-    {
+    public function scopeUnread($query) {
         return $query->where('is_read', '=', '0')->orderBy('created_at','desc');
     }
 
@@ -43,5 +40,4 @@ class Message extends BaseModel {
             $this->save();
         }
     }
-
 }

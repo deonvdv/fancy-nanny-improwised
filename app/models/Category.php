@@ -13,21 +13,18 @@ class Category extends BaseModel {
 		'parent_id' => 'exists:categories,id'
     );
 
-	public function recipes()
-    {
+	public function recipes() {
         return $this->hasMany('Models\Recipe');
     }	
 
-	public function parent()
-    {
+	public function parent() {
         return $this->belongsTo('Models\Category');
     }	
 
     public function setParent(\Models\Category $category) {
         $category->save();
         $this->parent()->associate( $category );
-        $this->save();
-        
+        $this->save();        
     }
 
 }

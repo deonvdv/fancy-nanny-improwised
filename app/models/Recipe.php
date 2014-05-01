@@ -24,32 +24,25 @@ class Recipe extends BaseModel {
         return $this->hasMany('Models\RecipeIngredient');
     }
 
-	public function tags()
-    {
-        return $this->morphMany('\Models\Tag', 'tagable');
+	public function tags() {
+        return $this->morphMany('\Models\Tag', 'taggable');
     }
 
-	public function pictures()
-    {
+	public function pictures() {
         return $this->morphMany('Models\Picture', 'imageable');
     }
 
-	public function category()
-    {
+	public function category() {
         return $this->belongsTo('Models\Category');
     }	
 
-	public function meals()
-    {
+	public function meals() {
         return $this->belongsToMany('Models\Meal', 'meals_recipes');
     }	
 
-	public function author()
-    {
+	public function author() {
         return $this->belongsTo('Models\User');
     }
-
-
 
     public function setAuthor(\Models\User $user) {
         $user->save();

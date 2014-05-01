@@ -16,6 +16,10 @@ class Document extends BaseModel {
         return $this->belongsTo('Models\User');
     }
 
+    public function tags() {
+        return $this->morphMany('\Models\Tag', 'taggable');
+    }
+
     public function setOwner(\Models\User $user) {
         // print_r($user);
         $user->save();

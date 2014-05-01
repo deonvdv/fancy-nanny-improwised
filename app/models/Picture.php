@@ -14,13 +14,11 @@ class Picture extends BaseModel {
         'imageable_type' => 'required|min:3|max:255',
     );
 
-	public function owner()
-    {
+	public function owner() {
         return $this->belongsTo('Models\User');
     }
 
-	public function imageable()
-    {
+	public function imageable() {
         return $this->morphTo();
     }    
 

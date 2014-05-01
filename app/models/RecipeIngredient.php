@@ -26,18 +26,15 @@ class RecipeIngredient extends BaseModel {
         'ingredient_id'         => 'required|exists:ingredients,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
     );
 
-    public function recipe()
-    {
+    public function recipe() {
         return $this->belongsTo('Models\Recipe', 'recipe_id');
     }
 
-    public function unit_of_measure()
-    {
+    public function unit_of_measure() {
         return $this->belongsTo('Models\UnitOfMeasure');
     }
 
-	public function ingredient()
-    {
+	public function ingredient() {
         return $this->belongsTo('Models\Ingredient');
     }	
 
@@ -59,5 +56,4 @@ class RecipeIngredient extends BaseModel {
         $this->ingredient()->associate( $ingredient );
         $this->save(); 
     }
-
 }

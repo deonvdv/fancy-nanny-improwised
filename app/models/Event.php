@@ -18,18 +18,15 @@ class Event extends BaseModel {
         'minutes_before' => 'required|Integer|between:1,59',
     );
 
-	public function owner()
-    {
+	public function owner() {
         return $this->belongsTo('Models\User');
     }
 
-    public function tags()
-    {
-        return $this->morphMany('\Models\Tag', 'tagable');
+    public function tags() {
+        return $this->morphMany('\Models\Tag', 'taggable');
     }
 
-    public function attendees()
-    {
+    public function attendees() {
         return $this->belongsToMany('Models\User', 'events_attendees');
     }
 

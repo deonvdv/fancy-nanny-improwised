@@ -15,23 +15,19 @@ class Todo extends BaseModel {
         'minutes_before' => 'required|Integer|Min:1|Max:59',
     );
 
-    public function owner()
-    {
+    public function owner() {
         return $this->belongsTo('Models\User');
     }
 
-	public function tags()
-    {
-        return $this->morphMany('\Models\Tag', 'tagable');
+	public function tags() {
+        return $this->morphMany('\Models\Tag', 'taggable');
     }
 
-    public function assigned_by()
-    {
+    public function assigned_by() {
         return $this->belongsTo('Models\User','assigned_by');
     }
 
-    public function assigned_to()
-    {
+    public function assigned_to() {
         return $this->belongsTo('Models\User','assigned_to');
     }
 
@@ -54,14 +50,12 @@ class Todo extends BaseModel {
         $this->save();
     }
 
-    public function scopeRemaining($query)
-    {
+    public function scopeRemaining($query) {
         //return $query->where('due_date', '>=', new DateTime('today'));
         return $query->where('is_complete', '=', '0')->orderBy('due_date');
     }
 
-    public function scopeCompleted($query)
-    {
+    public function scopeCompleted($query) {
         return $query->where('is_complete', '=', '1')->orderBy('due_date');
     }
 

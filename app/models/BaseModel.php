@@ -42,8 +42,7 @@ class BaseModel extends Eloquent {
         return true;        
     }
 
-    public function errors()
-    {
+    public function errors() {
         return $this->errors;
     }
 
@@ -86,8 +85,7 @@ class BaseModel extends Eloquent {
 
     }
 
-    public function save(array $options = array())
-    {
+    public function save(array $options = array()) {
         $validates = $this->validate();
             
         // var_dump($validates);

@@ -9,9 +9,7 @@ class Tag extends BaseModel {
         'id' => 'required|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
         'owner_id' => 'required|exists:users,id|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
         'name' => 'required|min:3|max:255',
-        'color' => array('required','min:4','max:7','regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'),
-        'tagable_id' => 'required|regex:/^\{?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\}?$/',
-        'tagable_type' => 'required|min:3|max:255',
+        'color' => array('required','min:4','max:7','regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/')
     );
 
 	public function owner()
@@ -19,17 +17,33 @@ class Tag extends BaseModel {
         return $this->belongsTo('Models\User');
     }
 
-	public function tagable()
+    public function recipes()
     {
-        return $this->morphTo();
-    }    
+        return $this->morphedByMany('Model\Recipe', 'taggable');
+    }
 
+    public function meals()
+    {
+        return $this->morphedByMany('Model\Meal', 'taggable');
+    }
+
+    public function events()
+    {
+        return $this->morphedByMany('Model\Event', 'taggable');
+    }
+
+    public function todos()
+    {
+        return $this->morphedByMany('Model\Todo', 'taggable');
+    }
+
+    public function documents()
+    {
+        return $this->morphedByMany('Model\Document', 'taggable');
+    }
 
     public function setOwner(\Models\User $user) {
         $user->save();
         $this->owner()->associate( $user );
-        $this->tagable_id = $user->id;
-        $this->tagable_type = '\Models\User';
-        $this->save();
     }
 }

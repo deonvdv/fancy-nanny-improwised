@@ -10,8 +10,7 @@ class Ingredient extends BaseModel {
 		'name'      => 'required|min:3|max:255',
     );
 
-	public function recipe_ingredient()
-    {
+	public function recipe_ingredient() {
         return $this->hasMany('Models\RecipeIngredient');
     }	
     

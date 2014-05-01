@@ -15,9 +15,8 @@ class UnitOfMeasure extends BaseModel {
 		'preferred_alias' => 'required|min:1|max:255',
     );
 
-	public function recipe_ingredient()
-    {
+	public function recipe_ingredient() {
         return $this->hasMany('Models\RecipeIngredient');
-    }	
+    }
 
 }

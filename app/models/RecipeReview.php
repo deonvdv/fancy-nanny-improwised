@@ -12,13 +12,11 @@ class RecipeReview extends BaseModel {
         'score' => 'required|numeric|between: 1,5',
     );
 
-	public function recipe()
-    {
+	public function recipe() {
         return $this->belongsTo('Models\Recipe');
     }
 
-	public function user()
-    {
+	public function user() {
         return $this->belongsTo('Models\User');
     }
 

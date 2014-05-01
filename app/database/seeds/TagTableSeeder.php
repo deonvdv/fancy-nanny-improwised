@@ -9,9 +9,7 @@ class TagTableSeeder extends Seeder {
     		'id' => $faker->uuid,
             'owner_id' => $faker->uuid,
     		'name' => $faker->name,
-            'color' => substr($faker->colorName,0,7),
-            'tagable_id'=> $faker->uuid,
-            'tagable_type'=>$faker->name
+            'color' => substr($faker->colorName,0,7)
     	);
     	DB::table('tags')->insert( $tags );
     }

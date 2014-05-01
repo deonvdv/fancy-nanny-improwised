@@ -27,11 +27,11 @@ class TagModelTest extends TestCase {
 		$id = $tag->id;
 
 		// var_dump( $tag->validate() );
-		// var_dump( $tag->errors() );
-
+		 var_dump( $tag->errors() );
+		var_dump($id);
 		//get Tag from database
 		$found = \Models\Tag::where('id', '=', $id)->firstOrFail();
-		// print_r($found);
+		//print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";
 		
 		$this->assertTrue($found->id == $id);
@@ -61,8 +61,6 @@ class TagModelTest extends TestCase {
 		$this->assertTrue( $tag->errors()->first("name") == "The name must be at least 3 characters." );
 		$this->assertTrue( $tag->errors()->first("color") == "The color field is required." );
 		$this->assertTrue( $tag->errors()->first("owner_id") == "The owner id field is required." );
-		$this->assertTrue( $tag->errors()->first("tagable_id") == "The tagable id field is required." );
-		$this->assertTrue( $tag->errors()->first("tagable_type") == "The tagable type field is required." );
 
         $tag->name = ucwords($faker->bs);
         $tag->color = $faker->hexcolor;

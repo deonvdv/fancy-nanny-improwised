@@ -28,6 +28,13 @@ class MealModelTest extends TestCase {
 		
 		$newmeal->save();
 
+		// Add Tags
+		$tag1 = parent::createFakeTag( $user );
+		$newmeal->addTag( $tag1 );
+
+		$tag2 = parent::createFakeTag( $user );
+		$newmeal->addTag( $tag2 );
+
 		$id = $newmeal->id;
 
 		//get Meal for today from database
@@ -44,7 +51,7 @@ class MealModelTest extends TestCase {
         }
 
         //get Meal from database
-		$found = \Models\Meal::where('id', '=', $id)->firstOrFail();
+		$found = \Models\Meal::with('tags')->where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";
 
@@ -58,6 +65,9 @@ class MealModelTest extends TestCase {
 
 		// Test Household
 		$this->assertTrue($found->household->id == $user->household->id);
+
+		//Test Tags
+		$this->assertTrue(count($found->tags) == 2);
 
 		// Delete
 		$this->assertTrue( $found->delete() );

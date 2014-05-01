@@ -20,12 +20,17 @@ class Meal extends BaseModel {
     }
 
 	public function tags() {
-        return $this->morphMany('\Models\Tag', 'taggable');
+        return $this->morphToMany('\Models\Tag', 'taggable');
     }
 
 	public function recipes() {
         return $this->belongsToMany('Models\Recipe', 'meals_recipes');
-    }  
+    }
+
+    public function addTag(\Models\Tag $tag) {
+        $this->save();
+        $this->tags()->save( $tag );
+    }
 
     public function addRecipe(\Models\Recipe $recipe) {
         $recipe->save();

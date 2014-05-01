@@ -45,5 +45,6 @@ class Tag extends BaseModel {
     public function setOwner(\Models\User $user) {
         $user->save();
         $this->owner()->associate( $user );
+        $this->save();
     }
 }

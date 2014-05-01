@@ -20,7 +20,7 @@ class Todo extends BaseModel {
     }
 
 	public function tags() {
-        return $this->morphMany('\Models\Tag', 'taggable');
+        return $this->morphToMany('\Models\Tag', 'taggable');
     }
 
     public function assigned_by() {
@@ -31,6 +31,10 @@ class Todo extends BaseModel {
         return $this->belongsTo('Models\User','assigned_to');
     }
 
+    public function addTag(\Models\Tag $tag) {
+        $this->save();
+        $this->tags()->save( $tag );
+    }
 
     public function setOwner(\Models\User $user) {
         $user->save();

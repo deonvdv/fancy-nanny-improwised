@@ -32,6 +32,13 @@ class TodoTest extends TestCase {
 		$newtodo->save();	
 		$id = $newtodo->id;
 
+		// Add Tags
+		$tag1 = parent::createFakeTag( $user );
+		$newtodo->addTag( $tag1 );
+
+		$tag2 = parent::createFakeTag( $user );
+		$newtodo->addTag( $tag2 );
+
 		// Get remaining Todo
 		$found = \Models\Todo::where('assigned_to', '=', $user->id)->remaining()->get();
 		$this->assertTrue(count($found) == 1);
@@ -54,7 +61,7 @@ class TodoTest extends TestCase {
 		$this->assertTrue($found[0]->id == $id);
 		
 		//get Todo from database
-		$found = \Models\Todo::where('id', '=', $id)->firstOrFail();
+		$found = \Models\Todo::with('tags')->where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";
 
@@ -68,6 +75,9 @@ class TodoTest extends TestCase {
 		$this->assertTrue($found->assigned_by == $user->id);
 		$this->assertTrue($found->assigned_to == $user->id);
 		$this->assertTrue($found->minutes_before == $newtodo->minutes_before);
+
+		//Test Tags
+		$this->assertTrue(count($found->tags) == 2);
 		
 		// Delete
 		$this->assertTrue( $found->delete() );

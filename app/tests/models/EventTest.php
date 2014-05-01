@@ -42,8 +42,15 @@ class EventModelTest extends TestCase {
 
 		$id = $newevent->id;
 
+		// Add Tags
+		$tag1 = parent::createFakeTag( $user );
+		$newevent->addTag( $tag1 );
+
+		$tag2 = parent::createFakeTag( $user );
+		$newevent->addTag( $tag2 );
+
 		//get Event from database
-		$found = \Models\Event::where('id', '=', $id)->firstOrFail();
+		$found = \Models\Event::with('tags')->where('id', '=', $id)->firstOrFail();
 		
 		$this->assertTrue($found->id == $id);
 
@@ -65,6 +72,9 @@ class EventModelTest extends TestCase {
 
 		//Test Attendees
 		$this->assertTrue(count($found->attendees) == 2);
+
+		//Test Tags
+		$this->assertTrue(count($found->tags) == 2);
 
 		// echo "\nEvent Test: User Id: " . $user->id;
 		// echo "\nEvent Test: User Household Id: " . $user->household->id . "\n";

@@ -20,9 +20,7 @@ class TagAPITest extends TestCase {
 		$response = $this->call('POST', '/api/v1/tag', 
 					array('owner_id' => $user->id,
 						"name"      => $tagName, 
-						"color" => $tagColor, 
-						"tagable_id"	=> $user->id,  
-						"tagable_type"   => "User" ) );
+						"color" => $tagColor) );
 		$recordId = $response->getData()->data->id;
 
 		// Test that record was added
@@ -31,8 +29,6 @@ class TagAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->data->name == $tagName );
 		$this->assertTrue( $response->getData()->data->color == $tagColor );
 		$this->assertTrue( $response->getData()->data->owner_id == $user->id );
-		$this->assertTrue( $response->getData()->data->tagable_id == $user->id );
-		$this->assertTrue( $response->getData()->data->tagable_type == "User" );
 		$this->assertTrue( $response->getData()->message == 'New Tag created sucessfully!' );
 
 
@@ -48,8 +44,6 @@ class TagAPITest extends TestCase {
 		$this->assertTrue( $response->getData()->data->name == $tagName );
 		$this->assertTrue( $response->getData()->data->color == $tagColor );
 		$this->assertTrue( $response->getData()->data->owner_id == $user->id );
-		$this->assertTrue( $response->getData()->data->tagable_id == $user->id );
-		$this->assertTrue( $response->getData()->data->tagable_type == "User" );
 		
 		// edit tag
 		$response = $this->call('PUT', '/api/v1/tag/'.$recordId, array('name' => $tagName."_changed") );

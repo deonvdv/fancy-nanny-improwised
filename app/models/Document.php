@@ -17,7 +17,7 @@ class Document extends BaseModel {
     }
 
     public function tags() {
-        return $this->morphMany('\Models\Tag', 'taggable');
+        return $this->morphToMany('\Models\Tag', 'taggable');
     }
 
     public function setOwner(\Models\User $user) {
@@ -25,5 +25,10 @@ class Document extends BaseModel {
         $user->save();
         $this->owner()->associate( $user );
         $this->save();
-    }    
+    }
+
+    public function addTag(\Models\Tag $tag) {
+        $this->save();
+        $this->tags()->save( $tag );
+    }
 }

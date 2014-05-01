@@ -25,7 +25,7 @@ class Recipe extends BaseModel {
     }
 
 	public function tags() {
-        return $this->morphMany('\Models\Tag', 'taggable');
+        return $this->morphToMany('\Models\Tag', 'taggable');
     }
 
 	public function pictures() {
@@ -57,7 +57,6 @@ class Recipe extends BaseModel {
     }
 
     public function addTag(\Models\Tag $tag) {
-        $tag->save();
         $this->save();
         $this->tags()->save( $tag );
     }

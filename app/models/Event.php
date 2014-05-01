@@ -23,7 +23,7 @@ class Event extends BaseModel {
     }
 
     public function tags() {
-        return $this->morphMany('\Models\Tag', 'taggable');
+        return $this->morphToMany('\Models\Tag', 'taggable');
     }
 
     public function attendees() {
@@ -40,6 +40,11 @@ class Event extends BaseModel {
         $user->save();
         $this->save();
         $this->attendees()->attach( $user );
+    }
+
+    public function addTag(\Models\Tag $tag) {
+        $this->save();
+        $this->tags()->save( $tag );
     }
 
 }

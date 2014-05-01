@@ -32,11 +32,18 @@ class DocumentModelTest extends TestCase {
 
 		// set Owner
         $doc->setOwner( $user );
+
+        // Add Tags
+		$tag1 = parent::createFakeTag( $user );
+		$doc->addTag( $tag1 );
+
+		$tag2 = parent::createFakeTag( $user );
+		$doc->addTag( $tag2 );
 		
 		$id = $doc->id;
 
 		//get Document from database
-		$found = \Models\Document::where('id', '=', $id)->firstOrFail();
+		$found = \Models\Document::with('tags')->where('id', '=', $id)->firstOrFail();
 		// print_r($found);
 		// echo "\nFound Id: " . $found->id . "\n";
 		
@@ -49,6 +56,9 @@ class DocumentModelTest extends TestCase {
 		$this->assertTrue($found->file_name == $doc->file_name);
 		$this->assertTrue($found->cdn_url == $doc->cdn_url);
 		$this->assertTrue($found->private == $doc->private);
+
+		//Test Tags
+		$this->assertTrue(count($found->tags) == 2);
 
 		// echo "\nDocument Test: User Id: " . $user->id;
 		// echo "\nDocument Test: User Household Id: " . $user->household->id . "\n";

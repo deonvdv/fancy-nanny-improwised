@@ -108,10 +108,8 @@ border-top: 1px solid #eee;
 }
 .img-size{
 	border: 1px solid #333333;
-	float: left;
-	clear: both;
-	margin-right: 10px;
-	margin-top: 6px;
+	float: right;
+	display: inherit;
 }
 .count{
 	display: inline-block;
@@ -203,10 +201,7 @@ border-top: 1px solid #eee;
 }
 .img-size {
     border: 1px solid #333;
-    float: none;
-    clear: both;
-    margin-right: 10px;
-    margin-top: 6px;
+    float: right;
     display: inherit;
 }
 }
@@ -236,10 +231,7 @@ border-top: 1px solid #eee;
 }
 .img-size {
     border: 1px solid #333;
-    float: none;
-    clear: both;
-    margin-right: 10px;
-    margin-top: 6px;
+    float: right;
     display: inherit;
 }
 .content-font {

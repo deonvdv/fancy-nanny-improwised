@@ -20,11 +20,23 @@
         <!--  -->
         <form role="form"> 
           <div class="form-group">
-            <label>Recipe Name</label> <input type="text" placeholder="" class="form-control">
+            <label>Recipe Name</label> <input type="text" placeholder="eg. Original Chicken Permesan" class="form-control">
           </div>
           <div class="form-group">
             <label>Description</label><br>
-            <textarea class="form-control" style="resize: vertical;" placeholder=""></textarea>
+            <textarea class="form-control" rows=4 style="resize: vertical;" placeholder="Add a brief description of this recipe"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+              <select class="select2">
+                <option value="Desserts">Desserts</option>
+                <option value="Pasta_Pizza">Pizza & Pasta</option>
+                <option value="Slow Cooker">Slow Cooker</option>
+                <option value="Ethnic">Ethnic</option>
+                <option value="Grilling">Grilling</option>
+                <option value="Healthy Eating">Healthy Eating</option>
+                <option value="Kids Meals">Kids Meals</option>
+              </select>
           </div>
 
 
@@ -32,21 +44,21 @@
           <div class="row">
 
             <!--  -->
-            <div class="col-sm-4">
-              <div class="form-group"> 
-                <label>Ingredients</label>
-              </div>
-            </div>
-            <!--  -->
-            <div class="col-sm-4">
+            <div class="col-sm-2">
               <div class="form-group"> 
                   <label>Quantity</label>
               </div>
             </div>
             <!--  -->
-            <div class="col-sm-4">
+            <div class="col-sm-2">
               <div class="form-group"> 
                 <label>Unit Of Measure</label>
+              </div>
+            </div>
+            <!--  -->
+            <div class="col-sm-8">
+              <div class="form-group"> 
+                <label>Ingredients</label>
               </div>
             </div>
             <!--  -->
@@ -58,8 +70,30 @@
 
             <div class="clearfix">
 
-              <!--  -->
-                <div class="col-sm-4 form-ingredients">
+                <!--  -->
+                <div class="col-sm-2 form-Quantity">
+                  <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
+                </div>
+                <!--  -->
+
+                <!--  -->
+                <div class="col-sm-2 form-Measure">
+                  <!--  -->
+                  <select class="select2">
+                    <option value="tbsp" selected>tbsp</option>
+                    <option value="tsp">tsp</option>
+                    <option value="cup">cup</option>
+                    <option value="cups">cups</option>
+                    <option value="g">g</option>
+                    <option value="oz">oz</option>
+                    <option value="ml">ml</option>
+                  </select>
+                  <!--  -->
+                </div>
+                <!--  -->
+
+                <!--  -->
+                <div class="col-sm-8 form-ingredients">
                   <select class="select2">Flour, Egg, Water, Olive Oil
                        <option value="Flour">Flour</option>
                        <option value="Egg">Egg</option>
@@ -69,14 +103,24 @@
                 </div>
                 <!--  -->
 
+            </div>
+            <br>
+            <!--  -->
+
+
+
+            <!--  -->
+
+            <div class="clearfix">
+
                 <!--  -->
-                <div class="col-sm-4 form-Quantity">
+                <div class="col-sm-2 form-Quantity">
                   <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
                 </div>
                 <!--  -->
 
                 <!--  -->
-                <div class="col-sm-4 form-Measure">
+                <div class="col-sm-2 form-Measure">
                   <!--  -->
                   <select class="select2">
                     <option value="tbsp" selected>tbsp</option>
@@ -91,18 +135,8 @@
                 </div>
                 <!--  -->
 
-            </div>
-            <br>
-            <!--  -->
-
-
-
-            <!--  -->
-
-            <div class="clearfix">
-
-              <!--  -->
-                <div class="col-sm-4 form-ingredients">
+                <!--  -->
+                <div class="col-sm-8 form-ingredients">
                   <select class="select2">Flour, Egg, Water, Olive Oil
                        <option value="Flour">Flour</option>
                        <option value="Egg">Egg</option>
@@ -112,14 +146,24 @@
                 </div>
                 <!--  -->
 
+            </div>
+            <br>
+            <!--  -->
+
+
+
+            <!--  -->
+
+            <div class="clearfix">
+
                 <!--  -->
-                <div class="col-sm-4 form-Quantity">
+                <div class="col-sm-2 form-Quantity">
                   <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
                 </div>
                 <!--  -->
 
                 <!--  -->
-                <div class="col-sm-4 form-Measure">
+                <div class="col-sm-2 form-Measure">
                   <!--  -->
                   <select class="select2">
                     <option value="tbsp" selected>tbsp</option>
@@ -134,18 +178,8 @@
                 </div>
                 <!--  -->
 
-            </div>
-            <br>
-            <!--  -->
-
-
-
-            <!--  -->
-
-            <div class="clearfix">
-
-              <!--  -->
-                <div class="col-sm-4 form-ingredients">
+                <!--  -->
+                <div class="col-sm-8 form-ingredients">
                   <select class="select2">Flour, Egg, Water, Olive Oil
                        <option value="Flour">Flour</option>
                        <option value="Egg">Egg</option>
@@ -155,28 +189,6 @@
                 </div>
                 <!--  -->
 
-                <!--  -->
-                <div class="col-sm-4 form-Quantity">
-                  <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
-                </div>
-                <!--  -->
-
-                <!--  -->
-                <div class="col-sm-4 form-Measure">
-                  <!--  -->
-                  <select class="select2">
-                    <option value="tbsp" selected>tbsp</option>
-                    <option value="tsp">tsp</option>
-                    <option value="cup">cup</option>
-                    <option value="cups">cups</option>
-                    <option value="g">g</option>
-                    <option value="oz">oz</option>
-                    <option value="ml">ml</option>
-                  </select>
-                  <!--  -->
-                </div>
-                <!--  -->
-
             </div>
             <br>
             <!--  -->
@@ -188,25 +200,14 @@
 
             <div class="clearfix">
 
-              <!--  -->
-                <div class="col-sm-4 form-ingredients">
-                  <select class="select2">
-                       <option value="Flour">Flour</option>
-                       <option value="Egg">Egg</option>
-                       <option value="Water">Water</option>
-                       <option value="Olive Oil">Olive Oil</option>
-                  </select>
-                </div>
                 <!--  -->
-
-                <!--  -->
-                <div class="col-sm-4 form-Quantity">
+                <div class="col-sm-2 form-Quantity">
                   <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
                 </div>
                 <!--  -->
 
                 <!--  -->
-                <div class="col-sm-4 form-Measure">
+                <div class="col-sm-2 form-Measure">
                   <!--  -->
                   <select class="select2">
                     <option value="tbsp" selected>tbsp</option>
@@ -218,6 +219,17 @@
                     <option value="ml">ml</option>
                   </select>
                   <!--  -->
+                </div>
+                <!--  -->
+
+                <!--  -->
+                <div class="col-sm-8 form-ingredients">
+                  <select class="select2">Flour, Egg, Water, Olive Oil
+                       <option value="Flour">Flour</option>
+                       <option value="Egg">Egg</option>
+                       <option value="Water">Water</option>
+                       <option value="Olive Oil">Olive Oil</option>
+                  </select>
                 </div>
                 <!--  -->
 
@@ -230,25 +242,14 @@
 
             <div class="clearfix">
 
-              <!--  -->
-                <div class="col-sm-4 form-ingredients">
-                  <select class="select2">
-                       <option value="Flour">Flour</option>
-                       <option value="Egg">Egg</option>
-                       <option value="Water">Water</option>
-                       <option value="Olive Oil">Olive Oil</option>
-                  </select>
-                </div>
                 <!--  -->
-
-                <!--  -->
-                <div class="col-sm-4 form-Quantity">
+                <div class="col-sm-2 form-Quantity">
                   <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
                 </div>
                 <!--  -->
 
                 <!--  -->
-                <div class="col-sm-4 form-Measure">
+                <div class="col-sm-2 form-Measure">
                   <!--  -->
                   <select class="select2">
                     <option value="tbsp" selected>tbsp</option>
@@ -260,6 +261,17 @@
                     <option value="ml">ml</option>
                   </select>
                   <!--  -->
+                </div>
+                <!--  -->
+
+                <!--  -->
+                <div class="col-sm-8 form-ingredients">
+                  <select class="select2">Flour, Egg, Water, Olive Oil
+                       <option value="Flour">Flour</option>
+                       <option value="Egg">Egg</option>
+                       <option value="Water">Water</option>
+                       <option value="Olive Oil">Olive Oil</option>
+                  </select>
                 </div>
                 <!--  -->
 
@@ -274,7 +286,7 @@
 
           <div class="form-group"> 
             <label>Instructions</label>
-            <textarea class="form-control" style="resize: vertical;" placeholder=""></textarea>
+            <textarea class="form-control" rows=4 style="resize: vertical;" placeholder="Add detailed instructions on how to prepare this recipe"></textarea>
           </div> 
 
 

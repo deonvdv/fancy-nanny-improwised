@@ -139,14 +139,6 @@ angular.module('myApp')
           templateUrl: 'app/partials/directives/manageeditprofile.html',
       };
   })
-  .directive('fnManagecalender', function() {
-    return {
-          scope: true,
-          restrict: 'C',
-          replace: true,
-          templateUrl: 'app/partials/directives/managecalender.html',
-      };
-  })
   .directive('fnManageevents', function() {
     return {
           scope: true,

@@ -62,12 +62,11 @@
   <script type="text/javascript" src="app/lib/modalEffects.js"></script>
   <script type='text/javascript' src='app/lib/fullcalendar.js'></script>
 
-
   <script type="text/javascript" src="app/lib/angular/angular.min.js"></script>
   <script type="text/javascript" src="app/lib/angular/angular-route.js"></script>
   <script type="text/javascript" src="app/lib/angular/angular-resource.min.js"></script>
   <script type="text/javascript" src="app/lib/angular/angular-sanitize.min.js"></script>
-
+  <script type="text/javascript" src="app/lib/ui-bootstrap-tpls.js"></script>
 
   <script type="text/javascript" src="app/js/app.js"></script>
   <script type="text/javascript" src="app/js/controllers.js"></script>

@@ -124,15 +124,6 @@ angular.module('myApp')
           templateUrl: 'app/partials/directives/manageshopping.html',
       };
   })
-  .directive('fnManagetags', function() {
-    return {
-          transclude: true,
-          require:"ngModel",
-          restrict: 'CE',
-          replace: true,
-          templateUrl: 'app/partials/directives/managetags.html',          
-      };
-  })
   .directive('fnManagerecipes', function() {
     return {
           scope: true,

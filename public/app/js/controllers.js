@@ -230,7 +230,7 @@ angular.module('myApp')
         
     })
 
-    .controller('tagsController',function($scope, $controller, $route, $templateCache, $http,  Users, Tags, Flash){
+    .controller('tagsController',function($scope, $modal, $controller, $route, $templateCache, $http,  Users, Tags, Flash){
 
         $controller('homeController', {$scope: $scope});
        
@@ -240,6 +240,40 @@ angular.module('myApp')
         $scope.data.tags = {};
         $scope.data.name = "";
         $scope.data.color = "";
+
+        $scope.editTag = function(tag) {
+
+                var modalInstance = $modal.open({
+                    templateUrl: 'editTagform.html',
+                    controller: ModalInstanceCtrl,
+                    resolve: {
+                        tag: function(){
+                            return tag;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (selectedItem) {
+                  $scope.selected = selectedItem;
+                }, function () {
+                  //$log.info('Modal dismissed at: ' + new Date());
+                });
+
+                // modalInstance.result.then(function (exposeid) {
+                //     $scope.selected = selectedItem;
+                // }, function () {
+                //     $log.info('Modal dismissed at: ' + new Date());
+                // });
+        }
+
+        var ModalInstanceCtrl = function ($scope, $modalInstance, tag) {
+
+                $scope.data = tag;
+
+                $scope.cancel = function () {
+                    $modalInstance.dismiss('cancel');
+                };
+        };
 
         loadData();
 
@@ -256,9 +290,20 @@ angular.module('myApp')
             Tags.save({
                 'owner_id' : sessionStorage.loggedUserId,
                 'name' : $scope.data.name,
-                'color' : $scope.data.color,
-                "tagable_id" : sessionStorage.loggedUserId,  
-                "tagable_type" : "User"
+                'color' : $scope.data.color
+           })
+            .success(function(response){
+                location.reload();
+            });
+        }
+
+        $scope.update = function(id){
+
+            Tags.save({
+                'id' : id,
+                'owner_id' : sessionStorage.loggedUserId,
+                'name' : $scope.data.name,
+                'color' : $scope.data.color
            })
             .success(function(response){
                 location.reload();
@@ -290,5 +335,45 @@ angular.module('myApp')
         $controller('homeController', {$scope: $scope});
 
     });
+
+    var ModalDemoCtrl = function ($scope, $modal, $log) {
+
+      $scope.items = ['item1', 'item2', 'item3'];
+
+      $scope.open = function () {
+
+        var modalInstance = $modal.open({
+          templateUrl: 'modal.html',
+          controller: ModalInstanceCtrl,
+          resolve: {
+            items: function () {
+              return $scope.items;
+            }
+          }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+          $scope.selected = selectedItem;
+        }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+        });
+      };
+    };
+
+    var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+
+      $scope.items = items;
+      $scope.selected = {
+        item: $scope.items[0]
+      };
+
+      $scope.ok = function () {
+        $modalInstance.close($scope.selected.item);
+      };
+
+      $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+    };
 
     

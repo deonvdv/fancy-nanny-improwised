@@ -97,14 +97,6 @@ angular.module('myApp')
           templateUrl: 'app/partials/directives/managerecipes.html',
       };
   })
-  .directive('fnManagerecipedetail', function() {
-    return {
-          scope: true,
-          restrict: 'C',
-          replace: true,
-          templateUrl: 'app/partials/directives/managerecipedetail.html',
-      };
-  })
   .directive('fnManageuserprofile', function() {
     return {
           scope: true,

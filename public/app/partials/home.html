@@ -5,17 +5,200 @@
 <!-- right-side section (top navbar + dashboard) -->
 <div class="container-fluid" id="pcont">
   	<!-- top navbar -->
-  		<div class="fntop-navbar"></div>
+  	<div class="fntop-navbar"></div>
   	<!-- //top navbar -->
 
-    	<!-- dashboard -->
-    		<div class="fn-dashboard">
-        </div>
-    	<!-- //dashboard -->
-      
-    </div>
-  </div>
-  <!-- //dashboard -->
+    <!-- dashboard -->
+    <div class="cl-mcont">
 
-	
+      <div class="clearfix">
+
+        <!-- ******************************** -->
+
+        <!-- emergency contacts + critical information ( mobile view ) -->
+        <div class="col-sm-12 col-xs-12 col-margin-padding">
+          <!-- emergency contacts ( sm-view )-->
+          <div class="col-sm-6 col-margin-padding visible-sm">
+            <div class="fnemergency-contact">/</div>
+          </div>
+          <!-- //emergency contacts ( sm-view ) -->
+          <!-- ******************************** -->
+          <!-- critical information ( sm-view ) -->
+          <div class="col-sm-6 col-margin-padding visible-sm">
+            <div class="fncritical-information">/</div>
+          </div>
+          <!-- //critical information ( sm-view ) -->
+          <!-- ******************************** -->
+          <!-- emergency contacts ( xs-view ) -->
+          <div class="col-xs-12 col-margin-padding visible-xs">
+            <div class="fnemergency-contact">/</div>
+          </div>
+          <!-- //emergency contacts ( xs-view ) -->
+          <!-- ******************************** -->
+          <!-- critical information ( xs-view ) -->
+          <div class="col-xs-12 col-margin-padding visible-xs">
+            <div class="fncritical-information">/</div>
+          </div>
+          <!-- //critical information ( xs-view ) -->
+        </div>
+        <!-- //emergency contacts + critical information ( mobile view ) -->
+
+        <!-- ******************************** -->
+
+        <!-- section (messages + events + todo's + today's meals) -->
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 col-margin-padding">
+
+          <!-- messages -->
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-margin-padding">
+            <div class="block-flat info-box">
+              <h1>Messages</h1>
+              <h1 class="count">{{messages.length}}</h1>
+              <a class="details pull-right" href="#/messages">Details <span><i class="fa fa-arrow-circle-right"></i></span></a>
+              <br>
+            </div>
+          </div>
+          <!-- //messages -->
+
+          <!-- ******************************** -->
+
+          <!-- events -->
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-margin-padding">
+            <div class="block-flat warning-box">
+              <h1>Events</h1>
+              <h1 class="count">{{events.length}}</h1>
+              <a class="details pull-right" href="#">Details <span><i class="fa fa-arrow-circle-right"></i></span></a>
+              <br>
+            </div>
+          </div>
+          <!-- //events -->
+
+          <!-- ******************************** -->
+
+          <!-- todo's -->
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-margin-padding">
+            <div class="block-flat success-box">
+              <h1>Todo's</h1>
+              <h1 class="count">{{todos.length}}</h1>
+              <a class="details pull-right" href="#/todos">Details <span><i class="fa fa-arrow-circle-right"></i></span></a>
+              <br>
+            </div>
+          </div>
+          <!-- //todo's -->
+
+          <!-- ******************************** -->
+
+          <!-- today's meals -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-margin-padding">
+            <div class="block block-color primary block-margin-bottom">
+              <div class="header">
+                <h1>Today's Meals</h1>
+              </div>
+              <div class="content content-block">
+                <div class="tab-container">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#breakfast" target="_self" data-toggle="tab">Breakfast</a></li>
+                    <li class=""><a href="#lunch" target="_self" data-toggle="tab">Lunch</a></li>
+                    <li class=""><a href="#dinner" target="_self" data-toggle="tab">Dinner</a></li>
+                  </ul>
+                  <div class="tab-content">
+                    <!-- Breakfast -->
+                    <div class="tab-pane cont active" id="breakfast">
+                      <div ng-repeat="meal in meals | filter:{slot:'breakfast'}">
+                        <i class="fa fa-chevron-right"></i>
+                        <div class="todo-position" ng-repeat="recipe in meal.recipes">
+                          <label class="label-color">Recipe Name</label>&nbsp;:&nbsp; {{recipe.name}}
+                          <br>
+                          <label>ingredients </label>&nbsp;:&nbsp;
+                          <span ng-repeat="ingredient in recipe.recipe_ingredients">
+                            {{ingredient.ingredient.name}}
+                          </span>
+                          <br>
+                          <label>description </label>&nbsp;:&nbsp; {{recipe.description}}
+                          <br>
+                        </div>
+                        <hr>
+                      </div>
+                    </div>
+                    <!-- //Breakfast -->
+
+                    <!-- ************************ -->
+
+                    <!-- lunch -->
+                    <div class="tab-pane cont" id="lunch">
+                      <div ng-repeat="meal in meals | filter:{slot:'lunch'}">
+                        <i class="fa fa-chevron-right"></i>
+                        <div class="todo-position" ng-repeat="recipe in meal.recipes">
+                          <label class="label-color">Recipe Name</label>&nbsp;:&nbsp; {{recipe.name}}
+                          <br>
+                          <label>ingredients </label>&nbsp;:&nbsp;
+                          <span ng-repeat="ingredient in recipe.recipe_ingredients">
+                            {{ingredient.ingredient.name}}
+                          </span>
+                          <br>
+                          <label>description </label>&nbsp;:&nbsp; {{recipe.description}}
+                          <br>
+                        </div>
+                        <hr>
+                      </div>
+                    </div>
+                    <!-- //lunch -->
+
+                    <!-- ************************ -->
+
+                    <!-- dinner -->
+                    <div class="tab-pane" id="dinner">
+                      <div ng-repeat="meal in meals | filter:{slot:'dinner'}">
+                        <i class="fa fa-chevron-right"></i>
+                        <div class="todo-position" ng-repeat="recipe in meal.recipes">
+                          <label class="label-color">Recipe Name</label>&nbsp;:&nbsp; {{recipe.name}}
+                          <br>
+                          <label>ingredients </label>&nbsp;:&nbsp;
+                          <span ng-repeat="ingredient in recipe.recipe_ingredients">
+                            {{ingredient.ingredient.name}}
+                          </span>
+                          <br>
+                          <label>description </label>&nbsp;:&nbsp; {{recipe.description}}
+                          <br>
+                        </div>
+                        <hr>
+                      </div>
+                    </div>
+                    <!-- //dinner -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- //section (messages + event + todo's + today's meals) -->
+
+        <!-- ******************************** -->
+
+        <!-- section (emergency contacts + critical information + household members) -->
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 col-margin-padding">
+
+          <!-- emergency contacts -->
+          <div class="col-lg-12 col-xs-12 col-margin-padding hidden-sm hidden-xs">
+            <div class="fnemergency-contact">/</div>
+          </div>
+          <!-- //emergency contacts -->
+
+          <!-- ******************************** -->
+
+          <!-- critical information -->
+          <div class="col-lg-12 col-xs-12 col-margin-padding hidden-sm hidden-xs">
+            <div class="fncritical-information">/</div>
+          </div>
+          <!-- //critical information -->
+
+          <!-- ******************************** -->
+
+          <!-- household members -->
+            <div class="fnhousehold-members">/</div>
+          <!-- household members -->
+          </div>
+      </div>
+    </div>
+    <!-- //dashboard -->
 </div>

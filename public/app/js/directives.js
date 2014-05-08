@@ -31,15 +31,6 @@ angular.module('myApp')
           templateUrl: 'app/partials/directives/managetodo.html',
       };
   })
-  .directive('fnManagemessages', function() {
-    return {
-          scope: true, 
-          restrict: 'C',
-          replace: true,
-          templateUrl: 'app/partials/directives/managemessages.html',
-      };
-  })
-
   // this tags class is added to messages.html and todos.html
   .directive('tags', function() {
     return {

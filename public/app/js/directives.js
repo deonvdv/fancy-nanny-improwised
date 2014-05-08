@@ -74,15 +74,6 @@ angular.module('myApp')
     	};
 	})
 
-  .directive('fnAddrecipes', function() {
-    return {
-          scope: true,
-          restrict: 'C',
-          replace: true,
-          templateUrl: 'app/partials/directives/manage_add_recipes.html',
-      };
-  })
-
   // this class is added in add_recipes.html
   .directive('select2', function() {
     return {

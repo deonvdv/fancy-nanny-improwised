@@ -80,14 +80,6 @@ angular.module('myApp')
         }
       };
   })
-  .directive('fnManageshopping', function() {
-    return {
-          scope: true,
-          restrict: 'C',
-          replace: true,
-          templateUrl: 'app/partials/directives/manageshopping.html',
-      };
-  })
   .directive('fnManageuserprofile', function() {
     return {
           scope: true,

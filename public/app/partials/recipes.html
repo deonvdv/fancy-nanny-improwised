@@ -9,7 +9,189 @@
     <!-- //top navbar -->
 
     <!-- recipes page -->
-      <div class="fn-managerecipes"></div>
+    <div class="cl-mcont">
+
+	    <!--  -->
+	    <div class="recipes-block6 visible-xs">
+	      <div class="block block-color">
+	        <div class="header">
+	          <div class="actions">
+	            <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
+	            <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
+	          </div>
+	          <h3>Filter</h3>
+	        </div>
+	        <div class="content">
+	          <div class="clearfix">
+	            <div class="row">
+	              <div class="col-xs-12">
+	                <input type="search" class="form-control" placeholder="By Name"><br>
+	                <input type="search" class="form-control" placeholder="By Date"><br>
+	                <input type="search" class="form-control" placeholder="By Tags"><br>
+	                <input type="search" class="form-control" placeholder="By Ingredients"><br>
+	                <button type="button" class="btn btn-primary">Search</button>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    <!--  -->
+	    <div classs="clearfix">
+
+	      <!--  -->
+	      <div class="col-sm-7 col-md-8 col-lg-9 recipes-block6">
+	        <div class="block block-color primary">
+	            <div class="header">
+	              <div class="actions">
+	                <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
+	                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
+	              </div>
+	              <h2>Recently Added Recipes</h2>
+	            </div>
+	              <div class="content recent-recipes-block">
+	                <div class="clearfix">
+	                      <a href=""><div class="img-pos"></div></a>
+	                      <div class="recipes-block">
+	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+	                          <i class="fa fa-star"></i>
+	                        </span>
+	                        &nbsp;<a href="/#/recipe_detail/1"><h4>pizza</h4></a>
+	                        <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
+	                        <p class="date-todo">Date:12/3/2013</p>
+	                      </div>
+	                </div>
+	                <hr>
+	                <!--  -->
+	                <div class="clearfix">
+	                      <a href=""><div class="img-pos"></div></a>
+	                      <div class="recipes-block">
+	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+	                          <i class="fa fa-star"></i>
+	                        </span>
+	                        &nbsp;<a href="recipes_detail.html"><h4>pizza</h4></a>
+	                        <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
+	                        <p class="date-todo">Date:12/3/2013</p>
+	                      </div>
+	                </div>
+	                <hr>
+	                <!--  -->
+	                <div class="clearfix">
+	                      <a href=""><div class="img-pos"></div></a>
+	                      <div class="recipes-block">
+	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+	                          <i class="fa fa-star"></i>
+	                        </span>
+	                        &nbsp;<a href="recipes_detail.html"><h4>pizza</h4></a>
+	                        <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
+	                        <p class="date-todo">Date:12/3/2013</p>
+	                      </div>
+	                </div>
+	                <hr>
+	                <!--  -->
+	                <div class="clearfix">
+	                      <a href=""><div class="img-pos"></div></a>
+	                      <div class="recipes-block">
+	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+	                          <i class="fa fa-star"></i>
+	                        </span>
+	                        &nbsp;<a href="recipes_detail.html"><h4>pizza</h4></a>
+	                        <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
+	                        <p class="date-todo">Date:12/3/2013</p>
+	                      </div>
+	                </div>
+	                <hr>
+	                <!--  -->
+	                <div class="clearfix">
+	                      <a href=""><div class="img-pos"></div></a>
+	                      <div class="recipes-block">
+	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+	                          <i class="fa fa-star"></i>
+	                        </span>
+	                        &nbsp;<a href="recipes_detail.html"><h4>pizza</h4></a>
+	                        <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
+	                        <p class="date-todo">Date:12/3/2013</p>
+	                      </div>
+	                </div>
+	                <hr>
+	              </div>
+	          </div>
+	      <!--  -->
+
+	        <div class="block block-color primary">
+	            <div class="header">
+	              <div class="actions">
+	                <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
+	                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
+	              </div>
+	              <h2>All Recipes</h2>
+	            </div>
+	              <div class="content">
+	                <div class="clearfix" ng-repeat="recipe in recipes">
+	                      <a href=""><div class="img-pos"></div></a>
+	                      <div class="recipes-block">
+	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+	                          <i class="fa fa-star"></i>
+	                        </span>
+	                        &nbsp;<a href="/#/recipe_detail/{{recipe.id}}"><h4>{{recipe.name}}</h4></a>
+	                        <p>{{recipe.description}}</p>
+	                        <p class="date-todo">Date:{{recipe.created_at}}</p>
+	                      </div>
+	                </div>
+	                <hr>
+	              </div>
+	          </div>
+	      </div>
+
+	    </div>
+	    <!--  -->
+
+	    <!--  -->
+	    <div class="clearfix">
+	      <div class="col-lg-3 col-md-4 col-sm-5 recipes-block6 hidden-xs">
+	        <div class="block block-color">
+	            <div class="header">
+	              <div class="actions">
+	                <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
+	              </div>
+	              <h3>Filter</h3>
+	            </div>
+	            <div class="content">
+	              <div class="clearfix">
+	                <div class="row">
+	                  <div class="col-lg-12 col-md-12">
+	                    <input type="search" class="form-control" placeholder="By Name"><br>
+	                    <input type="search" class="form-control" placeholder="By Category"><br>
+	                    <input type="search" class="form-control" placeholder="By Tags"><br>
+	                    <input type="search" class="form-control" placeholder="By Ingredients"><br>
+	                    <button type="button" class="btn btn-primary">Search</button>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	          <!--  -->
+	          <div class="block block-color">
+	          <div class="header">
+	            <h3>Tag</h3>
+	          </div>
+	          <div class="content">
+	            <div id="external-events">
+	              <div class="external-event ui-draggable" style="position: relative;">person-1</div>
+	              <div class="external-event ui-draggable" style="position: relative;">person-2</div>
+	              <div class="external-event ui-draggable" style="position: relative;">person-3</div>
+	              <div class="external-event ui-draggable" style="position: relative;">person-4</div>
+	              <div class="external-event ui-draggable" style="position: relative;">person-5</div>
+	              <br><br>
+	              <p>
+	                <input type="checkbox" id="drop-remove"> <label for="drop-remove">remove after drop</label>
+	              </p>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	</div>
     <!-- //recipes page -->      
 </div>
 <!-- //recipes -->

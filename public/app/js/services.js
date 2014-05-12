@@ -149,10 +149,10 @@ angular.module('myApp')
                 return $http.get('/api/v1/tag/' + id);
             },
             save : function(tagData){
-                if(tagData.id) {
-                    return $http({
+                if('id' in tagData) {
+                     return $http({
                         method: 'PUT',
-                        url: '/api/v1/tag',
+                        url: '/api/v1/tag/'+ tagData.id,
                         headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
                         data: $.param(tagData)
                     });

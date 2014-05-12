@@ -38,4 +38,23 @@ angular.module('myApp')
       		replace: true,
       		templateUrl: 'app/partials/directives/emergencycontact.html',
     	};
-	});
+	})
+  .directive('hax', function() {
+    var HAX_REGEXP = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+    return {
+      require: 'ngModel',
+      link: function(scope, elm, attrs, tagsController) {
+        tagsController.$parsers.unshift(function(viewValue) {
+          if (HAX_REGEXP.test(viewValue)) {
+            // it is valid
+            tagsController.$setValidity('hax', true);
+            return viewValue;
+          } else {
+            // it is invalid, return undefined (no model update)
+            tagsController.$setValidity('hax', false);
+            return undefined;
+          }
+        });
+      }
+    };
+  });

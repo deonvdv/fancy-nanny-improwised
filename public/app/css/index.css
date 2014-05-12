@@ -700,8 +700,8 @@ border-top: 1px solid #eee;
     margin-left: 56px;
 }
 .tag-color{
-	border-radius:4px;
-	padding:4px;
+	border-radius:2px;
+	padding:4px 5px 4px 5px;
 	color: black;
 	font-weight: normal;
 }
@@ -887,3 +887,8 @@ border-top: 1px solid #eee;
 }
 }
 /* //user page */
+
+/**/
+.error{
+	color: red;
+}

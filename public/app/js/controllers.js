@@ -269,6 +269,7 @@ angular.module('myApp')
         // edit tag controller
         var editTagCtrl = function ($scope, $modalInstance, tag) {
 
+
             $scope.title = "Edit";
 
             if(tag === undefined) {
@@ -280,10 +281,22 @@ angular.module('myApp')
                         tag = response.data;
                     });
             }
+
+            $scope.options = [
+                { label: 'White', value: 'white' },
+                { label: 'Black', value: 'black' }
+            ];
+
+
             $scope.data = tag;
             $scope.data.owner_id = sessionStorage.loggedUserId;
+            $scope.data.fontcolorOption = $scope.options[1];
 
             $scope.save = function (form) {
+
+                // bind fontcolorOption to fontcolor
+                $scope.data.fontcolor = $scope.data.fontcolorOption.value;
+
                 $scope.submitted = true;
                 if(form.$valid) {
                     Tags.save($scope.data)

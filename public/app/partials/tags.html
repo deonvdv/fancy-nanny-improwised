@@ -152,21 +152,26 @@
               <!-- tag name -->
               <div class="form-group">
                 <label>Tag Name</label>
-                <input type="text" class="form-control" placeholder="Tag Name" ng-model="data.name" name="tagname" required>
+                <input type="text" class="form-control" placeholder="Tag Name" ng-model="data.name" ng-minlength="3" name="tagname" required>
               </div>
               <!-- error msg for tag name -->
               <div class="error">
+                <span ng-show="form.tagname.$error.minlength && submitted"> Too short!</span>
                 <span ng-show="form.tagname.$error.required && submitted">Tag name required !!</span>
               </div>
               <!-- ----------------------------------------- -->
               <!-- font color -->
               <div class="form-group">
-                <label>Font Color</label>
-                <input colorpicker="hex" placeholder="click to select font color" class="form-control" name="fontcolor" required type="text" ng-model="data.fontcolor" hax>
+
+                <label>Font Color</label><br>
+                <select ng-model="data.fontcolorOption" id="example1" ng-options="opt as opt.label for opt in options">
+                </select>
+                <br>
+
               </div>
               <!-- error msg for font color -->
               <div class="error">
-                <span ng-show="form.fontcolor.$error.required && submitted">click to select font color !!</span>
+                <span ng-show="form.fontcolorOption.$error.required && submitted">click to select font color !!</span>
               </div>
               <!-- ----------------------------------------- -->
               <!-- tag name -->
@@ -183,7 +188,7 @@
               <div class="clearfix">
                 <div class="pull-right">
                   <br/>
-                  <span class="tag-color" style="color:{{data.fontcolor}};background-color:{{data.color}}">
+                  <span class="tag-color" style="color:{{data.fontcolorOption.value}};background-color:{{data.color}}">
                     &nbsp;{{data.name}}
                   </span>
                 </div>

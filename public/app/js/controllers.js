@@ -216,25 +216,12 @@ angular.module('myApp')
         }
     })
 
-
-    .controller('documentsController',function($scope, $controller ,$http ){
-
-        $controller('homeController', {$scope: $scope});
-        
-    })
-
-
-    .controller('shoppingController',function($scope, $controller ,$http, Authenticate, Todos, Flash){
-
-        $controller('homeController', {$scope: $scope});
-        
-    })
-
     .controller('tagsController',function($scope, $modal, $controller, $route, $templateCache, $http,  Users, Tags, Flash){
 
         $controller('homeController', {$scope: $scope});
        
         $scope.data = {};
+
 
         // object to hold all tags of LoggedInUser
         $scope.data.tags = {};
@@ -243,6 +230,7 @@ angular.module('myApp')
         $scope.data.fontcolor = "";
 
         loadData();
+        console.log($scope.data);
 
         function loadData(){
             //Fetch all tags for LoggedInUser
@@ -349,15 +337,70 @@ angular.module('myApp')
 
     })
 
-    .controller('userController',function($scope, $controller ,$http ){
+    .controller('documentsController',function($scope, $controller ,$http ){
 
         $controller('homeController', {$scope: $scope});
 
     })
 
-    .controller('editController',function($scope, $controller ,$http ){
+
+    .controller('shoppingController',function($scope, $controller ,$http, Authenticate, Todos, Flash){
 
         $controller('homeController', {$scope: $scope});
+
+    })
+
+    .controller('userController',function($scope, $controller ,$http ,Users ,$route ){
+
+        $controller('homeController', {$scope: $scope});
+
+        $scope.user = {};
+
+        loadData();
+
+        function loadData(){
+            //Fetch user information for LoggedInUser
+            Users.show(sessionStorage.loggedUserId)
+                .success(function(data){
+                    $scope.user = data.data;
+            });
+        }
+
+    })
+
+    .controller('editController',function($scope, $controller ,$http ,Users , $route ,$location){
+
+        $controller('homeController', {$scope: $scope});
+
+        $scope.user = {};
+
+        loadData();
+
+        function loadData(){
+            //Fetch user information for LoggedInUser
+            Users.show(sessionStorage.loggedUserId)
+                .success(function(data){
+                    $scope.user = data.data;
+            });
+        }
+
+        $scope.save = function(form){
+
+            $scope.submitted = true;
+            if(form.$valid) {
+                //save user information for LoggedInUser
+                Users.save($scope.user)
+                    .success(function(response){
+                        $scope.user = response.data;
+                });
+                $location.path('/user_profile');
+            }
+
+        }
+
+        $scope.cancel = function(){
+            $location.path('/user_profile');
+        }
 
     })
 

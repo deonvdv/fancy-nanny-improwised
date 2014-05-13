@@ -77,12 +77,21 @@ angular.module('myApp')
                 return $http.get('/api/v1/user/' + id);
             },
             save : function(userData) {
-                return $http({
-                    method: 'POST',
-                    url: '/api/v1/user',
-                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-                    data: $.param(userData)
-                });
+                if('id' in userData){
+                    return $http({
+                        method: 'PUT',
+                        url: '/api/v1/user/'+ userData.id,
+                        headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                        data: $.param(userData)
+                    });
+                } else {
+                    return $http({
+                        method: 'POST',
+                        url: '/api/v1/user',
+                        headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                        data: $.param(userData)
+                    });
+                }
             },
             destroy : function(id) {
                 return $http.delete('/api/v1/user/' + id);

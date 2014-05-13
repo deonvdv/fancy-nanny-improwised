@@ -102,7 +102,9 @@ class BaseModel extends Eloquent {
 
         foreach(\DB::select('SHOW COLUMNS FROM '.$table) as $column)
         {
-            $columns[] = $column->Field;
+            if($column->Field != 'deleted_at' && $column->Field != 'created_at' && $column->Field != 'updated_at') {
+                $columns[] = $column->Field;
+            }
         }
 
         return $columns;

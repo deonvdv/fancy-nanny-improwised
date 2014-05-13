@@ -195,9 +195,8 @@ class TagController extends BaseController {
 			{
 				foreach(\Models\Tag::fields() as $field)
 				{
-					if(isset($input[$field]) && $field != 'deleted_at')
-					{
-						$tag[$field] = $input[$field];
+					if(isset($input[$field])) {
+						$tag->$field = $input[$field];
 					}
 				}
 

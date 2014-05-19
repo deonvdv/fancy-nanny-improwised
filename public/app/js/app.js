@@ -23,7 +23,7 @@ angular.module("myApp",['ngResource', 'ngSanitize', 'ngRoute', 'colorpicker.modu
 
         $routeProvider.when('/user_profile',{templateUrl:'app/partials/userprofile.html', controller: 'userController'})
 
-        $routeProvider.when('/edit_profile',{templateUrl:'app/partials/editprofile.html', controller: 'editController'})
+        $routeProvider.when('/edit_profile',{templateUrl:'app/partials/editprofile.html', controller: 'editUserController'})
 
         $routeProvider.when('/calender',{templateUrl:'app/partials/calender.html', controller: 'calenderController'})
 

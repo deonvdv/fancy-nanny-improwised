@@ -39,6 +39,19 @@ angular.module('myApp')
       		templateUrl: 'app/partials/directives/emergencycontact.html',
     	};
 	})
+
+  .directive('validPasswordC', function () {
+      return {
+          require: 'ngModel',
+          link: function (scope, elm, attrs, editController) {
+              editController.$parsers.unshift(function (viewValue, $scope) {
+                  var noMatch = viewValue != scope.form.password.$viewValue
+                  editController.$setValidity('noMatch', !noMatch)
+              })
+          }
+      }
+  })
+
   .directive('hax', function() {
     var HAX_REGEXP = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
     return {

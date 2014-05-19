@@ -141,20 +141,29 @@
 				            </div>
 
 
+				            <!-- change password -->
+				            <div class="password-link">
+				            	<spam data-toggle="modal" ng-click="changePassword(user)">Change Password</span>
+				            </div>
+
 	                      </div>
 	                      <!--  -->
-	                      <div class="hidden-xs"><br></div>
-	                      <!-- <div class="form-group">
-	                        <label class="control-label">Change Password</label>
 
-	                        <div class="">
+
+	                      <div class="hidden-xs"><br></div>
+
+
+	                        <!-- <div class="">
 	                          <div class="hidden-xs"><br><br></div>
 	                          <input type="password" id="pass2" class="edit-field-user form-control parsley-validated" required="" placeholder="Password"><div class="hidden-xs"><br><br></div>
 	                        </div>
+
 	                        <div class="">
 	                          <input type="password" class="edit-field-user form-control parsley-validated" required="" parsley-equalto="#pass2" placeholder="Re-Type Password"><div class="hidden-xs"><br></div>
-	                        </div>
-	                      </div> -->
+	                        </div> -->
+
+
+	                      </div>
 	                      <!--  -->
 	                        <div class="visible-xs"><br></div>
 	                        <button class="btn btn-primary" type="submit" ng-click="save(form)">Save</button>
@@ -166,6 +175,69 @@
 		        <!--  -->
 		    </div>
 		  </div>
+
+
+<!-- model for change password -->
+<script type="text/ng-template" id="changepassword.html">
+
+	<div class="model-custom">
+
+		<div class="modal-header">
+
+			<h3>Change Password</h3>
+
+		</div>
+
+		<form class="form" name="form">
+
+			<div class="modal-body">
+
+				<!-- -------------------------------------------------------------------------- -->
+
+				<label>Old Password</label>
+				<input class="form-control" type="password" id="oldpassword" name="old_password" ng-model="oldpassword" required  />
+				<br />
+
+				<!-- -------------------------------------------------------------------------- -->
+
+				<label>New Password</label>
+				<input class="form-control" type="password" id="password" name="password" ng-model="user.password" ng-minlength="3" ng-maxlength="8"  required  />
+				<div class="error">
+					<span ng-show="form.password.$error.required && form.password.$dirty">required</span>
+					<span ng-show="!form.password.$error.required && (form.password.$error.minlength || form.password.$error.maxlength) && form.password.$dirty">
+						Passwords must be between 3 and 8 characters.
+					</span>
+				</div>
+				<br />
+
+				<!-- -------------------------------------------------------------------------- -->
+
+				<label for="password_c">Confirm Password</label>
+				<input class="form-control" type="password" id="password_c" name="password_c" ng-model="user.password_c" valid-password-c required  />
+				<div class="error">
+					<span ng-show="form.password_c.$error.required && form.password_c.$dirty">Please confirm your password.</span>
+					<span ng-show="!form.password_c.$error.required && form.password_c.$error.noMatch && form.password.$dirty">Passwords do not match.</span>
+				</div>
+				<br />
+
+				<!-- -------------------------------------------------------------------------- -->
+
+			</div>
+
+			<div class="modal-footer">
+
+				<button type="button" class="btn btn-default btn-flat" ng-click="cancel()">Cancel</button>
+				<button type="button" class="btn btn-success btn-flat" ng-click="save(form)">Done</button>
+
+			</div>
+
+		</form>
+
+	</div>
+
+</script>
+
+
 		</div>
       	<!-- //edit page -->
 </div>

@@ -902,3 +902,16 @@ border-top: 1px solid #eee;
 	margin-left: 0px;
 }
 }
+
+/* password-reset */
+
+.password-link{
+	margin-left:100px;
+	margin-top:30px;
+	font-size:13px;
+	cursor: pointer;
+	color: blue;
+}
+.password-link:hover{
+	text-decoration: underline;
+}

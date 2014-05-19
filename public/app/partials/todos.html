@@ -17,11 +17,6 @@
 		       <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right visible-xs">
 		        <div class="block block-color aside-right">
 		          <div class="header">
-		            <div class="actions">
-		              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-		              <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-		              <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-		            </div>
 		            <h3>Add New Todo</h3>
 		          </div>
 
@@ -29,22 +24,26 @@
 
 		               <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
 
-		                <input type="text" class="form-control" placeholder="Todo Name">
+		               	<label style="color:">Todo Name</label>
+		                <input type="text" class="form-control" placeholder="Ender todo title" ng-model="SentTodo.title">
 		                <br>
 
-		                <input class="form-control datetime" size="16" type="text" value="" placeholder="Todo's Due Date">
+		                <label>Assign To</label>
+		                <select ng-model="SentTodo.assigned_to" data-placeholder="Select Member" class="todo">
+	                        <option value=""></option>
+	                        <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
+	                    </select>
+	                    <br><br>
+
+	                    <label>Todo's Due Date</label>
+		                <input class="form-control datetime" size="16" type="text" placeholder="Select Due Date" ng-model="SentTodo.due_date">
 		                <br>
 
-		                <textarea class="form-control" placeholder="Todo Description"></textarea>
-
-		                <div class="form-group">
-		                  <div>
-		                    <input class="tags" type="hidden" value="" placeholder="Add Tags" />
-		                  </div>
-		                </div>
+		                <label>Todo's Description</label>
+		                <textarea class="form-control" placeholder="Enter Description" ng-model="SentTodo.description"></textarea>
 		                <br>
 
-		                <button type="button" class="btn btn-success">Add</button>
+		                <button type="button" class="btn btn-success" ng-click="SentTodos()">Add</button>
 		                <br>
 
 		              </form>
@@ -59,9 +58,7 @@
 		        <div class="block block-color success">
 		          <div class="header">
 		            <div class="actions">
-		              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a> -->
 		              <a class="refresh" href="#/todos/"><i class="fa fa-repeat"></i></a>
-		              <!-- <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
 		            </div>
 		            <h3>Todo's</h3>
 		          </div>
@@ -78,10 +75,11 @@
 		                <div class="tab-pane active" id="Assigned">
 		                  <div ng-repeat="todo in todos">
 		                    <div class="todo-block clearfix">
-		                      <h4>{{todo.title}} <span><i class="fa fa-check-circle icon-position"></i></span></h4>
+		                      <h4><span class="color_todo">{{todo.title}}</span>
+		                      <span><i class="fa fa-check-circle icon-position"></i></span></h4>
 		                      <p>{{todo.description}}</p>
 		                      <p class="date-todo">Assigned By : {{todo.assigned_by.name}}</p>
-		                      <p class="date-todo">Date :{{todo.due_date}}</p>
+		                      <p class="date-todo">Due Date :{{todo.due_date}}</p>
 		                    </div>
 		                  <hr>
 		                 </div>
@@ -89,14 +87,14 @@
 		                <div class="tab-pane cont" id="Assigned_to">
 		                  <div  ng-repeat="todo in assignedToTodos">
 		                    <div class="todo-block clearfix">
-		                      <h4>{{todo.title}}
+		                      <h4><span class="color_todo">{{todo.title}}</span>
 		                      <span ng-class="{'icon-position-c': todo.is_complete, 'icon-position' : !todo.is_complete}">
 		                        <i class="fa fa-check-circle">
 		                        </i>
 		                      </span></h4>
 		                      <p>{{todo.description}}</p>
 		                      <p class="date-todo">Assigned To : {{todo.assigned_to.name}}</p>
-		                      <p class="date-todo">Date :{{todo.due_date}}</p>
+		                      <p class="date-todo">Due Date :{{todo.due_date}}</p>
 		                    </div>
 		                    <hr>
 		                  </div>
@@ -104,10 +102,11 @@
 		                <div class="tab-pane cont" id="Completed">
 		                  <div ng-repeat="todo in completedTodos">
 		                    <div class="todo-block clearfix">
-		                      <h4>{{todo.title}} <span><i class="fa fa-check-circle icon-position-c"></i></span></h4>
+		                      <h4><span class="color_todo">{{todo.title}}</span>
+		                      <span><i class="fa fa-check-circle icon-position-c"></i></span></h4>
 		                      <p>{{todo.description}}</p>
 		                      <p class="date-todo">Assigned By : {{todo.assigned_by.name}}</p>
-		                      <p class="date-todo">Date :{{todo.due_date}}</p>
+		                      <p class="date-todo">Due Date :{{todo.due_date}}</p>
 		                    </div>
 		                    <hr>
 		                  </div>
@@ -123,33 +122,32 @@
 		      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right hidden-xs">
 		        <div class="block block-color aside-right">
 		          <div class="header">
-		            <div class="actions">
-		              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-		              <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-		              <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-		            </div>
 		            <h3>Add New Todo</h3>
 		          </div>
 		            <div class="content">
 
 		               <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
 
-		                <input type="text" class="form-control" placeholder="Todo Name">
+		               	<label style="color:">Todo Name</label>
+		                <input type="text" class="form-control" placeholder="Ender todo title" ng-model="SentTodo.title">
 		                <br>
 
-		                <input class="form-control datetime" size="16" type="text" value="" placeholder="Todo's Due Date">
+		                <label>Assign To</label>
+		                <select ng-model="SentTodo.assigned_to" data-placeholder="Select Member" class="todo">
+	                        <option value=""></option>
+	                        <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
+	                    </select>
+	                    <br><br>
+
+	                    <label>Todo's Due Date</label>
+		                <input class="form-control datetime" size="16" type="text" placeholder="Select Due Date" ng-model="SentTodo.due_date">
 		                <br>
 
-		                <textarea class="form-control" placeholder="Todo Description"></textarea>
-
-		                <div class="form-group">
-		                  <div>
-		                    <input class="tags" type="hidden" value="" placeholder="Add Tags" />
-		                  </div>
-		                </div>
+		                <label>Todo's Description</label>
+		                <textarea class="form-control" placeholder="Enter Description" ng-model="SentTodo.description"></textarea>
 		                <br>
 
-		                <button type="button" class="btn btn-success">Add</button>
+		                <button type="button" class="btn btn-success" ng-click="SentTodos()">Add</button>
 		                <br>
 
 		              </form>
@@ -157,7 +155,6 @@
 		            </div>
 		        </div>
 		      </div>
-		      <!-- <div class="aside-right"></div> -->
 		    </div>
 		</div>
     	<!-- //todos page -->      
@@ -194,7 +191,27 @@
 	.select2-result-selectable .select2-match, .select2-result-unselectable .select2-match {
 		text-decoration: none !important;
 	}
+	.select2-dropdown-open.select2-drop-above .select2-choice, .select2-dropdown-open.select2-drop-above .select2-choices {
+	background: #fff;
+	border-color: rgba(0, 0, 0, 0) #19b698 #19b698;
+	}
+	.select2-container-active .select2-choice,
+	.select2-container-active .select2-choices {
+	  box-shadow: none;
+	  border-color: #19b698;
+	}
 	/* todos_board */
+	.datetimepicker table tr td.active, .datetimepicker table tr td.active:hover, .datetimepicker table tr td.active.disabled, .datetimepicker table tr td.active.disabled:hover {
+	background: #19b698 !important;
+	background-image: none !important;
+	}
+	.datetimepicker table tr td span.active, .datetimepicker table tr td span.active:hover, .datetimepicker table tr td span.active.disabled, .datetimepicker table tr td span.active.disabled:hover {
+	background: #19b698 !important;
+	background-image: none !important;
+	}
+	.color_todo{
+		color: #19b698;
+	}
 </style>
 
 <script type="text/javascript">
@@ -283,7 +300,7 @@
         $(".datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
 
       /*Tags*/
-        $(".tags").select2({tags: 0,width: '100%'});
+        $(".todo").select2({width: '100%'});
 
     });
 </script>

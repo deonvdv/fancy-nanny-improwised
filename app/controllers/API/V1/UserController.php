@@ -8,7 +8,7 @@ use Input;
 // use View;
 // use Recipe;
 // use Picture;
-
+use Hash;
 
 class UserController extends BaseController {
 
@@ -220,7 +220,11 @@ class UserController extends BaseController {
 				{
 					if(isset($input[$field]))
 					{
-						$user->$field = $input[$field];
+						if($field == 'password'){
+							$user->$field = Hash::make($input[$field]);
+						} else {
+							$user->$field = $input[$field];
+						}
 					}
 				}
 

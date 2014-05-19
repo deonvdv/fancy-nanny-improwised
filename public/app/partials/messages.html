@@ -11,36 +11,40 @@
     	<!-- todos page -->
     	<div class="cl-mcont">
         <div class="col-lg-1 visible-lg"></div>
-          <!--  -->
+          <!-- this block only visible in mobile screen -->
            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right visible-xs">
             <div class="block block-color aside-right">
               <div class="header">
-                <div class="actions">
-                  <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-                  <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-                  <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-                </div>
                 <h3>Add New Message</h3>
               </div>
                 <div class="content">
-                   <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
-                    <input type="text" class="form-control" placeholder="Name">
+
+                  <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
+
+                    <select ng-model="addMessages.receiver_id" multiple="true" data-placeholder="names" class="messags">
+                        <option value=""></option>
+                        <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
+                    </select>
+
+                    <br><br>
+
+                    <textarea class="form-control" placeholder="Message Description" ng-model="addMessages.message"></textarea>
                     <br>
-                    <textarea class="form-control" placeholder="Todo Description"></textarea>
+
+                    <button type="button" class="btn btn-info" ng-click="addNewMessage()">Add</button>
                     <br>
-                    <button type="button" class="btn btn-success">Add</button>
+
                   </form>
+
                 </div>
             </div>
           </div>
-          <!--  -->
+          <!-- // -->
           <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list">
             <div class="block block-color info">
               <div class="header">
                 <div class="actions">
-                  <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a> -->
                   <a class="refresh" href="#/messages/"><i class="fa fa-repeat"></i></a>
-                  <!-- <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
                 </div>
                 <h3>Messages</h3>
               </div>
@@ -90,39 +94,35 @@
                             </div>
                           </div>
                       <!--  -->
-                      <!--  -->
                         </div>
                       </div>
                     </div>
                     <!--  -->
                   </div>
-
               </div>
             </div>
           </div>
-          <!--  -->
+          <!-- this block only visible in large medium $ tablet screen -->
           <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right hidden-xs">
             <div class="block block-color aside-right">
               <div class="header">
-                <div class="actions">
-                  <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-                  <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-                  <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-                </div>
                 <h3>Add New Message</h3>
               </div>
                 <div class="content">
 
-                   <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
+                  <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
 
-                    <!-- <input type="text" class="form-control" placeholder="Name">
-                    <br> -->
-                    <input class="tags" type="hidden" value="" placeholder="Name" />
+                    <select ng-model="addMessages.receiver_id" multiple="true" data-placeholder="names" class="messags">
+                        <option value=""></option>
+                        <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
+                    </select>
+
+                    <br><br>
+
+                    <textarea class="form-control" placeholder="Message Description" ng-model="addMessages.message"></textarea>
                     <br>
-                    <br>
-                    <textarea class="form-control" placeholder="Message Description"></textarea>
-                    <br>
-                    <button type="button" class="btn btn-info">Add</button>
+
+                    <button type="button" class="btn btn-info" ng-click="addNewMessage()">Add</button>
                     <br>
 
                   </form>
@@ -130,7 +130,7 @@
                 </div>
             </div>
           </div>
-          <!-- <div class="aside-right"></div> -->
+          <!-- // -->
       </div>
     	<!-- //todos page -->
       
@@ -166,7 +166,6 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-      /*Tags*/
-      $(".tags").select2({tags: 0,width: '100%'});
+      $(".messags").select2({width: '100%'});
     });
 </script>

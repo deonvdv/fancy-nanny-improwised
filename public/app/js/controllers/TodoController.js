@@ -80,17 +80,26 @@ angular.module('myApp')
         }
 
         // this method fires when new todo is added from DOM.
-        $scope.SentTodos = function(){
+        $scope.SentTodos = function(form){
 
             $scope.SentTodo.minutes_before = 5;
             $scope.SentTodo.is_complete = 0;
-            console.log($scope.SentTodo);
             //this method save new todo into the database
-            Todos.save($scope.SentTodo)
-                .success(function(response){
-                    $scope.SentTodo = response.data;
-                    $route.reload();
-            });
+
+            $scope.submitted = true;
+
+            if(form.$valid && $scope.SentTodo.assigned_to != '') {
+
+                Todos.save($scope.SentTodo)
+                    .success(function(response){
+                        $scope.SentTodo = response.data;
+                        $route.reload();
+                });
+
+            }
+            else {
+                form.assignedname.$error.required = true;
+            }
 
         }
 

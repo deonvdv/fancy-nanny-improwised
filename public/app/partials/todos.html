@@ -22,28 +22,40 @@
 
 		            <div class="content">
 
-		               <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
+		               <form name="form" class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
 
 		               	<label style="color:">Todo Name</label>
-		                <input type="text" class="form-control" placeholder="Ender todo title" ng-model="SentTodo.title">
+		                <input name="name" type="text" class="form-control" placeholder="Ender todo title" ng-model="SentTodo.title" required>
+		                <div class="error">
+	                      <span ng-show="form.name.$error.required && submitted">name required</span>
+	                    </div>
 		                <br>
 
 		                <label>Assign To</label>
-		                <select ng-model="SentTodo.assigned_to" data-placeholder="Select Member" class="todo">
+		                <select name="assignedname" ng-model="SentTodo.assigned_to" data-placeholder="Select Member" class="todo" required>
 	                        <option value=""></option>
 	                        <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
 	                    </select>
+	                    <div class="error">
+	                      <span ng-show="form.assignedname.$error.required">name member</span>
+	                    </div>
 	                    <br><br>
 
 	                    <label>Todo's Due Date</label>
-		                <input class="form-control datetime" size="16" type="text" placeholder="Select Due Date" ng-model="SentTodo.due_date">
+		                <input name="date" class="form-control datetime" size="16" type="text" placeholder="Select Due Date" ng-model="SentTodo.due_date" required>
+		                <div class="error">
+	                      <span ng-show="form.date.$error.required && submitted">select date</span>
+	                    </div>
 		                <br>
 
 		                <label>Todo's Description</label>
-		                <textarea class="form-control" placeholder="Enter Description" ng-model="SentTodo.description"></textarea>
+		                <textarea name="description" class="form-control" placeholder="Enter Description" ng-model="SentTodo.description" required></textarea>
+		                <div class="error">
+	                      <span ng-show="form.description.$error.required && submitted">Enter Description</span>
+	                    </div>
 		                <br>
 
-		                <button type="button" class="btn btn-success" ng-click="SentTodos()">Add</button>
+		                <button type="button" class="btn btn-success" ng-click="SentTodos(form)">Add</button>
 		                <br>
 
 		              </form>
@@ -126,28 +138,40 @@
 		          </div>
 		            <div class="content">
 
-		               <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
+		               <form name="form" class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
 
 		               	<label style="color:">Todo Name</label>
-		                <input type="text" class="form-control" placeholder="Ender todo title" ng-model="SentTodo.title">
+		                <input name="name" type="text" class="form-control" placeholder="Ender todo title" ng-model="SentTodo.title" required>
+		                <div class="error">
+	                      <span ng-show="form.name.$error.required && submitted">name required</span>
+	                    </div>
 		                <br>
 
 		                <label>Assign To</label>
-		                <select ng-model="SentTodo.assigned_to" data-placeholder="Select Member" class="todo">
+		                <select name="assignedname" ng-model="SentTodo.assigned_to" data-placeholder="Select Member" class="todo" required>
 	                        <option value=""></option>
 	                        <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
 	                    </select>
+	                    <div class="error">
+	                      <span ng-show="form.assignedname.$error.required">name member</span>
+	                    </div>
 	                    <br><br>
 
 	                    <label>Todo's Due Date</label>
-		                <input class="form-control datetime" size="16" type="text" placeholder="Select Due Date" ng-model="SentTodo.due_date">
+		                <input name="date" class="form-control datetime" size="16" type="text" placeholder="Select Due Date" ng-model="SentTodo.due_date" required>
+		                <div class="error">
+	                      <span ng-show="form.date.$error.required && submitted">select date</span>
+	                    </div>
 		                <br>
 
 		                <label>Todo's Description</label>
-		                <textarea class="form-control" placeholder="Enter Description" ng-model="SentTodo.description"></textarea>
+		                <textarea name="description" class="form-control" placeholder="Enter Description" ng-model="SentTodo.description" required></textarea>
+		                <div class="error">
+	                      <span ng-show="form.description.$error.required && submitted">Enter Description</span>
+	                    </div>
 		                <br>
 
-		                <button type="button" class="btn btn-success" ng-click="SentTodos()">Add</button>
+		                <button type="button" class="btn btn-success" ng-click="SentTodos(form)">Add</button>
 		                <br>
 
 		              </form>

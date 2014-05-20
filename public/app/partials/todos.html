@@ -73,7 +73,7 @@
 		              </ul>
 		              <div class="tab-content">
 		                <div class="tab-pane active" id="Assigned">
-		                  <div ng-repeat="todo in todos">
+		                  <div ng-repeat="todo in todos | orderBy:'due_date':true">
 		                    <div class="todo-block clearfix">
 		                      <h4><span class="color_todo">{{todo.title}}</span>
 		                      <span><i class="fa fa-check-circle icon-position"></i></span></h4>
@@ -85,7 +85,7 @@
 		                 </div>
 		                </div>
 		                <div class="tab-pane cont" id="Assigned_to">
-		                  <div  ng-repeat="todo in assignedToTodos">
+		                  <div  ng-repeat="todo in assignedToTodos | orderBy:'due_date':true">
 		                    <div class="todo-block clearfix">
 		                      <h4><span class="color_todo">{{todo.title}}</span>
 		                      <span ng-class="{'icon-position-c': todo.is_complete, 'icon-position' : !todo.is_complete}">
@@ -100,7 +100,7 @@
 		                  </div>
 		                </div>
 		                <div class="tab-pane cont" id="Completed">
-		                  <div ng-repeat="todo in completedTodos">
+		                  <div ng-repeat="todo in completedTodos | orderBy:'due_date':true">
 		                    <div class="todo-block clearfix">
 		                      <h4><span class="color_todo">{{todo.title}}</span>
 		                      <span><i class="fa fa-check-circle icon-position-c"></i></span></h4>

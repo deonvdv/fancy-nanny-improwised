@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
-	<meta charset="utf-8">
+	  <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -16,9 +16,9 @@
 
   	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   	<!--[if lt IE 9]>
-    <script src="../../assets/js/html5shiv.js"></script>
-    <script src="../../assets/js/respond.min.js"></script>
-  <![endif]-->
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
 
     <link href="app/css/bootstrap.css" rel="stylesheet">
     <link href="app/css/app.css" rel="stylesheet" />
@@ -43,9 +43,10 @@
 <div id="cl-wrapper" ng-view></div>
 
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+
   <script type="text/javascript" src="app/lib/jquery.js"></script>
   <script type="text/javascript" src="app/lib/jPushMenu.js"></script>
   <script type="text/javascript" src="app/lib/jquery.nanoscroller.js"></script>
@@ -69,14 +70,51 @@
   <script type="text/javascript" src="app/lib/ui-bootstrap-tpls.js"></script>
 
   <script type="text/javascript" src="app/js/app.js"></script>
-  <script type="text/javascript" src="app/js/controllers.js"></script>
+
+  <!-- controllers -->
+  <script type="text/javascript" src="app/js/controllers/LoginController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/HomeController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/TodoController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/MessageController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/RecipesController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/TagsController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/DocumentsController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/ShoppingController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/UserController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/EditUserController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/CalenderController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/EventsController.js"></script>
+  <!-- //controllers -->
+
   <script type="text/javascript" src="app/js/directives.js"></script>
   <script type="text/javascript" src="app/js/filters.js"></script>
-  <script type="text/javascript" src="app/js/services.js"></script>
 
-<script>
-    angular.module("myApp").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
-</script>
-<script type="text/javascript" src="app/lib/bootstrap-colorpicker-module.js"></script>
+  <!-- services -->
+  <script type="text/javascript" src="app/js/services/Authenticate.js"></script>
+  <script type="text/javascript" src="app/js/services/Categories.js"></script>
+  <script type="text/javascript" src="app/js/services/Documents.js"></script>
+  <script type="text/javascript" src="app/js/services/Events.js"></script>
+  <script type="text/javascript" src="app/js/services/Flash.js"></script>
+  <script type="text/javascript" src="app/js/services/Households.js"></script>
+  <script type="text/javascript" src="app/js/services/Ingredients.js"></script>
+  <script type="text/javascript" src="app/js/services/Meals.js"></script>
+  <script type="text/javascript" src="app/js/services/Messages.js"></script>
+  <script type="text/javascript" src="app/js/services/Notifications.js"></script>
+  <script type="text/javascript" src="app/js/services/Pictures.js"></script>
+  <script type="text/javascript" src="app/js/services/RecipeIngredients.js"></script>
+  <script type="text/javascript" src="app/js/services/RecipeReviews.js"></script>
+  <script type="text/javascript" src="app/js/services/Recipes.js"></script>
+  <script type="text/javascript" src="app/js/services/Tags.js"></script>
+  <script type="text/javascript" src="app/js/services/Todos.js"></script>
+  <script type="text/javascript" src="app/js/services/UnitOfMeasures.js"></script>
+  <script type="text/javascript" src="app/js/services/Users.js"></script>
+  <!-- //services -->
+
+  <script>
+      angular.module("myApp").constant("CSRF_TOKEN", '<?php echo csrf_token(); ?>');
+  </script>
+
+  <script type="text/javascript" src="app/lib/bootstrap-colorpicker-module.js"></script>
+
 </body>
 </html>

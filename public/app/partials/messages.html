@@ -63,7 +63,7 @@
                               <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
                             </a>
                             <div class="media-body">
-                              <h5 class="media-heading">{{message.sender.name}}</h5>
+                              <h5 class="media-heading color-msg-name">{{message.sender.name}}</h5>
                               <div>
                                   <span ng-class="{'fa-envelope-read': message.is_read, 'fa-envelope-unread' : !message.is_read}">
                                     <i class="fa fa-envelope"></i>
@@ -84,7 +84,7 @@
                               <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
                             </a>
                             <div class="media-body">
-                              <h5 class="media-heading">{{message.receiver.name}}</h5>
+                              <h5 class="media-heading color-msg-name">{{message.receiver.name}}</h5>
                               <div>
                                   <i class="fa fa-reply"></i>&nbsp;{{message.message}}
                               </div>
@@ -112,7 +112,7 @@
 
                   <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
 
-                    <select ng-model="addMessages.receiver_id" multiple="true" data-placeholder="names" class="messags">
+                    <select ng-model="addMessages.receiver_id" data-placeholder="names" class="messags">
                         <option value=""></option>
                         <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
                     </select>
@@ -140,6 +140,9 @@
 </div>
 
 <style type="text/css">
+    .color-msg-name{
+      color: #4aa3df;
+    }
     /* Message_board */
     .aside-right .select2-container-multi .select2-choices .select2-search-choice {
       background-color: #4aa3df !important;
@@ -160,6 +163,10 @@
     }
     .select2-result-selectable .select2-match, .select2-result-unselectable .select2-match {
       text-decoration: none !important;
+    }
+    .select2-container-active .select2-choice, .select2-container-active .select2-choices {
+      box-shadow: none;
+      border-color: #4aa3df;
     }
     /* Message_board */
 </style>

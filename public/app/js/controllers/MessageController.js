@@ -55,15 +55,25 @@ angular.module('myApp')
             });
         }
 
-        $scope.addNewMessage = function(){
+        $scope.addNewMessage = function(form){
 
-            console.log($scope.addMessages);
-            
-            Messages.save($scope.addMessages)
-                .success(function(response){
-                    $scope.addMessages = response.data;
-                    $route.reload();
-            });
+            $scope.submitted = true;
+
+            if(form.$valid && $scope.addMessages.receiver_id != '') {
+
+                Messages.save($scope.addMessages)
+                    .success(function(response){
+                        $scope.addMessages = response.data;
+                        $route.reload();
+                });
+
+            }
+
+            else {
+
+                form.receivername.$error.required = true;
+
+            }
 
         }
 

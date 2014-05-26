@@ -74,7 +74,7 @@ angular.module('myApp')
 
                 $scope.cancel = function () {
                     $modalInstance.dismiss('cancel');
-                    $location.path('/user_profile');
+                    $location.path('/edit_profile');
                 };
 
         };

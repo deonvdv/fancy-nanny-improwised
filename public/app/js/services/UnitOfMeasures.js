@@ -3,7 +3,7 @@ angular.module('myApp')
     .factory('UnitOfMeasures', function($http) {
         return {
             get : function() {
-                return $http.get('/api/v1/unit_of_measure');
+                return $http.get('/api/v1/units_of_measure');
             },
             show : function(id) {
                 return $http.get('/api/v1/unit_of_measure/' + id);

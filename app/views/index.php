@@ -71,6 +71,8 @@
 
   <script type="text/javascript" src="app/js/app.js"></script>
 
+  <script type="text/javascript" src="app/js/routes.js"></script>
+
   <!-- controllers -->
   <script type="text/javascript" src="app/js/controllers/LoginController.js"></script>
   <script type="text/javascript" src="app/js/controllers/HomeController.js"></script>

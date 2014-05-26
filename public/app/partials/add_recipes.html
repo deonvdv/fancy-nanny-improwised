@@ -21,296 +21,158 @@
 	  <div class="clearfix">
 	    <br>
 	  <!--  -->
-	  <div class="col-sm-1"></div>
+	  <div class="col-md-1"></div>
 	  <!--  -->
-	  <d    iv class="col-sm-10">
+	  <div class="col-md-10 col-sm-12">
+	  	<div ng-show="sucess">
+	      	<div class="alert alert-success alert-msg">
+				<button type="button" class="close" ng-click="done()">×</button>
+				<i class="fa fa-check sign"></i>your recipe is successfully added.
+			</div>
+	    </div>
 	    <!--  -->
 	    <div class="block-flat">
 	      <div class="header">
-	        <div class="actions">
-	          <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-	          <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-	          <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-	        </div>
 	        <h3><i class="fa fa-coffee fa-color-black"></i>&nbsp;Add Recipes</h3>
 	      </div>
 	      <div class="content">
 	        <!--  -->
-	        <form role="form">
+	        <form role="form" name="form" novalidate>
+	          <!-- ============================================================================ -->
 	          <div class="form-group">
-	            <label>Recipe Name</label> <input type="text" placeholder="eg. Original Chicken Permesan" class="form-control">
+	            <label>Recipe Name</label>
+	            <input type="text" placeholder="eg. Original Chicken Permesan" class="form-control" name="name" ng-model="addNewRecipe.name" required>
+	            <div class="error">
+	                <span ng-show="form.name.$error.required && submitted">name required</span>
+	            </div>
 	          </div>
+	          <!-- ============================================================================ -->
 	          <div class="form-group">
 	            <label>Description</label><br>
-	            <textarea class="form-control" rows=4 style="resize: vertical;" placeholder="Add a brief description of this recipe"></textarea>
+	            <textarea class="form-control" rows=4 style="resize: vertical;" placeholder="Add a brief description of this recipe" name="description" ng-model="addNewRecipe.description" required></textarea>
+	            <div class="error">
+	            	<span ng-show="form.description.$error.required && submitted">description required</span>
+	          	</div>
 	          </div>
+	          <!-- ============================================================================ -->
 	          <div class="form-group">
 	            <label>Category</label>
-	              <select class="select2">
-	                <option value="Desserts">Desserts</option>
-	                <option value="Pasta_Pizza">Pizza & Pasta</option>
-	                <option value="Slow Cooker">Slow Cooker</option>
-	                <option value="Ethnic">Ethnic</option>
-	                <option value="Grilling">Grilling</option>
-	                <option value="Healthy Eating">Healthy Eating</option>
-	                <option value="Kids Meals">Kids Meals</option>
-	              </select>
+	            <select name="category" ng-model="addNewRecipe.category_id" data-placeholder="Category" class="addrecipes" required>
+                    <option value=""></option>
+                    <option ng-repeat="category in Categories" value="{{category.id}}">{{category.name}}</option>
+                </select>
+                <div class="error">
+	            	<span ng-show="form.category.$error.required && submitted">select Category</span>
+	          	</div>
 	          </div>
-
-
-
+	          <!-- ============================================================================ -->
+	          <div class="row">
+	          	<div class="col-sm-4">
+	          		<label>number_of_portions</label>
+	          		<input type="number" min="0" step="0.1" class="form-control" name="portions" ng-model="addNewRecipe.number_of_portions" placeholder="eg. 8" required>
+	          		<div class="error">
+	            		<span ng-show="form.portions.$error.required && submitted">enter number of portions</span>
+	          		</div>
+	          	</div>
+	          	<div class="col-sm-4">
+	          		<label>preparation_time</label>
+	          		<input class="form-control" name="p_time" ng-model="addNewRecipe.preparation_time" ng-pattern="/([0-1]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)/"  placeholder="eg. hh:mm:ss" required>
+	          		<div class="error">
+	            		<span ng-show="form.p_time.$error.required && submitted">enter preparation time</span>
+	            		<span ng-show="form.p_time.$error.pattern && submitted">enter valid time</span>
+	          		</div>
+	          	</div>
+	          	<div class="col-sm-4">
+	          		<label>cooking_time</label>
+	          		<input class="form-control" name="c_time" ng-model="addNewRecipe.cooking_time" required ng-pattern="/([0-1]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)/" placeholder="eg. hh:mm:ss">
+	          		<div class="error">
+	            		<span ng-show="form.c_time.$error.required && submitted">enter cooking time</span>
+	            		<span ng-show="form.c_time.$error.pattern.required">enter valid time</span>
+	          		</div>
+	          	</div>
+	          </div>
+	          <!-- ============================================================================ -->
+	          <br>
+        	  <div class="row">
+	            <div class="col-sm-4">
+	                  <label>Quantity</label>
+	            </div>
+	            <div class="col-sm-4">
+	                <label>Unit Of Measure</label>
+	            </div>
+	            <div class="col-sm-4">
+	                <label>Ingredients</label>
+	            </div>
+        	  </div>
+        	  <!-- ============================================================================ -->
 	          <div class="row">
 
-	            <!--  -->
-	            <div class="col-sm-2">
-	              <div class="form-group">
-	                  <label>Quantity</label>
-	              </div>
+	          	<!-- add ingredients  -->
+	        	<div class="clearfix"  ng-repeat="ingredient in addNewRecipe.newIngredients">
+
+	        		<ng-form name="IngForm">
+	        		<!-- ========================================== -->
+	                <div class="col-sm-4 form-Quantity">
+	                  <input type="number" min="0" step="0.1" class="form-control" placeholder="Quantity (Number)" name="quantity" ng-model="ingredient.quantity" required>
+	                  <div class="error">
+	            		<span ng-show="IngForm.quantity.$error.required && submitted">enter only number
+	            		</span>
+	          		  </div>
+	                </div>
+
+	                <!-- ========================================== -->
+	                <div class="col-sm-4 form-Measure">
+	                  	<select name="unit" ng-model="ingredient.unit_of_measure_id" ng-options="unit.id as unit.name for unit in UnitOfMeasures" required>
+                        	<option value="">Select Unit</option>
+                        </select>
+                        <div class="error">
+	            			<span ng-show="IngForm.unit.$error.required && submitted">select unit</span>
+	          		    </div>
+                        <!-- <select class="addrecipes" ng-model='selectedKeywords' ng-options="unit.id as unit.name for unit in UnitOfMeasures" style='width:200px;' ui-select2=''>
+						    <option value=''>Use same keywords as:</option>
+						</select> -->
+	                  	<!-- <select ng-model="ingredient.unit_of_measure_id" data-placeholder="unit_of_measure" class="addrecipes" required>
+		                    <option value=""></option>
+		                    <option ng-repeat="UnitOfMeasure in ingredient.UnitOfMeasures" value="{{UnitOfMeasure.id}}">{{UnitOfMeasure.name}}&nbsp;( {{UnitOfMeasure.preferred_alias}} )</option>
+		            	</select> -->
+
+	                </div>
+	                <!-- ========================================== -->
+	                <div class="col-sm-4 form-ingredients">
+	                	<select name="ing" ng-model="ingredient.ingredient_id" ng-options="unit.id as unit.name for unit in Ingredients" required>
+                       		<option value="">Select ingredient</option>
+                        </select>
+                        <i class="fa fa-minus-square-o ing_icon pull-right" ng-click="removeIngredient(ingredient)"></i>
+                        <div class="error">
+	            			<span ng-show="IngForm.ing.$error.required && submitted">select ingredient</span>
+	          		    </div>
+	                	<!-- <select data-placeholder="Category" class="addrecipes" required>
+		                    <option value=""></option>
+		                    <option ng-repeat="ingres in ingredient.Ingredients" value="{{ingres.id}}">{{ingres.name}}</option>
+		            	</select> -->
+	                </div>
+	                <!-- ========================================== -->
+	            	</ng-form>
+	            	<br><br><br>
 	            </div>
-	            <!--  -->
-	            <div class="col-sm-2">
-	              <div class="form-group">
-	                <label>Unit Of Measure</label>
-	              </div>
-	            </div>
-	            <!--  -->
-	            <div class="col-sm-8">
-	              <div class="form-group">
-	                <label>Ingredients</label>
-	              </div>
-	            </div>
-	            <!--  -->
-
-
-
-
-	            <!--  -->
-
-	            <div class="clearfix">
-
-	                <!--  -->
-	                <div class="col-sm-2 form-Quantity">
-	                  <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
-	                </div>
-	                <!--  -->
-
-	                <!--  -->
-	                <div class="col-sm-2 form-Measure">
-	                  <!--  -->
-	                  <select class="select2">
-	                    <option value="tbsp" selected>tbsp</option>
-	                    <option value="tsp">tsp</option>
-	                    <option value="cup">cup</option>
-	                    <option value="cups">cups</option>
-	                    <option value="g">g</option>
-	                    <option value="oz">oz</option>
-	                    <option value="ml">ml</option>
-	                  </select>
-	                  <!--  -->
-	                </div>
-	                <!--  -->
-
-	                <!--  -->
-	                <div class="col-sm-8 form-ingredients">
-	                  <select class="select2">Flour, Egg, Water, Olive Oil
-	                       <option value="Flour">Flour</option>
-	                       <option value="Egg">Egg</option>
-	                       <option value="Water">Water</option>
-	                       <option value="Olive Oil">Olive Oil</option>
-	                  </select>
-	                </div>
-	                <!--  -->
-
-	            </div>
-	            <br>
-	            <!--  -->
-
-
-
-	            <!--  -->
-
-	            <div class="clearfix">
-
-	                <!--  -->
-	                <div class="col-sm-2 form-Quantity">
-	                  <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
-	                </div>
-	                <!--  -->
-
-	                <!--  -->
-	                <div class="col-sm-2 form-Measure">
-	                  <!--  -->
-	                  <select class="select2">
-	                    <option value="tbsp" selected>tbsp</option>
-	                    <option value="tsp">tsp</option>
-	                    <option value="cup">cup</option>
-	                    <option value="cups">cups</option>
-	                    <option value="g">g</option>
-	                    <option value="oz">oz</option>
-	                    <option value="ml">ml</option>
-	                  </select>
-	                  <!--  -->
-	                </div>
-	                <!--  -->
-
-	                <!--  -->
-	                <div class="col-sm-8 form-ingredients">
-	                  <select class="select2">Flour, Egg, Water, Olive Oil
-	                       <option value="Flour">Flour</option>
-	                       <option value="Egg">Egg</option>
-	                       <option value="Water">Water</option>
-	                       <option value="Olive Oil">Olive Oil</option>
-	                  </select>
-	                </div>
-	                <!--  -->
-
-	            </div>
-	            <br>
-	            <!--  -->
-
-
-
-	            <!--  -->
-
-	            <div class="clearfix">
-
-	                <!--  -->
-	                <div class="col-sm-2 form-Quantity">
-	                  <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
-	                </div>
-	                <!--  -->
-
-	                <!--  -->
-	                <div class="col-sm-2 form-Measure">
-	                  <!--  -->
-	                  <select class="select2">
-	                    <option value="tbsp" selected>tbsp</option>
-	                    <option value="tsp">tsp</option>
-	                    <option value="cup">cup</option>
-	                    <option value="cups">cups</option>
-	                    <option value="g">g</option>
-	                    <option value="oz">oz</option>
-	                    <option value="ml">ml</option>
-	                  </select>
-	                  <!--  -->
-	                </div>
-	                <!--  -->
-
-	                <!--  -->
-	                <div class="col-sm-8 form-ingredients">
-	                  <select class="select2">Flour, Egg, Water, Olive Oil
-	                       <option value="Flour">Flour</option>
-	                       <option value="Egg">Egg</option>
-	                       <option value="Water">Water</option>
-	                       <option value="Olive Oil">Olive Oil</option>
-	                  </select>
-	                </div>
-	                <!--  -->
-
-	            </div>
-	            <br>
-	            <!--  -->
-
-
-
-
-	            <!--  -->
-
-	            <div class="clearfix">
-
-	                <!--  -->
-	                <div class="col-sm-2 form-Quantity">
-	                  <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
-	                </div>
-	                <!--  -->
-
-	                <!--  -->
-	                <div class="col-sm-2 form-Measure">
-	                  <!--  -->
-	                  <select class="select2">
-	                    <option value="tbsp" selected>tbsp</option>
-	                    <option value="tsp">tsp</option>
-	                    <option value="cup">cup</option>
-	                    <option value="cups">cups</option>
-	                    <option value="g">g</option>
-	                    <option value="oz">oz</option>
-	                    <option value="ml">ml</option>
-	                  </select>
-	                  <!--  -->
-	                </div>
-	                <!--  -->
-
-	                <!--  -->
-	                <div class="col-sm-8 form-ingredients">
-	                  <select class="select2">Flour, Egg, Water, Olive Oil
-	                       <option value="Flour">Flour</option>
-	                       <option value="Egg">Egg</option>
-	                       <option value="Water">Water</option>
-	                       <option value="Olive Oil">Olive Oil</option>
-	                  </select>
-	                </div>
-	                <!--  -->
-
-	            </div>
-	            <br>
-	            <!--  -->
-
-
-	            <!--  -->
-
-	            <div class="clearfix">
-
-	                <!--  -->
-	                <div class="col-sm-2 form-Quantity">
-	                  <input parsley-type="number" type="text" class="form-control parsley-validated" required="" placeholder="Quantity (Number)">
-	                </div>
-	                <!--  -->
-
-	                <!--  -->
-	                <div class="col-sm-2 form-Measure">
-	                  <!--  -->
-	                  <select class="select2">
-	                    <option value="tbsp" selected>tbsp</option>
-	                    <option value="tsp">tsp</option>
-	                    <option value="cup">cup</option>
-	                    <option value="cups">cups</option>
-	                    <option value="g">g</option>
-	                    <option value="oz">oz</option>
-	                    <option value="ml">ml</option>
-	                  </select>
-	                  <!--  -->
-	                </div>
-	                <!--  -->
-
-	                <!--  -->
-	                <div class="col-sm-8 form-ingredients">
-	                  <select class="select2">Flour, Egg, Water, Olive Oil
-	                       <option value="Flour">Flour</option>
-	                       <option value="Egg">Egg</option>
-	                       <option value="Water">Water</option>
-	                       <option value="Olive Oil">Olive Oil</option>
-	                  </select>
-	                </div>
-	                <!--  -->
-
-	            </div>
-	            <br>
-	            <!--  -->
-
-
+	            <div>
+	            	<span class="add_ing" ng-click="addNewItem()"><i class="fa fa-plus"></i>&nbsp;Add Ingredients</span>
+	        	</div>
+	        	<!-- //add ingredients  -->
 	          </div>
-
-
-
+	          <!-- ============================================================================ -->
+	          <br>
 	          <div class="form-group">
 	            <label>Instructions</label>
-	            <textarea class="form-control" rows=4 style="resize: vertical;" placeholder="Add detailed instructions on how to prepare this recipe"></textarea>
+	            <textarea class="form-control" rows=4 style="resize: vertical;" placeholder="Add detailed instructions on how to prepare this recipe" name="instructions" ng-model="addNewRecipe.instructions" required></textarea>
+	            <div class="error">
+	            	<span ng-show="form.instructions.$error.required && submitted">enter instructions</span>
+	          	</div>
 	          </div>
-
-
-	            <button class="btn btn-prusia" type="submit">Add</button>
-	            <button class="btn btn-default">Cancel</button>
-
+	          <!-- ============================================================================ -->
+              <button class="btn btn-prusia" type="submit" ng-click="addRecipe(form)">Add</button>
+              <button class="btn btn-default">Cancel</button>
+ 			  <!-- ============================================================================ -->
 	        </form>
 	        <!--  -->
 	      </div>
@@ -328,6 +190,27 @@
 <!-- ============================================================== -->
 
 <style type="text/css">
+	.alert-msg{
+		font-size: 14px;
+		font-weight: 400;
+	}
+	.add_ing{
+		margin-left: 15px;
+		font-size: 16px;
+		text-decoration: underline;
+	}
+	.add_ing:hover{
+		cursor: pointer;
+		color:green;
+
+	}
+	.ing_icon{
+		font-size:18px;
+		cursor: pointer;
+	}
+	.ing_icon:hover{
+		color: red;
+	}
 	.select2-results .select2-result-label {
 		color: #555555;
 		font-weight: 600;
@@ -346,10 +229,11 @@
 	}
 </style>
 
+
 <script type="text/javascript">
-  $(document).ready(function() {
-     $(".select2").select2({
-        width: '100%'
-      });
-  });
+    $(document).ready(function(){
+    	var time = (new Date()).toTimeString().split(' ')[0];
+      $(".select2").select2({width: '100%'});
+      $(".addrecipes").select2({width: '100%'});
+    });
 </script>

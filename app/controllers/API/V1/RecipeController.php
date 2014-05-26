@@ -127,6 +127,20 @@ class RecipeController extends BaseController {
 			if ( $recipe->validate() ) {
 				$recipe->save();
 
+				//Save ingredients along with Recipe
+				if(isset($input["newIngredients"])) {
+					foreach($input["newIngredients"] as $ingredient ) {
+
+						$recipeIngredient = new \Models\RecipeIngredient;
+						foreach ($recipeIngredient->fields() as $field) {
+							if(isset($ingredient[$field])) {
+								$recipeIngredient->$field = $ingredient[$field];
+							}
+						}
+						$recipe->addRecipeIngredient($recipeIngredient);
+					}
+				}
+
 				$response = parent::buildJsonResponse(
 					array(
 						'success'	=> true,

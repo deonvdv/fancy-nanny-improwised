@@ -122,34 +122,24 @@
 
 	                <!-- ========================================== -->
 	                <div class="col-sm-4 form-Measure">
-	                  	<select name="unit" ng-model="ingredient.unit_of_measure_id" ng-options="unit.id as unit.name for unit in UnitOfMeasures" required>
-                        	<option value="">Select Unit</option>
-                        </select>
-                        <div class="error">
+	          		    <select ui-select2 ng-model="ingredient.unit_of_measure_id" data-placeholder="Select Unit" style="width:100%" name="unit" ng-required="true">
+						    <option value=""></option>
+						    <option ng-repeat="UnitOfMeasure in UnitOfMeasures" value="{{UnitOfMeasure.id}}">{{UnitOfMeasure.name}}&nbsp;( {{UnitOfMeasure.preferred_alias}} )</option>
+						</select>
+						<div class="error">
 	            			<span ng-show="IngForm.unit.$error.required && submitted">select unit</span>
 	          		    </div>
-                        <!-- <select class="addrecipes" ng-model='selectedKeywords' ng-options="unit.id as unit.name for unit in UnitOfMeasures" style='width:200px;' ui-select2=''>
-						    <option value=''>Use same keywords as:</option>
-						</select> -->
-	                  	<!-- <select ng-model="ingredient.unit_of_measure_id" data-placeholder="unit_of_measure" class="addrecipes" required>
-		                    <option value=""></option>
-		                    <option ng-repeat="UnitOfMeasure in ingredient.UnitOfMeasures" value="{{UnitOfMeasure.id}}">{{UnitOfMeasure.name}}&nbsp;( {{UnitOfMeasure.preferred_alias}} )</option>
-		            	</select> -->
-
 	                </div>
 	                <!-- ========================================== -->
 	                <div class="col-sm-4 form-ingredients">
-	                	<select name="ing" ng-model="ingredient.ingredient_id" ng-options="unit.id as unit.name for unit in Ingredients" required>
-                       		<option value="">Select ingredient</option>
-                        </select>
-                        <i class="fa fa-minus-square-o ing_icon pull-right" ng-click="removeIngredient(ingredient)"></i>
-                        <div class="error">
+	          		    <select ui-select2 ng-model="ingredient.ingredient_id" data-placeholder="Select ingredient" style="width:90%" name="ing" ng-required="true">
+						    <option value=""></option>
+						    <option ng-repeat="ingres in Ingredients" value="{{ingres.id}}">{{ingres.name}}</option>
+						</select>
+						<i class="fa fa-minus-square-o ing_icon pull-right" ng-click="removeIngredient(ingredient)"></i>
+						<div class="error">
 	            			<span ng-show="IngForm.ing.$error.required && submitted">select ingredient</span>
 	          		    </div>
-	                	<!-- <select data-placeholder="Category" class="addrecipes" required>
-		                    <option value=""></option>
-		                    <option ng-repeat="ingres in ingredient.Ingredients" value="{{ingres.id}}">{{ingres.name}}</option>
-		            	</select> -->
 	                </div>
 	                <!-- ========================================== -->
 	            	</ng-form>
@@ -207,6 +197,7 @@
 	.ing_icon{
 		font-size:18px;
 		cursor: pointer;
+		margin-top: 9px;
 	}
 	.ing_icon:hover{
 		color: red;

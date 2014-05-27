@@ -76,6 +76,30 @@ angular.module('myApp')
 
         $scope.addNewRecipe.newIngredients = [];
 
+        $scope.init = function() {
+
+            for(i=0;i<5;i++){
+
+                ingredient = {};
+
+                ingredient.recipe_id = '';
+
+                ingredient.Ing_id = $scope.addNewRecipe.newIngredients.length + 1;
+
+                ingredient.quantity = '';
+
+                ingredient.unit_of_measure_id = '';
+
+                ingredient.ingredient_id = '';
+
+                $scope.addNewRecipe.newIngredients.push(ingredient);
+
+            }
+
+        };
+        // runs once per controller instantiation
+        $scope.init();
+
         // add new ingredient to recipe
         $scope.addNewItem = function(){
 
@@ -180,6 +204,7 @@ angular.module('myApp')
                         $scope.sucess = true;
                         $scope.submitted = false;
                         loadNewRecipe();
+                        $scope.init();
                 });
 
             }

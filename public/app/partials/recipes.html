@@ -127,20 +127,21 @@
 	              <h2>All Recipes</h2>
 	            </div>
 	              <div class="content">
-	                <div class="clearfix" ng-repeat="recipe in recipes">
+	                <div class="clearfix" ng-repeat="recipe in recipes" ng-init="initFav(recipe)">
 	                      <a href=""><div class="img-pos"></div></a>
 	                      <div class="recipes-block">
-	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
-	                          <i class="fa fa-star"></i>
+	                        <span class="favoriterecipe" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+	                          <i class="fa fa-star" ng-click="makeFavorite(recipe)"></i>
 	                        </span>
 	                        &nbsp;<a href="/#/recipe_detail/{{recipe.id}}"><h4>{{recipe.name}}</h4></a>
 	                        <p>{{recipe.description}}</p>
 	                        <p class="date-todo">Date:{{recipe.created_at}}</p>
 	                      </div>
+	                      <br><br>
 	                </div>
 	                <hr>
 	              </div>
-	          </div>
+	        </div>
 	      </div>
 
 	    </div>

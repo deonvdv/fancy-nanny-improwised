@@ -381,17 +381,12 @@ border-top: 1px solid #eee;
 .recipes-block h4:hover{
 	text-decoration: underline;
 }
-.favorite-recipe i{
+.favoriterecipe i{
 	color: #dddddd;
 	font-size: 17px;
 	cursor: pointer;
-	/*box-shadow: 0px 0px 1px black;*/
 }
-.favorite-recipe i:hover{
-	color: #cacaca;
-	/*box-shadow: 0px 0px 1px black;*/
-}
-.favorite-recipe-done i{
+.favoriterecipedone i{
 	color: #7761a7;
 	font-size: 17px;
 	cursor: pointer;

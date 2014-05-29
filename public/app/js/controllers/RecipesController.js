@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // recipes controller ------------------------------------------------------------------------------
-    .controller('recipesController',function($scope, $controller, $http, Households, Ingredients, Categories, UnitOfMeasures, Recipes, RecipeIngredients, $route, Users){
+    .controller('recipesController',function($scope, $controller, $http, $routeParams, Households, Ingredients, Categories, UnitOfMeasures, Recipes, RecipeIngredients, $route, Users){
 
         $controller('homeController', {$scope: $scope});
 
@@ -33,7 +33,7 @@ angular.module('myApp')
 
         function loadrecipes(){
             //Fetch all Recipes for LoggedIn user's household.
-            Households.getRecipes(sessionStorage.householdId)
+            Recipes.get()
                 .success(function(data) {
                     $scope.recipes = data.data;
             });
@@ -250,5 +250,19 @@ angular.module('myApp')
         };
 
         // ==============================================================================
+
+        $scope.recipeidp = $routeParams;
+
+        $scope.recipeDetail = {};
+
+        $scope.recipeDetail = function() {
+
+            // load recpie using route params(recipe id)
+            Recipes.show($scope.recipeidp.recipeId)
+                .success(function(response){
+                    $scope.recipeDetail = response.data;
+            });
+
+        };
 
     });

@@ -187,7 +187,7 @@ class RecipeController extends BaseController {
 	{
 		try 
 		{
-			$recipe = \Models\Recipe::find($id);
+			$recipe = \Models\Recipe::with(array('recipe_ingredients','recipe_ingredients.ingredient','recipe_ingredients.unit_of_measure','category','author'))->find($id);
 			if(count($recipe) > 0)
 			{
 				return parent::buildJsonResponse(

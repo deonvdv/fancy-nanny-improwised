@@ -127,7 +127,7 @@
 	              <h2>All Recipes</h2>
 	            </div>
 	              <div class="content">
-	                <div class="clearfix" ng-repeat="recipe in recipes" ng-init="initFav(recipe)">
+	                <div class="clearfix" ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients" ng-init="initFav(recipe)">
 	                      <a href=""><div class="img-pos"></div></a>
 	                      <div class="recipes-block">
 	                        <span class="favoriterecipe" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
@@ -161,11 +161,25 @@
 	              <div class="clearfix">
 	                <div class="row">
 	                  <div class="col-lg-12 col-md-12">
-	                    <input type="search" class="form-control" placeholder="By Name"><br>
-	                    <input type="search" class="form-control" placeholder="By Category"><br>
+
+	                    <input type="search" class="form-control" placeholder="By Name" ng-model="fname"><br>
+
+	                    <select name="category" ng-model="category" data-placeholder="Category" class="addrecipes">
+		                    <option value="">select category&nbsp;/&nbsp;clear filter</option>
+		                    <option ng-repeat="category in Categories" value="{{category.id}}">{{category.name}}</option>
+		                </select>
+
+	                    <br><br>
+
 	                    <input type="search" class="form-control" placeholder="By Tags"><br>
-	                    <input type="search" class="form-control" placeholder="By Ingredients"><br>
-	                    <button type="button" class="btn btn-primary">Search</button>
+
+	                    <select ui-select2 ng-model="fIngredients" data-placeholder="Select ingredient" style="width:100%">
+						    <option value="">select ingredients&nbsp;/&nbsp;clear filter</option>
+						    <option ng-repeat="ingres in Ingredients" value="{{ingres.id}}">{{ingres.name}}</option>
+						</select>
+
+						<br><br>
+
 	                  </div>
 	                </div>
 	              </div>
@@ -196,3 +210,9 @@
     <!-- //recipes page -->      
 </div>
 <!-- //recipes -->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $(".addrecipes").select2({width: '100%'});
+    });
+</script>

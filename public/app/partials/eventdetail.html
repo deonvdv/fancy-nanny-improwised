@@ -1,0 +1,52 @@
+<!-- sidebar -->
+<div class="fn-sidebar"></div>
+<!-- //sidebar -->
+
+<!-- right-side section (top navbar + full recipes) -->
+<div class="container-fluid" id="pcont">
+    <!-- top navbar -->
+      <div class="fntop-navbar"></div>
+    <!-- //top navbar -->
+
+    <!-- full recipes page -->
+    <div class="cl-mcont" ng-init="eventDetail()">
+    <!--  -->
+	    <div class="col-xs-1"></div>
+	    <div class="col-xs-11">
+	        <ol class="breadcrumb">
+	          <li><a href="/#/events">events</a></li>
+	          <li class="active">event detail</li>
+	        </ol>
+	    </div>
+	    <!--  -->
+	    <div class="col-xs-1"></div>
+	    <div class="col-sm-8">
+	        <div class="block-flat">
+	            <div class="content">
+	            	<div>
+	            		<h1 style="color: #f16e3f;background-color: #efefef;border-radius: 5px;padding: 5px;">{{eventDetail.title}}</h1>
+	                </div>
+	                <br><br>
+	                <span><label style="color: #f16e3f;">Date:</label></span>&nbsp;<span>{{eventDetail.event_date}}</span>
+	                <br><br>
+	                <span><label style="color: #f16e3f;">By:</label></span>&nbsp;<span><a href="">{{eventDetail.owner_id}}</a></span>
+	                <br><br>
+	                <span><label style="color: #f16e3f;">type:</label></span>&nbsp;<span>{{eventDetail.type}}</span>
+	                <br><br>
+	                <span><label style="color: #f16e3f;">Description:</label></span>&nbsp;<span>{{eventDetail.description}}</span>
+	                <br><br>
+	                <span><label style="color: #f16e3f;">Start Time&nbsp;(hh:mm:ss)&nbsp;:</label></span>&nbsp;<span>{{eventDetail.start_time}}</span>
+	                <br><br>
+	                <span><label style="color: #f16e3f;">End Time&nbsp;(hh:mm:ss)&nbsp;:</label></span>&nbsp;<span>{{eventDetail.end_time}}</span><br><br>
+	                <span><label style="color: #f16e3f;">Location:</label></span>&nbsp;<span>{{eventDetail.location}}</span>
+	                <br><br>
+	                <span><label style="color: #f16e3f;">Tags:</label></span>&nbsp;<span><a href="">john</a></span>,<span><a href="">rechal</a></span>,<span><a href="">joy</a></span>
+	                <br>
+	                <br>
+	            </div>
+	       </div>
+	    </div>
+	</div>
+    <!-- //full recipes page -->      
+</div>
+<!-- //full recipes -->

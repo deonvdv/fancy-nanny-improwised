@@ -711,13 +711,16 @@ border-top: 1px solid #eee;
 /* Event page */
 
 .etable-th-1{
-	width:11%;
+	width:12%;
 }
 .etable-th-2{
 	width:15%;
 }
 .etable-th-3{
-	width:50%;
+	width:40%;
+}
+.etable-th-5{
+	width: 12%;
 }
 .ol-margin-left{
 	margin-left: -24px;

@@ -81,6 +81,8 @@
   <script type="text/javascript" src="app/js/controllers/TodoController.js"></script>
   <script type="text/javascript" src="app/js/controllers/MessageController.js"></script>
   <script type="text/javascript" src="app/js/controllers/RecipesController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/recipeDetailController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/addNewRecipeController.js"></script>
   <script type="text/javascript" src="app/js/controllers/TagsController.js"></script>
   <script type="text/javascript" src="app/js/controllers/DocumentsController.js"></script>
   <script type="text/javascript" src="app/js/controllers/ShoppingController.js"></script>
@@ -88,6 +90,7 @@
   <script type="text/javascript" src="app/js/controllers/EditUserController.js"></script>
   <script type="text/javascript" src="app/js/controllers/CalenderController.js"></script>
   <script type="text/javascript" src="app/js/controllers/EventsController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/eventDetailController.js"></script>
   <!-- //controllers -->
 
   <script type="text/javascript" src="app/js/directives.js"></script>

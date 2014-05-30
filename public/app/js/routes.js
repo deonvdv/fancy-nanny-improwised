@@ -9,7 +9,7 @@ angular.module("myApp")
 
         $routeProvider.when('/messages',{templateUrl:'app/partials/messages.html', controller: 'messageController'})
 
-        $routeProvider.when('/add_recipes',{templateUrl:'app/partials/add_recipes.html', controller: 'recipesController'})
+        $routeProvider.when('/add_recipes',{templateUrl:'app/partials/add_recipes.html', controller: 'addNewRecipeController'})
 
         $routeProvider.when('/documents',{templateUrl:'app/partials/documents.html', controller: 'documentsController'})
 
@@ -19,7 +19,7 @@ angular.module("myApp")
 
         $routeProvider.when('/recipes',{templateUrl:'app/partials/recipes.html', controller: 'recipesController'})
 
-        $routeProvider.when('/recipe_detail/:recipeId',{templateUrl:'app/partials/recipedetail.html', controller: 'recipesController'})
+        $routeProvider.when('/recipe_detail/:recipeId',{templateUrl:'app/partials/recipedetail.html', controller: 'recipeDetailController'})
 
         $routeProvider.when('/user_profile',{templateUrl:'app/partials/userprofile.html', controller: 'userController'})
 
@@ -28,6 +28,8 @@ angular.module("myApp")
         $routeProvider.when('/calender',{templateUrl:'app/partials/calender.html', controller: 'calenderController'})
 
         $routeProvider.when('/events',{templateUrl:'app/partials/events.html', controller: 'eventsController'})
+
+        $routeProvider.when('/events/:eventId',{templateUrl:'app/partials/eventdetail.html', controller: 'eventDetailController'})
 
         $routeProvider.otherwise({redirectTo :'/'})
     }]);

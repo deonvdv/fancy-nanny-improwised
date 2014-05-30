@@ -5,6 +5,8 @@ angular.module('myApp')
        
         $controller('homeController', {$scope: $scope})
 
+        // ==============================================================================
+
         // object to hold all the data for the assignedTo todos
         $scope.assignedToTodos = {};
 
@@ -18,7 +20,7 @@ angular.module('myApp')
 
         $scope.refresh = loadData();
 
-        // ======================================================
+        // ==============================================================================
 
         // hold household members
         $scope.members = {};
@@ -53,13 +55,15 @@ angular.module('myApp')
         // object holds that todo is completed or not
         $scope.SentTodo.is_complete = '';
 
-        // ======================================================
+        // ==============================================================================
 
         // get household members
         Households.getMembers(sessionStorage.householdId)
             .success(function(data) {
                 $scope.members = data.data;
         });
+
+        // ==============================================================================
 
         function loadData(){
             //Fetch all Todos for LoggedIn user.
@@ -79,6 +83,8 @@ angular.module('myApp')
             });            
         }
 
+        // ==============================================================================
+
         // this method fires when new todo is added from DOM.
         $scope.SentTodos = function(form){
 
@@ -88,7 +94,7 @@ angular.module('myApp')
 
             $scope.submitted = true;
 
-            if(form.$valid && $scope.SentTodo.assigned_to != '') {
+            if(form.$valid) {
 
                 Todos.save($scope.SentTodo)
                     .success(function(response){
@@ -97,10 +103,25 @@ angular.module('myApp')
                 });
 
             }
-            else {
-                form.assignedname.$error.required = true;
-            }
 
         }
+
+        // ==============================================================================
+
+        // make todo complete
+
+        $scope.makeTodoFav = function (todo) {
+
+                todo.done = "icon-position-c";
+
+                todo.is_complete = 1;
+
+                // method that save the status of todo in database (  incomplete to complete  )
+
+                // here
+
+        };
+
+        // ==============================================================================
 
     });

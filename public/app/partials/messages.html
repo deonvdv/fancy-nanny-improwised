@@ -21,12 +21,12 @@
 
                   <form name="form" class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
 
-                    <select name="receivername" ng-model="addMessages.receiver_id" data-placeholder="names" class="messags" required>
+                    <select ui-select2 ng-model="addMessages.receiver_id" data-placeholder="names" style="width:100%" name="receivername" ng-required="true">
                         <option value=""></option>
                         <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
                     </select>
                     <div class="error">
-                      <span ng-show="form.receivername.$error.required && submitted">name required</span>
+                       <span ng-show="form.receivername.$error.required && submitted">name required</span>
                     </div>
                     <br>
 
@@ -63,7 +63,7 @@
                       <div class="tab-content">
                         <div class="tab-pane active" id="received">
                           <!--  -->
-                          <div class="media" ng-repeat="message in receivedMessages | orderBy:'created_at':true">
+                          <div class="media" ng-repeat="message in receivedMessages | orderBy:'created_at':true" ng-mouseover="msgRead(message);">
                             <a class="pull-left" href="#">
                               <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
                             </a>
@@ -115,14 +115,14 @@
               </div>
                 <div class="content">
 
-                  <form name="form" class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
+                  <form role="form" name="form" novalidate>
 
-                    <select name="receivername" ng-model="addMessages.receiver_id" data-placeholder="names" class="messags" required>
+                    <select ui-select2 ng-model="addMessages.receiver_id" data-placeholder="names" style="width:100%" name="receivername" ng-required="true">
                         <option value=""></option>
                         <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
                     </select>
                     <div class="error">
-                      <span ng-show="form.receivername.$error.required && submitted">name required</span>
+                       <span ng-show="form.receivername.$error.required && submitted">name required</span>
                     </div>
                     <br>
 

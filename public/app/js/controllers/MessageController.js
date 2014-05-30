@@ -59,7 +59,7 @@ angular.module('myApp')
 
             $scope.submitted = true;
 
-            if(form.$valid && $scope.addMessages.receiver_id != '') {
+            if(form.$valid) {
 
                 Messages.save($scope.addMessages)
                     .success(function(response){
@@ -69,12 +69,22 @@ angular.module('myApp')
 
             }
 
-            else {
+        }
 
-                form.receivername.$error.required = true;
+        // ==============================================================================
 
-            }
+        // make message read
+
+        $scope.msgRead = function(message){
+
+            message.is_read = 1;
+
+            // method that save the status of todo in database (  incomplete to complete  )
+
+                // here
 
         }
+
+
 
     });

@@ -106,7 +106,9 @@
                       <div ng-repeat="meal in meals | filter:{slot:'breakfast'}">
                         <i class="fa fa-chevron-right"></i>
                         <div class="todo-position" ng-repeat="recipe in meal.recipes">
-                          <label class="label-color">Recipe Name</label>&nbsp;:&nbsp; {{recipe.name}}
+                          <a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}">
+                            <label class="label-color">Recipe Name</label>&nbsp;:&nbsp;<span class="meal-title">{{recipe.name}}</spna>
+                          </a>
                           <br>
                           <label>ingredients </label>&nbsp;:&nbsp;
                           <span ng-repeat="ingredient in recipe.recipe_ingredients">
@@ -128,7 +130,9 @@
                       <div ng-repeat="meal in meals | filter:{slot:'lunch'}">
                         <i class="fa fa-chevron-right"></i>
                         <div class="todo-position" ng-repeat="recipe in meal.recipes">
-                          <label class="label-color">Recipe Name</label>&nbsp;:&nbsp; {{recipe.name}}
+                          <a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}">
+                            <label class="label-color">Recipe Name</label>&nbsp;:&nbsp;<span class="meal-title">{{recipe.name}}</spna>
+                          </a>
                           <br>
                           <label>ingredients </label>&nbsp;:&nbsp;
                           <span ng-repeat="ingredient in recipe.recipe_ingredients">
@@ -150,7 +154,9 @@
                       <div ng-repeat="meal in meals | filter:{slot:'dinner'}">
                         <i class="fa fa-chevron-right"></i>
                         <div class="todo-position" ng-repeat="recipe in meal.recipes">
-                          <label class="label-color">Recipe Name</label>&nbsp;:&nbsp; {{recipe.name}}
+                          <a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}">
+                            <label class="label-color">Recipe Name</label>&nbsp;:&nbsp;<span class="meal-title">{{recipe.name}}</spna>
+                          </a>
                           <br>
                           <label>ingredients </label>&nbsp;:&nbsp;
                           <span ng-repeat="ingredient in recipe.recipe_ingredients">
@@ -166,6 +172,32 @@
                     <!-- //dinner -->
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-margin-padding">
+            <br>
+            <div class="block block-color primary">
+              <div class="header">
+                <h3>Recently Added 5 Recipes</h3>
+              </div>
+              <div class="content clearfix">
+
+                <div class="img-pos123  text-center" ng-repeat="recipe in recipes | orderBy:'created_at' : true | limitTo: 5 " ng-init="initFav(recipe)">
+                    <div class="text-center">
+                      <span class="favoriterecipe pull-right" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+                          <i class="fa fa-star"></i>
+                        </span>
+                      <a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}"><img src="" height="100" width="100"></a><br><br>
+                      <a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}">
+                          <span class="label-color meal-title">{{recipe.name}}</span>
+                      </a><br>
+                      <span style="color: black;">{{recipe.description}}</span><br>
+                      Date:{{recipe.created_at}}<br>
+                    </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -197,7 +229,7 @@
           <!-- household members -->
             <div class="fnhousehold-members">/</div>
           <!-- household members -->
-          </div>
+        </div>
       </div>
     </div>
     <!-- //dashboard -->

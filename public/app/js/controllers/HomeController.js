@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // home controller ------------------------------------------------------------------------------
-    .controller('homeController',function($scope, $location, $http, $anchorScroll, Authenticate, Users, Households, Messages, Todos, Flash){
+    .controller('homeController',function($scope, $location, $http, $anchorScroll, Authenticate, Users, Households, Messages, Todos, Flash, Recipes){
         if (!sessionStorage.authenticated){
             $location.path('/')
             Flash.show("you should be authenticated to access this page");
@@ -109,4 +109,54 @@ angular.module('myApp')
                 });
             });
         };
+
+
+
+        // ==============================================================================
+
+
+        $scope.favoriterecipe = [];
+
+        loadfavoriterecipe();
+
+        function loadfavoriterecipe(){
+            //Fetch all Fevorite Recipes for LoggedIn User.
+            Users.getFavoriteRecipes(sessionStorage.loggedUserId)
+                .success(function(data) {
+                    $scope.favoriterecipe = data.data;
+            });
+        }
+
+        $scope.recipes = {};
+
+        $scope.recipes.fav = "favoriterecipedone";
+
+        loadrecipes();
+
+        function loadrecipes(){
+            //Fetch all Recipes for LoggedIn user's household.
+            Recipes.get()
+                .success(function(data) {
+                    $scope.recipes = data.data;
+            });
+        }
+
+        $scope.initFav = function(recipe){
+
+            for( i=0 ; i < $scope.favoriterecipe.length ; i++){
+
+                if ($scope.favoriterecipe[i].id === recipe.id){
+
+                    recipe.fav = "favoriterecipedone";
+                    break;
+
+                }
+
+            }
+
+        };
+
+        // ==============================================================================
+
+
     });

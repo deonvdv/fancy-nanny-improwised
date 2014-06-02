@@ -41,81 +41,7 @@
 
 	      <!--  -->
 	      <div class="col-sm-7 col-md-8 col-lg-9 recipes-block6">
-	        <div class="block block-color primary">
-	            <div class="header">
-	              <div class="actions">
-	                <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-	                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-	              </div>
-	              <h2>Recently Added Recipes</h2>
-	            </div>
-	              <div class="content recent-recipes-block">
-	                <div class="clearfix">
-	                      <a href=""><div class="img-pos"></div></a>
-	                      <div class="recipes-block">
-	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
-	                          <i class="fa fa-star"></i>
-	                        </span>
-	                        &nbsp;<a href="/#/recipe_detail/1"><h4>pizza</h4></a>
-	                        <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
-	                        <p class="date-todo">Date:12/3/2013</p>
-	                      </div>
-	                </div>
-	                <hr>
-	                <!--  -->
-	                <div class="clearfix">
-	                      <a href=""><div class="img-pos"></div></a>
-	                      <div class="recipes-block">
-	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
-	                          <i class="fa fa-star"></i>
-	                        </span>
-	                        &nbsp;<a href="recipes_detail.html"><h4>pizza</h4></a>
-	                        <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
-	                        <p class="date-todo">Date:12/3/2013</p>
-	                      </div>
-	                </div>
-	                <hr>
-	                <!--  -->
-	                <div class="clearfix">
-	                      <a href=""><div class="img-pos"></div></a>
-	                      <div class="recipes-block">
-	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
-	                          <i class="fa fa-star"></i>
-	                        </span>
-	                        &nbsp;<a href="recipes_detail.html"><h4>pizza</h4></a>
-	                        <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
-	                        <p class="date-todo">Date:12/3/2013</p>
-	                      </div>
-	                </div>
-	                <hr>
-	                <!--  -->
-	                <div class="clearfix">
-	                      <a href=""><div class="img-pos"></div></a>
-	                      <div class="recipes-block">
-	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
-	                          <i class="fa fa-star"></i>
-	                        </span>
-	                        &nbsp;<a href="recipes_detail.html"><h4>pizza</h4></a>
-	                        <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
-	                        <p class="date-todo">Date:12/3/2013</p>
-	                      </div>
-	                </div>
-	                <hr>
-	                <!--  -->
-	                <div class="clearfix">
-	                      <a href=""><div class="img-pos"></div></a>
-	                      <div class="recipes-block">
-	                        <span class="favorite-recipe" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
-	                          <i class="fa fa-star"></i>
-	                        </span>
-	                        &nbsp;<a href="recipes_detail.html"><h4>pizza</h4></a>
-	                        <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
-	                        <p class="date-todo">Date:12/3/2013</p>
-	                      </div>
-	                </div>
-	                <hr>
-	              </div>
-	          </div>
+
 	      <!--  -->
 
 	        <div class="block block-color primary">
@@ -127,7 +53,7 @@
 	              <h2>All Recipes</h2>
 	            </div>
 	              <div class="content">
-	                <div class="clearfix" ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients" ng-init="initFav(recipe)">
+	                <div class="clearfix" ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients | orderBy:'created_at' : true " ng-init="initFav(recipe)">
 	                      <a href=""><div class="img-pos"></div></a>
 	                      <div class="recipes-block">
 	                        <span class="favoriterecipe" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
@@ -150,6 +76,32 @@
 	    <!--  -->
 	    <div class="clearfix">
 	      <div class="col-lg-3 col-md-4 col-sm-5 recipes-block6 hidden-xs">
+
+	      	<div class="block block-color primary">
+	            <div class="header">
+	              <h3 style="">Recently Added Recipes</h3>
+	            </div>
+	              <div class="content clearfix"  style="height: 250px;overflow-y: scroll">
+
+		              	<div class="img-pos123  text-center" ng-repeat="recipe in recipes | orderBy:'created_at' : true | limitTo: 5 " ng-init="initFav(recipe)">
+		                    <div class="text-center">
+		                    	<span class="favoriterecipe pull-right" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+		                          <i class="fa fa-star"></i>
+		                        </span>
+		                    	<a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}"><img src="" height="100" width="100"></a><br><br>
+		                    	<a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}">
+		                        	<span class="label-color meal-title">{{recipe.name}}</span>
+		                    	</a><br>
+		                    	<span style="color: black;">{{recipe.description}}</span><br>
+		                    	Date:{{recipe.created_at}}<br>
+		                    </div>
+		                </div>
+
+	              </div>
+	          </div>
+
+
+
 	        <div class="block block-color">
 	            <div class="header">
 	              <div class="actions">

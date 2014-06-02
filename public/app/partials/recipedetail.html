@@ -40,7 +40,7 @@
 	                <span><label>Ingredient:</label></span>
 	                <br>
 	                <span>
-	                <ol><li ng-repeat="ing in recipeDetail.recipe_ingredients">{{ing.quantity}}&nbsp;{{ing.unit_of_measure.preferred_alias}}&nbsp;&nbsp;-&nbsp;&nbsp;{{ing.ingredient.name}}</li></ol>
+	                <ul><li ng-repeat="ing in recipeDetail.recipe_ingredients">{{ing.quantity}}&nbsp; × &nbsp;{{ing.unit_of_measure.preferred_alias}}&nbsp;&nbsp;-&nbsp;&nbsp;{{ing.ingredient.name}}</li></ul>
 	                </span>
 	                <br>
 	                <span><label>Instruction:</label></span>

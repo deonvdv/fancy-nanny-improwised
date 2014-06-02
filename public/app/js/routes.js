@@ -31,5 +31,7 @@ angular.module("myApp")
 
         $routeProvider.when('/events/:eventId',{templateUrl:'app/partials/eventdetail.html', controller: 'eventDetailController'})
 
+        $routeProvider.when('/add_ingredient',{templateUrl:'app/partials/add_ingredient.html', controller: 'addIngredientController'})
+
         $routeProvider.otherwise({redirectTo :'/'})
     }]);

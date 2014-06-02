@@ -91,6 +91,7 @@
   <script type="text/javascript" src="app/js/controllers/CalenderController.js"></script>
   <script type="text/javascript" src="app/js/controllers/EventsController.js"></script>
   <script type="text/javascript" src="app/js/controllers/eventDetailController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/addIngredientController.js"></script>
   <!-- //controllers -->
 
   <script type="text/javascript" src="app/js/directives.js"></script>

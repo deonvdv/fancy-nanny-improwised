@@ -23,6 +23,16 @@ angular.module('myApp')
         
         // ==============================================================================
 
+        $scope.add_count = 0;
+
+        $scope.sucess1 = false;
+
+        $scope.done1 = function(){
+            $scope.sucess1 = false;
+        };
+
+        // ==============================================================================
+
         // save categories
 
         $scope.Cat = {};
@@ -36,12 +46,31 @@ angular.module('myApp')
                 if(form.$valid) {
                     Categories.save($scope.Cat)
                         .success(function(response){
-                            $route.reload();
+
+                            $scope.add_count = $scope.add_count + 1 ;
+
+                            if($scope.add_count === 1 ){
+                                $scope.add_cat = 'category';
+                            }
+                            else{
+                                $scope.add_cat = 'categories';
+                            }
+
+                            $scope.sucess1 = true;
+
+                            $scope.submitted = false;
+
+                            $scope.Cat.name = '';
+
+                            loadCategory();
+
                     });
                 }
         };
 
         // ==============================================================================
+
+        $scope.delete_count = 0;
 
         $scope.sucess = false;
 
@@ -52,7 +81,6 @@ angular.module('myApp')
         // ==============================================================================
 
         // destroy category
-        $scope.count = 0;
 
         $scope.delete = function (cat) {
             
@@ -61,15 +89,15 @@ angular.module('myApp')
             Categories.destroy(id)
                .success(function(response){
                     
-                    $scope.count = $scope.count + 1 ;
+                    $scope.delete_count = $scope.delete_count + 1 ;
                     
                     $scope.sucess = true;
 
-                    if($scope.count === 1 ){
-                        $scope.cat = 'category';
+                    if($scope.delete_count === 1 ){
+                        $scope.delete_cat = 'category';
                     }
                     else{
-                        $scope.cat = 'categories';
+                        $scope.delete_cat = 'categories';
                     }
 
                     loadCategory();

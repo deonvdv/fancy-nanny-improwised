@@ -22,23 +22,30 @@
 
 		<div class="col-md-6 col-sm-8">
 
+			<div ng-show="sucess1">
+		      	<div class="alert alert-success alert-msg">
+					<button type="button" class="close" ng-click="done1()">×</button>
+					<i class="fa fa-check sign"></i>{{add_count}}&nbsp;{{add_cat}} added successfully.
+				</div>
+		    </div>
+
 			<div ng-show="sucess">
 		      	<div class="alert alert-danger alert-msg">
 					<button type="button" class="close" ng-click="done()">×</button>
-					<i class="fa fa-check sign"></i>{{count}}&nbsp;{{cat}} deleted successfully.
+					<i class="fa fa-check sign"></i>{{delete_count}}&nbsp;{{delete_cat}} deleted successfully.
 				</div>
 		    </div>
 
 			<div class="block block-color warning">
 				<div class="header">            
-					<h3>All Categories</h3>
+					<h3>All Categories<input class="form-control search-unit pull-right" placeholder="Search" ng-model="cat_name"></h3>
 				</div>
 				<div class="content">
 
 					<table class="no-border hover">
 						<thead class="no-border">
 							<tr>
-								<th style="width:70%;"><label>Categories&nbsp;&nbsp;:&nbsp;&nbsp;</label><input class="form-control" style="display: inline-block; width: 150px" placeholder="Search Category" ng-model="cat_name"></th>
+								<th style="width:70%;"><label>Categories&nbsp;&nbsp;:&nbsp;&nbsp;</label></th>
 								<th style="width:30%;"><label>Action</label></th>
 							</tr>
 						</thead>
@@ -141,3 +148,24 @@
 </div>
 
 <!-- right-side section (top navbar + add ingredient) -->
+
+<style type="text/css">
+.search-unit{
+	display: inline; width: 200px;margin-top: -3px;background-color: #ebebeb;color: #f16e3f;font-weight: normal;border: none;
+}
+.search-unit::-webkit-input-placeholder {
+    color: #f16e3f;
+}
+.search-unit:-moz-placeholder {
+    color: #f16e3f;
+
+}
+.search-unit::-moz-placeholder {
+    color: #f16e3f;
+
+}
+.search-unit:-moz-placeholder {
+    color: #f16e3f;
+
+}
+</style>

@@ -18,6 +18,29 @@
 
     <div class="cl-mcont">
 
+    	<div class="col-md-4 col-sm-4 visible-xs">
+			<div class="block block-color warning">
+				<div class="header">
+                	<h3>Add New Category</h3>
+				</div>
+				<div class="content">
+
+					<form name="form" novalidate>
+
+						<label>New Category:</label>
+              			<input class="form-control" placeholder="Category Name" ng-model="Cat.name" name="newCat" required>
+              			<div class="error">
+			            	<span ng-show="form.newCat.$error.required && submitted">name required</span>
+			          	</div>
+			          	<br>
+              			<button type="button" class="btn btn-dark" ng-click="addNewCat(form)">Add Category</button>
+
+					</form>
+
+				</div>
+			</div>
+        </div>
+
 		<div class="col-md-1"></div> 
 
 		<div class="col-md-6 col-sm-8">
@@ -38,7 +61,23 @@
 
 			<div class="block block-color warning">
 				<div class="header">            
-					<h3>All Categories<input class="form-control search-unit pull-right" placeholder="Search" ng-model="cat_name"></h3>
+
+					<h3>
+
+						<span class="hidden-xs">
+							All Categories
+							<input class="form-control search-unit pull-right" placeholder="Search" ng-model="cat_name">
+						</span>
+
+
+						<span class="visible-xs text-center">
+							All Categories
+							<br><br>
+							<input class="form-control search-unit" placeholder="Search" ng-model="cat_name">
+						</span>
+
+					</h3>
+
 				</div>
 				<div class="content">
 
@@ -76,7 +115,7 @@
 			</div>
         </div>  	
 
-    	<div class="col-md-4 col-sm-4">
+    	<div class="col-md-4 col-sm-4 hidden-xs">
 			<div class="block block-color warning">
 				<div class="header">						
                 	<h3>Add New Category</h3>

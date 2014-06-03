@@ -33,5 +33,7 @@ angular.module("myApp")
 
         $routeProvider.when('/add_ingredient',{templateUrl:'app/partials/add_ingredient.html', controller: 'addIngredientController'})
 
+        $routeProvider.when('/add_Categories',{templateUrl:'app/partials/add_Categories.html', controller: 'addCategoriesController'})
+
         $routeProvider.otherwise({redirectTo :'/'})
     }]);

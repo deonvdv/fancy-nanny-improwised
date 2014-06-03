@@ -164,7 +164,7 @@ angular.module('myApp')
 
             $scope.submitted = true;
 
-            if(form.$valid) {
+            if(form.$valid && $scope.addNewRecipe.newIngredients.length !== 0) {
 
                 Recipes.save($scope.addNewRecipe)
                     .success(function(response){
@@ -174,6 +174,10 @@ angular.module('myApp')
                         $scope.init();
                 });
 
+            }
+
+            else{
+                $scope.error_msg = true;
             }
 
         };

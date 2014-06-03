@@ -23,6 +23,16 @@ angular.module('myApp')
 
         // ==============================================================================
 
+        $scope.add_count = 0;
+
+        $scope.sucess1 = false;
+
+        $scope.done1 = function(){
+            $scope.sucess1 = false;
+        };
+
+        // ==============================================================================
+
         // save ingredient
 
         $scope.Ing = {};
@@ -36,12 +46,31 @@ angular.module('myApp')
                 if(form.$valid) {
                     Ingredients.save($scope.Ing)
                         .success(function(response){
-                            $route.reload();
+
+                            $scope.add_count = $scope.add_count + 1 ;
+
+                            if($scope.add_count === 1 ){
+                                $scope.add_ing = 'ingredient';
+                            }
+                            else{
+                                $scope.add_ing = 'ingredients';
+                            }
+
+                            $scope.sucess1 = true;
+
+                            $scope.submitted = false;
+
+                            $scope.Ing.name = '';
+
+                            loadIng();
+
                     });
                 }
         };
 
         // ==============================================================================
+
+        $scope.delete_count = 0;
 
         $scope.sucess = false;
 
@@ -62,15 +91,15 @@ angular.module('myApp')
             Ingredients.destroy(id)
                .success(function(response){
 
-                    $scope.count = $scope.count + 1 ;
+                    $scope.delete_count = $scope.delete_count + 1 ;
 
                     $scope.sucess = true;
 
-                    if($scope.count === 1 ){
-                        $scope.ing = 'ingredient';
+                    if($scope.delete_count === 1 ){
+                        $scope.delete_ing = 'unit';
                     }
                     else{
-                        $scope.ing = 'ingredients';
+                        $scope.delete_ing = 'units';
                     }
 
                 	loadIng();

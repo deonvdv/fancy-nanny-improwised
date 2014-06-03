@@ -14,7 +14,7 @@ angular.module('myApp')
         loadIng();
 
         function loadIng(){
-            //Fetch all Recipes for LoggedIn user's household.
+            //loads all ingredients.
             Ingredients.get()
                 .success(function(data) {
                     $scope.Ingredient = data.data;
@@ -53,12 +53,26 @@ angular.module('myApp')
 
         // destroy ingredient
 
+        $scope.count = 0;
+
         $scope.delete = function (ing) {
-        	var id = ing.id;
+
+            var id = ing.id;
+
             Ingredients.destroy(id)
                .success(function(response){
-               		$scope.sucess = true;
-                 	console.log(id + "delete");
+
+                    $scope.count = $scope.count + 1 ;
+
+                    $scope.sucess = true;
+
+                    if($scope.count === 1 ){
+                        $scope.ing = 'ingredient';
+                    }
+                    else{
+                        $scope.ing = 'ingredients';
+                    }
+
                 	loadIng();
             });
         }
@@ -82,7 +96,8 @@ angular.module('myApp')
 
         // ==============================================================================
 
-        // delete tag controller
+        // delete ingredient controller
+
         var editIngCtrl = function ($scope, $modalInstance, ing) {
 
             $scope.data = ing;

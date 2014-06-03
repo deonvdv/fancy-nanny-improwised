@@ -25,7 +25,7 @@
 			<div ng-show="sucess">
 		      	<div class="alert alert-danger alert-msg">
 					<button type="button" class="close" ng-click="done()">×</button>
-					<i class="fa fa-check sign"></i>ingredient is deleted successfully.
+					<i class="fa fa-check sign"></i>{{count}}&nbsp;{{ing}} deleted successfully.
 				</div>
 		    </div>
 
@@ -57,7 +57,6 @@
 			                          <a class="label label-danger" href="#" target="_self" data-toggle="modal" ng-click="delete(ing)"><i class="fa fa-times"></i></a>
 			                        </span>
 			                        <!--  -->
-
 
 	            				</td>
 	            			</tr>
@@ -112,7 +111,7 @@
             <div class="modal-body">
               
 	            <label>Ingredient Name</label>
-	            <input type="text" class="form-control" placeholder="Ingredient Name" ng-model="Ingredient.name" name="ingname" required>
+	            <input type="text" class="form-control" placeholder="Ingredient Name" ng-model="data.name" name="ingname" required>
 	          	<div class="error">
 	            	<span ng-show="form.ingname.$error.required && submitted">name required !!</span>
 	          	</div>

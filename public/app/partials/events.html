@@ -33,6 +33,15 @@
 
               </div>
               <div class="content">
+
+                <!--  -->
+                  <div class="clearfix pagination_recipe">
+                    <div class="pull-right">
+                      <pagination total-items="Totalevents" ng-model="CurrenteventsPage" items-per-page="eventsPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="geteventspages()"></pagination>
+                  </div>
+                </div>
+                <!--  -->
+
                 <!--  -->
                   <div class="table-responsive">
                   <table class="table no-border hover">
@@ -69,6 +78,15 @@
                   </table>
                   </div>
                 <!--  -->
+
+                <!--  -->
+                  <div class="clearfix pagination_recipe">
+                    <div class="pull-right">
+                      <pagination total-items="Totalevents" ng-model="CurrenteventsPage" items-per-page="eventsPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="geteventspages()"></pagination>
+                  </div>
+                </div>
+                <!--  -->
+
               </div>
             </div>
             <!--  -->
@@ -412,5 +430,8 @@
   color: #f16e3f;
   text-decoration: underline;
 }
-
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+  background-color: #f16e3f;
+  border-color: #f16e3f;
+}
 </style>

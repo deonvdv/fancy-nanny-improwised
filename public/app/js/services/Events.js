@@ -5,6 +5,9 @@ angular.module('myApp')
             get : function() {
                 return $http.get('/api/v1/event');
             },
+            geteventsPerPage : function(pagenum) {
+                return $http.get('/api/v1/events/page/' + pagenum);
+            },
             getAttendees : function(id) {
                 return $http.get('/api/v1/event/' + id + '/attendees');
             },

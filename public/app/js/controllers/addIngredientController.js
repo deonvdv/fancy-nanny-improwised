@@ -17,8 +17,39 @@ angular.module('myApp')
             //loads all ingredients.
             Ingredients.get()
                 .success(function(data) {
+
+                    $scope.TotalIngredients =data.total_item;
+
+                    $scope.TotalPages = data.total_page;
+
+                    $scope.IngredientsPerPage = data.items_per_page;
+
                     $scope.Ingredient = data.data;
+
+                    console.log($scope.Ingredient);
+
             });
+        }
+
+        // ==============================================================================
+
+        $scope.maxSize = 5;
+
+        // this method called when page changes.
+
+        $scope.getIngredientspages = function(){
+
+            if($scope.CurrentIngredientsPage !== ''){
+
+                Ingredients.getIngredientsPerPage($scope.CurrentIngredientsPage)
+                    .success(function(data) {
+
+                        $scope.Ingredient = data.data;
+
+                });
+
+            }
+
         }
 
         // ==============================================================================

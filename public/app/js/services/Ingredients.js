@@ -5,6 +5,9 @@ angular.module('myApp')
             get : function() {
                 return $http.get('/api/v1/ingredient');
             },
+            getIngredientsPerPage : function(pagenum) {
+                return $http.get('/api/v1/ingredients/page/' + pagenum);
+            },
             show : function(id) {
                 return $http.get('/api/v1/ingredient/' + id);
             },

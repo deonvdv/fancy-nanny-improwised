@@ -1,4 +1,4 @@
-angular.module("myApp",['ngResource', 'ngSanitize', 'ngRoute', 'ui.select2', 'colorpicker.module', 'ui.bootstrap'])
+angular.module("myApp",['ngResource', 'ngSanitize', 'ngRoute', 'ui.select2', 'colorpicker.module', 'ui.bootstrap', 'ngDragDrop'])
     .config(function($httpProvider){
 
         var interceptor = function($rootScope,$location,$q,Flash){

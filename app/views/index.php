@@ -75,6 +75,8 @@
 
   <script type="text/javascript" src="app/lib/select2.js"></script>
 
+  <script type="text/javascript" src="app/lib/angular-dragdrop.min.js"></script>
+
   <!-- controllers -->
   <script type="text/javascript" src="app/js/controllers/LoginController.js"></script>
   <script type="text/javascript" src="app/js/controllers/HomeController.js"></script>

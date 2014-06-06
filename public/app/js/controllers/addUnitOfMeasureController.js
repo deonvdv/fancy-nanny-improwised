@@ -17,10 +17,39 @@ angular.module('myApp')
             //load all categories.
             UnitOfMeasures.get()
                 .success(function(data) {
+
+                    $scope.TotalUnits =data.total_item;
+
+                    $scope.TotalPages = data.total_page;
+
+                    $scope.UnitsPerPage = data.items_per_page;
+
                     $scope.UnitOfMeasure = data.data;
             });
         }
         
+        // ==============================================================================
+
+
+        $scope.maxSize = 5;
+
+        // this method called when page changes.
+
+        $scope.getUnitspages = function(){
+
+            if($scope.CurrentUnitsPage !== ''){
+
+                UnitOfMeasures.getUnitsPerPage($scope.CurrentUnitsPage)
+                    .success(function(data) {
+
+                        $scope.UnitOfMeasure = data.data;
+
+                });
+
+            }
+
+        }
+
         // ==============================================================================
 
         $scope.add_count = 0;

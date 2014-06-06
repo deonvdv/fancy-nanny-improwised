@@ -5,6 +5,9 @@ angular.module('myApp')
             get : function() {
                 return $http.get('/api/v1/units_of_measure');
             },
+            getUnitsPerPage : function(pagenum) {
+                return $http.get('/api/v1/units_of_measures/page/' + pagenum);
+            },
             show : function(id) {
                 return $http.get('/api/v1/units_of_measure/' + id);
             },

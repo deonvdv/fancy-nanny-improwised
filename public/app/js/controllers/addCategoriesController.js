@@ -17,10 +17,38 @@ angular.module('myApp')
             //load all categories.
             Categories.get()
                 .success(function(data) {
+
+                    $scope.TotalCategories =data.total_item;
+
+                    $scope.TotalPages = data.total_page;
+
+                    $scope.CategoriesPerPage = data.items_per_page;
+
                     $scope.category = data.data;
             });
         }
         
+        // ==============================================================================
+
+         $scope.maxSize = 5;
+
+        // this method called when page changes.
+
+        $scope.getCategoriespages = function(){
+
+            if($scope.CurrentCategoriesPage !== ''){
+
+                Categories.getCategoriesPerPage($scope.CurrentCategoriesPage)
+                    .success(function(data) {
+
+                        $scope.category = data.data;
+
+                });
+
+            }
+
+        }
+
         // ==============================================================================
 
         $scope.add_count = 0;

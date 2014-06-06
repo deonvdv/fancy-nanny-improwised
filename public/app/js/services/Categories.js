@@ -5,6 +5,9 @@ angular.module('myApp')
             get : function() {
                 return $http.get('/api/v1/category');
             },
+            getCategoriesPerPage : function(pagenum) {
+                return $http.get('/api/v1/categories/page/' + pagenum);
+            },
             show : function(id) {
                 return $http.get('/api/v1/category/' + id);
             },

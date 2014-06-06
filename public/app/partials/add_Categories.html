@@ -81,6 +81,14 @@
 				</div>
 				<div class="content">
 
+					<!--  -->
+	              	<div class="clearfix pagination_recipe">
+		              	<div class="pull-right">
+		              		<pagination total-items="TotalCategories" ng-model="CurrentCategoriesPage" items-per-page="CategoriesPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getCategoriespages()"></pagination>
+						</div>
+					</div>
+					<!--  -->
+
 					<table class="no-border hover">
 						<thead class="no-border">
 							<tr>
@@ -110,6 +118,14 @@
 
 						</tbody>
 					</table>
+
+					<!--  -->
+	              	<div class="clearfix pagination_recipe">
+		              	<div class="pull-right">
+		              		<pagination total-items="TotalCategories" ng-model="CurrentCategoriesPage" items-per-page="CategoriesPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getCategoriespages()"></pagination>
+						</div>
+					</div>
+					<!--  -->
 
 				</div>
 			</div>
@@ -189,6 +205,10 @@
 <!-- right-side section (top navbar + add ingredient) -->
 
 <style type="text/css">
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+	background-color: #f16e3f;
+	border-color: #f16e3f;
+}
 .search-unit{
 	display: inline; width: 200px;margin-top: -3px;background-color: #ebebeb;color: #f16e3f;font-weight: normal;border: none;
 }

@@ -61,7 +61,7 @@ class RecipeController extends BaseController {
 			$itemsPerPage = (int) $itemsPerPage < 1 ? 20 : $itemsPerPage;
 			$skip         = ($page-1)*$itemsPerPage;
 
-	        $collection = \Models\Recipe::orderBy('name')->skip($skip)->take($itemsPerPage)->get();
+	        $collection = \Models\Recipe::with(array('tags'))->orderBy('name')->skip($skip)->take($itemsPerPage)->get();
 			$itemCount	= \Models\Recipe::count();
 			$totalPage 	= ceil($itemCount/$itemsPerPage);
 

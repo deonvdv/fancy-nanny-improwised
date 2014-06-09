@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // recipes controller ------------------------------------------------------------------------------
-    .controller('recipesController',function($scope, $controller, $http, $routeParams, Recipes, $route, Users){
+    .controller('recipesController',function($scope, $controller, $http, $routeParams, Recipes, Categories, $route, Users, Tags){
 
         $controller('homeController', {$scope: $scope});
 
@@ -18,6 +18,23 @@ angular.module('myApp')
             Users.getFavoriteRecipes(sessionStorage.loggedUserId)
                 .success(function(data) {
                     $scope.favoriterecipe = data.data;
+                    console.log($scope.favoriterecipe);
+            });
+        }
+
+        // ==============================================================================
+
+        // load all ingredients
+
+        $scope.Categories = {};
+
+        loadCategory();
+
+        function loadCategory(){
+            //load all categories.
+            Categories.get()
+                .success(function(data) {
+                    $scope.Categories = data.data;
             });
         }
 
@@ -27,17 +44,52 @@ angular.module('myApp')
 
         $scope.recipes = {};
 
+        $scope.recipes.tags = {};
+
+        list2 = [];
+
         $scope.recipes.fav = "favoriterecipedone";
 
         loadrecipes();
 
         function loadrecipes(){
+
             //Fetch all Recipes for LoggedIn user's household.
+
             Recipes.get()
                 .success(function(data) {
+
+                    $scope.TotalRecipes =data.total_item;
+
+                    $scope.TotalPages = data.total_page;
+
+                    $scope.RecipesPerPage = data.items_per_page;
+
                     $scope.recipes = data.data;
+
             });
+
         }
+
+        // ==============================================================================
+
+        // this method called when page changes.
+
+        $scope.getRecipespages = function(){
+
+            if($scope.CurrentRecipesPage !== ''){
+
+                Recipes.getRecipesPerPage($scope.CurrentRecipesPage)
+                    .success(function(data) {
+
+                        $scope.recipes = data.data;
+
+                });
+
+            }
+
+        }
+
 
         // ==============================================================================
 
@@ -81,5 +133,28 @@ angular.module('myApp')
         };
 
         // ==============================================================================
+
+        // object to hold all tags of LoggedInUser
+
+        $scope.tags = {};
+        $scope.tags.name = "";
+        $scope.tags.color = "";
+        $scope.tags.fontcolor = "";
+        $scope.tags.drag = true;
+
+        loadData();
+
+        function loadData(){
+            //Fetch all tags for LoggedInUser
+            Users.getTags(sessionStorage.loggedUserId)
+                .success(function(data){
+                    $scope.tags = data.data;
+            });
+        }
+
+        // ==============================================================================
+
+        $scope.dropCallback = function (event, ui, $index,tag) {
+        };
 
     });

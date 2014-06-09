@@ -38,23 +38,29 @@
 	    </div>
 	    <!--  -->
 	    <div classs="clearfix">
-
 	      <!--  -->
 	      <div class="col-sm-7 col-md-8 col-lg-9 recipes-block6">
-
 	      <!--  -->
-
 	        <div class="block block-color primary">
 	            <div class="header">
-	              <div class="actions">
-	                <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-	                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-	              </div>
 	              <h2>All Recipes</h2>
 	            </div>
-	              <div class="content">
-	                <div class="clearfix" ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients | orderBy:'created_at' : true " ng-init="initFav(recipe)">
-	                      <a href=""><div class="img-pos"></div></a>
+	            <div class="content">
+	              	<!--  -->
+	              	<div class="clearfix pagination_recipe">
+		              	<div class="pull-right">
+		              		<pagination total-items="TotalRecipes" ng-model="CurrentRecipesPage" items-per-page="RecipesPerPage" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getRecipespages()"></pagination>
+						</div>
+					</div>
+					<!--  -->
+	                <div class="clearfix recipe_list">
+
+
+	                	<div ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients | orderBy:'created_at' : true  track by $index" ng-init="initFav(recipe)">
+	                	<div class="clearfix active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='recipe.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback($index,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+	                      <a href="">
+	                      	<div class="img-pos"></div>
+	                      </a>
 	                      <div class="recipes-block">
 	                        <span class="favoriterecipe" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
 	                          <i class="fa fa-star" ng-click="makeFavorite(recipe)"></i>
@@ -62,14 +68,30 @@
 	                        &nbsp;<a href="/#/recipe_detail/{{recipe.id}}"><h4>{{recipe.name}}</h4></a>
 	                        <p>{{recipe.description}}</p>
 	                        <p class="date-todo">Date:{{recipe.created_at}}</p>
+	                        <span>tags&nbsp;:&nbsp;</span>
+	                        <span ng-repeat="item in recipe.tags" data-jqyoui-options="{revert: 'invalid'}">
+	                        	<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
+	                        		{{item.name}}
+	                        	</span>
+	                        </span>
 	                      </div>
-	                      <br><br>
+	                    </div>
+
 	                </div>
-	                <hr>
-	              </div>
+
+
+
+	                </div>
+	                <!--  -->
+	              	<div class="clearfix pagination_recipe">
+		              	<div class="pull-right">
+		              		<pagination total-items="TotalRecipes" ng-model="CurrentRecipesPage" items-per-page="RecipesPerPage" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getRecipespages()"></pagination>
+						</div>
+					</div>
+	                <!--  -->
+	            </div>
 	        </div>
 	      </div>
-
 	    </div>
 	    <!--  -->
 
@@ -142,18 +164,14 @@
 	          <div class="header">
 	            <h3>Tag</h3>
 	          </div>
-	          <div class="content">
-	            <div id="external-events">
-	              <div class="external-event ui-draggable" style="position: relative;">person-1</div>
-	              <div class="external-event ui-draggable" style="position: relative;">person-2</div>
-	              <div class="external-event ui-draggable" style="position: relative;">person-3</div>
-	              <div class="external-event ui-draggable" style="position: relative;">person-4</div>
-	              <div class="external-event ui-draggable" style="position: relative;">person-5</div>
-	              <br><br>
-	              <p>
-	                <input type="checkbox" id="drop-remove"> <label for="drop-remove">remove after drop</label>
-	              </p>
-	            </div>
+	          <div class="content clearfix">
+
+				<div ng-repeat="tag in tags track by $index" data-drop="true" ng-model='tags' jqyoui-droppable="{index: {{$index}},revert: 'invalid'}">
+			        <div class="tag_color" data-drag="true" data-jqyoui-options="{scroll: false,revert: 'invalid',helper: 'clone'}" ng-model="tags" jqyoui-draggable="{index: {{$index}},placeholder:'keep',animate:true}" ng-show="tag.name">
+			        	<span class="tag_color" style="color:{{tag.fontcolor}};background-color:{{tag.color}}">{{tag.name}}</span>
+					</div>
+			    </div>
+
 	          </div>
 	        </div>
 	      </div>
@@ -162,6 +180,53 @@
     <!-- //recipes page -->      
 </div>
 <!-- //recipes -->
+
+<style type="text/css">
+.pagination_recipe{
+	background-color: #f0f0f0;
+	margin-bottom: 10px;
+	padding-right: 20px;
+	margin-top: 10px;
+}
+.active_drop{
+	padding: 15px;
+}
+.hoverClass{
+	background-color: #f5f5f5;
+	margin-right: 10px;
+    border: 2px dashed #e6e6e6;
+    padding: 13px;
+}
+.tag_color{
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 3px;
+	margin-bottom: 5px;
+	float: left;
+	cursor: pointer;
+}
+.tag_color_drop{
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 3px;
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+.recipe_list{
+	margin-left: -10px;
+	padding-top: 10px;
+	padding-left: 10px;
+	margin-right: -10px;
+}
+.tagged{
+	margin: 5px;
+	float: left;
+	cursor: pointer;
+}
+.recipe_list:hover{
+	background-color: #f5f5f5;
+}
+</style>
 
 <script type="text/javascript">
     $(document).ready(function(){

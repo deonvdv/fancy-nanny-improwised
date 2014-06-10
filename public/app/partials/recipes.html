@@ -40,6 +40,11 @@
 	    <div classs="clearfix">
 	      <!--  -->
 	      <div class="col-sm-7 col-md-8 col-lg-9 recipes-block6">
+	      	<div ng-show="sucess">
+		      	<div class="alert alert-info alert-msg">
+					<i class="fa fa-check sign"></i>tag is already added.
+				</div>
+		    </div>
 	      <!--  -->
 	        <div class="block block-color primary">
 	            <div class="header">
@@ -53,34 +58,27 @@
 						</div>
 					</div>
 					<!--  -->
-	                <div class="clearfix recipe_list">
-
-
-	                	<div ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients | orderBy:'created_at' : true  track by $index" ng-init="initFav(recipe)">
-	                	<div class="clearfix active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='recipe.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback($index,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
-	                      <a href="">
-	                      	<div class="img-pos"></div>
-	                      </a>
-	                      <div class="recipes-block">
-	                        <span class="favoriterecipe" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
-	                          <i class="fa fa-star" ng-click="makeFavorite(recipe)"></i>
-	                        </span>
-	                        &nbsp;<a href="/#/recipe_detail/{{recipe.id}}"><h4>{{recipe.name}}</h4></a>
-	                        <p>{{recipe.description}}</p>
-	                        <p class="date-todo">Date:{{recipe.created_at}}</p>
-	                        <span>tags&nbsp;:&nbsp;</span>
-	                        <span ng-repeat="item in recipe.tags" data-jqyoui-options="{revert: 'invalid'}">
-	                        	<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-	                        		{{item.name}}
-	                        	</span>
-	                        </span>
-	                      </div>
-	                    </div>
-
-	                </div>
-
-
-
+	                <div class="clearfix">
+	                	<div class="recipe_list" ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients | orderBy:'created_at' : true  track by $index" ng-init="initFav(recipe)">
+	                		<div class="clearfix active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='recipe.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(recipe,tag)'}" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+	                			<a href="/#/recipe_detail/{{recipe.id}}"><div class="img-pos"></div></a>
+	                			<div class="recipes-block">
+	                				<span class="favoriterecipe" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+	                					<i class="fa fa-star" ng-click="makeFavorite(recipe)"></i>
+	                				</span>
+	                				&nbsp;
+	                				<a href="/#/recipe_detail/{{recipe.id}}"><h4>{{recipe.name}}</h4></a>
+	                				<p>{{recipe.description}}</p>
+	                				<p class="date-todo">Date:{{recipe.created_at}}</p>
+	                				<span>tags&nbsp;:&nbsp;</span>
+	                				<div class="tag_linear" ng-repeat="item in recipe.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
+	                					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
+	                						{{item.name}}
+	                					</span>
+	                				</div>
+	                			</div>
+	                		</div>
+	                	</div>
 	                </div>
 	                <!--  -->
 	              	<div class="clearfix pagination_recipe">
@@ -182,6 +180,10 @@
 <!-- //recipes -->
 
 <style type="text/css">
+.tag_linear{
+	display: inline-block;
+	margin-right: 3px;
+}
 .pagination_recipe{
 	background-color: #f0f0f0;
 	margin-bottom: 10px;
@@ -211,12 +213,6 @@
 	border-radius: 3px;
 	margin-bottom: 5px;
 	cursor: pointer;
-}
-.recipe_list{
-	margin-left: -10px;
-	padding-top: 10px;
-	padding-left: 10px;
-	margin-right: -10px;
 }
 .tagged{
 	margin: 5px;

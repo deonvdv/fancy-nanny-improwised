@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // recipes controller ------------------------------------------------------------------------------
-    .controller('recipesController',function($scope, $controller, $http, $routeParams, Recipes, Categories, $route, Users, Tags){
+    .controller('recipesController',function($scope, $controller, $http, $routeParams, Recipes, Categories, $route, Users, Tags, $timeout){
 
         $controller('homeController', {$scope: $scope});
 
@@ -154,7 +154,46 @@ angular.module('myApp')
 
         // ==============================================================================
 
-        $scope.dropCallback = function (event, ui, $index,tag) {
+        $scope.sucess = false;
+
+        $scope.done = function(){
+            $timeout(function () { $scope.sucess = false; }, 3000);
         };
+
+        $scope.dropCallback = function (event, ui, recipe, tag) {
+
+            var last_tag = recipe.tags.length;
+
+            if(last_tag === 1){
+
+                console.log(recipe.tags[last_tag-1]);
+
+            }
+
+            else{
+
+                for(i=0;i<last_tag-1;i++){
+                    if ( recipe.tags[i].id === recipe.tags[last_tag-1].id ){
+                        console.log("tag is already in list");
+                        recipe.tags.pop(recipe.tags[last_tag-1]);
+                        console.log(recipe.tags);
+                        $scope.sucess = true;
+                        $scope.done();
+                        break;
+                    }
+                }
+
+                if(recipe.tags[last_tag-1] === undefined){
+                    console.log("not add");
+                }
+                else{
+                    console.log("add");
+                }
+
+            }
+
+        };
+
+        // ==============================================================================
 
     });

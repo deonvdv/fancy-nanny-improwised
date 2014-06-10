@@ -73,7 +73,7 @@
 	                				<span>tags&nbsp;:&nbsp;</span>
 	                				<div class="tag_linear" ng-repeat="item in recipe.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
 	                					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-	                						{{item.name}}
+	                						{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-clck="drop_tag(item)"></i>&nbsp;
 	                					</span>
 	                				</div>
 	                			</div>

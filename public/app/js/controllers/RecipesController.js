@@ -196,4 +196,8 @@ angular.module('myApp')
 
         // ==============================================================================
 
+        $scope.drop_tag = function(item){
+            $scope.recipe.tags.pop(item);
+        };
+
     });

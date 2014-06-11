@@ -20,7 +20,7 @@ class TodoController extends BaseController {
 			$itemsPerPage = (int) $itemsPerPage < 1 ? 20 : $itemsPerPage;
 			$skip         = ($page-1)*$itemsPerPage;
 
-	        $collection = \Models\Todo::orderBy('title')->skip($skip)->take($itemsPerPage)->get();
+	        $collection = \Models\Todo::with(array('tags'))->orderBy('title')->skip($skip)->take($itemsPerPage)->get();
 			$itemCount	= \Models\Todo::count();
 			$totalPage 	= ceil($itemCount/$itemsPerPage);
 
@@ -132,7 +132,7 @@ class TodoController extends BaseController {
 	{
 		try 
 		{
-			$todo = \Models\Todo::find($id);
+			$todo = \Models\Todo::with(array('tags'))->find($id);
 			if(count($todo) > 0)
 			{
 				return parent::buildJsonResponse(

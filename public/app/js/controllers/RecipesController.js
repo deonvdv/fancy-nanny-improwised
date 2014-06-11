@@ -160,6 +160,8 @@ angular.module('myApp')
             $timeout(function () { $scope.sucess = false; }, 3000);
         };
 
+        // ==============================================================================
+
         $scope.dropCallback = function (event, ui, recipe, tag) {
 
             var last_tag = recipe.tags.length;

@@ -20,7 +20,7 @@ class EventController extends BaseController {
 			$itemsPerPage = (int) $itemsPerPage < 1 ? 20 : $itemsPerPage;
 			$skip         = ($page-1)*$itemsPerPage;
 
-	        $collection = \Models\Event::orderBy('title')->skip($skip)->take($itemsPerPage)->get();
+	        $collection = \Models\Event::with(array('tags'))->orderBy('title')->skip($skip)->take($itemsPerPage)->get();
 			$itemCount	= \Models\Event::count();
 			$totalPage 	= ceil($itemCount/$itemsPerPage);
 
@@ -132,7 +132,7 @@ class EventController extends BaseController {
 	{
 		try 
 		{
-			$event = \Models\Event::find($id);
+			$event = \Models\Event::with(array('tags'))->find($id);
 			if(count($event) > 0)
 			{
 				return parent::buildJsonResponse(

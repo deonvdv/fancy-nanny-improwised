@@ -307,7 +307,7 @@ class TodoController extends BaseController {
 
 				if ( \Models\Todo::where('assigned_to','=',$id) ) 
 				{
-			        $collection = \Models\Todo::where('assigned_to','=',$id)->with('assigned_by','assigned_to')->remaining()->take($itemPerPage)->get();
+			        $collection = \Models\Todo::with(array('tags'))->where('assigned_to','=',$id)->with('assigned_by','assigned_to')->remaining()->take($itemPerPage)->get();
 					$itemCount	= \Models\Todo::where('assigned_to','=',$id)->remaining()->count();
 					$totalPage 	= ceil($itemCount/$itemPerPage);
 
@@ -363,7 +363,7 @@ class TodoController extends BaseController {
 
 				if ( \Models\Todo::where('assigned_to','=',$id) ) 
 				{
-			        $collection = \Models\Todo::where('assigned_to','=',$id)->with('assigned_by','assigned_to')->completed()->take($itemPerPage)->get();
+			        $collection = \Models\Todo::with(array('tags'))->where('assigned_to','=',$id)->with('assigned_by','assigned_to')->completed()->take($itemPerPage)->get();
 					$itemCount	= \Models\Todo::where('assigned_to','=',$id)->completed()->count();
 					$totalPage 	= ceil($itemCount/$itemPerPage);
 
@@ -419,7 +419,7 @@ class TodoController extends BaseController {
 
 				if ( \Models\Todo::where('assigned_to','=',$id) ) 
 				{
-			        $collection = \Models\Todo::where('assigned_by','=',$id)->with('assigned_by','assigned_to')->take($itemPerPage)->get();
+			        $collection = \Models\Todo::with(array('tags'))->where('assigned_by','=',$id)->with('assigned_by','assigned_to')->take($itemPerPage)->get();
 					$itemCount	= \Models\Todo::where('assigned_by','=',$id)->count();
 					$totalPage 	= ceil($itemCount/$itemPerPage);
 

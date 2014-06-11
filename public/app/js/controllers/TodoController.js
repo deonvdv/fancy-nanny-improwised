@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // todo controller ------------------------------------------------------------------------------
-    .controller('todoController',function($scope, $controller ,$location, $http, $route, Authenticate, Todos, Flash, Households, Users){
+    .controller('todoController',function($scope, $controller ,$location, $http, $route, Authenticate, Todos, Flash, Households, Users, $timeout){
        
         $controller('homeController', {$scope: $scope})
 
@@ -141,7 +141,7 @@ angular.module('myApp')
         $scope.sucess = false;
 
         $scope.done = function(){
-            $timeout(function () { $scope.sucess = false; }, 3000);
+            $timeout(function () { $scope.sucess = false; }, 5000);
         };
 
         // ==============================================================================

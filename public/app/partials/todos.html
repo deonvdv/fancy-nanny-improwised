@@ -70,7 +70,7 @@
 		      <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list">
 		      	<!--  -->
 		      	<div ng-show="sucess">
-			      	<div class="alert alert-info alert-msg">
+			      	<div class="alert alert-success alert-msg">
 						<i class="fa fa-info-circle sign"></i>tag is already added.
 					</div>
 			    </div>
@@ -93,11 +93,11 @@
 		              </ul>
 		              <div class="tab-content">
 		              	<!--  -->
-		                <div class="tab-pane active" id="Assigned">
+		                <div class="tag_margin tab-pane active" id="Assigned">
 		                  <div ng-repeat="todo in todos | orderBy:'due_date':true">
 		                  	<div class="clearfix">
-			            	<div class="active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
-		                    <div class="todo-block clearfix">
+			            	<div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+		                    <div class="todo-block clearfix todo_style">
 		                      <h4><span class="color_todo">{{todo.title}}</span>
 		                      <span class="icon-position" ng-class="todo.done"><i class="fa fa-check-circle" ng-click="makeTodoFav(todo)"></i></span></h4>
 		                      <p>{{todo.description}}</p>
@@ -112,15 +112,14 @@
 		                    </div>
 			              	</div>
 			          		</div>
-			          		<hr>
 		                 </div>
 		                </div>
 		                <!--  -->
-		                <div class="tab-pane cont" id="Assigned_to">
+		                <div class="tag_margin tab-pane cont" id="Assigned_to">
 		                  <div  ng-repeat="todo in assignedToTodos | orderBy:'due_date':true">
 		                  	<div class="clearfix">
-			            	<div class="active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
-		                    <div class="todo-block clearfix">
+			            	<div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+		                    <div class="todo-block clearfix todo_style">
 		                      <h4><span class="color_todo">{{todo.title}}</span>
 		                      <span ng-class="{'icon-position-c': todo.is_complete, 'icon-position' : !todo.is_complete}">
 		                        <i class="fa fa-check-circle">
@@ -138,15 +137,14 @@
 		                    </div>
 		    				</div>
 		    				</div>
-		    				<hr>
 		                  </div>
 		                </div>
 		                <!--  -->
-		                <div class="tab-pane cont" id="Completed">
+		                <div class="tag_margin tab-pane cont" id="Completed">
 		                  <div ng-repeat="todo in completedTodos | orderBy:'due_date':true">
 		                  	<div class="clearfix">
-			            	<div class="active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
-		                    <div class="todo-block clearfix">
+			            	<div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+		                    <div class="todo-block clearfix todo_style">
 		                      <h4><span class="color_todo">{{todo.title}}</span>
 		                      <span><i class="fa fa-check-circle icon-position-c"></i></span></h4>
 		                      <p>{{todo.description}}</p>
@@ -161,7 +159,6 @@
 		                    </div>
 		                	</div>
 		            		</div>
-		            		<hr>
 		                  </div>
 		                </div>
 		                <!--  -->
@@ -248,7 +245,17 @@
 <!-- //todo -->
 
 <style type="text/css">
-
+	.alert-success {
+		background-color: rgba(25,182,152,0.5);
+		border-color: rgba(25,182,152,0) !important;
+		color: #fff;
+	}
+	.todo_style{
+		padding: 20px;border-bottom: 1px solid #f0f0f0;
+	}
+	.tag_margin{
+		margin: -20px;
+	}
 	.tag_linear{
 		display: inline-block;
 		margin-right: 3px;
@@ -270,10 +277,8 @@
 	}
 	.hoverClass{
 		background-color: #f5f5f5;
-		margin-right: 10px;
 	    border: 2px dashed #e6e6e6;
-	    padding: 13px;
-	    margin: -15px;
+	    margin: -2px;
 	}
 
 	/* todos_board */

@@ -101,6 +101,7 @@ Route::group(array(
         Route::get('recipe/{id}/tags', 'API\V1\RecipeController@tags');
         Route::get('recipe/{id}/reviews', 'API\V1\RecipeController@reviews');
         Route::post('recipe/{id}/addtag', 'API\V1\RecipeController@addtag');
+        Route::post('recipe/{id}/removetag', 'API\V1\RecipeController@removetag');
 
         Route::resource('recipe_review', 'API\V1\RecipeReviewController');
         Route::get('recipe_reviews', 'API\V1\RecipeReviewController@index');

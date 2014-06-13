@@ -61,6 +61,10 @@ class Recipe extends BaseModel {
         $this->tags()->save( $tag );
     }
 
+    public function removeTag(\Models\Tag $tag) {
+        $this->tags()->detach( $tag );
+    }
+
     public function addPicture(\Models\Picture $picture) {
         $picture->save();
         $this->save();

@@ -154,10 +154,26 @@ angular.module('myApp')
 
         // ==============================================================================
 
-        $scope.sucess = false;
+        $scope.sucessTagExist = false;
 
-        $scope.done = function(){
-            $timeout(function () { $scope.sucess = false; }, 3000);
+        $scope.doneTagExist = function(){
+            $timeout(function () { $scope.sucessTagExist = false; }, 4000);
+        };
+
+        // ==============================================================================
+
+        $scope.sucessTagAdd = false;
+
+        $scope.doneTagAdd = function(){
+            $timeout(function () { $scope.sucessTagAdd = false; }, 4000);
+        };
+
+        // ==============================================================================
+
+        $scope.sucessTagRemove = false;
+
+        $scope.doneTagRemove = function(){
+            $timeout(function () { $scope.sucessTagRemove = false; }, 4000);
         };
 
         // ==============================================================================
@@ -170,7 +186,11 @@ angular.module('myApp')
             if(last_tag === 1){
                 var tag = {};
                 tag.tag_id = recipe.tags[last_tag-1].id;
-                Recipes.addtag(tag,recipe.id);
+                Recipes.addtag(tag,recipe.id)
+                    .success(function(response){
+                        $scope.sucessTagAdd = true;
+                        $scope.doneTagAdd();
+                });
 
             }
 
@@ -181,8 +201,8 @@ angular.module('myApp')
                         console.log("tag is already in list");
                         recipe.tags.pop(recipe.tags[last_tag-1]);
                         console.log(recipe.tags);
-                        $scope.sucess = true;
-                        $scope.done();
+                        $scope.sucessTagExist = true;
+                        $scope.doneTagExist();
                         break;
                     }
                 }
@@ -193,7 +213,11 @@ angular.module('myApp')
                 else{
                     var tag = {};
                     tag.tag_id = recipe.tags[last_tag-1].id;
-                    Recipes.addtag(tag,recipe.id);
+                    Recipes.addtag(tag,recipe.id)
+                        .success(function(response){
+                            $scope.sucessTagAdd = true;
+                            $scope.doneTagAdd();
+                    });
 
                 }
 
@@ -203,8 +227,15 @@ angular.module('myApp')
 
         // ==============================================================================
 
-        $scope.drop_tag = function(item){
-            $scope.recipe.tags.pop(item);
+        $scope.drop_tag = function(item,recipe){
+            var tag = {};
+            tag.tag_id = item.id;
+            Recipes.removetag(tag,recipe.id)
+                .success(function(response){
+                    recipe.tags.pop(item);
+                    $scope.sucessTagRemove = true;
+                    $scope.doneTagRemove();
+            });
         };
 
     });

@@ -42,6 +42,14 @@ angular.module('myApp')
                     data: $.param(tagid)
                 });
             },
+            removetag : function(tagid, recipeid) {
+                return $http({
+                    method: 'POST',
+                    url: '/api/v1/recipe/'+ recipeid +'/removetag',
+                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                    data: $.param(tagid)
+                });
+            },
             destroy : function(id) {
                 return $http.delete('/api/v1/recipe/' + id);
             }

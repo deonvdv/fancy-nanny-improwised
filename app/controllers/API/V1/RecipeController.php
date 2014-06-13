@@ -399,6 +399,57 @@ class RecipeController extends BaseController {
 		}
 	}
 
+	/**
+	 * RemoveTag the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function removetag($id)
+	{
+		try
+		{
+			$recipe = \Models\Recipe::find($id);
+			$tag = \Models\Tag::find( Input::get('tag_id') );
+			$input = Input::all();
+
+			if(!is_null($recipe) && !is_null($tag))
+			{
+				$recipe->removeTag( $tag );
+
+				return parent::buildJsonResponse(
+						array(
+							'success'	=> true,
+							'data'		=> $recipe->toArray(),
+							'message'	=> 'Tag Removed sucessfully!'
+						)
+					);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Recipe with id: '.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
+
 	public function recipe_ingredients($recipe_id, $page = 1)
 	{
 		try

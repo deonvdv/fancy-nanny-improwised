@@ -30,7 +30,7 @@
 						<label>New Category:</label>
               			<input class="form-control" placeholder="Category Name" ng-model="Cat.name" name="newCat" required>
               			<div class="error">
-			            	<span ng-show="form.newCat.$error.required && submitted">name required</span>
+			            	<span ng-show="form.newCat.$error.required && submitted">Category required</span>
 			          	</div>
 			          	<br>
               			<button type="button" class="btn btn-dark" ng-click="addNewCat(form)">Add Category</button>
@@ -143,7 +143,7 @@
 						<label>New Category:</label>
               			<input class="form-control" placeholder="Category Name" ng-model="Cat.name" name="newCat" required>
               			<div class="error">
-			            	<span ng-show="form.newCat.$error.required && submitted">name required</span>
+			            	<span ng-show="form.newCat.$error.required && submitted">Category required</span>
 			          	</div>
 			          	<br>
               			<button type="button" class="btn btn-dark" ng-click="addNewCat(form)">Add Category</button>

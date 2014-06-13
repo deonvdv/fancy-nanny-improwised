@@ -59,7 +59,7 @@
 					</div>
 					<!--  -->
 	                <div class="clearfix">
-	                	<div class="recipe_list" ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients | orderBy:'created_at' : true  track by $index" ng-init="initFav(recipe)">
+	                	<div class="recipe_list" ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients | filter:ftag | orderBy:'created_at' : true  track by $index" ng-init="initFav(recipe)">
 	                		<div class="clearfix active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='recipe.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(recipe,tag)'}" data-jqyoui-options="{hoverClass: 'hoverClass'}">
 	                			<a href="/#/recipe_detail/{{recipe.id}}"><div class="img-pos"></div></a>
 	                			<div class="recipes-block">
@@ -143,7 +143,7 @@
 
 	                    <br><br>
 
-	                    <input type="search" class="form-control" placeholder="By Tags"><br>
+	                    <input type="search" class="form-control" placeholder="By Tags" ng-model="ftag"><br>
 
 	                    <select ui-select2 ng-model="fIngredients" data-placeholder="Select ingredient" style="width:100%">
 						    <option value="">select ingredients&nbsp;/&nbsp;clear filter</option>

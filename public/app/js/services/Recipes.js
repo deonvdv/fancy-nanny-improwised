@@ -26,12 +26,20 @@ angular.module('myApp')
             show : function(id) {
                 return $http.get('/api/v1/recipe/' + id);
             },
-            save : function(unitOfMeasureData) {
+            save : function(recipeData) {
                 return $http({
                     method: 'POST',
                     url: '/api/v1/recipe',
                     headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-                    data: $.param(unitOfMeasureData)
+                    data: $.param(recipeData)
+                });
+            },
+            addtag : function(tagid, recipeid) {
+                return $http({
+                    method: 'POST',
+                    url: '/api/v1/recipe/'+ recipeid +'/addtag',
+                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                    data: $.param(tagid)
                 });
             },
             destroy : function(id) {

@@ -166,9 +166,11 @@ angular.module('myApp')
 
             var last_tag = recipe.tags.length;
 
+            // add first tag in recipe
             if(last_tag === 1){
-
-                console.log(recipe.tags[last_tag-1]);
+                var tag = {};
+                tag.tag_id = recipe.tags[last_tag-1].id;
+                Recipes.addtag(tag,recipe.id);
 
             }
 
@@ -185,11 +187,14 @@ angular.module('myApp')
                     }
                 }
 
-                if(recipe.tags[last_tag-1] === undefined){
-                    console.log("not add");
-                }
+                if(recipe.tags[last_tag-1] === undefined){}
+
+                // add tags in recipe
                 else{
-                    console.log("add");
+                    var tag = {};
+                    tag.tag_id = recipe.tags[last_tag-1].id;
+                    Recipes.addtag(tag,recipe.id);
+
                 }
 
             }

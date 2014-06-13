@@ -100,6 +100,7 @@ Route::group(array(
         Route::get('recipe/{id}/categories', 'API\V1\RecipeController@categories');
         Route::get('recipe/{id}/tags', 'API\V1\RecipeController@tags');
         Route::get('recipe/{id}/reviews', 'API\V1\RecipeController@reviews');
+        Route::post('recipe/{id}/addtag', 'API\V1\RecipeController@addtag');
 
         Route::resource('recipe_review', 'API\V1\RecipeReviewController');
         Route::get('recipe_reviews', 'API\V1\RecipeReviewController@index');
@@ -119,6 +120,7 @@ Route::group(array(
         Route::get('event/{id}/tags', 'API\V1\EventController@tags');
         Route::get('events/page/{pagenum}', 'API\V1\EventController@index');
         Route::get('events/page/{pagenum}/{itemsperpage}', 'API\V1\EventController@index');
+        Route::post('event/{id}/addtag', 'API\V1\EventController@addtag');
 
         Route::resource('todo', 'API\V1\TodoController');
         Route::get('todos', 'API\V1\TodoController@index');
@@ -128,6 +130,7 @@ Route::group(array(
         Route::get('todo/{id}/completed', 'API\V1\TodoController@completed');
         Route::get('todos/page/{pagenum}', 'API\V1\TodoController@index');
         Route::get('todos/page/{pagenum}/{itemsperpage}', 'API\V1\TodoController@index');
+        Route::post('todo/{id}/addtag', 'API\V1\TodoController@addtag');
 
         Route::resource('document', 'API\V1\DocumentController');
         Route::get('documents', 'API\V1\DocumentController@index');

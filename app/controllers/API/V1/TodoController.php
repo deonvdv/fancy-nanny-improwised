@@ -249,6 +249,59 @@ class TodoController extends BaseController {
 	}
 
 	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function addtag($id)
+	{
+		try
+		{
+
+			$todo = \Models\Todo::find($id);
+			$tag = \Models\Tag::find( Input::get('tag_id') );
+			$input = Input::all();
+
+			if(!is_null($todo) && !is_null($tag))
+			{
+
+				$todo->addTag( $tag );
+
+					return parent::buildJsonResponse(
+						array(
+							'success'	=> true,
+							'data'		=> $todo->toArray(),
+							'message'	=> 'Todo updated sucessfully!'
+						)
+					);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Todo with id: '.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
+
+	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id

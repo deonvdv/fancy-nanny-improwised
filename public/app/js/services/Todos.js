@@ -25,6 +25,14 @@ angular.module('myApp')
                     data: $.param(todoData)
                 });
             },
+            addtag : function(tagid, todoid) {
+                return $http({
+                    method: 'POST',
+                    url: '/api/v1/todo/'+ todoid + '/addtag',
+                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                    data: $.param(tagid)
+                });
+            },
             destroy : function(id) {
                 return $http.delete('/api/v1/todo/' + id);
             }

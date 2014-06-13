@@ -22,12 +22,24 @@
 	    <div class="col-xs-1"></div>
 	    <div class="col-sm-8">
 	    	<!--  -->
-	    	<div ng-show="sucess">
-		      	<div class="alert alert-info alert-msg">
-					<i class="fa fa-info-circle sign"></i>tag is already added.
+	      	<div ng-show="sucessTagAdd">
+		      	<div class="alert alert-success alert-msg">
+					<i class="fa fa-check sign"></i>new tag added.
 				</div>
 		    </div>
-	    	<!--  -->
+		    <!--  -->
+	      	<div ng-show="sucessTagExist">
+		      	<div class="alert alert-info alert-msg">
+					<i class="fa fa-check sign"></i>tag already exists.
+				</div>
+		    </div>
+		    <!--  -->
+		    <div ng-show="sucessTagRemove">
+		      	<div class="alert alert-danger alert-msg">
+					<i class="fa fa-check sign"></i>tag deleted.
+				</div>
+		    </div>
+	      	<!--  -->
 	        <div class="block-flat">
 	            <div class="content">
 	            	<div class="clearfix">
@@ -75,7 +87,7 @@
 			                <span>tags&nbsp;:&nbsp;</span>
 		    				<div class="tag_linear" ng-repeat="item in recipeDetail.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
 		    					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-		    						&nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-clck="drop_tag(item)"></i>&nbsp;
+		    						&nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipeDetail)"></i>&nbsp;
 		    					</span>
 		    				</div>
 			                <br><br>

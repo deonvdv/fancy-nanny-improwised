@@ -37,10 +37,26 @@ angular.module('myApp')
 
         // ==============================================================================
 
-        $scope.sucess = false;
+        $scope.sucessTagExist = false;
 
-        $scope.done = function(){
-            $timeout(function () { $scope.sucess = false; }, 3000);
+        $scope.doneTagExist = function(){
+            $timeout(function () { $scope.sucessTagExist = false; }, 4000);
+        };
+
+        // ==============================================================================
+
+        $scope.sucessTagAdd = false;
+
+        $scope.doneTagAdd = function(){
+            $timeout(function () { $scope.sucessTagAdd = false; }, 4000);
+        };
+
+        // ==============================================================================
+
+        $scope.sucessTagRemove = false;
+
+        $scope.doneTagRemove = function(){
+            $timeout(function () { $scope.sucessTagRemove = false; }, 4000);
         };
 
         // ==============================================================================
@@ -53,7 +69,11 @@ angular.module('myApp')
 
                 var tag = {};
                 tag.tag_id = recipeDetail.tags[last_tag-1].id;
-                Recipes.addtag(tag,recipeDetail.id);
+                Recipes.addtag(tag,recipeDetail.id)
+                    .success(function(response){
+                        $scope.sucessTagAdd = true;
+                        $scope.doneTagAdd();
+                });
 
             }
 
@@ -64,8 +84,8 @@ angular.module('myApp')
                         console.log("tag is already in list");
                         recipeDetail.tags.pop(recipeDetail.tags[last_tag-1]);
                         console.log(recipeDetail.tags);
-                        $scope.sucess = true;
-                        $scope.done();
+                        $scope.sucessTagExist = true;
+                        $scope.doneTagExist();
                         break;
                     }
                 }
@@ -77,11 +97,28 @@ angular.module('myApp')
 
                     var tag = {};
                     tag.tag_id = recipeDetail.tags[last_tag-1].id;
-                    Recipes.addtag(tag,recipeDetail.id);
+                    Recipes.addtag(tag,recipeDetail.id)
+                        .success(function(response){
+                            $scope.sucessTagAdd = true;
+                            $scope.doneTagAdd();
+                    });
                 }
 
             }
 
+        };
+
+        // ==============================================================================
+
+         $scope.drop_tag = function(item,recipeDetail){
+            var tag = {};
+            tag.tag_id = item.id;
+            Recipes.removetag(tag,recipeDetail.id)
+                .success(function(response){
+                    recipeDetail.tags.pop(item);
+                    $scope.sucessTagRemove = true;
+                    $scope.doneTagRemove();
+            });
         };
 
         // ==============================================================================

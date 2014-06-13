@@ -247,6 +247,62 @@ class EventController extends BaseController {
 	}
 
 	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function addtag($id)
+	{
+		try
+		{
+
+			$event = \Models\Event::find($id);
+			$tag = \Models\Tag::find( Input::get('tag_id') );
+			$input = Input::all();
+
+			if(!is_null($event) && !is_null($tag))
+			{
+
+				$event->addTag( $tag );
+
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $event->toArray(),
+						'message'	=> 'Tag Added sucessfully!'
+					)
+				);
+
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Event with id: '.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
+
+
+
+	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id

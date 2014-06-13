@@ -52,7 +52,9 @@ angular.module('myApp')
 
             if(last_tag === 1){
 
-                console.log(eventDetail.tags[last_tag-1]);
+                var tag = {};
+                tag.tag_id = eventDetail.tags[last_tag-1].id;
+                Events.addtag(tag,eventDetail.id);
 
             }
 
@@ -73,7 +75,9 @@ angular.module('myApp')
                     console.log("not add");
                 }
                 else{
-                    console.log("add");
+                    var tag = {};
+                    tag.tag_id = eventDetail.tags[last_tag-1].id;
+                    Events.addtag(tag,eventDetail.id);
                 }
 
             }

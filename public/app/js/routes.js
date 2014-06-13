@@ -37,5 +37,7 @@ angular.module("myApp")
 
         $routeProvider.when('/add_UnitOfMeasure',{templateUrl:'app/partials/add_UnitOfMeasure.html', controller: 'addUnitOfMeasureController'})
 
+        $routeProvider.when('/add_Meal',{templateUrl:'app/partials/add_Meal.html', controller: 'addNewMealController'})
+
         $routeProvider.otherwise({redirectTo :'/'})
     }]);

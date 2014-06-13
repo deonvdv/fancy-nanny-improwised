@@ -96,6 +96,7 @@
   <script type="text/javascript" src="app/js/controllers/addIngredientController.js"></script>
   <script type="text/javascript" src="app/js/controllers/addCategoriesController.js"></script>
   <script type="text/javascript" src="app/js/controllers/addUnitOfMeasureController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/addNewMealController.js"></script>
   <!-- //controllers -->
 
   <script type="text/javascript" src="app/js/directives.js"></script>

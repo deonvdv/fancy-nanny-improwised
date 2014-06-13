@@ -1,0 +1,206 @@
+<!-- sidebar -->
+
+<div class="fn-sidebar"></div>
+
+<!-- //sidebar -->
+
+<!-- right-side section (top navbar + add recipes) -->
+
+<div class="container-fluid" id="pcont">
+
+    <!-- top navbar -->
+
+      <div class="fntop-navbar"></div>
+
+    <!-- //top navbar -->
+
+    <!-- add recipes page -->
+
+    <div class="cl-mcont">
+
+	  <div class="clearfix">
+	    <br>
+	  <!--  -->
+	  <div class="col-md-1"></div>
+	  <!--  -->
+	  <div class="col-md-6 col-sm-12">
+	  	<div ng-show="sucess">
+	      	<div class="alert alert-success alert-msg">
+				<button type="button" class="close" ng-click="done()">×</button>
+				<i class="fa fa-check sign"></i>your recipe is successfully added.
+			</div>
+	    </div>
+	    <!--  -->
+	    <div class="block-flat">
+	      <div class="header">
+	        <h3><i class="fa fa-coffee fa-color-black"></i>&nbsp;Add Meal</h3>
+	      </div>
+	      <div class="content">
+	      	
+	        <!--  -->
+	        <form role="form" name="form" novalidate>
+
+	        		<div class="row">
+
+		        		<!-- <div class="col-lg-6"><label>Select Recipes</label></div> -->
+
+		        		<div class="col-lg-6">
+
+		        			<label>Select Day</label>
+
+		        			<select ui-select2 ng-model="meal_array.day_of_week" data-placeholder="Select Slote" style="width:100%" name="meal_day" ng-required="true">
+							    <option value=""></option>
+							    <option ng-repeat="day in Days" value="{{day.id}}">{{day.name}}</option>
+							</select>
+							<div class="error">
+		            			<span ng-show="form.meal_day.$error.required && submitted">select Day</span>
+		          		    </div>
+
+		        		</div>
+
+		        		<div class="col-lg-6">
+
+		        			<label>Select Slote</label>
+
+		        			<select ui-select2 ng-model="meal_array.slot" data-placeholder="Select Slote" style="width:100%" name="meal_slote" ng-required="true">
+							    <option value=""></option>
+							    <option ng-repeat="Slote in Slotes" value="{{Slote}}">{{Slote}}</option>
+							</select>
+							<div class="error">
+		            			<span ng-show="form.meal_slote.$error.required && submitted">select Slote</span>
+		          		    </div>
+
+		        		</div>
+
+	        		</div>
+
+	        		<div class="row">
+
+		        		<div class="error col-xs-12" ng-show="error_msg">Add at least one recipe to Meal</div>
+
+	        		</div>
+
+	        		<div class="row" ng-repeat="recipe in meal_array.recipe_id">
+		        	
+			        	<div class="col-lg-11">
+
+			        		<select ui-select2 ng-model="recipe.recipe_id" data-placeholder="Select Recipes" style="width:100%" name="meal_recipe" ng-required="true">
+							    <option value=""></option>
+							    <option ng-repeat="Recipe in recipes" value="{{Recipe.id}}">{{Recipe.name}}</option>
+							</select>
+							<div class="error">
+		            			<span ng-show="form.meal_recipe.$error.required && submitted">select Recipe</span>
+		          		    </div>
+
+			        	</div>
+
+			        	<div class="col-lg-1 text-center">
+
+			        		<i class="fa fa-minus-square-o ing_icon" ng-click="removeMealRecipe(recipe)"></i>
+
+			        	</div>
+
+			        </div>
+								        
+			        <div class="row">
+
+			        		<span class="add_ing" ng-click="addNewMealRecipe()"><i class="fa fa-plus"></i>&nbsp;Add Meal</span>
+
+		        	</div>
+
+			        <br><br>
+
+					<!-- ============================================================================ -->
+					<button class="btn btn-prusia" type="submit" ng-click="addMeal(form)">Add</button>
+					<button class="btn btn-default">Cancel</button>
+					<!-- ============================================================================ -->
+
+	        </form>
+
+	      </div>
+	    </div>
+	    <!--  -->
+	  </div>
+	</div>
+
+
+
+
+		        		<!-- <p class="input-group" style="height: 100px;width: 100px">
+			              <input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" style="display: inline-block;width: 91px;height: 35px;padding: 5px;">
+			              <span class="input-group-btn" style="display: inline-block;height: 35px;" >
+			                <button type="button" class="btn btn-default" ng-click="open($event)" style="margin-top:-1px !important;height: 35px;border: 1px solid #dfdfdf;"><i class="glyphicon glyphicon-calendar"></i></button>
+			              </span>
+			            </p>
+
+		        		{{dt | date:'dd/MM/yyyy'}} -->
+
+
+    <!-- //add recipes page -->
+
+</div>
+
+<!-- //recipes -->
+
+<!-- ============================================================== -->
+
+<style type="text/css">
+	.btn-sm {
+		padding: 5px 3px;
+		font-size: 12px;
+	}
+	.date_pick .input-group table{
+		outline: none !important;
+		border: 1px solid black;
+	}
+	.date_pick .input-group .btn{
+		margin: 0 !important;
+		padding-bottom: 5px !important;
+		padding-top: 5px !important;
+		box-shadow: none;
+		border: none !important;
+	}
+	.date_pick .input-group table td {
+		padding: 0px 0px;
+		font-size: 12px;
+	}
+	.alert-msg{
+		font-size: 14px;
+		font-weight: 400;
+	}
+	.add_ing{
+		margin-left: 15px;
+		font-size: 16px;
+		text-decoration: underline;
+	}
+	.add_ing:hover{
+		cursor: pointer;
+		color:green;
+
+	}
+	.ing_icon{
+		font-size:18px;
+		cursor: pointer;
+		margin-top: 9px;
+	}
+	.ing_icon:hover{
+		color: red;
+	}
+	.select2-results .select2-result-label {
+		color: #555555;
+		font-weight: 600;
+	}
+	.select2-results .select2-highlighted {
+		background: none repeat scroll 0 0 #dddddd !important;
+	}
+	.select2-drop-active {
+		border-bottom: 1px solid #dddddd !important;
+		border-left: 1px solid #dddddd !important;
+		border-right: 1px solid #dddddd !important;
+	}
+	.select2-container-active .select2-choice, .select2-container-active .select2-choices {
+		box-shadow: none;
+		border-color: #b9b9b9;
+	}
+</style>
+

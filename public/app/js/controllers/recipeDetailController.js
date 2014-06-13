@@ -51,7 +51,9 @@ angular.module('myApp')
 
             if(last_tag === 1){
 
-                console.log(recipeDetail.tags[last_tag-1]);
+                var tag = {};
+                tag.tag_id = recipeDetail.tags[last_tag-1].id;
+                Recipes.addtag(tag,recipeDetail.id);
 
             }
 
@@ -72,7 +74,10 @@ angular.module('myApp')
                     console.log("not add");
                 }
                 else{
-                    console.log("add");
+
+                    var tag = {};
+                    tag.tag_id = recipeDetail.tags[last_tag-1].id;
+                    Recipes.addtag(tag,recipeDetail.id);
                 }
 
             }

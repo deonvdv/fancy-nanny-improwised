@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'fancy-nanny',
-			'username'  => 'root',
-			'password'  => '123456',
+			'database'  => 'fancynanny',
+			'username'  => 'forge',
+			'password'  => 'twykjsl2BSsH96l0TrJO',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

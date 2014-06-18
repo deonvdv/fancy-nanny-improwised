@@ -42,7 +42,7 @@ class MealController extends BaseController {
 			$itemsPerPage = (int) $itemsPerPage < 1 ? 20 : $itemsPerPage;
 			$skip         = ($page-1)*$itemsPerPage;
 
-	        $collection = \Models\Meal::orderBy('week_number')->skip($skip)->take($itemsPerPage)->get();
+	        $collection = \Models\Meal::with('recipes')->orderBy('week_number')->skip($skip)->take($itemsPerPage)->get();
 			$itemCount	= \Models\Meal::count();
 			$totalPage 	= ceil($itemCount/$itemsPerPage);
 

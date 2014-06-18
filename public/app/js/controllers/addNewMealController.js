@@ -1,11 +1,98 @@
 angular.module('myApp')
 
     // recipes controller ------------------------------------------------------------------------------
-    .controller('addNewMealController',function($scope, $controller, $http, Recipes){
+    .controller('addNewMealController',function($scope, $controller, $http, Recipes, Meals){
 
         $controller('homeController', {$scope: $scope});
 
         // ==============================================================================
+
+        $scope.meals = [];
+
+        $scope.day_of_week_1 = [];
+
+        $scope.day_of_week_2 = [];
+
+        $scope.day_of_week_3 = [];
+
+        $scope.day_of_week_4 = [];
+
+        $scope.day_of_week_5 = [];
+
+        $scope.day_of_week_6 = [];
+
+        $scope.day_of_week_7 = [];
+
+        loadmeals();
+
+        function loadmeals(){
+
+            //Fetch all Recipes for LoggedIn user's household.
+            Meals.get()
+                .success(function(data) {
+
+                    $scope.meals = data.data;
+
+                    for(i=0;i<$scope.meals.length;i++){
+
+                            if($scope.meals[i].day_of_week === 1){
+
+                                $scope.day_of_week_1.push($scope.meals[i]);
+
+                            }
+
+                            else if($scope.meals[i].day_of_week === 2){
+
+                                $scope.day_of_week_2.push($scope.meals[i]);
+
+                            }
+
+                            else if($scope.meals[i].day_of_week === 3){
+
+                                $scope.day_of_week_3.push($scope.meals[i]);
+
+                            }
+
+                            else if($scope.meals[i].day_of_week === 4){
+
+                                $scope.day_of_week_4.push($scope.meals[i]);
+
+                            }
+
+                            else if($scope.meals[i].day_of_week === 5){
+
+                                $scope.day_of_week_5.push($scope.meals[i]);
+
+                            }
+
+                            else if($scope.meals[i].day_of_week === 6){
+
+                                $scope.day_of_week_6.push($scope.meals[i]);
+
+                            }
+
+                            else if($scope.meals[i].day_of_week === 7){
+
+                                $scope.day_of_week_7.push($scope.meals[i]);
+
+                            }
+
+                    }
+
+                console.log($scope.day_of_week_1);
+                console.log($scope.day_of_week_2);
+                console.log($scope.day_of_week_3);
+                console.log($scope.day_of_week_4);
+                console.log($scope.day_of_week_5);
+                console.log($scope.day_of_week_6);
+                console.log($scope.day_of_week_7);
+
+            });
+
+        }
+
+        // ==============================================================================
+
 
         // object to hold all the data for the recipes
 

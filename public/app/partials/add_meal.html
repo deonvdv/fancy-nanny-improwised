@@ -23,7 +23,7 @@
 	  <!--  -->
 	  <div class="col-md-1"></div>
 	  <!--  -->
-	  <div class="col-md-6 col-sm-12">
+	  <div class="col-lg-5 col-md-6 col-sm-12">
 	  	<div ng-show="sucess">
 	      	<div class="alert alert-success alert-msg">
 				<button type="button" class="close" ng-click="done()">×</button>
@@ -121,21 +121,216 @@
 	    </div>
 	    <!--  -->
 	  </div>
+
+
+	  <div class="col-lg-6">
+
+	  	<div class="block block-color warning">
+			<div class="header">
+
+				<h3>
+
+					Meal
+
+				</h3>
+
+			</div>
+			<div class="content">
+				<table class="no-border hover">
+					<thead class="no-border">
+						<tr>
+							<th><label>Date of Week</label></th>
+							<th><label>Breakfast</label></th>
+							<th><label>Lunch</label></th>
+							<th><label>Dinner</label></th>
+						</tr>
+					</thead>
+
+					<tbody class="no-border-y" >
+
+						<tr>
+							<td>Sunday</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_1" ng-if="day1.slot == 'breakfast'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_1" ng-if="day1.slot == 'lunch'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_1" ng-if="day1.slot == 'dinner'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td>Monday</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_2" ng-if="day1.slot == 'breakfast'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_2" ng-if="day1.slot == 'lunch'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_2" ng-if="day1.slot == 'dinner'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td>Tuesday</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_3" ng-if="day1.slot == 'breakfast'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_3" ng-if="day1.slot == 'lunch'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_3" ng-if="day1.slot == 'dinner'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td>Wednesday</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_4" ng-if="day1.slot == 'breakfast'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_4" ng-if="day1.slot == 'lunch'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_4" ng-if="day1.slot == 'dinner'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td>Thursday</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_5" ng-if="day1.slot == 'breakfast'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_5" ng-if="day1.slot == 'lunch'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_5" ng-if="day1.slot == 'dinner'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td>Friday</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_6" ng-if="day1.slot == 'breakfast'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_6" ng-if="day1.slot == 'lunch'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_6" ng-if="day1.slot == 'dinner'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+						</tr>
+
+
+						<tr>
+							<td>Saturday</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_7" ng-if="day1.slot == 'breakfast'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_7" ng-if="day1.slot == 'lunch'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div ng-repeat="day1 in day_of_week_7" ng-if="day1.slot == 'dinner'">
+									<div ng-repeat="recipe in day1.recipes">
+										{{recipe.name}}
+									</div>
+								</div>
+							</td>
+						</tr>
+
+
+					</tbody>
+
+				</table>
+			</div>
+		</div>
 	</div>
-
-
-
-
-		        		<!-- <p class="input-group" style="height: 100px;width: 100px">
-			              <input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" style="display: inline-block;width: 91px;height: 35px;padding: 5px;">
-			              <span class="input-group-btn" style="display: inline-block;height: 35px;" >
-			                <button type="button" class="btn btn-default" ng-click="open($event)" style="margin-top:-1px !important;height: 35px;border: 1px solid #dfdfdf;"><i class="glyphicon glyphicon-calendar"></i></button>
-			              </span>
-			            </p>
-
-		        		{{dt | date:'dd/MM/yyyy'}} -->
-
-
     <!-- //add recipes page -->
 
 </div>

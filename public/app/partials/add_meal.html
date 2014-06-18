@@ -148,182 +148,32 @@
 
 					<tbody class="no-border-y" >
 
-						<tr>
-							<td>Sunday</td>
+						<tr ng-repeat="week_day in day_of_week">
+							<td>															
+								{{week_day.day}}
+							</td>
 							<td>
-								<div ng-repeat="day1 in day_of_week_1" ng-if="day1.slot == 'breakfast'">
+								<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'breakfast'">
 									<div ng-repeat="recipe in day1.recipes">
 										{{recipe.name}}
 									</div>
 								</div>
 							</td>
 							<td>
-								<div ng-repeat="day1 in day_of_week_1" ng-if="day1.slot == 'lunch'">
+								<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'lunch'">
 									<div ng-repeat="recipe in day1.recipes">
 										{{recipe.name}}
 									</div>
 								</div>
 							</td>
 							<td>
-								<div ng-repeat="day1 in day_of_week_1" ng-if="day1.slot == 'dinner'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-						</tr>
-
-						<tr>
-							<td>Monday</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_2" ng-if="day1.slot == 'breakfast'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_2" ng-if="day1.slot == 'lunch'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_2" ng-if="day1.slot == 'dinner'">
+								<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'dinner'">
 									<div ng-repeat="recipe in day1.recipes">
 										{{recipe.name}}
 									</div>
 								</div>
 							</td>
 						</tr>
-
-						<tr>
-							<td>Tuesday</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_3" ng-if="day1.slot == 'breakfast'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_3" ng-if="day1.slot == 'lunch'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_3" ng-if="day1.slot == 'dinner'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-						</tr>
-
-						<tr>
-							<td>Wednesday</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_4" ng-if="day1.slot == 'breakfast'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_4" ng-if="day1.slot == 'lunch'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_4" ng-if="day1.slot == 'dinner'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-						</tr>
-
-						<tr>
-							<td>Thursday</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_5" ng-if="day1.slot == 'breakfast'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_5" ng-if="day1.slot == 'lunch'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_5" ng-if="day1.slot == 'dinner'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-						</tr>
-
-						<tr>
-							<td>Friday</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_6" ng-if="day1.slot == 'breakfast'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_6" ng-if="day1.slot == 'lunch'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_6" ng-if="day1.slot == 'dinner'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-						</tr>
-
-
-						<tr>
-							<td>Saturday</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_7" ng-if="day1.slot == 'breakfast'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_7" ng-if="day1.slot == 'lunch'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-							<td>
-								<div ng-repeat="day1 in day_of_week_7" ng-if="day1.slot == 'dinner'">
-									<div ng-repeat="recipe in day1.recipes">
-										{{recipe.name}}
-									</div>
-								</div>
-							</td>
-						</tr>
-
 
 					</tbody>
 

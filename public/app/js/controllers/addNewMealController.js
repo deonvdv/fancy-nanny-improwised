@@ -9,19 +9,28 @@ angular.module('myApp')
 
         $scope.meals = [];
 
+        $scope.day_of_week = [];
+
         $scope.day_of_week_1 = [];
+        $scope.day_of_week_1.day = "Sunday";
 
         $scope.day_of_week_2 = [];
+        $scope.day_of_week_2.day = "Monday";
 
         $scope.day_of_week_3 = [];
+        $scope.day_of_week_3.day = "Tuesday";
 
         $scope.day_of_week_4 = [];
+        $scope.day_of_week_4.day = "Wednesday";
 
         $scope.day_of_week_5 = [];
+        $scope.day_of_week_5.day = "Thursday";
 
         $scope.day_of_week_6 = [];
+        $scope.day_of_week_6.day = "Friday";
 
         $scope.day_of_week_7 = [];
+        $scope.day_of_week_7.day = "Saturday";
 
         loadmeals();
 
@@ -79,13 +88,15 @@ angular.module('myApp')
 
                     }
 
-                console.log($scope.day_of_week_1);
-                console.log($scope.day_of_week_2);
-                console.log($scope.day_of_week_3);
-                console.log($scope.day_of_week_4);
-                console.log($scope.day_of_week_5);
-                console.log($scope.day_of_week_6);
-                console.log($scope.day_of_week_7);
+                $scope.day_of_week.push($scope.day_of_week_1);
+                $scope.day_of_week.push($scope.day_of_week_2);
+                $scope.day_of_week.push($scope.day_of_week_3);
+                $scope.day_of_week.push($scope.day_of_week_4);
+                $scope.day_of_week.push($scope.day_of_week_5);
+                $scope.day_of_week.push($scope.day_of_week_6);
+                $scope.day_of_week.push($scope.day_of_week_7);
+
+                console.log($scope.day_of_week);
 
             });
 

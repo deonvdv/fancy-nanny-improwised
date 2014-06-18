@@ -122,6 +122,7 @@ Route::group(array(
         Route::get('events/page/{pagenum}', 'API\V1\EventController@index');
         Route::get('events/page/{pagenum}/{itemsperpage}', 'API\V1\EventController@index');
         Route::post('event/{id}/addtag', 'API\V1\EventController@addtag');
+        Route::post('event/{id}/removetag', 'API\V1\EventController@removetag');
 
         Route::resource('todo', 'API\V1\TodoController');
         Route::get('todos', 'API\V1\TodoController@index');
@@ -132,6 +133,7 @@ Route::group(array(
         Route::get('todos/page/{pagenum}', 'API\V1\TodoController@index');
         Route::get('todos/page/{pagenum}/{itemsperpage}', 'API\V1\TodoController@index');
         Route::post('todo/{id}/addtag', 'API\V1\TodoController@addtag');
+        Route::post('todo/{id}/removetag', 'API\V1\TodoController@removetag');
 
         Route::resource('document', 'API\V1\DocumentController');
         Route::get('documents', 'API\V1\DocumentController@index');

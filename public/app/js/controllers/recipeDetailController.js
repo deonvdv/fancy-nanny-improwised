@@ -110,12 +110,12 @@ angular.module('myApp')
 
         // ==============================================================================
 
-         $scope.drop_tag = function(item,recipeDetail){
+         $scope.drop_tag = function(item,recipeDetail,$index){
             var tag = {};
             tag.tag_id = item.id;
             Recipes.removetag(tag,recipeDetail.id)
                 .success(function(response){
-                    recipeDetail.tags.pop(item);
+                    recipeDetail.tags.splice($index,1);
                     $scope.sucessTagRemove = true;
                     $scope.doneTagRemove();
             });

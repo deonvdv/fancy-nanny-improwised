@@ -87,7 +87,7 @@
 			                <span>tags&nbsp;:&nbsp;</span>
 		    				<div class="tag_linear" ng-repeat="item in recipeDetail.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
 		    					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-		    						&nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipeDetail)"></i>&nbsp;
+		    						&nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipeDetail,$index)"></i>&nbsp;
 		    					</span>
 		    				</div>
 			                <br><br>
@@ -148,6 +148,21 @@
 </div>
 <!-- //full recipes -->
 <style type="text/css">
+.alert-success {
+	background-color: rgba(25,182,152,0.5);
+	border-color: rgba(25,182,152,0) !important;
+	color: #fff;
+}
+.alert-danger {
+	background-color: rgba(234,97,83,0.5);
+	border-color: rgba(234,97,83,0) !important;
+	color: #fff;
+}
+.alert-info {
+	background-color: rgba(74,163,223,0.5);
+	border-color: rgba(74,163,223,0) !important;
+	color: #fff;
+}
 .tag_linear{
 	display: inline-block;
 	margin-right: 3px;

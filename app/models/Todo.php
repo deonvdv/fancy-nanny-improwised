@@ -36,6 +36,10 @@ class Todo extends BaseModel {
         $this->tags()->save( $tag );
     }
 
+    public function removeTag(\Models\Tag $tag) {
+        $this->tags()->detach( $tag );
+    }
+
     public function setOwner(\Models\User $user) {
         $user->save();
         $this->owner()->associate( $user );

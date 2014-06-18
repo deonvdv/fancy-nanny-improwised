@@ -126,9 +126,9 @@ angular.module('myApp')
 
         $scope.tags = {};
 
-        loadData12();
+        loadDataTags();
 
-        function loadData12(){
+        function loadDataTags(){
             //Fetch all tags for LoggedInUser
             Users.getTags(sessionStorage.loggedUserId)
                 .success(function(data){
@@ -138,10 +138,26 @@ angular.module('myApp')
 
         // ==============================================================================
 
-        $scope.sucess = false;
+        $scope.sucessTagExist = false;
 
-        $scope.done = function(){
-            $timeout(function () { $scope.sucess = false; }, 5000);
+        $scope.doneTagExist = function(){
+            $timeout(function () { $scope.sucessTagExist = false; }, 4000);
+        };
+
+        // ==============================================================================
+
+        $scope.sucessTagAdd = false;
+
+        $scope.doneTagAdd = function(){
+            $timeout(function () { $scope.sucessTagAdd = false; }, 4000);
+        };
+
+        // ==============================================================================
+
+        $scope.sucessTagRemove = false;
+
+        $scope.doneTagRemove = function(){
+            $timeout(function () { $scope.sucessTagRemove = false; }, 4000);
         };
 
         // ==============================================================================
@@ -154,7 +170,11 @@ angular.module('myApp')
 
                 var tag = {};
                 tag.tag_id = todo.tags[last_tag-1].id;
-                Todos.addtag(tag,todo.id);
+                Todos.addtag(tag,todo.id)
+                    .success(function(response){
+                        $scope.sucessTagAdd = true;
+                        $scope.doneTagAdd();
+                });
 
             }
 
@@ -165,8 +185,8 @@ angular.module('myApp')
                         console.log("tag is already in list");
                         todo.tags.pop(todo.tags[last_tag-1]);
                         console.log(todo.tags);
-                        $scope.sucess = true;
-                        $scope.done();
+                        $scope.sucessTagExist = true;
+                        $scope.doneTagExist();
                         break;
                     }
                 }
@@ -178,11 +198,28 @@ angular.module('myApp')
 
                     var tag = {};
                     tag.tag_id = todo.tags[last_tag-1].id;
-                    Todos.addtag(tag,todo.id);
+                    Todos.addtag(tag,todo.id)
+                        .success(function(response){
+                            $scope.sucessTagAdd = true;
+                            $scope.doneTagAdd();
+                    });
                 }
 
             }
 
+        };
+
+        // ==============================================================================
+
+         $scope.drop_tag = function(item,todo,$index){
+            var tag = {};
+            tag.tag_id = item.id;
+            Todos.removetag(tag,todo.id)
+                .success(function(response){
+                    todo.tags.splice($index,1);
+                    $scope.sucessTagRemove = true;
+                    $scope.doneTagRemove();
+            });
         };
 
         // ==============================================================================

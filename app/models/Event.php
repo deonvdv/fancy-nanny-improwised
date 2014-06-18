@@ -47,4 +47,8 @@ class Event extends BaseModel {
         $this->tags()->save( $tag );
     }
 
+    public function removeTag(\Models\Tag $tag) {
+        $this->tags()->detach( $tag );
+    }
+
 }

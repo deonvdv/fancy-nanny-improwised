@@ -17,7 +17,6 @@ angular.module('myApp')
             Events.show($routeParams.eventId)
                 .success(function(response){
                     $scope.eventDetail = response.data;
-                    console.log($scope.eventDetail);
             });
 
         };
@@ -38,10 +37,26 @@ angular.module('myApp')
 
         // ==============================================================================
 
-        $scope.sucess = false;
+        $scope.sucessTagExist = false;
 
-        $scope.done = function(){
-            $timeout(function () { $scope.sucess = false; }, 3000);
+        $scope.doneTagExist = function(){
+            $timeout(function () { $scope.sucessTagExist = false; }, 4000);
+        };
+
+        // ==============================================================================
+
+        $scope.sucessTagAdd = false;
+
+        $scope.doneTagAdd = function(){
+            $timeout(function () { $scope.sucessTagAdd = false; }, 4000);
+        };
+
+        // ==============================================================================
+
+        $scope.sucessTagRemove = false;
+
+        $scope.doneTagRemove = function(){
+            $timeout(function () { $scope.sucessTagRemove = false; }, 4000);
         };
 
         // ==============================================================================
@@ -54,7 +69,11 @@ angular.module('myApp')
 
                 var tag = {};
                 tag.tag_id = eventDetail.tags[last_tag-1].id;
-                Events.addtag(tag,eventDetail.id);
+                Events.addtag(tag,eventDetail.id)
+                    .success(function(response){
+                        $scope.sucessTagAdd = true;
+                        $scope.doneTagAdd();
+                });
 
             }
 
@@ -65,8 +84,8 @@ angular.module('myApp')
                         console.log("tag is already in list");
                         eventDetail.tags.pop(eventDetail.tags[last_tag-1]);
                         console.log(eventDetail.tags);
-                        $scope.sucess = true;
-                        $scope.done();
+                        $scope.sucessTagExist = true;
+                        $scope.doneTagExist();
                         break;
                     }
                 }
@@ -75,13 +94,31 @@ angular.module('myApp')
                     console.log("not add");
                 }
                 else{
+
                     var tag = {};
                     tag.tag_id = eventDetail.tags[last_tag-1].id;
-                    Events.addtag(tag,eventDetail.id);
+                    Events.addtag(tag,eventDetail.id)
+                        .success(function(response){
+                            $scope.sucessTagAdd = true;
+                            $scope.doneTagAdd();
+                    });
                 }
 
             }
 
+        };
+
+        // ==============================================================================
+
+         $scope.drop_tag = function(item,eventDetail,$index){
+            var tag = {};
+            tag.tag_id = item.id;
+            Events.removetag(tag,eventDetail.id)
+                .success(function(response){
+                    eventDetail.tags.splice($index,1);
+                    $scope.sucessTagRemove = true;
+                    $scope.doneTagRemove();
+            });
         };
 
         // ==============================================================================

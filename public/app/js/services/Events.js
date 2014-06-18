@@ -33,6 +33,14 @@ angular.module('myApp')
                     data: $.param(tagid)
                 });
             },
+            removetag : function(tagid,eventid) {
+                return $http({
+                    method: 'POST',
+                    url: '/api/v1/event/'+ eventid + '/removetag',
+                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                    data: $.param(tagid)
+                });
+            },
             destroy : function(id) {
                 return $http.delete('/api/v1/event/' + id);
             }

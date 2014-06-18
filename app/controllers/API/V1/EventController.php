@@ -300,7 +300,109 @@ class EventController extends BaseController {
 		}
 	}
 
+	/**
+	 * RemoveTag the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function removetag($id)
+	{
+		try
+		{
+			$event = \Models\Event::find($id);
+			$tag = \Models\Tag::find( Input::get('tag_id') );
+			$input = Input::all();
 
+			if(!is_null($event) && !is_null($tag))
+			{
+				$event->removeTag( $tag );
+
+				return parent::buildJsonResponse(
+						array(
+							'success'	=> true,
+							'data'		=> $event->toArray(),
+							'message'	=> 'Tag Removed sucessfully!'
+						)
+					);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Event with id: '.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
+
+	public function recipe_ingredients($recipe_id, $page = 1)
+	{
+		try
+		{
+			$message 	= array();
+			$page 		= (int) $page < 1 ? 1 : $page;
+			$itemPerPage= (Input::get('item_per_page')) ? Input::get('item_per_page') : 20;
+			$skip 		= ($page-1)*$itemPerPage;
+
+			if ( \Models\Recipe::find($recipe_id) ) {
+		        $collection = \Models\RecipeIngredient::where('recipe_id', '=', $recipe_id)->get();
+				$itemCount	= $collection->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
+
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
+		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find RecipeIngredients with recipe id :'.$recipe_id
+	        		),
+	        		404
+	        	);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
 
 	/**
 	 * Remove the specified resource from storage.

@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // shopping controller ------------------------------------------------------------------------------
-    .controller('addUnitOfMeasureController',function($scope, $controller ,$http, Authenticate, UnitOfMeasures, Flash, $route, $modal){
+    .controller('UnitOfMeasureController',function($scope, $controller ,$http, Authenticate, UnitOfMeasures, Flash, $route, $modal){
 
         $controller('homeController', {$scope: $scope});
 

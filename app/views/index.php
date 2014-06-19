@@ -93,9 +93,9 @@
   <script type="text/javascript" src="app/js/controllers/CalenderController.js"></script>
   <script type="text/javascript" src="app/js/controllers/EventsController.js"></script>
   <script type="text/javascript" src="app/js/controllers/eventDetailController.js"></script>
-  <script type="text/javascript" src="app/js/controllers/addIngredientController.js"></script>
-  <script type="text/javascript" src="app/js/controllers/addCategoriesController.js"></script>
-  <script type="text/javascript" src="app/js/controllers/addUnitOfMeasureController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/IngredientsController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/CategoriesController.js"></script>
+  <script type="text/javascript" src="app/js/controllers/UnitOfMeasureController.js"></script>
   <script type="text/javascript" src="app/js/controllers/addNewMealController.js"></script>
   <!-- //controllers -->
 

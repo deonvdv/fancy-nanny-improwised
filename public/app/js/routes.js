@@ -31,11 +31,11 @@ angular.module("myApp")
 
         $routeProvider.when('/events/:eventId',{templateUrl:'app/partials/eventdetail.html', controller: 'eventDetailController'})
 
-        $routeProvider.when('/add_ingredient',{templateUrl:'app/partials/add_ingredient.html', controller: 'addIngredientController'})
+        $routeProvider.when('/ingredients',{templateUrl:'app/partials/ingredients.html', controller: 'IngredientsController'})
 
-        $routeProvider.when('/add_Categories',{templateUrl:'app/partials/add_Categories.html', controller: 'addCategoriesController'})
+        $routeProvider.when('/categories',{templateUrl:'app/partials/categories.html', controller: 'CategoriesController'})
 
-        $routeProvider.when('/add_UnitOfMeasure',{templateUrl:'app/partials/add_UnitOfMeasure.html', controller: 'addUnitOfMeasureController'})
+        $routeProvider.when('/Unit_Of_Measure',{templateUrl:'app/partials/unit_of_measure.html', controller: 'UnitOfMeasureController'})
 
         $routeProvider.when('/add_Meal',{templateUrl:'app/partials/add_Meal.html', controller: 'addNewMealController'})
 

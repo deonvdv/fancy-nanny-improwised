@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // recipes controller ------------------------------------------------------------------------------
-    .controller('addNewMealController',function($scope, $controller, $http, Recipes, Meals){
+    .controller('addNewMealController',function($scope, $controller, $http, Recipes, Meals, $timeout){
 
         $controller('homeController', {$scope: $scope});
 
@@ -24,9 +24,8 @@ angular.module('myApp')
 
         loadrecipes();
 
+        //Fetch all Recipes for LoggedIn user's household.
         function loadrecipes(){
-
-            //Fetch all Recipes for LoggedIn user's household.
             Recipes.get()
                 .success(function(data) {
                     $scope.recipes = data.data;
@@ -51,65 +50,50 @@ angular.module('myApp')
 
         // ==============================================================================
 
-        function loadMeal(){
-
-             $scope.meal_array = [];
-
-             $scope.meal_array.day_of_week = '';
-
-             $scope.meal_array.slot = '';
-
-             $scope.meal_array.recipe_id = [];
-
-        }
-
-        loadMeal();
-       
-        // ==============================================================================
-
         function new_recipe(){
-
             var new_Recipe = {};
-
             new_Recipe.recipe_id = '';
-
             return new_Recipe;
-
         }
-
-        // ==============================================================================
-
-        $scope.init = function() {
-
-            for(i=0;i<1;i++){
-
-                $scope.meal_array.recipe_id.push(new_recipe());
-
-            }
-
-        };
-
-        $scope.init();
 
         // ==============================================================================
 
         $scope.addNewMealRecipe = function(){
-
             $scope.meal_array.recipe_id.push(new_recipe());
-
         };
+
+        // ==============================================================================
+
+        $scope.loadMeal = function (){
+            $scope.meal_array = [];
+            $scope.meal_array.household_id = sessionStorage.householdId;
+            $scope.meal_array.day_of_week = '';
+            $scope.meal_array.slot = '';
+            $scope.meal_array.recipe_id = [];
+            $scope.addNewMealRecipe();
+            $scope.submitted = false;
+            $scope.error_msg = false;
+        }
+
+        $scope.loadMeal();
 
         // ==============================================================================
 
         $scope.removeMealRecipe = function(recipe){
-
             $scope.meal_array.recipe_id.pop(recipe);
-
         };
 
         // ==============================================================================
 
-        // add Recipe to database
+        $scope.sucessTagAdd = false;
+
+        $scope.doneTagAdd = function(){
+            $timeout(function () { $scope.sucessTagAdd = false; }, 3000);
+        };
+
+        // ==============================================================================
+
+        // add meal to database
 
         $scope.addMeal = function (form){
 
@@ -120,6 +104,10 @@ angular.module('myApp')
                 console.log("done");
 
                 console.log($scope.meal_array);
+
+                $scope.sucessTagAdd = true;
+
+                $scope.doneTagAdd();
 
                 // Meals.save($scope.meal_array)
                 //     .success(function(response){                     
@@ -137,28 +125,5 @@ angular.module('myApp')
         };
 
         // ==============================================================================
-
-
-
-        // $scope.today = function() {
-        //     $scope.dt = new Date();
-        // };
-        // $scope.today();
-
-        // ==============================================================================
-
-        // $scope.toggleMin = function() {
-        //     $scope.minDate = new Date();
-        // };
-        // $scope.toggleMin();
-
-        // ==============================================================================
-
-        // $scope.open = function($event) {
-        //     $event.preventDefault();
-        //     $event.stopPropagation();
-
-        //     $scope.opened = true;
-        // };
 
     });

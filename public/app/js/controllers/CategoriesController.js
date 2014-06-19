@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // shopping controller ------------------------------------------------------------------------------
-    .controller('addCategoriesController',function($scope, $controller ,$http, Authenticate, Categories, Flash, $route, $modal){
+    .controller('CategoriesController',function($scope, $controller ,$http, Authenticate, Categories, Flash, $route, $modal){
 
         $controller('homeController', {$scope: $scope});
 

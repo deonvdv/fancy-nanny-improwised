@@ -13,6 +13,14 @@ angular.module('myApp')
       		restrict: 'C',
       		replace: true,
       		templateUrl: 'app/partials/directives/sidebar.html',
+          link: function (scope, elm, attrs) {
+              $(".cl-toggle").click(function(e){
+                var ul = $(".cl-vnavigation");
+                ul.slideToggle(300, 'swing', function () {
+                });
+                e.preventDefault();
+              });
+          }
     	};
 	})
 	.directive('fntopNavbar', function() {

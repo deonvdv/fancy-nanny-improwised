@@ -7,13 +7,14 @@ angular.module('myApp')
 
         // ==============================================================================
 
-        $scope.day_of_week = [];
+        // array stroes weekly meal list
+        $scope.Weekly_Meal = [];
 
         loadmeals();
 
         //Fetch all meals for LoggedIn user's household.
         function loadmeals(){
-            $scope.day_of_week = Meals.get();
+            $scope.Weekly_Meal = Meals.get();
         }
 
         // ==============================================================================
@@ -59,18 +60,18 @@ angular.module('myApp')
         // ==============================================================================
 
         $scope.addNewMealRecipe = function(){
-            $scope.meal_array.recipes.push(new_recipe());
+            $scope.new_meal.recipes.push(new_recipe());
         };
 
         // ==============================================================================
 
         $scope.loadMeal = function (){
-            $scope.meal_array = {};
-            $scope.meal_array.household_id = sessionStorage.householdId;
-            $scope.meal_array.day_of_week = '';
-            $scope.meal_array.slot = '';
-            $scope.meal_array.week_number = 1;
-            $scope.meal_array.recipes = [];
+            $scope.new_meal = {};
+            $scope.new_meal.household_id = sessionStorage.householdId;
+            $scope.new_meal.day_of_week = '';
+            $scope.new_meal.slot = '';
+            $scope.new_meal.week_number = 1;
+            $scope.new_meal.recipes = [];
             $scope.addNewMealRecipe();
             $scope.submitted = false;
             $scope.error_msg = false;
@@ -81,15 +82,15 @@ angular.module('myApp')
         // ==============================================================================
 
         $scope.removeMealRecipe = function(recipe){
-            $scope.meal_array.recipe_id.pop(recipe);
+            $scope.new_meal.recipe_id.pop(recipe);
         };
 
         // ==============================================================================
 
-        $scope.sucessTagAdd = false;
+        $scope.sucessMealAdd = false;
 
-        $scope.doneTagAdd = function(){
-            $timeout(function () { $scope.sucessTagAdd = false; }, 3000);
+        $scope.doneMealAdd = function(){
+            $timeout(function () { $scope.sucessMealAdd = false; }, 3000);
         };
 
         // ==============================================================================
@@ -100,17 +101,13 @@ angular.module('myApp')
 
             $scope.submitted = true;
 
-            if(form.$valid && $scope.meal_array.recipes.length !== 0) {
+            if(form.$valid && $scope.new_meal.recipes.length !== 0) {
 
-                console.log("done");
+                $scope.sucessMealAdd = true;
 
-                console.log($scope.meal_array);
+                $scope.doneMealAdd();
 
-                $scope.sucessTagAdd = true;
-
-                $scope.doneTagAdd();
-
-                Meals.save($scope.meal_array)
+                Meals.save($scope.new_meal)
                     .success(function(response){
                        $scope.loadMeal();
                        loadmeals();
@@ -119,10 +116,22 @@ angular.module('myApp')
 
             }
 
-            else if($scope.meal_array.recipes.length === 0){
+            else if($scope.new_meal.recipes.length === 0){
                 $scope.error_msg = true;
             }
 
+        };
+
+        // ==============================================================================
+
+
+        $scope.delete_recipe = function(recipe){
+            recipe.hover_recipe = true;
+            $scope.active_recipe(recipe);
+        };
+
+        $scope.active_recipe = function(recipe){
+            $timeout(function () { recipe.hover_recipe = false; }, 5000);
         };
 
         // ==============================================================================

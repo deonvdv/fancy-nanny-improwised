@@ -42,26 +42,26 @@
 
 						<tbody class="no-border-y" >
 
-							<tr ng-repeat="week_day in day_of_week">
+							<tr ng-repeat="week_day in day_of_week" class="meal-pos">
 								<td>
 									{{week_day.day}}
 								</td>
 								<td>
-									<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'breakfast'">
+									<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Breakfast'">
 										<div ng-repeat="recipe in day1.recipes">
 											{{recipe.name}}
 										</div>
 									</div>
 								</td>
 								<td>
-									<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'lunch'">
+									<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Lunch'">
 										<div ng-repeat="recipe in day1.recipes">
 											{{recipe.name}}
 										</div>
 									</div>
 								</td>
 								<td>
-									<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'dinner'">
+									<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Dinner'">
 										<div ng-repeat="recipe in day1.recipes">
 											{{recipe.name}}
 										</div>
@@ -126,7 +126,7 @@
 		        			<div class="col-xs-12"><label>Select Recipe</label></div>
 		        			<div class="error col-xs-12" ng-show="error_msg">Add at least one recipe to Meal</div>
 		        			<div class="row">
-		        				<div class="col-sm-12" ng-repeat="recipe in meal_array.recipe_id track by $index">
+		        				<div class="col-sm-12" ng-repeat="recipe in meal_array.recipes track by $index">
 					        		<ng-form name="IngForm">
 							        	<div class="col-lg-11">
 
@@ -177,6 +177,9 @@
 <!-- ============================================================== -->
 
 <style type="text/css">
+	.meal-pos td{
+		vertical-align: initial;
+	}
 	.alert-success {
 		background-color:rgba(25,182,152,0.8);
 		border-color: rgba(25,182,152,0);

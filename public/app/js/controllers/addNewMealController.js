@@ -59,17 +59,18 @@ angular.module('myApp')
         // ==============================================================================
 
         $scope.addNewMealRecipe = function(){
-            $scope.meal_array.recipe_id.push(new_recipe());
+            $scope.meal_array.recipes.push(new_recipe());
         };
 
         // ==============================================================================
 
         $scope.loadMeal = function (){
-            $scope.meal_array = [];
+            $scope.meal_array = {};
             $scope.meal_array.household_id = sessionStorage.householdId;
             $scope.meal_array.day_of_week = '';
             $scope.meal_array.slot = '';
-            $scope.meal_array.recipe_id = [];
+            $scope.meal_array.week_number = 1;
+            $scope.meal_array.recipes = [];
             $scope.addNewMealRecipe();
             $scope.submitted = false;
             $scope.error_msg = false;
@@ -99,7 +100,7 @@ angular.module('myApp')
 
             $scope.submitted = true;
 
-            if(form.$valid && $scope.meal_array.recipe_id.length !== 0) {
+            if(form.$valid && $scope.meal_array.recipes.length !== 0) {
 
                 console.log("done");
 
@@ -109,16 +110,16 @@ angular.module('myApp')
 
                 $scope.doneTagAdd();
 
-                // Meals.save($scope.meal_array)
-                //     .success(function(response){                     
-                //        loadMeal();
-                //        $scope.init();
-                //        $scope.submitted = false;
-                // });
+                Meals.save($scope.meal_array)
+                    .success(function(response){
+                       $scope.loadMeal();
+                       loadmeals();
+                       $scope.submitted = false;
+                });
 
             }
 
-            else if($scope.meal_array.recipe_id.length === 0){
+            else if($scope.meal_array.recipes.length === 0){
                 $scope.error_msg = true;
             }
 

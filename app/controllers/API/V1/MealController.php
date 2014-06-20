@@ -108,6 +108,14 @@ class MealController extends BaseController {
 			if ( $meal->validate() ) {
 				$meal->save();
 
+				//Save ingredients along with Recipe
+				if(isset($input["recipes"])) {
+					foreach($input["recipes"] as $recipe ) {
+						$recipe = \Models\Recipe::find($recipe["recipe_id"]);
+						$meal->addRecipe($recipe);
+					}
+				}
+
 				$response = parent::buildJsonResponse(
 					array(
 						'success'	=> true,

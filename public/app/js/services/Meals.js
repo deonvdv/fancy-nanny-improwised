@@ -4,7 +4,7 @@ angular.module('myApp')
         return {
             get : function() {
 
-                var meals = [];
+                var meals;
 
                 var day_of_week = [];
 
@@ -33,7 +33,11 @@ angular.module('myApp')
 
                     meals = data.data;
 
-                    for(i=0;i<meals.length;i++){
+                    // console.log(meals);
+
+                    // console.log(meals.length);
+
+                    for(i=0;i<meals.length;i++) {
 
                         if(meals[i].day_of_week === 1){
                             day_of_week_1.push(meals[i]);
@@ -59,15 +63,15 @@ angular.module('myApp')
 
                     }
 
-                    day_of_week.push(day_of_week_1);
-                    day_of_week.push(day_of_week_2);
-                    day_of_week.push(day_of_week_3);
-                    day_of_week.push(day_of_week_4);
-                    day_of_week.push(day_of_week_5);
-                    day_of_week.push(day_of_week_6);
-                    day_of_week.push(day_of_week_7);
-
                 });
+
+                day_of_week.push(day_of_week_1);
+                day_of_week.push(day_of_week_2);
+                day_of_week.push(day_of_week_3);
+                day_of_week.push(day_of_week_4);
+                day_of_week.push(day_of_week_5);
+                day_of_week.push(day_of_week_6);
+                day_of_week.push(day_of_week_7);
 
                 return day_of_week;
 
@@ -76,11 +80,12 @@ angular.module('myApp')
                 return $http.get('/api/v1/meal/' + id);
             },
             save : function(mealData) {
+                console.log( mealData);
                 return $http({
-                    method: 'POST',
-                    url: '/api/v1/meal',
-                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-                    data: $.param(mealData)
+                        method: 'POST',
+                        url: '/api/v1/meal',
+                        headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                        data: $.param(mealData)
                 });
             },
             destroy : function(id) {

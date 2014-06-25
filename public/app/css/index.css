@@ -1314,4 +1314,12 @@ hr {
     display: inherit;
     margin-left: 107px;
   }
+
+  .pos-block {
+    margin-top: -30px;
+  }
+
+  .active_drop {
+    padding: 0px;
+  }
 }

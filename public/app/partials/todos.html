@@ -1,346 +1,317 @@
 <!-- sidebar -->
 <div class="fn-sidebar"></div>
 <!-- //sidebar -->
-
 <!-- right-side section (top navbar + todo) -->
 <div class="container-fluid" id="pcont">
-  	<!-- top navbar -->
-  		<div class="fntop-navbar"></div>
-  	<!-- //top navbar -->
-
-    	<!-- todos page -->
-    	<div class="cl-mcont">
-
-		  <div class="clearfix">
-		  <div class="col-lg-1 visible-lg"></div>
-		      <!--  -->
-		       <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right visible-xs">
-		        <div class="block block-color aside-right">
-		          <div class="header">
-		            <h3>Add New Todo</h3>
-		          </div>
-
-		            <div class="content">
-
-		               <form name="form" class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
-
-		               	<label style="color:">Todo Name</label>
-		                <input name="name" type="text" class="form-control" placeholder="Ender todo title" ng-model="SentTodo.title" required>
-		                <div class="error">
-	                      <span ng-show="form.name.$error.required && submitted">name required</span>
-	                    </div>
-		                <br>
-
-		                <label>Assign To</label>
-
-
-		                <select ui-select2 ng-model="SentTodo.assigned_to" data-placeholder="Select Member" style="width:100%" name="assignedname" ng-required="true">
-	                        <option value=""></option>
-	                        <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
-	                    </select>
-	                    <div class="error">
-	                      <span ng-show="form.assignedname.$error.required && submitted">select member</span>
-	                    </div>
-	                    <br><br>
-
-	                    <label>Todo's Due Date</label>
-		                <input name="date" class="form-control datetime" size="16" type="text" placeholder="Select Due Date" ng-model="SentTodo.due_date" required>
-		                <div class="error">
-	                      <span ng-show="form.date.$error.required && submitted">select date</span>
-	                    </div>
-		                <br>
-
-		                <label>Todo's Description</label>
-		                <textarea name="description" class="form-control" placeholder="Enter Description" ng-model="SentTodo.description" required></textarea>
-		                <div class="error">
-	                      <span ng-show="form.description.$error.required && submitted">Enter Description</span>
-	                    </div>
-		                <br>
-
-		                <button type="button" class="btn btn-success" ng-click="SentTodos(form)">Add</button>
-		                <br>
-
-		              </form>
-
-		            </div>
-
-		        </div>
-		      </div>
-		      <!--  -->
-		      <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list">
-		      	<!--  -->
-		      	<div ng-show="sucessTagAdd">
-			      	<div class="alert alert-success alert-msg">
-						<i class="fa fa-check sign"></i>new tag added.
-					</div>
-			    </div>
-			    <!--  -->
-		      	<div ng-show="sucessTagExist">
-			      	<div class="alert alert-info alert-msg">
-						<i class="fa fa-check sign"></i>tag already exists.
-					</div>
-			    </div>
-			    <!--  -->
-			    <div ng-show="sucessTagRemove">
-			      	<div class="alert alert-danger alert-msg">
-						<i class="fa fa-check sign"></i>tag deleted.
-					</div>
-			    </div>
-		      	<!--  -->
-		        <div class="block block-color success">
-		          <div class="header">
-		            <div class="actions">
-		              <a class="refresh" href="#/todos/"><i class="fa fa-repeat"></i></a>
-		            </div>
-		            <h3>Todo's</h3>
-		          </div>
-		          <!--  -->
-		          <div class="content">
-		            <!--  -->
-		            <div class="tab-container">
-		              <ul class="nav nav-tabs">
-		                <li class="active"><a href="#Assigned" target="_self" data-toggle="tab">Assigned</a></li>
-		                <li class=""><a href="#Assigned_to" target="_self" data-toggle="tab">Assigned to</a></li>
-		                <li class=""><a href="#Completed" target="_self" data-toggle="tab">Completed</a></li>
-		              </ul>
-		              <div class="tab-content">
-		              	<!--  -->
-		                <div class="tag_margin tab-pane active" id="Assigned">
-		                  <div ng-repeat="todo in todos | orderBy:'due_date':true">
-		                  	<div class="clearfix">
-			            	<div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
-		                    <div class="todo-block clearfix todo_style">
-		                      <h4><span class="color_todo">{{todo.title}}</span>
-		                      <span class="icon-position" ng-class="todo.done"><i class="fa fa-check-circle" ng-click="makeTodoFav(todo)"></i></span></h4>
-		                      <p>{{todo.description}}</p>
-		                      <p class="date-todo">Assigned By : {{todo.assigned_by.name}}</p>
-		                      <p class="date-todo">Due Date :{{todo.due_date}}</p>
-		                      <span class="date-todo">tags&nbsp;:&nbsp;</span>
-		    				  <div class="tag_linear" ng-repeat="item in todo.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
-		    					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-		    						&nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,todo,$index)"></i>&nbsp;
-		    					</span>
-		    				  </div>
-		                    </div>
-			              	</div>
-			          		</div>
-		                 </div>
-		                </div>
-		                <!--  -->
-		                <div class="tag_margin tab-pane cont" id="Assigned_to">
-		                  <div  ng-repeat="todo in assignedToTodos | orderBy:'due_date':true">
-		                  	<div class="clearfix">
-			            	<div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
-		                    <div class="todo-block clearfix todo_style">
-		                      <h4><span class="color_todo">{{todo.title}}</span>
-		                      <span ng-class="{'icon-position-c': todo.is_complete, 'icon-position' : !todo.is_complete}">
-		                        <i class="fa fa-check-circle">
-		                        </i>
-		                      </span></h4>
-		                      <p>{{todo.description}}</p>
-		                      <p class="date-todo">Assigned To : {{todo.assigned_to.name}}</p>
-		                      <p class="date-todo">Due Date :{{todo.due_date}}</p>
-		                      <span class="date-todo">tags&nbsp;:&nbsp;</span>
-		    				  <div class="tag_linear" ng-repeat="item in todo.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
-		    					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-		    						&nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,todo,$index)"></i>&nbsp;
-		    					</span>
-		    				  </div>
-		                    </div>
-		    				</div>
-		    				</div>
-		                  </div>
-		                </div>
-		                <!--  -->
-		                <div class="tag_margin tab-pane cont" id="Completed">
-		                  <div ng-repeat="todo in completedTodos | orderBy:'due_date':true">
-		                  	<div class="clearfix">
-			            	<div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
-		                    <div class="todo-block clearfix todo_style">
-		                      <h4><span class="color_todo">{{todo.title}}</span>
-		                      <span><i class="fa fa-check-circle icon-position-c"></i></span></h4>
-		                      <p>{{todo.description}}</p>
-		                      <p class="date-todo">Assigned By : {{todo.assigned_by.name}}</p>
-		                      <p class="date-todo">Due Date :{{todo.due_date}}</p>
-		                      <span class="date-todo">tags&nbsp;:&nbsp;</span>
-		    				  <div class="tag_linear" ng-repeat="item in todo.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
-		    					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-		    						&nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,todo,$index)"></i>&nbsp;
-		    					</span>
-		    				  </div>
-		                    </div>
-		                	</div>
-		            		</div>
-		                  </div>
-		                </div>
-		                <!--  -->
-		              </div>
-		            </div>
-		            <!--  -->
-		          </div>
-		        </div>
-		          <!--  -->
-		      </div>
-		      <!--  -->
-		      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right hidden-xs">
-		        <div class="block block-color aside-right">
-		          <div class="header">
-		            <h3>Add New Todo</h3>
-		          </div>
-		            <div class="content">
-
-		               <form name="form" class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
-
-		               	<label>Todo Name</label>
-		                <input name="name" type="text" class="form-control" placeholder="Ender todo title" ng-model="SentTodo.title" required>
-		                <div class="error">
-	                      <span ng-show="form.name.$error.required && submitted">name required</span>
-	                    </div>
-		                <br>
-
-		                <label>Assign To</label>
-
-
-		                <select ui-select2 ng-model="SentTodo.assigned_to" data-placeholder="Select Member" style="width:100%" name="assignedname" ng-required="true">
-	                        <option value=""></option>
-	                        <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
-	                    </select>
-	                    <div class="error">
-	                      <span ng-show="form.assignedname.$error.required && submitted">select member</span>
-	                    </div>
-	                    <br><br>
-
-	                    <label>Todo's Due Date</label>
-		                <input name="date" class="form-control datetime" size="16" type="text" placeholder="Select Due Date" ng-model="SentTodo.due_date" required>
-		                <div class="error">
-	                      <span ng-show="form.date.$error.required && submitted">select date</span>
-	                    </div>
-		                <br>
-
-		                <label>Todo's Description</label>
-		                <textarea name="description" class="form-control" placeholder="Enter Description" ng-model="SentTodo.description" required></textarea>
-		                <div class="error">
-	                      <span ng-show="form.description.$error.required && submitted">Enter Description</span>
-	                    </div>
-		                <br>
-
-		                <button type="button" class="btn btn-success" ng-click="SentTodos(form)">Add</button>
-		                <br>
-
-		              </form>
-
-		            </div>
-		        </div>
-
-		        <!--  -->
-
-		        <div class="block block-color aside-right">
-			        <div class="header">
-			          <h3>Tag</h3>
-			        </div>
-			        <div class="content clearfix">
-						<div ng-repeat="tag in tags track by $index">
-					        <div class="tag_color" data-drag="true" data-jqyoui-options="{scroll: false,revert: 'invalid',helper: 'clone'}" ng-model="tags" jqyoui-draggable="{index: {{$index}},placeholder:'keep',animate:true}" ng-show="tag.name">
-					        	<span class="tag_color" style="color:{{tag.fontcolor}};background-color:{{tag.color}}">{{tag.name}}</span>
-							</div>
-					    </div>
-			        </div>
-			    </div>
-
-		        <!--  -->
-
-		      </div>
-		    </div>
-		</div>
-    	<!-- //todos page -->      
+  <!-- top navbar -->
+  <div class="fntop-navbar"></div>
+  <!-- //top navbar -->
+  <!-- todos page -->
+  <div class="cl-mcont">
+    <div class="clearfix">
+      <div class="col-lg-1 visible-lg"></div>
+      <!--  -->
+      <div class="panel-group panel-custom accordion accordion-semi visible-xs" id="accordion3">
+        <div class="panel panel-default">
+          <div class="panel-heading success" style="border-bottom: 1px solid #008e70 !important;">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion3" href="#ac3-1" target="_self" class="collapsed">
+              <i class="fa fa-angle-right"></i> Add New Todo
+              </a>
+            </h4>
+          </div>
+          <div id="ac3-1" class="panel-collapse collapse" style="height: 0px;">
+            <div class="panel-body">
+              <form name="form" class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
+                <input name="name" type="text" class="form-control" placeholder="Ender todo title" ng-model="SentTodo.title" required>
+                <div class="error">
+                  <span ng-show="form.name.$error.required && submitted">name required</span>
+                </div>
+                <br>
+                <select ui-select2 ng-model="SentTodo.assigned_to" data-placeholder="Select Member" style="width:100%" name="assignedname" ng-required="true">
+                  <option value=""></option>
+                  <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
+                </select>
+                <div class="error">
+                  <span ng-show="form.assignedname.$error.required && submitted">select member</span>
+                </div>
+                <br>
+                <input name="date" class="form-control datetime" size="16" type="text" placeholder="Select Due Date" ng-model="SentTodo.due_date" required>
+                <div class="error">
+                  <span ng-show="form.date.$error.required && submitted">select date</span>
+                </div>
+                <br>
+                <textarea name="description" class="form-control" placeholder="Enter Description" ng-model="SentTodo.description" required></textarea>
+                <div class="error">
+                  <span ng-show="form.description.$error.required && submitted">Enter Description</span>
+                </div>
+                <br>
+                <button type="button" class="btn btn-success" ng-click="SentTodos(form)">Add</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list">
+        <!--  -->
+        <div ng-show="sucessTagAdd">
+          <div class="alert alert-success alert-msg">
+            <i class="fa fa-check sign"></i>new tag added.
+          </div>
+        </div>
+        <!--  -->
+        <div ng-show="sucessTagExist">
+          <div class="alert alert-info alert-msg">
+            <i class="fa fa-check sign"></i>tag already exists.
+          </div>
+        </div>
+        <!--  -->
+        <div ng-show="sucessTagRemove">
+          <div class="alert alert-danger alert-msg">
+            <i class="fa fa-check sign"></i>tag deleted.
+          </div>
+        </div>
+        <!--  -->
+        <div class="block block-color success pos-block">
+          <div class="header">
+            <div class="actions">
+              <a class="refresh" href="#/todos/"><i class="fa fa-repeat"></i></a>
+            </div>
+            <h3>Todo's</h3>
+          </div>
+          <!--  -->
+          <div class="content">
+            <!--  -->
+            <div class="tab-container">
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#Assigned" target="_self" data-toggle="tab">Assigned</a></li>
+                <li class=""><a href="#Assigned_to" target="_self" data-toggle="tab">Assigned to</a></li>
+                <li class=""><a href="#Completed" target="_self" data-toggle="tab">Completed</a></li>
+              </ul>
+              <div class="tab-content">
+                <!--  -->
+                <div class="tag_margin tab-pane active" id="Assigned">
+                  <div ng-repeat="todo in todos | orderBy:'due_date':true">
+                    <div class="clearfix">
+                      <div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+                        <div class="todo-block clearfix todo_style">
+                          <h4><span class="color_todo">{{todo.title}}</span>
+                            <span class="icon-position" ng-class="todo.done"><i class="fa fa-check-circle" ng-click="makeTodoFav(todo)"></i></span>
+                          </h4>
+                          <p>{{todo.description}}</p>
+                          <p class="date-todo">Assigned By : {{todo.assigned_by.name}}</p>
+                          <p class="date-todo">Due Date :{{todo.due_date}}</p>
+                          <span class="date-todo">tags&nbsp;:&nbsp;</span>
+                          <div class="tag_linear" ng-repeat="item in todo.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
+                            <span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
+                            &nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,todo,$index)"></i>&nbsp;
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--  -->
+                <div class="tag_margin tab-pane cont" id="Assigned_to">
+                  <div  ng-repeat="todo in assignedToTodos | orderBy:'due_date':true">
+                    <div class="clearfix">
+                      <div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+                        <div class="todo-block clearfix todo_style">
+                          <h4><span class="color_todo">{{todo.title}}</span>
+                            <span ng-class="{'icon-position-c': todo.is_complete, 'icon-position' : !todo.is_complete}">
+                            <i class="fa fa-check-circle">
+                            </i>
+                            </span>
+                          </h4>
+                          <p>{{todo.description}}</p>
+                          <p class="date-todo">Assigned To : {{todo.assigned_to.name}}</p>
+                          <p class="date-todo">Due Date :{{todo.due_date}}</p>
+                          <span class="date-todo">tags&nbsp;:&nbsp;</span>
+                          <div class="tag_linear" ng-repeat="item in todo.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
+                            <span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
+                            &nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,todo,$index)"></i>&nbsp;
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--  -->
+                <div class="tag_margin tab-pane cont" id="Completed">
+                  <div ng-repeat="todo in completedTodos | orderBy:'due_date':true">
+                    <div class="clearfix">
+                      <div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+                        <div class="todo-block clearfix todo_style">
+                          <h4><span class="color_todo">{{todo.title}}</span>
+                            <span><i class="fa fa-check-circle icon-position-c"></i></span>
+                          </h4>
+                          <p>{{todo.description}}</p>
+                          <p class="date-todo">Assigned By : {{todo.assigned_by.name}}</p>
+                          <p class="date-todo">Due Date :{{todo.due_date}}</p>
+                          <span class="date-todo">tags&nbsp;:&nbsp;</span>
+                          <div class="tag_linear" ng-repeat="item in todo.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
+                            <span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
+                            &nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,todo,$index)"></i>&nbsp;
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--  -->
+              </div>
+            </div>
+            <!--  -->
+          </div>
+        </div>
+        <!--  -->
+      </div>
+      <!--  -->
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right hidden-xs">
+        <div class="block block-color aside-right">
+          <div class="header">
+            <h3>Add New Todo</h3>
+          </div>
+          <div class="content">
+            <form name="form" class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
+              <label>Todo Name</label>
+              <input name="name" type="text" class="form-control" placeholder="Ender todo title" ng-model="SentTodo.title" required>
+              <div class="error">
+                <span ng-show="form.name.$error.required && submitted">name required</span>
+              </div>
+              <br>
+              <label>Assign To</label>
+              <select ui-select2 ng-model="SentTodo.assigned_to" data-placeholder="Select Member" style="width:100%" name="assignedname" ng-required="true">
+                <option value=""></option>
+                <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
+              </select>
+              <div class="error">
+                <span ng-show="form.assignedname.$error.required && submitted">select member</span>
+              </div>
+              <br><br>
+              <label>Todo's Due Date</label>
+              <input name="date" class="form-control datetime" size="16" type="text" placeholder="Select Due Date" ng-model="SentTodo.due_date" required>
+              <div class="error">
+                <span ng-show="form.date.$error.required && submitted">select date</span>
+              </div>
+              <br>
+              <label>Todo's Description</label>
+              <textarea name="description" class="form-control" placeholder="Enter Description" ng-model="SentTodo.description" required></textarea>
+              <div class="error">
+                <span ng-show="form.description.$error.required && submitted">Enter Description</span>
+              </div>
+              <br>
+              <button type="button" class="btn btn-success" ng-click="SentTodos(form)">Add</button>
+              <br>
+            </form>
+          </div>
+        </div>
+        <!--  -->
+        <div class="block block-color aside-right">
+          <div class="header">
+            <h3>Tag</h3>
+          </div>
+          <div class="content clearfix">
+            <div ng-repeat="tag in tags track by $index">
+              <div class="tag_color" data-drag="true" data-jqyoui-options="{scroll: false,revert: 'invalid',helper: 'clone'}" ng-model="tags" jqyoui-draggable="{index: {{$index}},placeholder:'keep',animate:true}" ng-show="tag.name">
+                <span class="tag_color" style="color:{{tag.fontcolor}};background-color:{{tag.color}}">{{tag.name}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+      </div>
+    </div>
+  </div>
+  <!-- //todos page -->
 </div>
 <!-- //todo -->
-
 <style type="text/css">
-	.alert-success {
-		background-color: rgba(25,182,152,0.5);
-		border-color: rgba(25,182,152,0) !important;
-		color: #fff;
-	}
-	.alert-danger {
-		background-color: rgba(234,97,83,0.5);
-		border-color: rgba(234,97,83,0) !important;
-		color: #fff;
-	}
-	.alert-info {
-		background-color: rgba(74,163,223,0.5);
-		border-color: rgba(74,163,223,0) !important;
-		color: #fff;
-	}
-	.todo_style{
-		padding: 20px;border-bottom: 1px solid #f0f0f0;
-	}
-	.tag_margin{
-		margin: -20px;
-	}
-
-	/* todos_board */
-	.aside-right .select2-container-multi .select2-choices .select2-search-choice {
-		background-color: #19b698 !important;
-	}
-	.aside-right .select2-container-multi .select2-choices {
-		padding: 0px !important;
-		background: #fff;
-		box-shadow: none;
-	}
-	.aside-right .select2-drop-active {
-		border: 1px solid #19b698 !important;
-	}
-	.select2-results .select2-highlighted {
-		background: none repeat scroll 0 0 #19b698 !important;
-	}
-	.select2-drop.select2-drop-above.select2-drop-active {
-		border-top: 1px solid #19b698 !important;
-	}
-	.select2-drop-active {
-		border-bottom: 1px solid #19b698 !important;
-		border-left: 1px solid #19b698 !important;
-		border-right: 1px solid #19b698 !important;
-	}
-	.select2-container-multi.select2-container-active .select2-choices {
-		border: 1px solid #19b698 !important;
-	}
-	.select2-result-selectable .select2-match, .select2-result-unselectable .select2-match {
-		text-decoration: none !important;
-	}
-	.select2-dropdown-open.select2-drop-above .select2-choice, .select2-dropdown-open.select2-drop-above .select2-choices {
-	background: #fff;
-	border-color: rgba(0, 0, 0, 0) #19b698 #19b698;
-	}
-	.select2-container-active .select2-choice,
-	.select2-container-active .select2-choices {
-	  box-shadow: none;
-	  border-color: #19b698;
-	}
-	/* todos_board */
-	.datetimepicker table tr td.active, .datetimepicker table tr td.active:hover, .datetimepicker table tr td.active.disabled, .datetimepicker table tr td.active.disabled:hover {
-	background: #19b698 !important;
-	background-image: none !important;
-	}
-	.datetimepicker table tr td span.active, .datetimepicker table tr td span.active:hover, .datetimepicker table tr td span.active.disabled, .datetimepicker table tr td span.active.disabled:hover {
-	background: #19b698 !important;
-	background-image: none !important;
-	}
-	.color_todo{
-		color: #19b698;
-	}
+  .alert-success {
+  background-color: rgba(25,182,152,0.5);
+  border-color: rgba(25,182,152,0) !important;
+  color: #fff;
+  }
+  .alert-danger {
+  background-color: rgba(234,97,83,0.5);
+  border-color: rgba(234,97,83,0) !important;
+  color: #fff;
+  }
+  .alert-info {
+  background-color: rgba(74,163,223,0.5);
+  border-color: rgba(74,163,223,0) !important;
+  color: #fff;
+  }
+  .todo_style{
+  padding: 20px;border-bottom: 1px solid #f0f0f0;
+  }
+  .tag_margin{
+  margin: -20px;
+  }
+  /* todos_board */
+  .aside-right .select2-container-multi .select2-choices .select2-search-choice {
+  background-color: #19b698 !important;
+  }
+  .aside-right .select2-container-multi .select2-choices {
+  padding: 0px !important;
+  background: #fff;
+  box-shadow: none;
+  }
+  .aside-right .select2-drop-active {
+  border: 1px solid #19b698 !important;
+  }
+  .select2-results .select2-highlighted {
+  background: none repeat scroll 0 0 #19b698 !important;
+  }
+  .select2-drop.select2-drop-above.select2-drop-active {
+  border-top: 1px solid #19b698 !important;
+  }
+  .select2-drop-active {
+  border-bottom: 1px solid #19b698 !important;
+  border-left: 1px solid #19b698 !important;
+  border-right: 1px solid #19b698 !important;
+  }
+  .select2-container-multi.select2-container-active .select2-choices {
+  border: 1px solid #19b698 !important;
+  }
+  .select2-result-selectable .select2-match, .select2-result-unselectable .select2-match {
+  text-decoration: none !important;
+  }
+  .select2-dropdown-open.select2-drop-above .select2-choice, .select2-dropdown-open.select2-drop-above .select2-choices {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0) #19b698 #19b698;
+  }
+  .select2-container-active .select2-choice,
+  .select2-container-active .select2-choices {
+  box-shadow: none;
+  border-color: #19b698;
+  }
+  /* todos_board */
+  .datetimepicker table tr td.active, .datetimepicker table tr td.active:hover, .datetimepicker table tr td.active.disabled, .datetimepicker table tr td.active.disabled:hover {
+  background: #19b698 !important;
+  background-image: none !important;
+  }
+  .datetimepicker table tr td span.active, .datetimepicker table tr td span.active:hover, .datetimepicker table tr td span.active.disabled, .datetimepicker table tr td span.active.disabled:hover {
+  background: #19b698 !important;
+  background-image: none !important;
+  }
+  .color_todo{
+  color: #19b698;
+  }
 </style>
-
 <script type="text/javascript">
+  $(document).ready(function(){
 
-    $(document).ready(function(){
+  	/*DateTime Picker*/
+  	$(".datetime").datetimepicker({format: 'yyyy-mm-dd'});
 
-    	/*DateTime Picker*/
-    	$(".datetime").datetimepicker({format: 'yyyy-mm-dd'});
+  	/*Tags*/
+  	$(".todo").select2({width: '100%'});
 
-    	/*Tags*/
-    	$(".todo").select2({width: '100%'});
-
-    });
+  });
 
 </script>

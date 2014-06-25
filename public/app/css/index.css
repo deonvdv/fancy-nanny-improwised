@@ -1272,3 +1272,22 @@ hr {
 .recipe_list:hover {
   background-color: #f5f5f5;
 }
+
+.custom-media-object {
+    width: 64px;
+    height: 64px;
+}
+
+@media all and (max-width: 767px) {
+  .custom-media-object {
+    width: 32px;
+    height: 32px;
+  }
+  .color-msg-name {
+    font-size: 12px;
+  }
+  .msg-time {
+    font-size: 12px;
+  }
+}
+

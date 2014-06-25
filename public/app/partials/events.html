@@ -1,337 +1,326 @@
 <!-- sidebar -->
 <div class="fn-sidebar"></div>
 <!-- //sidebar -->
-
 <!-- right-side section (top navbar + events) -->
 <div class="container-fluid" id="pcont">
-    <!-- top navbar -->
-      <div class="fntop-navbar"></div>
-    <!-- //top navbar -->
-
-      <!-- events page -->
-      <div class="cl-mcont">
-
-        <div class="clearfix">
-
-          <br>
-          <!--  -->
-          <div class="col-lg-1"></div>
-          <!--  -->
-          <div class="col-lg-10 hidden-xs">
+  <!-- top navbar -->
+  <div class="fntop-navbar"></div>
+  <!-- //top navbar -->
+  <!-- events page -->
+  <div class="cl-mcont">
+    <div class="clearfix">
+      <br>
+      <!--  -->
+      <div class="col-lg-1"></div>
+      <!--  -->
+      <div class="col-lg-10 hidden-xs">
+        <!--  -->
+        <div class="block-flat">
+          <div class="header">
+            <div class="actions">
+              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
+                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
+                <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
+            </div>
+            <h3><i class="fa fa-cutlery fa-color-black"></i>&nbsp;Events</h3>
             <!--  -->
-            <div class="block-flat">
-              <div class="header">
-                <div class="actions">
-                  <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-                  <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-                  <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-                </div>
-                <h3><i class="fa fa-cutlery fa-color-black"></i>&nbsp;Events</h3>
-                <!--  -->
-                <spam class="add-tag" data-toggle="modal" data-target="#md-colored3" style="color: #f16e3f;"><i class="fa fa-plus"></i>&nbsp;Add Event</spam>
-                <!--  -->
-
+            <spam class="add-tag" data-toggle="modal" data-target="#md-colored3" style="color: #f16e3f;"><i class="fa fa-plus"></i>&nbsp;Add Event</spam>
+            <!--  -->
+          </div>
+          <div class="content">
+            <!--  -->
+            <div class="clearfix pagination_recipe">
+              <input class="input-search hidden-xs" placeholder="Search Event" ng-model="search">
+              <div class="pull-right">
+                <pagination total-items="Totalevents" ng-model="CurrenteventsPage" items-per-page="eventsPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="geteventspages()"></pagination>
               </div>
-              <div class="content">
-
-                <!--  -->
-                  <div class="clearfix pagination_recipe">
-                    <div class="pull-right">
-                      <pagination total-items="Totalevents" ng-model="CurrenteventsPage" items-per-page="eventsPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="geteventspages()"></pagination>
-                  </div>
-                </div>
-                <!--  -->
-
-                <!--  -->
-                  <div class="table-responsive">
-                  <table class="table no-border hover">
-                    <thead class="no-border">
-                      <tr>
-                        <th class="etable-th-2"><strong>Event Name</strong></th>
-                        <th class="etable-th-1"><strong>Date</strong></th>
-                        <th class="etable-th-3"><strong>Description</strong></th>
-                        <th class="etable-th-4"><strong>Created By</strong></th>
-                        <th class="etable-th-5 text-center"><strong>Action</strong></th>
-                      </tr>
-                    </thead>
-                    <tbody class="no-border-y">
-                      <tr  ng-repeat="event in events | orderBy:'event_date' " ng-click="eventDetail(event)">
-                        <td><a href="/#/events/{{event.id}}" class="event-name">{{event.title}}</a></td>
-                        <td>{{event.event_date}}</td>
-                        <td>{{event.description}}</td>
-                        <td>{{event.owner_id}}</td>
-
-                        <td class="text-center">
-                           <!--  -->
-                            <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
-                              <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
-                            </span>
-                            <!--  -->
-                            <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
-                              <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
-                            </span>
-                            <!--  -->
-                        </td>
-                      </tr>
+            </div>
+            <!--  -->
+            <!--  -->
+            <div class="table-responsive">
+              <table class="table no-border hover">
+                <thead class="no-border">
+                  <tr>
+                    <th class="etable-th-2"><strong>Event Name</strong></th>
+                    <th class="etable-th-1"><strong>Date</strong></th>
+                    <th class="etable-th-3"><strong>Description</strong></th>
+                    <th class="etable-th-4"><strong>Created By</strong></th>
+                    <th class="etable-th-5 text-center"><strong>Action</strong></th>
+                  </tr>
+                </thead>
+                <tbody class="no-border-y">
+                  <tr  ng-repeat="event in events | filter:search | orderBy:'event_date' " ng-click="eventDetail(event)">
+                    <td><a href="/#/events/{{event.id}}" class="event-name">{{event.title}}</a></td>
+                    <td>{{event.event_date}}</td>
+                    <td>{{event.description}}</td>
+                    <td>{{event.owner_id}}</td>
+                    <td class="text-center">
                       <!--  -->
-                    </tbody>
-                  </table>
-                  </div>
-                <!--  -->
-
-                <!--  -->
-                  <div class="clearfix pagination_recipe">
-                    <div class="pull-right">
-                      <pagination total-items="Totalevents" ng-model="CurrenteventsPage" items-per-page="eventsPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="geteventspages()"></pagination>
-                  </div>
-                </div>
-                <!--  -->
-
+                      <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
+                      <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
+                      </span>
+                      <!--  -->
+                      <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
+                      <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
+                      </span>
+                      <!--  -->
+                    </td>
+                  </tr>
+                  <!--  -->
+                </tbody>
+              </table>
+            </div>
+            <!--  -->
+            <!--  -->
+            <div class="clearfix pagination_recipe">
+              <div class="pull-right">
+                <pagination total-items="Totalevents" ng-model="CurrenteventsPage" items-per-page="eventsPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="geteventspages()"></pagination>
               </div>
             </div>
             <!--  -->
           </div>
-          <!--  -->
-          <div class="visible-xs">
-            <div class="block-flat">
-              <div class="header">
-                <h3><i class="fa fa-cutlery fa-color-black"></i>&nbsp;Events</h3>
-              </div>
-              <div class="content">
-                <ol class="ol-margin-left">
-                  <!--  -->
-                  <li ng-repeat="event in events | orderBy:'event_date'">
-                    <div>
-                      <span><strong>Event Name&nbsp;:&nbsp;</strong></span><span>{{event.title}}</span><br>
-                      <span><strong>Description&nbsp;:&nbsp;</strong></span><span>{{event.description}}</span><br>
-                      <span><strong>Date&nbsp;:&nbsp;</strong></span><span>{{event.event_date}}</span><br>
-                      <span><strong>Created By&nbsp;:&nbsp;</strong></span><span>{{event.owner_id}}</span><br>
-                      <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
-                      <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
-                    </div>
-                    <hr>
-                  </li>
-                  <!--  -->
-                </ol>
-              </div>
-            </div>
-          </div>
-
-          <!--  -->
-          <div class="clearfix model-custom">
-            <!-- Modal -->
-            <div class="modal fade" id="md-colored3" tabindex="-1" role="dialog">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                  <h3>Add Event</h3>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body clearfix">
-                  <!--  -->
-                  <div class="form">
-                    <!--  -->
-                    <div class="form-group">
-                      <label>Event Name</label>
-                      <input type="text" class="form-control" placeholder="Name">
-                    </div>
-                    <!--  -->
-                    <div class="form-group">
-                      <label>Description</label><br>
-                      <textarea class="form-control" style="resize:vertical;" placeholder="Description"></textarea>
-                    </div>
-                    <!--  -->
-                    <div class="form-group">
-                      <label>Date</label>
-                      <input type="date" class="form-control" placeholder="Date">
-                    </div>
-                    <!--  -->
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-success btn-flat" data-dismiss="modal">Done</button>
-                </div>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-          </div>
-          <!--  -->
-
-          <!--  -->
-          <div class="clearfix model-custom">
-            <!-- Modal -->
-            <div class="modal fade" id="md-colored" tabindex="-1" role="dialog">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                  <h3>Edit Event</h3>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body clearfix">
-                  <!--  -->
-                  <div class="form">
-                    <!--  -->
-                    <div class="form-group">
-                      <label>Event Name</label>
-                      <input type="text" class="form-control" placeholder="Name">
-                    </div>
-                    <!--  -->
-                    <div class="form-group">
-                      <label>Description</label>
-                      <textarea class="form-control" style="resize:vertical;" placeholder="Description"></textarea>
-                    </div>
-                    <!--  -->
-                    <div class="form-group">
-                      <label>Date</label>
-                      <input type="date" class="form-control" placeholder="Date">
-                    </div>
-                    <!--  -->
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-success btn-flat" data-dismiss="modal">Done</button>
-                </div>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-          </div>
-          <!--  -->
-
-          <!--  -->
-          <div class="clearfix model-custom">
-            <!-- Modal -->
-            <div class="modal fade" id="md-colored1" tabindex="-1" role="dialog">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                  <h3>Delete Document</h3>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body text-center">
-                  <!--  -->
-                  <i class="fa fa-trash-o fa-4x" style="color: red;"></i><br>
-                  <span class="delete-item">Are you Sure !!<br>you want to Delete this Event ??</span>
-                  <!--  -->
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-danger btn-flat" data-dismiss="modal">Delete</button>
-                </div>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-          </div>
-          <!--  -->
-          <br>
         </div>
-
-      <!-- ========================================================================================================================= -->
-      <!-- ========================================================================================================================= -->
-      <!-- ========================================================================================================================= -->
-          <div style="display:none">
-          <div class="col-lg-1 visible-lg"></div>
-          <!--  -->
-           <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right visible-xs">
-            <div class="block block-color aside-right">
-              <div class="header">
-                <div class="actions">
-                  <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-                  <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-                  <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-                </div>
-                <h3>Add Event</h3>
-              </div>
-                <div class="content">
-                   <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
-                    <input type="text" class="form-control" placeholder="Name">
-                    <br>
-                    <textarea class="form-control" placeholder="Todo Description"></textarea>
-                    <br>
-                    <button type="button" class="btn btn-warning">Add</button>
-                  </form>
-                </div>
-            </div>
-          </div>
-          <!--  -->
-          <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list">
-            <div class="block block-color warning">
-              <div class="header">
-                <div class="actions">
-                  <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a> -->
-                  <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-                  <!-- <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-                </div>
-                <h3>Upcoming Events</h3>
-              </div>
-              <div class="content event">
-                <!--  -->
-                  <div class="todo-block clearfix">
-                    <h4>Event Name</h4>
-                    <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
-                    <p class="date-todo">Created By : household</p>
-                    <p class="date-todo">Due Date :12/3/2013</p>
-                  </div>
-                  <hr>
-                  <!--  -->
-                  <!--  -->
-                  <div class="todo-block clearfix">
-                    <h4>Event Name</h4>
-                    <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
-                    <p class="date-todo">Created By : household</p>
-                    <p class="date-todo">Due Date :12/3/2013</p>
-                  </div>
-                  <hr>
-                  <!--  -->
-              </div>
-            </div>
-          </div>
-          <!--  -->
-          <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right hidden-xs">
-            <div class="block block-color aside-right">
-              <div class="header">
-                <div class="actions">
-                  <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-                  <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-                  <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-                </div>
-                <h3>Add New Event</h3>
-              </div>
-                <div class="content">
-
-                   <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
-
-                    <input type="text" class="form-control" placeholder="Event Name">
-                    <br>
-
-                    <input class="form-control datetime" size="16" type="text" value="" placeholder="Event's Due Date">
-                    <br>
-
-                    <textarea class="form-control" placeholder="Event Description"></textarea>
-
-                    <div class="form-group">
-                      <div>
-                        <input class="tags" type="hidden" value="" placeholder="Add Tags" />
-                      </div>
-                    </div>
-                    <br>
-
-                    <button type="button" class="btn btn-warning">Add</button>
-                    <br>
-
-                  </form>
-
-                </div>
-            </div>
-          </div>
-          </div>
-          <!-- <div class="aside-right"></div> -->
+        <!--  -->
       </div>
-      <!-- //events page -->      
+      <!--  -->
+      <div class="visible-xs">
+        <div class="block-flat">
+          <div class="header">
+            <h3><i class="fa fa-cutlery fa-color-black"></i>&nbsp;Events<input class="input-search" placeholder="Search Event" ng-model="search"></h3>
+          </div>
+          <div class="content">
+            <ol class="ol-margin-left">
+              <!--  -->
+              <li ng-repeat="event in events | filter:search | orderBy:'event_date'">
+                <div>
+                  <span><strong>Event Name&nbsp;:&nbsp;</strong></span><span class="event-name">{{event.title}}</span><br>
+                  <span><strong>Description&nbsp;:&nbsp;</strong></span><span>{{event.description}}</span><br>
+                  <span><strong>Date&nbsp;:&nbsp;</strong></span><span>{{event.event_date}}</span><br>
+                  <span><strong>Created By&nbsp;:&nbsp;</strong></span><span>{{event.owner_id}}</span><br>
+                  <div style="padding-top: 4px;">
+                    <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored">Edit</a>
+                    <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1">Delete</a>
+                  </div>
+                </div>
+                <hr>
+              </li>
+              <!--  -->
+            </ol>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <div class="clearfix model-custom">
+        <!-- Modal -->
+        <div class="modal fade" id="md-colored3" tabindex="-1" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3>Add Event</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              </div>
+              <div class="modal-body clearfix">
+                <!--  -->
+                <div class="form">
+                  <!--  -->
+                  <div class="form-group">
+                    <label>Event Name</label>
+                    <input type="text" class="form-control" placeholder="Name">
+                  </div>
+                  <!--  -->
+                  <div class="form-group">
+                    <label>Description</label><br>
+                    <textarea class="form-control" style="resize:vertical;" placeholder="Description"></textarea>
+                  </div>
+                  <!--  -->
+                  <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" class="form-control" placeholder="Date">
+                  </div>
+                  <!--  -->
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success btn-flat" data-dismiss="modal">Done</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+      </div>
+      <!--  -->
+      <!--  -->
+      <div class="clearfix model-custom">
+        <!-- Modal -->
+        <div class="modal fade" id="md-colored" tabindex="-1" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3>Edit Event</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              </div>
+              <div class="modal-body clearfix">
+                <!--  -->
+                <div class="form">
+                  <!--  -->
+                  <div class="form-group">
+                    <label>Event Name</label>
+                    <input type="text" class="form-control" placeholder="Name">
+                  </div>
+                  <!--  -->
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" style="resize:vertical;" placeholder="Description"></textarea>
+                  </div>
+                  <!--  -->
+                  <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" class="form-control" placeholder="Date">
+                  </div>
+                  <!--  -->
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success btn-flat" data-dismiss="modal">Done</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+      </div>
+      <!--  -->
+      <!--  -->
+      <div class="clearfix model-custom">
+        <!-- Modal -->
+        <div class="modal fade" id="md-colored1" tabindex="-1" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3>Delete Document</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              </div>
+              <div class="modal-body text-center">
+                <!--  -->
+                <i class="fa fa-trash-o fa-4x" style="color: red;"></i><br>
+                <span class="delete-item">Are you Sure !!<br>you want to Delete this Event ??</span>
+                <!--  -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger btn-flat" data-dismiss="modal">Delete</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+      </div>
+      <!--  -->
+      <br>
+    </div>
+    <!-- ========================================================================================================================= -->
+    <!-- ========================================================================================================================= -->
+    <!-- ========================================================================================================================= -->
+    <div style="display:none">
+      <div class="col-lg-1 visible-lg"></div>
+      <!--  -->
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right visible-xs">
+        <div class="block block-color aside-right">
+          <div class="header">
+            <div class="actions">
+              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
+                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
+                <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
+            </div>
+            <h3>Add Event</h3>
+          </div>
+          <div class="content">
+            <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
+              <input type="text" class="form-control" placeholder="Name">
+              <br>
+              <textarea class="form-control" placeholder="Todo Description"></textarea>
+              <br>
+              <button type="button" class="btn btn-warning">Add</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list">
+        <div class="block block-color warning">
+          <div class="header">
+            <div class="actions">
+              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a> -->
+              <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
+              <!-- <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
+            </div>
+            <h3>Upcoming Events</h3>
+          </div>
+          <div class="content event">
+            <!--  -->
+            <div class="todo-block clearfix">
+              <h4>Event Name</h4>
+              <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
+              <p class="date-todo">Created By : household</p>
+              <p class="date-todo">Due Date :12/3/2013</p>
+            </div>
+            <hr>
+            <!--  -->
+            <!--  -->
+            <div class="todo-block clearfix">
+              <h4>Event Name</h4>
+              <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
+              <p class="date-todo">Created By : household</p>
+              <p class="date-todo">Due Date :12/3/2013</p>
+            </div>
+            <hr>
+            <!--  -->
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right hidden-xs">
+        <div class="block block-color aside-right">
+          <div class="header">
+            <div class="actions">
+              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
+                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
+                <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
+            </div>
+            <h3>Add New Event</h3>
+          </div>
+          <div class="content">
+            <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
+              <input type="text" class="form-control" placeholder="Event Name">
+              <br>
+              <input class="form-control datetime" size="16" type="text" value="" placeholder="Event's Due Date">
+              <br>
+              <textarea class="form-control" placeholder="Event Description"></textarea>
+              <div class="form-group">
+                <div>
+                  <input class="tags" type="hidden" value="" placeholder="Add Tags" />
+                </div>
+              </div>
+              <br>
+              <button type="button" class="btn btn-warning">Add</button>
+              <br>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="aside-right"></div> -->
+  </div>
+  <!-- //events page -->
 </div>
 <!-- //events -->
-
 <script type="text/javascript">
   $(document).ready(function(){
     /*Date Range Picker*/
@@ -423,11 +412,11 @@
   });
 </script>
 <style type="text/css">
-.event-name{
+  .event-name{
   color: #f16e3f;
-}
-.event-name:hover{
+  }
+  .event-name:hover{
   color: #f16e3f;
   text-decoration: underline;
-}
+  }
 </style>

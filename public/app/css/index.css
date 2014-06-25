@@ -167,7 +167,8 @@ hr {
   position: absolute;
   bottom: 18px;
   right: 18px;
-  /*margin-right: -18px;*/;
+  /*margin-right: -18px;*/
+  ;
 }
 
 .col-margin-padding a:hover {
@@ -522,7 +523,8 @@ hr {
   color: #7761a7;
   font-size: 17px;
   cursor: pointer;
-  /*box-shadow: 0px 0px 1px black;*/;
+  /*box-shadow: 0px 0px 1px black;*/
+  ;
 }
 
 @media all and (max-width: 1200px) {
@@ -1274,8 +1276,20 @@ hr {
 }
 
 .custom-media-object {
-    width: 64px;
-    height: 64px;
+  width: 64px;
+  height: 64px;
+}
+
+.event-name {
+  cursor: pointer;
+}
+
+.input-search {
+  font-size: 12px;
+  width: 135px;
+  height: 29px;
+  margin-top: 18px;
+  margin-left: 15px;
 }
 
 @media all and (max-width: 767px) {
@@ -1283,11 +1297,21 @@ hr {
     width: 32px;
     height: 32px;
   }
+
   .color-msg-name {
     font-size: 12px;
   }
+
   .msg-time {
     font-size: 12px;
   }
-}
 
+  .input-search {
+    font-size: 12px;
+    width: 135px;
+    height: 27px;
+    margin-top: -26px;
+    display: inherit;
+    margin-left: 107px;
+  }
+}

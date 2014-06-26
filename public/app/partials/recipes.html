@@ -11,32 +11,31 @@
     <!-- recipes page -->
     <div class="cl-mcont">
 
-	    <!--  -->
-	    <div class="recipes-block6 visible-xs">
-	      <div class="block block-color">
-	        <div class="header">
-	          <div class="actions">
-	            <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-	            <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
+    	<!--  -->
+
+    	<div class="panel-group panel-custom accordion accordion-semi visible-xs" id="accordion3">
+	        <div class="panel panel-default">
+	          <div class="panel-heading" style="border-bottom: 1px solid #4b3d6d !important;">
+	            <h4 class="panel-title">
+	              <a data-toggle="collapse" data-parent="#accordion3" href="#ac3-1" target="_self" class="collapsed">
+	              <i class="fa fa-angle-right"></i> Filter
+	              </a>
+	            </h4>
 	          </div>
-	          <h3>Filter</h3>
-	        </div>
-	        <div class="content">
-	          <div class="clearfix">
-	            <div class="row">
-	              <div class="col-xs-12">
-	                <input type="search" class="form-control" placeholder="By Name"><br>
+	          <div id="ac3-1" class="panel-collapse collapse" style="height: 0px;">
+	            <div class="panel-body">
+	            	<input type="search" class="form-control" placeholder="By Name"><br>
 	                <input type="search" class="form-control" placeholder="By Date"><br>
 	                <input type="search" class="form-control" placeholder="By Tags"><br>
 	                <input type="search" class="form-control" placeholder="By Ingredients"><br>
 	                <button type="button" class="btn btn-primary">Search</button>
-	              </div>
 	            </div>
 	          </div>
 	        </div>
 	      </div>
-	    </div>
-	    <!--  -->
+
+    	<!--  -->
+
 	    <div classs="clearfix">
 	      <!--  -->
 	      <div class="col-sm-7 col-md-8 col-lg-9 recipes-block6">
@@ -59,7 +58,7 @@
 				</div>
 		    </div>
 	      	<!--  -->
-	        <div class="block block-color primary">
+	        <div class="block block-color primary pos-margin-up">
 	            <div class="header">
 	              <h2>All Recipes</h2>
 	            </div>
@@ -73,7 +72,7 @@
 					<!--  -->
 	                <div class="clearfix">
 	                	<div class="recipe_list" ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients | filter:ftag | orderBy:'created_at' : true  track by $index" ng-init="initFav(recipe)">
-	                		<div class="clearfix active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='recipe.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(recipe,tag)'}" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+	                		<div class="clearfix active_drop active-drop-1" style="margin-bottom: 10px;" data-drop="true" ng-model='recipe.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(recipe,tag)'}" data-jqyoui-options="{hoverClass: 'hoverClass'}">
 	                			<a href="/#/recipe_detail/{{recipe.id}}"><div class="img-pos"></div></a>
 	                			<div class="recipes-block">
 	                				<span class="favoriterecipe" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
@@ -91,6 +90,7 @@
 	                				</div>
 	                			</div>
 	                		</div>
+	                		<hr>
 	                	</div>
 	                </div>
 	                <!--  -->
@@ -217,6 +217,13 @@
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
 	background-color: #7761a7;
 	border-color: #7761a7;
+}
+.hoverClass {
+  background-color: #f5f5f5;
+  margin-right: 10px;
+  border: 2px dashed #e6e6e6;
+  padding: 13px;
+  margin: 0px;
 }
 </style>
 

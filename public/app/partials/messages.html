@@ -10,34 +10,41 @@
   <div class="cl-mcont">
     <div class="col-lg-1 visible-lg"></div>
     <!-- this block only visible in mobile screen -->
-    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right visible-xs">
-      <div class="block block-color aside-right">
-        <div class="header">
-          <h3>Add New Message</h3>
-        </div>
-        <div class="content">
-          <form name="form" class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
-            <select ui-select2 ng-model="addMessages.receiver_id" data-placeholder="names" style="width:100%" name="receivername" ng-required="true">
-              <option value=""></option>
-              <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
-            </select>
-            <div class="error">
-              <span ng-show="form.receivername.$error.required && submitted">name required</span>
+
+    <div class="panel-group panel-custom accordion accordion-semi visible-xs" id="accordion3">
+        <div class="panel panel-default">
+          <div class="panel-heading info">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion3" href="#ac3-1" target="_self" class="collapsed">
+              <i class="fa fa-angle-right"></i> Add New Message
+              </a>
+            </h4>
+          </div>
+          <div id="ac3-1" class="panel-collapse collapse" style="height: 0px;">
+            <div class="panel-body">
+              <form name="form" class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
+                <select ui-select2 ng-model="addMessages.receiver_id" data-placeholder="names" style="width:100%" name="receivername" ng-required="true">
+                  <option value=""></option>
+                  <option ng-repeat="names in members" value="{{names.id}}">{{names.name}}</option>
+                </select>
+                <div class="error">
+                  <span ng-show="form.receivername.$error.required && submitted">name required</span>
+                </div>
+                <br>
+                <textarea name="msg" class="form-control" placeholder="Message Description" ng-model="addMessages.message" required></textarea>
+                <div class="error">
+                  <span ng-show="form.msg.$error.required && submitted">message is empty</span>
+                </div>
+                <br>
+                <button type="button" class="btn btn-info" ng-click="addNewMessage(form)">Add</button>
+                <br>
+              </form>
             </div>
-            <br>
-            <textarea name="msg" class="form-control" placeholder="Message Description" ng-model="addMessages.message" required></textarea>
-            <div class="error">
-              <span ng-show="form.msg.$error.required && submitted">message is empty</span>
-            </div>
-            <br>
-            <button type="button" class="btn btn-info" ng-click="addNewMessage(form)">Add</button>
-            <br>
-          </form>
+          </div>
         </div>
       </div>
-    </div>
     <!-- // -->
-    <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list">
+    <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list todo-list-1">
       <div class="block block-color info">
         <div class="header">
           <div class="actions">

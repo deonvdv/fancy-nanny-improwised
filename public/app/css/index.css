@@ -341,9 +341,10 @@ hr {
 }
 
 @media all and (max-width: 767px) {
-  .pos-block-event{
+  .pos-block-event {
     margin-top: -23px;
   }
+
   .cl-mcont {
     font-size: 12px;
     line-height: 1.5em;
@@ -634,12 +635,14 @@ hr {
 }
 
 @media all and (max-width: 767px) {
-  .todo-list{
+  .todo-list {
     margin-top: 0px;
   }
-  .todo-list-1{
+
+  .todo-list-1 {
     margin-top: -30px;
   }
+
   .aside-right {
     padding-left: 0px;
     padding-right: 0px;
@@ -1280,7 +1283,7 @@ hr {
   padding: 0px;
 }
 
-.active-drop-1{
+.active-drop-1 {
   padding: 15px;
 }
 
@@ -1306,8 +1309,8 @@ hr {
 }
 
 .accordion.accordion-semi .panel-heading.info a {
-    background-color: #4AA3DF;
-    border-bottom: 1px solid #3080a8;
+  background-color: #4AA3DF;
+  border-bottom: 1px solid #3080a8;
 }
 
 @media all and (max-width: 767px) {
@@ -1340,11 +1343,45 @@ hr {
   .active_drop {
     padding: 0px;
   }
-  .pos-margin-up{
+
+  .pos-margin-up {
     margin-top: -35px;
   }
-  .active-drop-1{
+
+  .active-drop-1 {
     padding: 15px;
     margin-top: -10px;
+  }
+
+  .width-mobile {
+    width: 33.33333333333334%;
+    text-align: center;
+    margin-top: -5px;
+  }
+
+  .width-mobile h1 {
+    font-size: 14px !important;
+  }
+
+  .width-mobile .block-flat {
+    padding: 5px !important;
+  }
+
+  .width-mobile .count {
+    float: none !important;
+    padding: auto !important;
+    margin: auto !important;
+    display: block !important;
+    font-size: 45px !important;
+    margin: -10px auto 0px !important;
+    color: black;
+  }
+
+  .width-mobile .details {
+    float: none !important;
+    bottom: 0px;
+    margin-bottom: 7px;
+    position: inherit;
+    right: 0px;
   }
 }

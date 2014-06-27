@@ -48,7 +48,7 @@
       <div class="block block-color info">
         <div class="header">
           <div class="actions">
-            <a class="refresh" href="#/messages/"><i class="fa fa-repeat"></i></a>
+            <input class="input-search-msg" placeholder="Search message" ng-model="search">
           </div>
           <h3>Messages</h3>
         </div>
@@ -62,7 +62,7 @@
               <div class="tab-content">
                 <div class="tab-pane active" id="received">
                   <!--  -->
-                  <div class="media" ng-repeat="message in receivedMessages | orderBy:'created_at':true" ng-mouseover="msgRead(message);">
+                  <div class="media" ng-repeat="message in receivedMessages | filter:search | orderBy:'created_at':true" ng-mouseover="msgRead(message);">
                     <a class="pull-left" href="#">
                     <img class="media-object custom-media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+">
                     </a>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="tab-pane" id="Sent">
                   <!--  -->
-                  <div class="media" ng-repeat="message in sentMessages | orderBy:'created_at':true">
+                  <div class="media" ng-repeat="message in sentMessages | filter:search | orderBy:'created_at':true">
                     <a class="pull-left" href="#">
                     <img class="media-object custom-media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+">
                     </a>

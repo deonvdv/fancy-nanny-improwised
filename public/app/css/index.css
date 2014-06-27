@@ -1306,11 +1306,53 @@ hr {
   height: 29px;
   margin-top: 18px;
   margin-left: 15px;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding-left: 5px;
 }
 
 .accordion.accordion-semi .panel-heading.info a {
   background-color: #4AA3DF;
   border-bottom: 1px solid #3080a8;
+}
+
+.input-search-msg {
+  font-size: 12px;
+  width: 135px;
+  height: 27px;
+  margin-top: -2px;
+  display: inherit;
+  border-radius: 5px;
+  padding-left: 5px;
+  background-color: rgba(52,133,187,0.5);
+  border: 1px solid rgba(52,133,187,1);
+  color: white;
+}
+
+.input-search-todo {
+  font-size: 12px;
+  width: 135px;
+  height: 27px;
+  margin-top: -2px;
+  display: inherit;
+  border-radius: 5px;
+  padding-left: 5px;
+  background-color: rgba(23,128,101,0.5);
+  border: 1px solid rgba(23,128,101,1);
+  color: white;
+}
+
+.input-search-recipe {
+  font-size: 12px;
+  width: 135px;
+  height: 27px;
+  margin-top: 0px;
+  display: inherit;
+  border-radius: 5px;
+  padding-left: 5px;
+  background-color: rgba(91,74,131,0.5);
+  border: 1px solid rgba(91,74,131,1);
+  color: white;
 }
 
 @media all and (max-width: 767px) {
@@ -1334,6 +1376,9 @@ hr {
     margin-top: -26px;
     display: inherit;
     margin-left: 107px;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding-left: 5px;
   }
 
   .pos-block {
@@ -1383,5 +1428,94 @@ hr {
     margin-bottom: 7px;
     position: inherit;
     right: 0px;
+  }
+
+  .block-margin-bottom .header {
+    padding-left: 12px !important;
+    padding-bottom: 0px !important;
+    border-radius: 3px !important;
+    padding-top: 0px !important;
+  }
+
+  .block-margin-bottom .header h2 {
+    font-size: 18px !important;
+  }
+
+  .recent-recipe .header {
+    padding-bottom: 10px !important;
+    border-radius: 3px !important;
+    padding-top: 10px !important;
+  }
+
+  .recent-recipe .header h3 {
+    font-size: 18px !important;
+    margin-left: -7px !important;
+  }
+
+  .pos-margin-up .header {
+    padding: 10px !important;
+  }
+
+  .recipe_list {
+  }
+
+  .recipe_list .img-pos {
+    float: left !important;
+    width: 100px !important;
+    height: 100px;
+    margin: auto !important;
+    padding: auto !important;
+    margin-right: 2px !important;
+  }
+
+  .recipe_list .active-drop-1 {
+    padding: 5px;
+  }
+
+  .recipe_list .recipes-block {
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+    padding: 0px !important;
+    font-size: 12px !important;
+  }
+
+  .recipe_list .recipes-block h4 {
+    margin-left: -6px;
+    font-size: 14px;
+  }
+
+  .recipe_list .recipes-block p {
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .tags {
+    clear: both !important;
+    margin-top: 35px;
+    margin-bottom: -8px;
+  }
+
+  .pos-margin-up-1 {
+    margin-top: -35px;
+    margin-bottom: 43px;
+  }
+
+  .block-add-1 {
+    padding: 1px;
+    margin-top: 0px;
+  }
+
+  .block-add-2 {
+    padding: 1px;
+    margin-top: -9px;
+  }
+
+  .block-add-2 .block-flat {
+    padding: 15px;
+  }
+
+  .block-add-2 .block-add-3 {
+    padding: 0px;
+    margin-top: -20px;
   }
 }

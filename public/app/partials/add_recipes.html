@@ -1,205 +1,188 @@
 <!-- sidebar -->
-
 <div class="fn-sidebar"></div>
-
 <!-- //sidebar -->
-
 <!-- right-side section (top navbar + add recipes) -->
-
 <div class="container-fluid" id="pcont">
-
-    <!-- top navbar -->
-
-      <div class="fntop-navbar"></div>
-
-    <!-- //top navbar -->
-
-    <!-- add recipes page -->
-
-    <div class="cl-mcont">
-
-	  <div class="clearfix">
-	    <br>
-	  <!--  -->
-	  <div class="col-md-1"></div>
-	  <!--  -->
-	  <div class="col-md-10 col-sm-12">
-	  	<div ng-show="sucess">
-	      	<div class="alert alert-success alert-msg">
-				<button type="button" class="close" ng-click="done()">×</button>
-				<i class="fa fa-check sign"></i>your recipe is successfully added.
-			</div>
-	    </div>
-	    <!--  -->
-	    <div class="block-flat">
-	      <div class="header">
-	        <h3><i class="fa fa-coffee fa-color-black"></i>&nbsp;Add Recipes</h3>
-	      </div>
-	      <div class="content">
-	        <!--  -->
-	        <form role="form" name="form" novalidate>
-	          <!-- ============================================================================ -->
-	          <div class="form-group">
-	            <label>Recipe Name</label>
-	            <input type="text" placeholder="eg. Original Chicken Permesan" class="form-control" name="name" ng-model="addNewRecipe.name" required>
-	            <div class="error">
-	                <span ng-show="form.name.$error.required && submitted">name required</span>
-	            </div>
-	          </div>
-	          <!-- ============================================================================ -->
-	          <div class="form-group">
-	            <label>Description</label><br>
-	            <textarea class="form-control" rows=4 style="resize: vertical;" placeholder="Add a brief description of this recipe" name="description" ng-model="addNewRecipe.description" required></textarea>
-	            <div class="error">
-	            	<span ng-show="form.description.$error.required && submitted">description required</span>
-	          	</div>
-	          </div>
-	          <!-- ============================================================================ -->
-	          <div class="form-group">
-	            <label>Category</label>
-	            <select name="category" ng-model="addNewRecipe.category_id" data-placeholder="Category" class="addrecipes" required>
-                    <option value=""></option>
-                    <option ng-repeat="category in Categories" value="{{category.id}}">{{category.name}}</option>
-                </select>
+<!-- top navbar -->
+<div class="fntop-navbar"></div>
+<!-- //top navbar -->
+<!-- add recipes page -->
+<div class="cl-mcont block-add-1">
+  <div class="clearfix block-add-2">
+    <br>
+    <!--  -->
+    <div class="col-md-1"></div>
+    <!--  -->
+    <div class="col-md-10 col-sm-12 block-add-2">
+      <div ng-show="sucess">
+        <div class="alert alert-success alert-msg">
+          <button type="button" class="close" ng-click="done()">×</button>
+          <i class="fa fa-check sign"></i>your recipe is successfully added.
+        </div>
+      </div>
+      <!--  -->
+      <div class="block-flat">
+        <div class="header">
+          <h3><i class="fa fa-coffee fa-color-black"></i>&nbsp;Add Recipes</h3>
+        </div>
+        <div class="content">
+          <!--  -->
+          <form role="form" name="form" novalidate>
+            <!-- ============================================================================ -->
+            <div class="form-group">
+              <label>Recipe Name</label>
+              <input type="text" placeholder="eg. Original Chicken Permesan" class="form-control" name="name" ng-model="addNewRecipe.name" required>
+              <div class="error">
+                <span ng-show="form.name.$error.required && submitted">name required</span>
+              </div>
+            </div>
+            <!-- ============================================================================ -->
+            <div class="form-group">
+              <label>Description</label><br>
+              <textarea class="form-control" rows=4 style="resize: vertical;" placeholder="Add a brief description of this recipe" name="description" ng-model="addNewRecipe.description" required></textarea>
+              <div class="error">
+                <span ng-show="form.description.$error.required && submitted">description required</span>
+              </div>
+            </div>
+            <!-- ============================================================================ -->
+            <div class="form-group">
+              <label>Category</label>
+              <select name="category" ng-model="addNewRecipe.category_id" data-placeholder="Category" class="addrecipes" required>
+                <option value=""></option>
+                <option ng-repeat="category in Categories" value="{{category.id}}">{{category.name}}</option>
+              </select>
+              <div class="error">
+                <span ng-show="form.category.$error.required && submitted">select Category</span>
+              </div>
+            </div>
+            <!-- ============================================================================ -->
+            <div class="row">
+              <div class="col-sm-4">
+                <label>number_of_portions</label>
+                <input type="number" min="0" step="0.1" class="form-control" name="portions" ng-model="addNewRecipe.number_of_portions" placeholder="eg. 8" required>
                 <div class="error">
-	            	<span ng-show="form.category.$error.required && submitted">select Category</span>
-	          	</div>
-	          </div>
-	          <!-- ============================================================================ -->
-	          <div class="row">
-	          	<div class="col-sm-4">
-	          		<label>number_of_portions</label>
-	          		<input type="number" min="0" step="0.1" class="form-control" name="portions" ng-model="addNewRecipe.number_of_portions" placeholder="eg. 8" required>
-	          		<div class="error">
-	            		<span ng-show="form.portions.$error.required && submitted">enter number of portions</span>
-	          		</div>
-	          	</div>
-	          	<div class="col-sm-4">
-	          		<label>preparation_time</label>
-	          		<input class="form-control" name="p_time" ng-model="addNewRecipe.preparation_time" ng-pattern="/([0-1]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)/"  placeholder="eg. hh:mm:ss" required>
-	          		<div class="error">
-	            		<span ng-show="form.p_time.$error.required && submitted">enter preparation time</span>
-	            		<span ng-show="form.p_time.$error.pattern && submitted">enter valid time</span>
-	          		</div>
-	          	</div>
-	          	<div class="col-sm-4">
-	          		<label>cooking_time</label>
-	          		<input class="form-control" name="c_time" ng-model="addNewRecipe.cooking_time" required ng-pattern="/([0-1]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)/" placeholder="eg. hh:mm:ss">
-	          		<div class="error">
-	            		<span ng-show="form.c_time.$error.required && submitted">enter cooking time</span>
-	            		<span ng-show="form.c_time.$error.pattern.required">enter valid time</span>
-	          		</div>
-	          	</div>
-	          </div>
-	          <!-- ============================================================================ -->
-	          <br>
-        	  <div class="row">
-	            <div class="col-sm-4">
-	                  <label>Quantity</label>
-	            </div>
-	            <div class="col-sm-4">
-	                <label>Unit Of Measure</label>
-	            </div>
-	            <div class="col-sm-4">
-	                <label>Ingredients</label>
-	            </div>
-        	  </div>
-        	  <!-- ============================================================================ -->
-	          <div class="row">
-	          	<div class="error col-xs-12" ng-show="error_msg">add atleast one ingredient<br><br></div>
-	          	<!-- add ingredients  -->
-	        	<div class="clearfix"  ng-repeat="ingredient in addNewRecipe.newIngredients">
-
-	        		<ng-form name="IngForm">
-	        		<!-- ========================================== -->
-	                <div class="col-sm-4 form-Quantity">
-	                  <input type="number" min="0" step="0.1" class="form-control" placeholder="Quantity (Number)" name="quantity" ng-model="ingredient.quantity" required>
-	                  <div class="error">
-	            		<span ng-show="IngForm.quantity.$error.required && submitted">enter only number
-	            		</span>
-	          		  </div>
-	                </div>
-
-	                <!-- ========================================== -->
-	                <div class="col-sm-4 form-Measure">
-	          		    <select ui-select2 ng-model="ingredient.unit_of_measure_id" data-placeholder="Select Unit" style="width:100%" name="unit" ng-required="true">
-						    <option value=""></option>
-						    <option ng-repeat="UnitOfMeasure in UnitOfMeasures" value="{{UnitOfMeasure.id}}">{{UnitOfMeasure.name}}&nbsp;( {{UnitOfMeasure.preferred_alias}} )</option>
-						</select>
-						<div class="error">
-	            			<span ng-show="IngForm.unit.$error.required && submitted">select unit</span>
-	          		    </div>
-	                </div>
-	                <!-- ========================================== -->
-	                <div class="col-sm-4 form-ingredients">
-	          		    <select ui-select2 ng-model="ingredient.ingredient_id" data-placeholder="Select ingredient" style="width:90%" name="ing" ng-required="true">
-						    <option value=""></option>
-						    <option ng-repeat="ingres in Ingredients" value="{{ingres.id}}">{{ingres.name}}</option>
-						</select>
-						<i class="fa fa-minus-square-o ing_icon pull-right" ng-click="removeIngredient(ingredient)"></i>
-						<div class="error">
-	            			<span ng-show="IngForm.ing.$error.required && submitted">select ingredient</span>
-	          		    </div>
-	                </div>
-	                <!-- ========================================== -->
-	            	</ng-form>
-	            	<br><br><br>
-	            </div>
-	            <div>
-	            	<span class="add_ing" ng-click="addNewItem()"><i class="fa fa-plus"></i>&nbsp;Add Ingredients</span>
-	        	</div>
-	        	<!-- //add ingredients  -->
-	          </div>
-	          <!-- ============================================================================ -->
-	          <br>
-	          <div class="form-group">
-	            <label>Instructions</label>
-	            <textarea class="form-control" rows=4 style="resize: vertical;" placeholder="Add detailed instructions on how to prepare this recipe" name="instructions" ng-model="addNewRecipe.instructions" required></textarea>
-	            <div class="error">
-	            	<span ng-show="form.instructions.$error.required && submitted">enter instructions</span>
-	          	</div>
-	          </div>
-	          <!-- ============================================================================ -->
-              <button class="btn btn-prusia" type="submit" ng-click="addRecipe(form)">Add</button>
-              <button class="btn btn-default">Cancel</button>
- 			  <!-- ============================================================================ -->
-	        </form>
-	        <!--  -->
-	      </div>
-	    </div>
-	    <!--  -->
-	  </div>
-	</div>
-
-    <!-- //add recipes page -->
-
+                  <span ng-show="form.portions.$error.required && submitted">enter number of portions</span>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <label>preparation_time</label>
+                <input class="form-control" name="p_time" ng-model="addNewRecipe.preparation_time" ng-pattern="/([0-1]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)/"  placeholder="eg. hh:mm:ss" required>
+                <div class="error">
+                  <span ng-show="form.p_time.$error.required && submitted">enter preparation time</span>
+                  <span ng-show="form.p_time.$error.pattern && submitted">enter valid time</span>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <label>cooking_time</label>
+                <input class="form-control" name="c_time" ng-model="addNewRecipe.cooking_time" required ng-pattern="/([0-1]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)/" placeholder="eg. hh:mm:ss">
+                <div class="error">
+                  <span ng-show="form.c_time.$error.required && submitted">enter cooking time</span>
+                  <span ng-show="form.c_time.$error.pattern.required">enter valid time</span>
+                </div>
+              </div>
+            </div>
+            <!-- ============================================================================ -->
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+                <label>Quantity</label>
+              </div>
+              <div class="col-sm-4">
+                <label>Unit Of Measure</label>
+              </div>
+              <div class="col-sm-4">
+                <label>Ingredients</label>
+              </div>
+            </div>
+            <!-- ============================================================================ -->
+            <div class="row">
+              <div class="error" ng-show="error_msg">add atleast one ingredient<br><br></div>
+              <!-- add ingredients  -->
+              <div class="clearfix"  ng-repeat="ingredient in addNewRecipe.newIngredients">
+                <ng-form name="IngForm">
+                  <!-- ========================================== -->
+                  <div class="col-sm-4 form-Quantity">
+                    <input type="number" min="0" step="0.1" class="form-control" placeholder="Quantity (Number)" name="quantity" ng-model="ingredient.quantity" required="true">
+                    <div class="error">
+                      <span ng-show="IngForm.quantity.$error.required && submitted">enter only number
+                      </span>
+                    </div>
+                  </div>
+                  <!-- ========================================== -->
+                  <div class="col-sm-4 form-Measure">
+                    <select ui-select2 ng-model="ingredient.unit_of_measure_id" data-placeholder="Select Unit" style="width:100%" name="unit" ng-required="true">
+                      <option value=""></option>
+                      <option ng-repeat="UnitOfMeasure in UnitOfMeasures" value="{{UnitOfMeasure.id}}">{{UnitOfMeasure.name}}&nbsp;( {{UnitOfMeasure.preferred_alias}} )</option>
+                    </select>
+                    <div class="error">
+                      <span ng-show="IngForm.unit.$error.required && submitted">select unit</span>
+                    </div>
+                  </div>
+                  <!-- ========================================== -->
+                  <div class="col-sm-4 form-ingredients">
+                    <select ui-select2 ng-model="ingredient.ingredient_id" data-placeholder="Select ingredient" style="width:90%" name="ing" ng-required="true">
+                      <option value=""></option>
+                      <option ng-repeat="ingres in Ingredients" value="{{ingres.id}}">{{ingres.name}}</option>
+                    </select>
+                    <i class="fa fa-minus-square-o ing_icon pull-right" ng-click="removeIngredient(ingredient)"></i>
+                    <div class="error">
+                      <span ng-show="IngForm.ing.$error.required && submitted">select ingredient</span>
+                    </div>
+                  </div>
+                  <!-- ========================================== -->
+                </ng-form>
+                <br><br><br>
+              </div>
+              <div>
+                <span class="add_ing" ng-click="addNewItem()"><i class="fa fa-plus"></i>&nbsp;Add Ingredients</span>
+              </div>
+              <!-- //add ingredients  -->
+            </div>
+            <!-- ============================================================================ -->
+            <br>
+            <div class="form-group">
+              <label>Instructions</label>
+              <textarea class="form-control" rows=4 style="resize: vertical;" placeholder="Add detailed instructions on how to prepare this recipe" name="instructions" ng-model="addNewRecipe.instructions" required></textarea>
+              <div class="error">
+                <span ng-show="form.instructions.$error.required && submitted">enter instructions</span>
+              </div>
+            </div>
+            <!-- ============================================================================ -->
+            <button class="btn btn-prusia" type="submit" ng-click="addRecipe(form)">Add</button>
+            <button class="btn btn-default">Cancel</button>
+            <!-- ============================================================================ -->
+          </form>
+          <!--  -->
+        </div>
+      </div>
+      <!--  -->
+    </div>
+  </div>
+  <!-- //add recipes page -->
 </div>
-
 <!-- //recipes -->
-
 <!-- ============================================================== -->
-
 <style type="text/css">
-	.select2-results .select2-result-label {
-		color: #555555;
-		font-weight: 600;
-	}
-	.select2-results .select2-highlighted {
-		background: none repeat scroll 0 0 #dddddd !important;
-	}
-	.select2-drop-active {
-		border-bottom: 1px solid #dddddd !important;
-		border-left: 1px solid #dddddd !important;
-		border-right: 1px solid #dddddd !important;
-	}
-	.select2-container-active .select2-choice, .select2-container-active .select2-choices {
-		box-shadow: none;
-		border-color: #b9b9b9;
-	}
+  .select2-results .select2-result-label {
+  color: #555555;
+  font-weight: 600;
+  }
+  .select2-results .select2-highlighted {
+  background: none repeat scroll 0 0 #dddddd !important;
+  }
+  .select2-drop-active {
+  border-bottom: 1px solid #dddddd !important;
+  border-left: 1px solid #dddddd !important;
+  border-right: 1px solid #dddddd !important;
+  }
+  .select2-container-active .select2-choice, .select2-container-active .select2-choices {
+  box-shadow: none;
+  border-color: #b9b9b9;
+  }
 </style>
 <script type="text/javascript">
-    $(document).ready(function(){
-    	var time = (new Date()).toTimeString().split(' ')[0];
-    	$(".addrecipes").select2({width: '100%'});
-    });
+  $(document).ready(function(){
+  	var time = (new Date()).toTimeString().split(' ')[0];
+  	$(".addrecipes").select2({width: '100%'});
+  });
 </script>

@@ -56,19 +56,19 @@
       <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list">
         <!--  -->
         <div ng-show="sucessTagAdd">
-          <div class="alert alert-success alert-msg">
+          <div class="alert alert-success alert-msg pos-margin-up-1">
             <i class="fa fa-check sign"></i>new tag added.
           </div>
         </div>
         <!--  -->
         <div ng-show="sucessTagExist">
-          <div class="alert alert-info alert-msg">
+          <div class="alert alert-info alert-msg pos-margin-up-1">
             <i class="fa fa-check sign"></i>tag already exists.
           </div>
         </div>
         <!--  -->
         <div ng-show="sucessTagRemove">
-          <div class="alert alert-danger alert-msg">
+          <div class="alert alert-danger alert-msg pos-margin-up-1">
             <i class="fa fa-check sign"></i>tag deleted.
           </div>
         </div>
@@ -76,7 +76,7 @@
         <div class="block block-color success pos-block">
           <div class="header">
             <div class="actions">
-              <a class="refresh" href="#/todos/"><i class="fa fa-repeat"></i></a>
+              <input class="input-search-todo" placeholder="Search todo" ng-model="search">
             </div>
             <h3>Todo's</h3>
           </div>
@@ -92,7 +92,7 @@
               <div class="tab-content">
                 <!--  -->
                 <div class="tag_margin tab-pane active" id="Assigned">
-                  <div ng-repeat="todo in todos | orderBy:'due_date':true">
+                  <div ng-repeat="todo in todos | filter: search | orderBy:'due_date':true">
                     <div class="clearfix">
                       <div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
                         <div class="todo-block clearfix todo_style">
@@ -115,7 +115,7 @@
                 </div>
                 <!--  -->
                 <div class="tag_margin tab-pane cont" id="Assigned_to">
-                  <div  ng-repeat="todo in assignedToTodos | orderBy:'due_date':true">
+                  <div  ng-repeat="todo in assignedToTodos | filter: search | orderBy:'due_date':true">
                     <div class="clearfix">
                       <div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
                         <div class="todo-block clearfix todo_style">
@@ -141,7 +141,7 @@
                 </div>
                 <!--  -->
                 <div class="tag_margin tab-pane cont" id="Completed">
-                  <div ng-repeat="todo in completedTodos | orderBy:'due_date':true">
+                  <div ng-repeat="todo in completedTodos | filter: search | orderBy:'due_date':true">
                     <div class="clearfix">
                       <div class="active_drop" data-drop="true" ng-model='todo.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(todo,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
                         <div class="todo-block clearfix todo_style">

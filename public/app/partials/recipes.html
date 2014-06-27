@@ -41,26 +41,29 @@
 	      <div class="col-sm-7 col-md-8 col-lg-9 recipes-block6">
 	      	<!--  -->
 	      	<div ng-show="sucessTagAdd">
-		      	<div class="alert alert-success alert-msg">
+		      	<div class="alert alert-success alert-msg pos-margin-up-1">
 					<i class="fa fa-check sign"></i>new tag added.
 				</div>
 		    </div>
 		    <!--  -->
 	      	<div ng-show="sucessTagExist">
-		      	<div class="alert alert-info alert-msg">
+		      	<div class="alert alert-info alert-msg pos-margin-up-1">
 					<i class="fa fa-check sign"></i>tag already exists.
 				</div>
 		    </div>
 		    <!--  -->
 		    <div ng-show="sucessTagRemove">
-		      	<div class="alert alert-danger alert-msg">
+		      	<div class="alert alert-danger alert-msg pos-margin-up-1">
 					<i class="fa fa-check sign"></i>tag deleted.
 				</div>
 		    </div>
 	      	<!--  -->
 	        <div class="block block-color primary pos-margin-up">
 	            <div class="header">
-	              <h2>All Recipes</h2>
+	              <div class="actions">
+		            <input class="input-search-recipe" placeholder="Search recipe" ng-model="search">
+		          </div>
+	              <h2>Recipes</h2>
 	            </div>
 	            <div class="content">
 	              	<!--  -->
@@ -71,7 +74,7 @@
 					</div>
 					<!--  -->
 	                <div class="clearfix">
-	                	<div class="recipe_list" ng-repeat="recipe in recipes | filter:fname | filter:category | filter:fIngredients | filter:ftag | orderBy:'created_at' : true  track by $index" ng-init="initFav(recipe)">
+	                	<div class="recipe_list" ng-repeat="recipe in recipes | filter:search | filter:fname | filter:category | filter:fIngredients | filter:ftag | orderBy:'created_at' : true  track by $index" ng-init="initFav(recipe)">
 	                		<div class="clearfix active_drop active-drop-1" style="margin-bottom: 10px;" data-drop="true" ng-model='recipe.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(recipe,tag)'}" data-jqyoui-options="{hoverClass: 'hoverClass'}">
 	                			<a href="/#/recipe_detail/{{recipe.id}}"><div class="img-pos"></div></a>
 	                			<div class="recipes-block">
@@ -81,14 +84,22 @@
 	                				&nbsp;
 	                				<a href="/#/recipe_detail/{{recipe.id}}"><h4>{{recipe.name}}</h4></a>
 	                				<p>{{recipe.description}}</p>
-	                				<p class="date-todo">Date:{{recipe.created_at}}</p>
-	                				<span>tags&nbsp;:&nbsp;</span>
-	                				<div class="tag_linear" ng-repeat="item in recipe.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
+	                				<p class="date-todo">date:{{recipe.created_at}}</p>
+	                				<span class="hidden-xs">tags&nbsp;:&nbsp;</span>
+	                				<div class="tag_linear hidden-xs" ng-repeat="item in recipe.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
 	                					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
 	                						{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipe)"></i>&nbsp;
 	                					</span>
 	                				</div>
 	                			</div>
+	                			<div class="tags visible-xs">
+	            					<span>tags&nbsp;:&nbsp;</span>
+	                				<div class="tag_linear" ng-repeat="item in recipe.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
+	                					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
+	                						{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipe)"></i>&nbsp;
+	                					</span>
+	                				</div>
+	            				</div>
 	                		</div>
 	                		<hr>
 	                	</div>

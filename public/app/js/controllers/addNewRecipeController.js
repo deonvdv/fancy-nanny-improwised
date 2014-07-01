@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // recipes controller ------------------------------------------------------------------------------
-    .controller('addNewRecipeController',function($scope, $controller, $http, Ingredients, Categories, UnitOfMeasures, Recipes, $route){
+    .controller('addNewRecipeController',function($scope, $controller, $http, Ingredients, Categories, UnitOfMeasures, Recipes, $route, $timeout){
 
         $controller('homeController', {$scope: $scope});
 
@@ -152,8 +152,8 @@ angular.module('myApp')
 
         $scope.sucess = false;
 
-        $scope.done = function(){
-            $scope.sucess = false;
+        $scope.doneRecipeAdd = function(){
+            $timeout(function () { $scope.sucess = false; }, 3000);
         };
 
         // ==============================================================================
@@ -166,9 +166,12 @@ angular.module('myApp')
 
             if(form.$valid && $scope.addNewRecipe.newIngredients.length !== 0) {
 
+                $scope.sucess = true;
+
+                $scope.doneRecipeAdd();
+
                 Recipes.save($scope.addNewRecipe)
                     .success(function(response){
-                        $scope.sucess = true;
                         $scope.submitted = false;
                         loadNewRecipe();
                         $scope.init();

@@ -1,34 +1,32 @@
 <!-- sidebar -->
 <div class="fn-sidebar"></div>
 <!-- //sidebar -->
-
 <!-- right-side section (top navbar + tag) -->
 <div class="container-fluid" id="pcont">
-    <!-- top navbar -->
-    <div class="fntop-navbar"></div>
-    <!-- //top navbar -->
-
-    <!-- tag page -->
-    <div class="cl-mcont file-upload">
-      <br>
-      <!--  -->
-      <div class="col-lg-1"></div>
-      <!--  -->
-      <div class="col-lg-10 hidden-xs">
+  <!-- top navbar -->
+  <div class="fntop-navbar"></div>
+  <!-- //top navbar -->
+  <!-- tag page -->
+  <div class="cl-mcont file-upload">
+    <!--  -->
+    <div class="col-lg-1"></div>
+    <!--  -->
+    <div class="row pos-mobile-tag">
+      <div class="col-lg-10">
         <!--  -->
         <div class="block-flat">
           <div class="header">
             <div class="actions">
               <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-              <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-              <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
+                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
+                <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
             </div>
             <h3><i class="fa fa-tag fa-color-black"></i>&nbsp;Tags</h3>
             <spam class="add-tag" data-toggle="modal" ng-click="editTag(tag)"><i class="fa fa-plus"></i>&nbsp;Add Tag</spam>
           </div>
           <div class="content tag">
             <!--  -->
-              <div class="table-responsive">
+            <div class="table-responsive">
               <table class="table no-border hover">
                 <thead class="no-border">
                   <tr>
@@ -38,178 +36,117 @@
                 </thead>
                 <tbody class="no-border-y" ng-repeat="tag in data.tags" >
                   <tr>
-
                     <td class="">
-                        <span class="tag-color" style="color:{{tag.fontcolor}} ;background-color:{{tag.color}}">
-                          {{tag.name}}
-                        </span>
+                      <span class="tag-color" style="color:{{tag.fontcolor}} ;background-color:{{tag.color}}">
+                      {{tag.name}}
+                      </span>
                     </td>
-
                     <td class="text-center">
-                       <!--  -->
-                        <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
-                          <a class="label label-success" href="#" target="_self" ng-click="editTag(tag)" data-toggle="modal"><i class="fa fa-pencil"></i></a>
-                        </span>
-                        <!--  -->
-                        <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
-                          <a class="label label-danger" href="#" target="_self" data-toggle="modal" ng-click="deleteTag(tag)"><i class="fa fa-times"></i></a>
-                        </span>
-                        <!--  -->
+                      <!--  -->
+                      <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
+                      <a class="label label-success" href="#" target="_self" ng-click="editTag(tag)" data-toggle="modal"><i class="fa fa-pencil"></i></a>
+                      </span>
+                      <!--  -->
+                      <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
+                      <a class="label label-danger" href="#" target="_self" data-toggle="modal" ng-click="deleteTag(tag)"><i class="fa fa-times"></i></a>
+                      </span>
+                      <!--  -->
                     </td>
                   </tr>
                 </tbody>
               </table>
-              </div>
+            </div>
             <!--  -->
           </div>
         </div>
         <!--  -->
       </div>
-      <!--  -->
-      <div class="visible-xs">
-        <div class="block-flat">
-          <div class="header">
-            <h3>Tags</h3>
-          </div>
-          <div class="content">
-            <ol>
-              <!--  -->
-              <li ng-repeat="tag in data.tags">
-                <div>
-                  <span>
-                    <strong>Tag Name&nbsp;:&nbsp;</strong>
-                  </span>
-                  <!--  -->
-                  <span class="tag-color" style="color:{{tag.fontcolor}} ;background-color:{{tag.color}}">
-                    {{tag.name}}
-                  </span>
-                  <!--  -->
-                  <br>
-                  <br>
-                  <!--  -->
-                  <span>
-                    <strong>Action&nbsp;:&nbsp;</strong>
-                  </span>
-                  <!--  -->
+    </div>
+    <!--  -->
+    <script type="text/ng-template" id="delete.html">
+      <div class="modal-header">
+        <h3>Delete Tag</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <!--  -->
+        <span class="delete-item">Are you Sure !!<br>you want to Delete this Tag ??</span>
+        <!--  -->
+  </div>
+  <div class="modal-footer">
+  <button type="button" class="btn btn-default btn-flat" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+  <button type="button" class="btn btn-danger btn-flat" data-dismiss="modal" ng-click="delete()">Delete</button>
+  </div>
+  </script>
+  <!--  -->
+  <script type="text/ng-template" id="editTagmodal.html">
+    <div class="model-custom">
 
-                  <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
-                    <a class="label label-success" href="#" target="_self" ng-click="editTag(tag)" data-toggle="modal"><i class="fa fa-pencil"></i></a>
-                  </span>
-                  <!--  -->
-                  <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
-                    <a class="label label-danger" href="#" target="_self" data-toggle="modal" ng-click="deleteTag(tag)"><i class="fa fa-times"></i></a>
-                  </span>
-                  <!--  -->
-                  <br>
-                  <!--  -->
-                </div>
-                <!--  -->
-                <hr>
-                <!--  -->
-              </li>
-              <!--  -->
-            </ol>
-          </div>
-        </div>
+      <div class="modal-header">
+
+        <h3>{{title}} Tag!</h3>
+
       </div>
 
-      <!--  -->
+      <form class="form" name="form">
 
-      <script type="text/ng-template" id="delete.html">
+        <div class="modal-body">
+          <!-- ----------------------------------------- -->
+          <!-- tag name -->
+          <div class="form-group">
+            <label>Tag Name</label>
+            <input type="text" class="form-control" placeholder="Tag Name" ng-model="data.name" ng-minlength="3" name="tagname" required>
+          </div>
+          <!-- error msg for tag name -->
+          <div class="error">
+            <span ng-show="form.tagname.$error.minlength && submitted"> Too short!</span>
+            <span ng-show="form.tagname.$error.required && submitted">Tag name required !!</span>
+          </div>
+          <!-- ----------------------------------------- -->
+          <!-- font color -->
+          <div class="form-group">
 
-        <div class="modal-header">
-          <h3>Delete Tag</h3>
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        </div>
-        <div class="modal-body text-center">
-          <!--  -->
-          <span class="delete-item">Are you Sure !!<br>you want to Delete this Tag ??</span>
-          <!--  -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default btn-flat" data-dismiss="modal" ng-click="cancel()">Cancel</button>
-          <button type="button" class="btn btn-danger btn-flat" data-dismiss="modal" ng-click="delete()">Delete</button>
-        </div>
-
-      </script>
-
-      <!--  -->
-
-      <script type="text/ng-template" id="editTagmodal.html">
-
-        <div class="model-custom">
-
-          <div class="modal-header">
-
-            <h3>{{title}} Tag!</h3>
+            <label>Font Color</label><br>
+            <select ng-model="data.fontcolorOption" id="example1" ng-options="opt as opt.label for opt in options">
+            </select>
+            <br>
 
           </div>
-
-          <form class="form" name="form">
-
-            <div class="modal-body">
-              <!-- ----------------------------------------- -->
-              <!-- tag name -->
-              <div class="form-group">
-                <label>Tag Name</label>
-                <input type="text" class="form-control" placeholder="Tag Name" ng-model="data.name" ng-minlength="3" name="tagname" required>
-              </div>
-              <!-- error msg for tag name -->
-              <div class="error">
-                <span ng-show="form.tagname.$error.minlength && submitted"> Too short!</span>
-                <span ng-show="form.tagname.$error.required && submitted">Tag name required !!</span>
-              </div>
-              <!-- ----------------------------------------- -->
-              <!-- font color -->
-              <div class="form-group">
-
-                <label>Font Color</label><br>
-                <select ng-model="data.fontcolorOption" id="example1" ng-options="opt as opt.label for opt in options">
-                </select>
-                <br>
-
-              </div>
-              <!-- error msg for font color -->
-              <div class="error">
-                <span ng-show="form.fontcolorOption.$error.required && submitted">click to select font color !!</span>
-              </div>
-              <!-- ----------------------------------------- -->
-              <!-- tag name -->
-              <div class="form-group">
-                <label>Background Color</label>
-                <input colorpicker="hex" placeholder="click to select background color" class="form-control" name="tagcolor" required type="text" ng-model="data.color" hax>
-              </div>
-              <!-- error msg for background color -->
-              <div class="error">
-                <span ng-show="form.tagcolor.$error.required && submitted">click to select background color !!</span>
-              </div>
-              <!-- ----------------------------------------- -->
-              <!-- preview tag -->
-              <div class="clearfix">
-                <div class="pull-right">
-                  <br/>
-                  <span class="tag-color" style="color:{{data.fontcolorOption.value}};background-color:{{data.color}}">
-                    &nbsp;{{data.name}}
-                  </span>
-                </div>
-              </div>
-              <!-- ----------------------------------------- -->
+          <!-- error msg for font color -->
+          <div class="error">
+            <span ng-show="form.fontcolorOption.$error.required && submitted">click to select font color !!</span>
+          </div>
+          <!-- ----------------------------------------- -->
+          <!-- tag name -->
+          <div class="form-group">
+            <label>Background Color</label>
+            <input colorpicker="hex" placeholder="click to select background color" class="form-control" name="tagcolor" required type="text" ng-model="data.color" hax>
+          </div>
+          <!-- error msg for background color -->
+          <div class="error">
+            <span ng-show="form.tagcolor.$error.required && submitted">click to select background color !!</span>
+          </div>
+          <!-- ----------------------------------------- -->
+          <!-- preview tag -->
+          <div class="clearfix">
+            <div class="pull-right">
+              <br/>
+              <span class="tag-color" style="color:{{data.fontcolorOption.value}};background-color:{{data.color}}">
+                &nbsp;{{data.name}}
+              </span>
             </div>
+          </div>
+          <!-- ----------------------------------------- -->
 
-            <div class="modal-footer">
-
-              <button type="button" class="btn btn-default btn-flat" ng-click="cancel()">Cancel</button>
-              <button type="button" class="btn btn-success btn-flat" ng-click="save(form)">Done</button>
-
-            </div>
-
-          </form>
-
-        </div>
-
-      </script>
-      <!--  -->
-
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-default btn-flat" ng-click="cancel()">Cancel</button>
+<button type="button" class="btn btn-success btn-flat" ng-click="save(form)">Done</button>
+</div>
+</form>
+</div>
+</script>
+<!--  -->
 </div>
 <!-- //tag page -->
 </div>

@@ -36,15 +36,13 @@
     <!--  -->
     <div class="col-md-1"></div>
     <div class="col-md-6 col-sm-8 mobile-margin-ing">
-      <div ng-show="sucess1">
-        <div class="alert alert-success alert-msg">
-          <button type="button" class="close" ng-click="done1()">×</button>
+      <div ng-show="sucess1" class="backdrop">
+        <div class="alert alert-success alert-msg mobile-view margin-alert-3">
           <i class="fa fa-check sign"></i>{{add_count}}&nbsp;{{add_cat}} added successfully.
         </div>
       </div>
-      <div ng-show="sucess">
-        <div class="alert alert-danger alert-msg">
-          <button type="button" class="close" ng-click="done()">×</button>
+      <div ng-show="sucess" class="backdrop">
+        <div class="alert alert-danger alert-msg mobile-view margin-alert-3">
           <i class="fa fa-check sign"></i>{{delete_count}}&nbsp;{{delete_cat}} deleted successfully.
         </div>
       </div>

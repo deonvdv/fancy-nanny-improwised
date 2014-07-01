@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // shopping controller ------------------------------------------------------------------------------
-    .controller('CategoriesController',function($scope, $controller ,$http, Authenticate, Categories, Flash, $route, $modal){
+    .controller('CategoriesController',function($scope, $controller ,$http, Authenticate, Categories, Flash, $route, $modal, $timeout){
 
         $controller('homeController', {$scope: $scope});
 
@@ -56,7 +56,7 @@ angular.module('myApp')
         $scope.sucess1 = false;
 
         $scope.done1 = function(){
-            $scope.sucess1 = false;
+            $timeout(function () { $scope.sucess1 = false; }, 3000);
         };
 
         // ==============================================================================
@@ -70,6 +70,10 @@ angular.module('myApp')
         $scope.addNewCat = function (form) { 
 
                 $scope.submitted = true;
+
+                $scope.sucess1 = true;
+
+                $scope.done1();
 
                 if(form.$valid) {
                     Categories.save($scope.Cat)
@@ -103,7 +107,7 @@ angular.module('myApp')
         $scope.sucess = false;
 
         $scope.done = function(){
-            $scope.sucess = false;
+            $timeout(function () { $scope.sucess = false; }, 3000);
         };
 
         // ==============================================================================
@@ -113,6 +117,10 @@ angular.module('myApp')
         $scope.delete = function (cat) {
             
             var id = cat.id;
+
+            $scope.sucess = true;
+
+            $scope.done();
 
             Categories.destroy(id)
                .success(function(response){

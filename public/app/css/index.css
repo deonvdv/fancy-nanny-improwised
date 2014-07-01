@@ -1400,6 +1400,13 @@ hr {
   padding-top: 20px !important;
 }
 @media all and (max-width: 767px) {
+  .edit-userprofile .user-margin{
+    margin-top: -5px !important;
+  }
+  .edit-userprofile .col-lg-12{
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+  }
   .mobile-user-name{
     font-size: 16px;
   }

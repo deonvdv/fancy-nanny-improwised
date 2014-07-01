@@ -1400,6 +1400,15 @@ hr {
   padding-top: 20px !important;
 }
 @media all and (max-width: 767px) {
+  .recipedetail-title h1{
+    font-size: 18px;
+    margin-bottom: -15px;
+  }
+  .recipeDetail-pos{
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-top: -5px;
+  }
   .edit-userprofile .user-margin{
     margin-top: -5px !important;
   }
@@ -1451,6 +1460,9 @@ hr {
   }
   .margin-alert-3{
     margin-left: -105px;
+  }
+  .margin-alert-4{
+    margin-left: -66px;
   }
   .custom-media-object {
     width: 32px;

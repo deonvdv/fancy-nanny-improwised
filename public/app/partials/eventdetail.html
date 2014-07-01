@@ -1,152 +1,138 @@
 <!-- sidebar -->
 <div class="fn-sidebar"></div>
 <!-- //sidebar -->
-
 <!-- right-side section (top navbar + full recipes) -->
 <div class="container-fluid" id="pcont">
-    <!-- top navbar -->
-      <div class="fntop-navbar"></div>
-    <!-- //top navbar -->
-
-    <!-- full recipes page -->
-    <div class="cl-mcont" ng-init="eventDetail()">
+  <!-- top navbar -->
+  <div class="fntop-navbar"></div>
+  <!-- //top navbar -->
+  <!-- full recipes page -->
+  <div class="cl-mcont" ng-init="eventDetail()">
     <!--  -->
-	    <div class="col-xs-1"></div>
-	    <div class="col-xs-11">
-	        <ol class="breadcrumb">
-	          <li><a href="/#/events">events</a></li>
-	          <li class="active">event detail</li>
-	        </ol>
-	    </div>
-	    <!--  -->
-	    <div class="col-xs-1"></div>
-	    <div class="col-sm-8">
-	    	<!--  -->
-	      	<div ng-show="sucessTagAdd">
-		      	<div class="alert alert-success alert-msg">
-					<i class="fa fa-check sign"></i>new tag added.
-				</div>
-		    </div>
-		    <!--  -->
-	      	<div ng-show="sucessTagExist">
-		      	<div class="alert alert-info alert-msg">
-					<i class="fa fa-check sign"></i>tag already exists.
-				</div>
-		    </div>
-		    <!--  -->
-		    <div ng-show="sucessTagRemove">
-		      	<div class="alert alert-danger alert-msg">
-					<i class="fa fa-check sign"></i>tag deleted.
-				</div>
-		    </div>
-	      	<!--  -->
-	        <div class="block-flat">
-	            <div class="content">
-	            	<div class="clearfix">
-			            <div class="active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='eventDetail.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(eventDetail,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
-
-			            	<div>
-			            		<h1 style="color: #f16e3f;background-color: #efefef;border-radius: 5px;padding: 5px;">{{eventDetail.title}}</h1>
-			                </div>
-			                <br><br>
-
-			                <span><label style="color: #f16e3f;">Date:</label></span>&nbsp;<span>{{eventDetail.event_date}}</span>
-			                <br><br>
-
-			                <span><label style="color: #f16e3f;">By:</label></span>&nbsp;<span><a href="">{{eventDetail.owner_id}}</a></span>
-			                <br><br>
-
-			                <span><label style="color: #f16e3f;">type:</label></span>&nbsp;<span>{{eventDetail.type}}</span>
-			                <br><br>
-
-			                <span><label style="color: #f16e3f;">Description:</label></span>&nbsp;<span>{{eventDetail.description}}</span>
-			                <br><br>
-
-			                <span><label style="color: #f16e3f;">Start Time&nbsp;(hh:mm:ss)&nbsp;:</label></span>&nbsp;<span>{{eventDetail.start_time}}</span>
-			                <br><br>
-
-			                <span><label style="color: #f16e3f;">End Time&nbsp;(hh:mm:ss)&nbsp;:</label></span>&nbsp;<span>{{eventDetail.end_time}}</span>
-			                <br><br>
-
-			                <span><label style="color: #f16e3f;">Location:</label></span>&nbsp;<span>{{eventDetail.location}}</span>
-			                <br><br>
-
-			                <span>tags&nbsp;:&nbsp;</span>
-		    				<div class="tag_linear" ng-repeat="item in eventDetail.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
-		    					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-		    						&nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,eventDetail,$index)"></i>&nbsp;
-		    					</span>
-		    				</div>
-			                <br><br>
-
-			            </div>
-		        	</div>
-	            </div>
-	       </div>
-	       <!--  -->
-	    </div>
-	    <!--  -->
-	    <div class="col-sm-3">
-	        <div class="block block-color">
-	        <div class="header">
-	          <h3>Tag</h3>
-	        </div>
-	        <div class="content clearfix">
-
-				<div ng-repeat="tag in tags track by $index">
-			        <div class="tag_color" data-drag="true" data-jqyoui-options="{scroll: false,revert: 'invalid',helper: 'clone'}" ng-model="tags" jqyoui-draggable="{index: {{$index}},placeholder:'keep',animate:true}" ng-show="tag.name">
-			        	<span class="tag_color" style="color:{{tag.fontcolor}};background-color:{{tag.color}}">{{tag.name}}</span>
-					</div>
-			    </div>
-
-	          </div>
-	      </div>
-	    </div>
-	    <!--  -->
-	</div>
-    <!-- //full recipes page -->      
+    <div class="col-xs-1"></div>
+    <div class="col-xs-11">
+      <ol class="breadcrumb">
+        <li><a href="/#/events">events</a></li>
+        <li class="active">event detail</li>
+      </ol>
+    </div>
+    <!--  -->
+    <div class="col-xs-1"></div>
+    <div class="col-sm-8 recipeDetail-pos">
+      <!--  -->
+      <div ng-show="sucessTagAdd" class="backdrop">
+        <div class="alert alert-success alert-msg mobile-view margin-alert-4">
+          <i class="fa fa-check sign"></i>new tag added.
+        </div>
+      </div>
+      <!--  -->
+      <div ng-show="sucessTagExist" class="backdrop">
+        <div class="alert alert-info alert-msg mobile-view margin-alert-4">
+          <i class="fa fa-check sign"></i>tag already exists.
+        </div>
+      </div>
+      <!--  -->
+      <div ng-show="sucessTagRemove" class="backdrop">
+        <div class="alert alert-danger alert-msg mobile-view margin-alert-4">
+          <i class="fa fa-check sign"></i>tag deleted.
+        </div>
+      </div>
+      <!--  -->
+      <div class="block-flat">
+        <div class="content">
+          <div class="clearfix">
+            <div class="active_drop recipedetail-title" style="margin-bottom: 10px;" data-drop="true" ng-model='eventDetail.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(eventDetail,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+              <div>
+                <h1 style="color: #f16e3f;background-color: #efefef;border-radius: 5px;padding: 5px;">{{eventDetail.title}}</h1>
+              </div>
+              <br><br>
+              <span><label style="color: #f16e3f;">Date:</label></span>&nbsp;<span>{{eventDetail.event_date}}</span>
+              <br><br>
+              <span><label style="color: #f16e3f;">By:</label></span>&nbsp;<span><a href="">{{eventDetail.owner_id}}</a></span>
+              <br><br>
+              <span><label style="color: #f16e3f;">type:</label></span>&nbsp;<span>{{eventDetail.type}}</span>
+              <br><br>
+              <span><label style="color: #f16e3f;">Description:</label></span>&nbsp;<span>{{eventDetail.description}}</span>
+              <br><br>
+              <span><label style="color: #f16e3f;">Start Time&nbsp;(hh:mm:ss)&nbsp;:</label></span>&nbsp;<span>{{eventDetail.start_time}}</span>
+              <br><br>
+              <span><label style="color: #f16e3f;">End Time&nbsp;(hh:mm:ss)&nbsp;:</label></span>&nbsp;<span>{{eventDetail.end_time}}</span>
+              <br><br>
+              <span><label style="color: #f16e3f;">Location:</label></span>&nbsp;<span>{{eventDetail.location}}</span>
+              <br><br>
+              <span>tags&nbsp;:&nbsp;</span>
+              <div class="tag_linear" ng-repeat="item in eventDetail.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
+                <span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
+                &nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,eventDetail,$index)"></i>&nbsp;
+                </span>
+              </div>
+              <br><br>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+    </div>
+    <!--  -->
+    <div class="col-sm-3">
+      <div class="block block-color">
+        <div class="header">
+          <h3>Tag</h3>
+        </div>
+        <div class="content clearfix">
+          <div ng-repeat="tag in tags track by $index">
+            <div class="tag_color" data-drag="true" data-jqyoui-options="{scroll: false,revert: 'invalid',helper: 'clone'}" ng-model="tags" jqyoui-draggable="{index: {{$index}},placeholder:'keep',animate:true}" ng-show="tag.name">
+              <span class="tag_color" style="color:{{tag.fontcolor}};background-color:{{tag.color}}">{{tag.name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+  </div>
+  <!-- //full recipes page -->
 </div>
 <!-- //full recipes -->
 <style type="text/css">
-.alert-success {
-	background-color: rgba(25,182,152,0.5);
-	border-color: rgba(25,182,152,0) !important;
-	color: #fff;
-}
-.alert-danger {
-	background-color: rgba(234,97,83,0.5);
-	border-color: rgba(234,97,83,0) !important;
-	color: #fff;
-}
-.alert-info {
-	background-color: rgba(74,163,223,0.5);
-	border-color: rgba(74,163,223,0) !important;
-	color: #fff;
-}
-.tag_linear{
-	display: inline-block;
-	margin-right: 3px;
-}
-.tag_color_drop{
-	padding-left: 5px;
-	padding-right: 5px;
-	border-radius: 3px;
-	margin-bottom: 5px;
-	cursor: pointer;
-}
-.tag_color{
-	padding-left: 5px;
-	padding-right: 5px;
-	border-radius: 3px;
-	margin-bottom: 5px;
-	float: left;
-	cursor: pointer;
-}
-.hoverClass{
-	background-color: #f5f5f5;
-	margin-right: 10px;
-    border: 2px dashed #e6e6e6;
-    padding: 13px;
-    margin: -15px;
-}
+  .alert-success {
+  background-color: rgba(25,182,152,0.5);
+  border-color: rgba(25,182,152,0) !important;
+  color: #fff;
+  }
+  .alert-danger {
+  background-color: rgba(234,97,83,0.5);
+  border-color: rgba(234,97,83,0) !important;
+  color: #fff;
+  }
+  .alert-info {
+  background-color: rgba(74,163,223,0.5);
+  border-color: rgba(74,163,223,0) !important;
+  color: #fff;
+  }
+  .tag_linear{
+  display: inline-block;
+  margin-right: 3px;
+  }
+  .tag_color_drop{
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  }
+  .tag_color{
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  float: left;
+  cursor: pointer;
+  }
+  .hoverClass{
+  background-color: #f5f5f5;
+  margin-right: 10px;
+  border: 2px dashed #e6e6e6;
+  padding: 13px;
+  margin: -15px;
+  }
 </style>

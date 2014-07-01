@@ -1417,6 +1417,11 @@ hr {
   .mobile-margin-user{
     margin-top: -5px !important;
   }
+  .mobile-margin-ing{
+    margin-top: -35px !important;
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+  }
   .mobile-margin-user .block-flat{
     padding: 5px !important;
   }

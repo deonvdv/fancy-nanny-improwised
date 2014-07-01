@@ -1,225 +1,179 @@
 <!-- sidebar -->
-
 <div class="fn-sidebar"></div>
-
 <!-- //sidebar -->
-
 <!-- right-side section (top navbar + add ingredient) -->
-
 <div class="container-fluid" id="pcont">
+  <!-- top navbar -->
+  <div class="fntop-navbar"></div>
+  <!-- //top navbar -->
+  <!-- add ingredient page -->
+  <div class="cl-mcont">
+    <!--  -->
+    <div class="panel-group panel-custom accordion accordion-semi visible-xs" id="accordion3">
+      <div class="panel panel-default">
+        <div class="panel-heading warning" style="border-bottom: 1px solid #F16E3F !important;">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion3" href="#ac3-1" target="_self" class="collapsed">
+            <i class="fa fa-angle-right"></i> Add New Ingredient
+            </a>
+          </h4>
+        </div>
+        <div id="ac3-1" class="panel-collapse collapse" style="height: 0px;">
+          <div class="panel-body">
+            <form name="form" novalidate>
+              <label>New Ingredient:</label>
+              <input class="form-control" placeholder="Ingredient Name" ng-model="Ing.name" name="newIng" required>
+              <div class="error">
+                <span ng-show="form.newIng.$error.required && submitted">name required</span>
+              </div>
+              <br>
+              <button type="button" class="btn btn-warning" ng-click="addNewIng(form)">Add Ingredient</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <div class="col-md-1"></div>
+    <div class="col-md-6 col-sm-8 mobile-margin-ing">
+      <div ng-show="sucess1">
+        <div class="alert alert-success alert-msg">
+          <button type="button" class="close" ng-click="done1()">×</button>
+          <i class="fa fa-check sign"></i>{{add_count}}&nbsp;{{add_ing}} added successfully.
+        </div>
+      </div>
+      <div ng-show="sucess">
+        <div class="alert alert-danger alert-msg">
+          <button type="button" class="close" ng-click="done()">×</button>
+          <i class="fa fa-check sign"></i>{{delete_count}}&nbsp;{{delete_ing}} deleted successfully.
+        </div>
+      </div>
+      <div class="block block-color warning">
+        <div class="header">
+          <h3>
+            <span class="hidden-xs">
+            All Ingredients
+            <input class="form-control search-unit pull-right" placeholder="Search" ng-model="ing_name">
+            </span>
+            <span class="visible-xs text-center">
+            All Ingredients
+            <br><br>
+            <input class="form-control search-unit" placeholder="Search" ng-model="ing_name">
+            </span>
+          </h3>
+        </div>
+        <div class="content">
+          <!--  -->
+          <div class="clearfix pagination_recipe">
+            <div class="pull-right">
+              <pagination total-items="TotalIngredients" ng-model="CurrentIngredientsPage" items-per-page="IngredientsPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getIngredientspages()"></pagination>
+            </div>
+          </div>
+          <!--  -->
+          <table class="no-border hover">
+            <thead class="no-border">
+              <tr>
+                <th style="width:70%;"><label>Ingredients&nbsp;&nbsp;:&nbsp;&nbsp;</label></th>
+                <th style="width:30%;"><label>Action</label></th>
+              </tr>
+            </thead>
+            <tbody class="no-border-y">
+              <tr ng-repeat="ing in Ingredient | filter : ing_name ">
+                <td>{{ing.name}}</td>
+                <td>
+                  <!--  -->
+                  <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
+                  <a class="label label-success" href="#" target="_self" ng-click="editIng(ing)" data-toggle="modal"><i class="fa fa-pencil"></i></a>
+                  </span>
+                  <!--  -->
+                  <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
+                  <a class="label label-danger" href="#" target="_self" data-toggle="modal" ng-click="delete(ing)"><i class="fa fa-times"></i></a>
+                  </span>
+                  <!--  -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!--  -->
+          <div class="clearfix pagination_recipe">
+            <div class="pull-right">
+              <pagination total-items="TotalIngredients" ng-model="CurrentIngredientsPage" items-per-page="IngredientsPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getIngredientspages()"></pagination>
+            </div>
+          </div>
+          <!--  -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-4 hidden-xs">
+      <div class="block block-color warning">
+        <div class="header">
+          <h3>Add New Ingredient</h3>
+        </div>
+        <div class="content">
+          <form name="form" novalidate>
+            <label>New Ingredient:</label>
+            <input class="form-control" placeholder="Ingredient Name" ng-model="Ing.name" name="newIng" required>
+            <div class="error">
+              <span ng-show="form.newIng.$error.required && submitted">name required</span>
+            </div>
+            <br>
+            <button type="button" class="btn btn-warning" ng-click="addNewIng(form)">Add Ingredient</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script type="text/ng-template" id="editIngredientmodal.html">
+      <div class="model-custom">
 
-    <!-- top navbar -->
+        <div class="modal-header">
 
-      <div class="fntop-navbar"></div>
+          <h3>Edit Ingredient</h3>
 
-    <!-- //top navbar -->
-
-    <!-- add ingredient page -->
-
-    <div class="cl-mcont">
-
-    	<div class="col-md-4 col-sm-4 visible-xs">
-			<div class="block block-color warning">
-				<div class="header">
-                	<h3>Add New Ingredient</h3>
-				</div>
-				<div class="content">
-
-					<form name="form" novalidate>
-
-						<label>New Ingredient:</label>
-              			<input class="form-control" placeholder="Ingredient Name" ng-model="Ing.name" name="newIng" required>
-              			<div class="error">
-			            	<span ng-show="form.newIng.$error.required && submitted">name required</span>
-			          	</div>
-			          	<br>
-              			<button type="button" class="btn btn-dark" ng-click="addNewIng(form)">Add Ingredient</button>
-
-					</form>
-
-				</div>
-			</div>
         </div>
 
-		<div class="col-md-1"></div> 
+        <form class="form" name="form">
 
-		<div class="col-md-6 col-sm-8">
+          <div class="modal-body">
 
-			<div ng-show="sucess1">
-		      	<div class="alert alert-success alert-msg">
-					<button type="button" class="close" ng-click="done1()">×</button>
-					<i class="fa fa-check sign"></i>{{add_count}}&nbsp;{{add_ing}} added successfully.
-				</div>
-		    </div>
-
-			<div ng-show="sucess">
-		      	<div class="alert alert-danger alert-msg">
-					<button type="button" class="close" ng-click="done()">×</button>
-					<i class="fa fa-check sign"></i>{{delete_count}}&nbsp;{{delete_ing}} deleted successfully.
-				</div>
-		    </div>
-
-			<div class="block block-color warning">
-				<div class="header">            
-
-					<h3>
-
-						<span class="hidden-xs">
-							All Ingredients
-							<input class="form-control search-unit pull-right" placeholder="Search" ng-model="ing_name">
-						</span>
-
-
-						<span class="visible-xs text-center">
-							All Ingredients
-							<br><br>
-							<input class="form-control search-unit" placeholder="Search" ng-model="ing_name">
-						</span>
-
-					</h3>
-
-				</div>
-				<div class="content">
-
-					<!--  -->
-	              	<div class="clearfix pagination_recipe">
-		              	<div class="pull-right">
-		              		<pagination total-items="TotalIngredients" ng-model="CurrentIngredientsPage" items-per-page="IngredientsPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getIngredientspages()"></pagination>
-						</div>
-					</div>
-					<!--  -->
-
-					<table class="no-border hover">
-						<thead class="no-border">
-							<tr>
-								<th style="width:70%;"><label>Ingredients&nbsp;&nbsp;:&nbsp;&nbsp;</label></th>
-								<th style="width:30%;"><label>Action</label></th>
-							</tr>
-						</thead>
-						<tbody class="no-border-y">
-							
-							<tr ng-repeat="ing in Ingredient | filter : ing_name ">
-	            				<td>{{ing.name}}</td>
-	            				<td>
-
-	            					<!--  -->
-			                        <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
-			                          <a class="label label-success" href="#" target="_self" ng-click="editIng(ing)" data-toggle="modal"><i class="fa fa-pencil"></i></a>
-			                        </span>
-			                        <!--  -->
-			                        <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
-			                          <a class="label label-danger" href="#" target="_self" data-toggle="modal" ng-click="delete(ing)"><i class="fa fa-times"></i></a>
-			                        </span>
-			                        <!--  -->
-
-	            				</td>
-	            			</tr>
-
-						</tbody>
-					</table>
-
-					<!--  -->
-	              	<div class="clearfix pagination_recipe">
-		              	<div class="pull-right">
-		              		<pagination total-items="TotalIngredients" ng-model="CurrentIngredientsPage" items-per-page="IngredientsPerPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getIngredientspages()"></pagination>
-						</div>
-					</div>
-					<!--  -->
-
-				</div>
-			</div>
-        </div>  	
-
-    	<div class="col-md-4 col-sm-4 hidden-xs">
-			<div class="block block-color warning">
-				<div class="header">						
-                	<h3>Add New Ingredient</h3>
-				</div>
-				<div class="content">
-
-					<form name="form" novalidate>
-
-						<label>New Ingredient:</label>
-              			<input class="form-control" placeholder="Ingredient Name" ng-model="Ing.name" name="newIng" required>
-              			<div class="error">
-			            	<span ng-show="form.newIng.$error.required && submitted">name required</span>
-			          	</div>
-			          	<br>
-              			<button type="button" class="btn btn-dark" ng-click="addNewIng(form)">Add Ingredient</button>
-				
-					</form>
-
-				</div>
-			</div>
-        </div>
-
-
-
-
-        <script type="text/ng-template" id="editIngredientmodal.html">
-
-        <div class="model-custom">
-
-          <div class="modal-header">
-
-            <h3>Edit Ingredient</h3>
+           <label>Ingredient Name</label>
+           <input type="text" class="form-control" placeholder="Ingredient Name" ng-model="data.name" name="ingname" required>
+         	<div class="error">
+           	<span ng-show="form.ingname.$error.required && submitted">name required !!</span>
+         	</div>
 
           </div>
 
-          <form class="form" name="form">
+          <div class="modal-footer">
 
-            <div class="modal-body">
-              
-	            <label>Ingredient Name</label>
-	            <input type="text" class="form-control" placeholder="Ingredient Name" ng-model="data.name" name="ingname" required>
-	          	<div class="error">
-	            	<span ng-show="form.ingname.$error.required && submitted">name required !!</span>
-	          	</div>
+            <button type="button" class="btn btn-default btn-flat" ng-click="cancel()">Cancel</button>
+            <button type="button" class="btn btn-success btn-flat" ng-click="save(form)">Done</button>
 
-            </div>
+          </div>
 
-            <div class="modal-footer">
+        </form>
 
-              <button type="button" class="btn btn-default btn-flat" ng-click="cancel()">Cancel</button>
-              <button type="button" class="btn btn-success btn-flat" ng-click="save(form)">Done</button>
+      </div>
 
-            </div>
-
-          </form>
-
-        </div>
-
-      </script>
-      <!--  -->
-
-        
-
-
-    </div>
-
-    <!-- //add ingredient page -->
-
+    </script>
+    <!--  -->
+  </div>
+  <!-- //add ingredient page -->
 </div>
-
 <!-- right-side section (top navbar + add ingredient) -->
-
 <style type="text/css">
-.search-unit{
-	display: inline; width: 200px;margin-top: -3px;background-color: #ebebeb;color: #f16e3f;font-weight: normal;border: none;
-}
-.search-unit::-webkit-input-placeholder {
-    color: #f16e3f;
-}
-.search-unit:-moz-placeholder {
-    color: #f16e3f;
-
-}
-.search-unit::-moz-placeholder {
-    color: #f16e3f;
-
-}
-.search-unit:-moz-placeholder {
-    color: #f16e3f;
-
-}
+  .search-unit{
+  display: inline; width: 200px;margin-top: -3px;background-color: #ebebeb;color: #f16e3f;font-weight: normal;border: none;
+  }
+  .search-unit::-webkit-input-placeholder {
+  color: #f16e3f;
+  }
+  .search-unit:-moz-placeholder {
+  color: #f16e3f;
+  }
+  .search-unit::-moz-placeholder {
+  color: #f16e3f;
+  }
+  .search-unit:-moz-placeholder {
+  color: #f16e3f;
+  }
 </style>

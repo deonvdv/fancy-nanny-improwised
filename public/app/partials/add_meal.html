@@ -15,8 +15,8 @@
   <!--  -->
   <div class="new-meal-pos visible-xs panel-group panel-custom accordion accordion-semi visible-xs" id="accordion3">
     <!--  -->
-    <div ng-show="sucessMealAdd">
-      <div class="alert alert-success alert-msg">
+    <div ng-show="sucessMealAdd" class="backdrop">
+      <div class="alert alert-success alert-msg mobile-view margin-alert-2">
         <i class="fa fa-check sign"></i>new meal added in weekly schedule.
       </div>
     </div>
@@ -80,7 +80,7 @@
             </div>
             <br>
             <!-- ============================================================================ -->
-            <button class="btn btn-prusia" type="submit" ng-click="addMeal(form)">Add</button>
+            <button class="btn btn-warning" type="submit" ng-click="addMeal(form)">Add</button>
             <button class="btn btn-default" ng-click="loadMeal()">Clear</button>
             <!-- ============================================================================ -->
           </form>
@@ -265,7 +265,7 @@
           </div>
           <br><br>
           <!-- ============================================================================ -->
-          <button class="btn btn-prusia" type="submit" ng-click="addMeal(form)">Add</button>
+          <button class="btn btn-warning" type="submit" ng-click="addMeal(form)">Add</button>
           <button class="btn btn-default" ng-click="loadMeal()">Clear</button>
           <!-- ============================================================================ -->
         </form>

@@ -1,207 +1,309 @@
 <!-- sidebar -->
-
 <div class="fn-sidebar"></div>
-
 <!-- //sidebar -->
-
 <!-- right-side section (top navbar + add recipes) -->
-
 <div class="container-fluid" id="pcont">
-
-    <!-- top navbar -->
-
-      <div class="fntop-navbar"></div>
-
-    <!-- //top navbar -->
-
-    <!-- add recipes page -->
-
-    <div class="cl-mcont">
-
-	  <div class="clearfix">
-	  <br>
-	  <!--  -->
-	  <div class="col-md-1"></div>
-	  <!--  -->
-	  <div class="col-lg-6">
-		  	<div class="block block-color warning">
-				<div class="header">
-					<h3>Weekly Schedule of Meal</h3>
-				</div>
-				<div class="content">
-					<table class="no-border hover">
-						<thead class="no-border">
-							<tr>
-								<th style="width: 25%"><label>Date of Week</label></th>
-								<th style="width: 25%"><label>Breakfast</label></th>
-								<th style="width: 25%"><label>Lunch</label></th>
-								<th style="width: 25%"><label>Dinner</label></th>
-							</tr>
-						</thead>
-						<tbody class="no-border-y" >
-							<tr ng-repeat="week_day in Weekly_Meal" class="meal-pos">
-								<td>
-									{{week_day.day}}
-								</td>
-								<td>
-									<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Breakfast'">
-										<div ng-repeat="recipe in day1.recipes track by $index">
-											<span ng-mouseover="delete_recipe(recipe)">
-												{{recipe.name}}
-												<i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
-											</span>
-										</div>
-									</div>
-								</td>
-								<td>
-									<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Lunch'">
-										<div ng-repeat="recipe in day1.recipes">
-											<span ng-mouseover="delete_recipe(recipe)">
-												{{recipe.name}}
-												<i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
-											</span>
-										</div>
-									</div>
-								</td>
-								<td>
-									<div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Dinner'">
-										<div ng-repeat="recipe in day1.recipes">
-											<span ng-mouseover="delete_recipe(recipe)">
-												{{recipe.name}}
-												<i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
-											</span>
-										</div>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<!--  -->
-		<div class="col-lg-4 col-md-6 col-sm-12">
-		  	<!--  -->
-		  	<div ng-show="sucessMealAdd">
-		      	<div class="alert alert-success alert-msg">
-					<i class="fa fa-check sign"></i>new meal added in weekly schedule.
-				</div>
-		    </div>
-		    <!--  -->
-		    <div class="block block-color warning">
-				<div class="header">
-					<h3>Add Meal</h3>
-				</div>
-				<div class="content">
-					<!--  -->
-			        <form role="form" name="form" novalidate>
-		        		<div class="row">
-
-			        		<div class="col-lg-6">
-			        			<label>Select Day</label>
-			        			<select ui-select2 ng-model="new_meal.day_of_week" data-placeholder="Select Slote" style="width:100%" name="meal_day" ng-required="true">
-								    <option value=""></option>
-								    <option ng-repeat="day in Days" value="{{day.id}}">{{day.name}}</option>
-								</select>
-								<div class="error">
-			            			<span ng-show="form.meal_day.$error.required && submitted">select Day</span>
-			          		    </div>
-			        		</div>
-
-			        		<div class="col-lg-6">
-			        			<label>Select Slote</label>
-			        			<select ui-select2 ng-model="new_meal.slot" data-placeholder="Select Slote" style="width:100%" name="meal_slote" ng-required="true">
-								    <option value=""></option>
-								    <option ng-repeat="Slote in Slotes" value="{{Slote}}">{{Slote}}</option>
-								</select>
-								<div class="error">
-			            			<span ng-show="form.meal_slote.$error.required && submitted">select Slote</span>
-			          		    </div>
-			        		</div>
-
-		        		</div>
-
-		        		<div class="row">
-
-		        			<div class="col-xs-12"><label>Select Recipe</label></div>
-		        			<div class="error col-xs-12" ng-show="error_msg">Add at least one recipe to Meal</div>
-		        			<div class="row">
-		        				<div class="col-sm-12" ng-repeat="recipe in new_meal.recipes track by $index">
-					        		<ng-form name="IngForm">
-							        	<div class="col-lg-11">
-
-							        		<select ui-select2 ng-model="recipe.recipe_id" data-placeholder="Select Recipes" style="width:100%" name="meal_recipe" ng-required="true">
-											    <option value=""></option>
-											    <option ng-repeat="Recipe in recipes" value="{{Recipe.id}}">{{Recipe.name}}</option>
-											</select>
-											<div class="error">
-						            			<span ng-show="IngForm.meal_recipe.$error.required && submitted">select Recipe</span>
-						          		    </div>
-
-							        	</div>
-
-							        	<div class="col-lg-1 text-center">
-
-							        		<i class="fa fa-minus-square-o ing_icon" ng-click="removeMealRecipe(recipe)"></i>
-
-							        	</div>
-						        	</ng-form>
-						        	<br><br>
-				        		</div>
-				        	</div>
-
-				        </div>
-
-				        <div class="row">
-				        		<span class="add_ing" ng-click="addNewMealRecipe()"><i class="fa fa-plus"></i>&nbsp;Add Meal</span>
-			        	</div>
-
-				        <br><br>
-
-						<!-- ============================================================================ -->
-						<button class="btn btn-prusia" type="submit" ng-click="addMeal(form)">Add</button>
-						<button class="btn btn-default" ng-click="loadMeal()">Clear</button>
-						<!-- ============================================================================ -->
-			        </form>
-				</div>
-			</div>
-		    <!--  -->
-	  </div>
-    <!-- //add recipes page -->
-
+<!-- top navbar -->
+<div class="fntop-navbar"></div>
+<!-- //top navbar -->
+<!-- add recipes page -->
+<div class="cl-mcont block-add-1">
+<div class="clearfix block-add-2">
+  <br>
+  <!--  -->
+  <div class="col-md-1"></div>
+  <!--  -->
+  <div class="new-meal-pos visible-xs panel-group panel-custom accordion accordion-semi visible-xs" id="accordion3">
+    <!--  -->
+    <div ng-show="sucessMealAdd">
+      <div class="alert alert-success alert-msg">
+        <i class="fa fa-check sign"></i>new meal added in weekly schedule.
+      </div>
+    </div>
+    <!--  -->
+    <div class="panel panel-default">
+      <div class="panel-heading warning" style="border-bottom: 1px solid #F16E3F !important;">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion3" href="#ac3-1" target="_self" class="collapsed">
+          <i class="fa fa-angle-right"></i> Add New Meal
+          </a>
+        </h4>
+      </div>
+      <div id="ac3-1" class="panel-collapse collapse" style="height: 0px;">
+        <div class="panel-body">
+          <form role="form" name="form" novalidate>
+            <div class="row" style="margin-top: 0px;">
+              <div class="col-xs-12">
+                <select ui-select2 ng-model="new_meal.day_of_week" data-placeholder="Select Day" style="width:100%" name="meal_day" ng-required="true">
+                  <option value=""></option>
+                  <option ng-repeat="day in Days" value="{{day.id}}">{{day.name}}</option>
+                </select>
+                <div class="error">
+                  <span ng-show="form.meal_day.$error.required && submitted">select Day</span>
+                </div>
+                <br>
+              </div>
+              <div class="col-xs-12">
+                <select ui-select2 ng-model="new_meal.slot" data-placeholder="Select Slote" style="width:100%" name="meal_slote" ng-required="true">
+                  <option value=""></option>
+                  <option ng-repeat="Slote in Slotes" value="{{Slote}}">{{Slote}}</option>
+                </select>
+                <div class="error">
+                  <span ng-show="form.meal_slote.$error.required && submitted">select Slote</span>
+                </div>
+                <br>
+              </div>
+              <div class="col-xs-12">
+                <div class="error" ng-show="error_msg">Add at least one recipe to Meal</div>
+              </div>
+              <div class="col-xs-12" ng-repeat="recipe in new_meal.recipes track by $index">
+                <ng-form name="IngForm">
+                  <div style="margin-left: -15px;margin-right: -15px;margin-bottom: 10px;">
+                    <div class="col-xs-10">
+                      <select ui-select2 ng-model="recipe.recipe_id" data-placeholder="Select Recipes" style="width:100%" name="meal_recipe" ng-required="true">
+                        <option value=""></option>
+                        <option ng-repeat="Recipe in recipes" value="{{Recipe.id}}">{{Recipe.name}}</option>
+                      </select>
+                      <div class="error">
+                        <span ng-show="IngForm.meal_recipe.$error.required && submitted">select Recipe</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-2 text-center">
+                      <i class="fa fa-minus-square-o ing_icon" ng-click="removeMealRecipe(recipe)"></i>
+                    </div>
+                  </div>
+                </ng-form>
+              </div>
+            </div>
+            <div class="row">
+              <span class="add_ing" ng-click="addNewMealRecipe()"><i class="fa fa-plus"></i>&nbsp;Add Meal</span>
+            </div>
+            <br>
+            <!-- ============================================================================ -->
+            <button class="btn btn-prusia" type="submit" ng-click="addMeal(form)">Add</button>
+            <button class="btn btn-default" ng-click="loadMeal()">Clear</button>
+            <!-- ============================================================================ -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  -->
+  <div class="clearfix mobile-view-meal visible-xs" style="margin-top: -30px;">
+    <div class="block block-color warning">
+      <div class="header">
+        <h3>Weekly Schedule of Meal</h3>
+      </div>
+      <div class="content">
+        <select ui-select2 ng-model="search" data-placeholder="Search meal" style="width:100%" name="meal_day" ng-required="true">
+          <option value=""></option>
+          <option ng-repeat="day in Days" value="{{day.name}}">{{day.name}}</option>
+        </select>
+        <br><br>
+        <!--  -->
+        <div ng-repeat="week_day in Weekly_Meal | filter:search " style="border: 1px solid rgba(0,0,0,0.1);margin-bottom: -2px;">
+          <h4 class="heading-week">{{week_day.day}}</h4>
+          <div style="margin-left: 10px;">
+            <!--  -->
+            <h5 class="slot-custom">Breakfast</h5>
+            <div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Breakfast'">
+              <div ng-repeat="recipe in day1.recipes track by $index">
+                <span ng-mouseover="delete_recipe(recipe)">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recipe.name}}
+                <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
+                </span>
+              </div>
+            </div>
+            <!--  -->
+            <h5 class="slot-custom">Lunch</h5>
+            <div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Lunch'">
+              <div ng-repeat="recipe in day1.recipes">
+                <span ng-mouseover="delete_recipe(recipe)">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recipe.name}}
+                <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
+                </span>
+              </div>
+            </div>
+            <!--  -->
+            <h5 class="slot-custom">Dinner</h5>
+            <div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Dinner'">
+              <div ng-repeat="recipe in day1.recipes">
+                <span ng-mouseover="delete_recipe(recipe)">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recipe.name}}
+                <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
+                </span>
+              </div>
+            </div>
+            <!--  -->
+          </div>
+          <br>
+        </div>
+        <!--  -->
+      </div>
+    </div>
+  </div>
+  <!--  -->
+  <div class="col-lg-6 hidden-xs">
+    <div class="block block-color warning">
+      <div class="header">
+        <h3>Weekly Schedule of Meal</h3>
+      </div>
+      <div class="content">
+        <table class="no-border hover">
+          <thead class="no-border">
+            <tr>
+              <th style="width: 25%"><label>Date of Week</label></th>
+              <th style="width: 25%"><label>Breakfast</label></th>
+              <th style="width: 25%"><label>Lunch</label></th>
+              <th style="width: 25%"><label>Dinner</label></th>
+            </tr>
+          </thead>
+          <tbody class="no-border-y" >
+            <tr ng-repeat="week_day in Weekly_Meal" class="meal-pos">
+              <td>
+                {{week_day.day}}
+              </td>
+              <td>
+                <div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Breakfast'">
+                  <div ng-repeat="recipe in day1.recipes track by $index">
+                    <span ng-mouseover="delete_recipe(recipe)">
+                    {{recipe.name}}
+                    <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
+                    </span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Lunch'">
+                  <div ng-repeat="recipe in day1.recipes">
+                    <span ng-mouseover="delete_recipe(recipe)">
+                    {{recipe.name}}
+                    <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
+                    </span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div ng-repeat="day1 in week_day" ng-if="day1.slot == 'Dinner'">
+                  <div ng-repeat="recipe in day1.recipes">
+                    <span ng-mouseover="delete_recipe(recipe)">
+                    {{recipe.name}}
+                    <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
+                    </span>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--  -->
+  <div class="col-lg-4 col-md-6 col-sm-12 hidden-xs">
+    <!--  -->
+    <div ng-show="sucessMealAdd">
+      <div class="alert alert-success alert-msg">
+        <i class="fa fa-check sign"></i>new meal added in weekly schedule.
+      </div>
+    </div>
+    <!--  -->
+    <div class="block block-color warning">
+      <div class="header">
+        <h3>Add Meal</h3>
+      </div>
+      <div class="content">
+        <!--  -->
+        <form role="form" name="form" novalidate>
+          <div class="row">
+            <div class="col-lg-6">
+              <label>Select Day</label>
+              <select ui-select2 ng-model="new_meal.day_of_week" data-placeholder="Select Slote" style="width:100%" name="meal_day" ng-required="true">
+                <option value=""></option>
+                <option ng-repeat="day in Days" value="{{day.id}}">{{day.name}}</option>
+              </select>
+              <div class="error">
+                <span ng-show="form.meal_day.$error.required && submitted">select Day</span>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <label>Select Slote</label>
+              <select ui-select2 ng-model="new_meal.slot" data-placeholder="Select Slote" style="width:100%" name="meal_slote" ng-required="true">
+                <option value=""></option>
+                <option ng-repeat="Slote in Slotes" value="{{Slote}}">{{Slote}}</option>
+              </select>
+              <div class="error">
+                <span ng-show="form.meal_slote.$error.required && submitted">select Slote</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12"><label>Select Recipe</label></div>
+            <div class="error col-xs-12" ng-show="error_msg">Add at least one recipe to Meal</div>
+            <div class="row">
+              <div class="col-sm-12" ng-repeat="recipe in new_meal.recipes track by $index">
+                <ng-form name="IngForm">
+                  <div class="col-sm-11">
+                    <select ui-select2 ng-model="recipe.recipe_id" data-placeholder="Select Recipes" style="width:100%" name="meal_recipe" ng-required="true">
+                      <option value=""></option>
+                      <option ng-repeat="Recipe in recipes" value="{{Recipe.id}}">{{Recipe.name}}</option>
+                    </select>
+                    <div class="error">
+                      <span ng-show="IngForm.meal_recipe.$error.required && submitted">select Recipe</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-1 text-center">
+                    <i class="fa fa-minus-square-o ing_icon" ng-click="removeMealRecipe(recipe)"></i>
+                  </div>
+                </ng-form>
+                <br><br>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <span class="add_ing" ng-click="addNewMealRecipe()"><i class="fa fa-plus"></i>&nbsp;Add Meal</span>
+          </div>
+          <br><br>
+          <!-- ============================================================================ -->
+          <button class="btn btn-prusia" type="submit" ng-click="addMeal(form)">Add</button>
+          <button class="btn btn-default" ng-click="loadMeal()">Clear</button>
+          <!-- ============================================================================ -->
+        </form>
+      </div>
+    </div>
+    <!--  -->
+  </div>
+  <!-- //add recipes page -->
 </div>
-
 <!-- //recipes -->
-
 <!-- ============================================================== -->
-
 <style type="text/css">
-	.meal-pos td{
-		vertical-align: initial;
-		cursor: pointer;
-	}
-	.meal-pos td .hover:hover{
-		color: #f16e3f;
-	}
-	.alert-success {
-		background-color:rgba(25,182,152,0.8);
-		border-color: rgba(25,182,152,0);
-		color: #fff;
-	}
-	.select2-results .select2-result-label {
-		color: #555555;
-		font-weight: 600;
-	}
-	.select2-results .select2-highlighted {
-		background: none repeat scroll 0 0 #dddddd !important;
-	}
-	.select2-drop-active {
-		border-bottom: 1px solid #dddddd !important;
-		border-left: 1px solid #dddddd !important;
-		border-right: 1px solid #dddddd !important;
-	}
-	.select2-container-active .select2-choice, .select2-container-active .select2-choices {
-		box-shadow: none;
-		border-color: #b9b9b9;
-	}
+  .meal-pos td{
+  vertical-align: initial;
+  cursor: pointer;
+  }
+  .meal-pos td .hover:hover{
+  color: #f16e3f;
+  }
+  .alert-success {
+  background-color:rgba(25,182,152,0.8);
+  border-color: rgba(25,182,152,0);
+  color: #fff;
+  }
+  .select2-results .select2-result-label {
+  color: #555555;
+  font-weight: 600;
+  }
+  .select2-results .select2-highlighted {
+  background: none repeat scroll 0 0 #dddddd !important;
+  }
+  .select2-drop-active {
+  border-bottom: 1px solid #dddddd !important;
+  border-left: 1px solid #dddddd !important;
+  border-right: 1px solid #dddddd !important;
+  }
+  .select2-container-active .select2-choice, .select2-container-active .select2-choices {
+  box-shadow: none;
+  border-color: #b9b9b9;
+  }
 </style>

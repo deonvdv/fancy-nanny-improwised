@@ -1329,6 +1329,16 @@ hr {
   color: white;
 }
 
+.input-search-msg::-webkit-input-placeholder {
+  color: #dedede;
+}
+.input-search-msg:-moz-placeholder{
+  color: #dedede;
+}
+.input-search-msg:-ms-input-placeholder{
+  color: #dedede;
+}
+
 .input-search-todo {
   font-size: 12px;
   width: 135px;
@@ -1342,6 +1352,16 @@ hr {
   color: white;
 }
 
+.input-search-todo::-webkit-input-placeholder {
+  color: #dedede;
+}
+.input-search-todo:-moz-placeholder{
+  color: #dedede;
+}
+.input-search-todo:-ms-input-placeholder{
+  color: #dedede;
+}
+
 .input-search-recipe {
   font-size: 12px;
   width: 135px;
@@ -1353,6 +1373,16 @@ hr {
   background-color: rgba(91,74,131,0.5);
   border: 1px solid rgba(91,74,131,1);
   color: white;
+}
+
+.input-search-recipe::-webkit-input-placeholder {
+  color: #dedede;
+}
+.input-search-recipe:-moz-placeholder{
+  color: #dedede;
+}
+.input-search-recipe:-ms-input-placeholder{
+  color: #dedede;
 }
 
 @media all and (max-width: 767px) {
@@ -1460,20 +1490,16 @@ hr {
   }
 
   .recipe_list .img-pos {
-    float: left !important;
     width: 100px !important;
     height: 100px;
-    margin: auto !important;
-    padding: auto !important;
-    margin-right: 2px !important;
   }
 
   .recipe_list .active-drop-1 {
-    padding: 5px;
+    padding: 10px;
   }
 
   .recipe_list .recipes-block {
-    margin-top: 0px !important;
+    margin-top: 5px !important;
     margin-left: 0px !important;
     padding: 0px !important;
     font-size: 12px !important;
@@ -1487,12 +1513,6 @@ hr {
   .recipe_list .recipes-block p {
     font-size: 12px;
     line-height: 1.5em;
-  }
-
-  .tags {
-    clear: both !important;
-    margin-top: 35px;
-    margin-bottom: -8px;
   }
 
   .pos-margin-up-1 {
@@ -1517,5 +1537,26 @@ hr {
   .block-add-2 .block-add-3 {
     padding: 0px;
     margin-top: -20px;
+  }
+
+  .new-meal-pos{
+    margin-top: -9px;
+  }
+
+  .mobile-view-meal .block .header h3{
+    font-size: 17px;
+  }
+  .heading-week{
+    background-color: rgba(0,0,0,0.1);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    font-size: 15px;
+    color: white;
+    margin-top: 0px;
+  }
+  .slot-custom{
+    color: #F16E3F;
+    font-size: 14px;
   }
 }

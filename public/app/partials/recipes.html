@@ -85,21 +85,13 @@
 	                				<a href="/#/recipe_detail/{{recipe.id}}"><h4>{{recipe.name}}</h4></a>
 	                				<p>{{recipe.description}}</p>
 	                				<p class="date-todo">date:{{recipe.created_at}}</p>
-	                				<span class="hidden-xs">tags&nbsp;:&nbsp;</span>
-	                				<div class="tag_linear hidden-xs" ng-repeat="item in recipe.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
-	                					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-	                						{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipe)"></i>&nbsp;
-	                					</span>
-	                				</div>
-	                			</div>
-	                			<div class="tags visible-xs">
-	            					<span>tags&nbsp;:&nbsp;</span>
+	                				<span>tags&nbsp;:&nbsp;</span>
 	                				<div class="tag_linear" ng-repeat="item in recipe.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
 	                					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
 	                						{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipe)"></i>&nbsp;
 	                					</span>
 	                				</div>
-	            				</div>
+	                			</div>
 	                		</div>
 	                		<hr>
 	                	</div>

@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // shopping controller ------------------------------------------------------------------------------
-    .controller('IngredientsController',function($scope, $controller ,$http, Authenticate, Ingredients, Flash, $route, $modal){
+    .controller('IngredientsController',function($scope, $controller ,$http, Authenticate, Ingredients, Flash, $route, $modal, $timeout){
 
         $controller('homeController', {$scope: $scope});
 
@@ -59,7 +59,7 @@ angular.module('myApp')
         $scope.sucess1 = false;
 
         $scope.done1 = function(){
-            $scope.sucess1 = false;
+            $timeout(function () { $scope.sucess1 = false; }, 3000);
         };
 
         // ==============================================================================
@@ -73,6 +73,10 @@ angular.module('myApp')
         $scope.addNewIng = function (form) { 
 
                 $scope.submitted = true;
+
+                $scope.sucess1 = true;
+
+                $scope.done1();
 
                 if(form.$valid) {
                     Ingredients.save($scope.Ing)
@@ -106,7 +110,7 @@ angular.module('myApp')
         $scope.sucess = false;
 
         $scope.done = function(){
-            $scope.sucess = false;
+            $timeout(function () { $scope.sucess = false; }, 3000);
         };
 
         // ==============================================================================
@@ -118,6 +122,10 @@ angular.module('myApp')
         $scope.delete = function (ing) {
 
             var id = ing.id;
+
+            $scope.sucess = true;
+
+            $scope.done();
 
             Ingredients.destroy(id)
                .success(function(response){

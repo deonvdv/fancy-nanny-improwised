@@ -1,60 +1,82 @@
 <!-- sidebar -->
 <div class="fn-sidebar"></div>
 <!-- //sidebar -->
-
 <!-- right-side section (top navbar + user) -->
 <div class="container-fluid" id="pcont">
-    <!-- top navbar -->
-      <div class="fntop-navbar"></div>
-    <!-- //top navbar -->
-
-      <!-- user page -->
-      	<div class="cl-mcont">
-			<div class="row user-margin">
-			    <div class="col-lg-12">
-			    <!--  -->
-			    <div class="block-flat clearfix user">
-			        <div class="header">
-			            <div class="actions ">
-			                <span class="edit_profile"><i class="fa fa-pencil-square-o fa-2x hidden-xs"></i><a href="/#/edit_profile">Edit Profile</a></span>
-			            </div>
-			            <!--  -->
-			            <h3><a href="">{{user.name}}</a></h3>
-			            <!--  -->
-			            <!-- <div class="visible-xs">
-			                <span class="edit_profile"><a href="edit_profile.html">Edit Profile</a></span>
-			            </div> -->
-			        </div>
-			        <div class="content">
-			            <span><img class="user-image" src="../600px-1000px-Ashoka_Chakra.svg.png"></span>
-			            <div class="visible-xs"><br></div>
-			            <div class="user-profile">
-			                <div class="user-profile hidden-xs">
-			                    <span class="user-title2">Role</span><span>{{user.role}}</span><br>
-			                    <span class="user-title3">Email</span><span>{{user.email}}</span><br>
-			                    <span class="user-title8">Birthdate</span><span></span><br>
-			                    <span class="user-title4">Home No</span><span>{{user.home_number}}</span><br>
-			                    <span class="user-title5">Work No</span><span>{{user.work_number}}</span><br>
-			                    <span class="user-title6">Mobile No</span><span>{{user.mobile_number}}</span><br>
-			                    <span class="user-title7">Address</span><div class="user-address">Housename<br>{{user.street}}<br>{{user.city}}<br>{{user.state}}<br>{{user.country}}&nbsp;-&nbsp;{{user.zip}}</div>
-			                </div>
-			                <!--  -->
-			                <div class="user-profile visible-xs">
-			                    <span class="user-title2">Role</span><span>{{user.role}}</span><br>
-			                    <span class="user-title3">Email</span><span>{{user.email}}</span><br>
-			                    <span class="user-title8">Birthdate</span><span></span><br>
-			                    <span class="user-title4">Home No</span><span>{{user.home_number}}</span><br>
-			                    <span class="user-title5">Work No</span><span>{{user.work_number}}</span><br>
-			                    <span class="user-title6">Mobile No</span><span>{{user.mobile_number}}</span><br>
-			                    <span class="user-title7">Address</span><div class="user-address">Housename<br>{{user.street}}<br>{{user.city}}<br>{{user.state}}<br>{{user.country}}&nbsp;-&nbsp;{{user.zip}}</div>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
-			    <!--  -->
-			</div>
-			</div>
-		</div>
-      <!-- //user page -->      
+  <!-- top navbar -->
+  <div class="fntop-navbar"></div>
+  <!-- //top navbar -->
+  <!-- user page -->
+  <div class="cl-mcont">
+    <div class="row user-margin mobile-margin-user">
+      <!--  -->
+      <div class="block-flat clearfix user">
+        <div class="header">
+          <div class="actions">
+            <span class="edit_profile">
+            <i class="fa fa-pencil-square-o fa-2x hidden-xs"></i>
+            <a href="/#/edit_profile">Edit Profile</a>
+            </span>
+          </div>
+          <h3 class="hidden-xs">
+            <a href="">{{user.name}}</a>
+          </h3>
+          <h3 class="visible-xs">
+            <a href="">User Profile</a>
+          </h3>
+        </div>
+        <div class="content">
+          <div class="row profile-pos" style="margin-top: -20px;">
+            <div class="col-xs-12 pos-img visible-xs">
+              <img class="user-image" src="../600px-1000px-Ashoka_Chakra.svg.png">
+              <br>
+            </div>
+            <div class="col-lg-6 col-md-7 col-sm-8 col-xs-12 pos-table-user">
+              <br>
+              <table class="hover table-user">
+                <tr class="visible-xs">
+                  <td><strong>Name&nbsp;:&nbsp;</strong></td>
+                  <td>{{user.name}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Role&nbsp;:&nbsp;</strong></td>
+                  <td>{{user.role}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Email&nbsp;:&nbsp;</strong></td>
+                  <td>{{user.email}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Birthdate&nbsp;:&nbsp;</strong></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td><strong>Home No&nbsp;:&nbsp;</strong></td>
+                  <td>{{user.home_number}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Work No&nbsp;:&nbsp;</strong></td>
+                  <td>{{user.work_number}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Mobile No&nbsp;:&nbsp;</strong></td>
+                  <td>{{user.mobile_number}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Address&nbsp;:&nbsp;</strong></td>
+                  <td>Housename<br>{{user.street}}<br>{{user.city}}<br>{{user.state}}<br>{{user.country}}&nbsp;-&nbsp;{{user.zip}}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-lg-6 col-md-5 col-sm-4 pos-img hidden-xs">
+              <img class="user-image" src="../600px-1000px-Ashoka_Chakra.svg.png">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+    </div>
+  </div>
+  <!-- //user page -->
 </div>
 <!-- //user -->

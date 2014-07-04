@@ -1,91 +1,124 @@
 <div id="head-nav" class="navbar navbar-default">
-    <div class="container-fluid">
-      <!-- nav-collapse animate-collapse -->
-      <div class="navbar-collapse">
-        <ul class="nav navbar-nav navbar-right user-nav">
-          <li class="dropdown profile_menu">
-            <a href="#" target="_self" class="dropdown-toggle" data-toggle="dropdown"><img alt="Avatar" src="app/images/avatar6-2.jpg" /><span>{{username}}</span> <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Settings</a></li>
-              <li class="divider"></li>
-              <li><a href="#" ng-click="logout()">Log Out</a></li>
-            </ul>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav not-nav">
-          <li class="button dropdown">
-            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="bubble">{{messages.length}}</span></a>
-            <ul class="dropdown-menu messages">
-              <li>
-                <div class="nano nscroller has-scrollbar">
-                  <div class="content" tabindex="0" style="right: -15px;">
-                    <ul>
-                      <li>
-                        <a href="#">
-                          <img src="app/images/avatar2.jpg" alt="avatar"><span class="date pull-right">13 Sept.</span> <span class="name">Daniel</span> Hey! How are you?
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <img src="app/images/avatar_50.jpg" alt="avatar"><span class="date pull-right">20 Oct.</span><span class="name">Adam</span> Hi! Can you fix my phone?
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <img src="app/images/avatar4_50.jpg" alt="avatar"><span class="date pull-right">2 Nov.</span><span class="name">Michael</span> Regards!
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <img src="app/images/avatar3_50.jpg" alt="avatar"><span class="date pull-right">2 Nov.</span><span class="name">Lucy</span> Hello, my name is Lucy
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                <div class="pane" style="display: none;"><div class="slider" style="height: 20px; top: 0px;"></div></div></div>
-                <ul class="foot"><li><a href="#">View all messages </a></li></ul>           
-              </li>
-            </ul>
-          </li>
-          <li class="button dropdown">
-            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i><span class="bubble">{{todos.length}}</span></a>
-            <ul class="dropdown-menu">
-              <li>
-                <div class="nano nscroller has-scrollbar">
-                  <div class="content" tabindex="0" style="right: -15px;">
-                    <ul>
-                      <li><a href="#"><i class="fa fa-cloud-upload info"></i><b>Daniel</b> is now following you <span class="date">2 minutes ago.</span></a></li>
-                      <li><a href="#"><i class="fa fa-male success"></i> <b>Michael</b> commented on your link <span class="date">15 minutes ago.</span></a></li>
-                      <li><a href="#"><i class="fa fa-bug warning"></i> <b>Mia</b> commented on post <span class="date">30 minutes ago.</span></a></li>
-                      <li><a href="#"><i class="fa fa-credit-card danger"></i> <b>Andrew</b> sent you a request <span class="date">1 hour ago.</span></a></li>
-                    </ul>
-                  </div>
-                <div class="pane" style="display: block;"><div class="slider" style="height: 155px; top: 0px;"></div></div></div>
-                <ul class="foot"><li><a href="#/todos">View all Todos </a></li></ul>           
-              </li>
-            </ul>
-          </li>
-          <li class="button dropdown">
-            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-camera"></i><span class="bubble">2</span></a>
-            <ul class="dropdown-menu">
-              <li>
-                <div class="nano nscroller has-scrollbar">
-                  <div class="content" tabindex="0" style="right: -15px;">
-                    <ul>
-                      <li><a href="#"><i class="fa fa-cloud-upload info"></i><b>Daniel</b> is now following you <span class="date">2 minutes ago.</span></a></li>
-                      <li><a href="#"><i class="fa fa-male success"></i> <b>Michael</b> commented on your link <span class="date">15 minutes ago.</span></a></li>
-                      <li><a href="#"><i class="fa fa-bug warning"></i> <b>Mia</b> commented on post <span class="date">30 minutes ago.</span></a></li>
-                      <li><a href="#"><i class="fa fa-credit-card danger"></i> <b>Andrew</b> sent you a request <span class="date">1 hour ago.</span></a></li>
-                    </ul>
-                  </div>
-                <div class="pane" style="display: block;"><div class="slider" style="height: 155px; top: 0px;"></div></div></div>
-                <ul class="foot"><li><a href="#">View all activity </a></li></ul>           
-              </li>
-            </ul>
-          </li>       
-        </ul>
-      </div>
-      <!-- //nav-collapse animate-collapse -->
+  <div class="container-fluid">
+    <!-- nav-collapse animate-collapse -->
+    <div class="navbar-collapse">
+      <ul class="nav navbar-nav navbar-right user-nav">
+        <li class="dropdown profile_menu">
+          <a href="#" target="_self" class="dropdown-toggle" data-toggle="dropdown">
+          <img alt="Avatar" src="app/images/avatar6-2.jpg" />
+          <span>{{username}}</span>
+          <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="#/user_profile">Profile</a></li>
+            <li><a href="#/user_profile">Settings</a></li>
+            <li class="divider"></li>
+            <li><a href="#" ng-click="logout()">Log Out</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav not-nav">
+        <!-- messages -->
+        <li class="button dropdown">
+          <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-envelope"></i>
+          <span class="bubble">{{messages.length}}</span>
+          </a>
+          <ul class="dropdown-menu messages">
+            <li>
+              <div class="nano nscroller has-scrollbar">
+                <div class="content" tabindex="0" style="right: -15px;">
+                  <ul>
+                    <li ng-repeat="msg in messages" ng-click="msgRead(msg)">
+                      <a href="#/messages">
+                      <img src="app/images/avatar2.jpg" alt="avatar">
+                      <span class="name"><strong>{{msg.receiver_id}}</strong></span>
+                      <span ng-class="{'fa-envelope-read': msg.is_read, 'fa-envelope-unread' : !msg.is_read}">
+                      <i class="fa fa-envelope"></i>
+                      </span>
+                      {{msg.message}}
+                      <span class="date">created at : {{msg.created_at}}</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="pane" style="display: none;">
+                  <div class="slider" style="height: 20px; top: 0px;"></div>
+                </div>
+              </div>
+              <ul class="foot">
+                <li><a href="#/messages">View all messages </a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <!-- //messages -->
+        <!-- events -->
+        <li class="button dropdown">
+          <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-camera"></i>
+          <span class="bubble">{{userEvents.length}}</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <div class="nano nscroller has-scrollbar">
+                <div class="content" tabindex="0" style="right: -15px;">
+                  <ul>
+                    <li ng-repeat="event in userEvents">
+                      <a href="/#/events/{{event.id}}">
+                      <i class="fa fa-camera info"></i>
+                      <strong>{{event.title}}</strong>
+                      <br>
+                      {{ event.description | limitTo : 30 }}&nbsp;...
+                      <span class="date">event date : {{event.event_date}}</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="pane" style="display: block;">
+                  <div class="slider" style="height: 155px; top: 0px;"></div>
+                </div>
+              </div>
+              <ul class="foot">
+                <li><a href="#/events">View all Events </a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <!-- //events -->
+        <!-- todos -->
+        <li class="button dropdown">
+          <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tasks"></i><span class="bubble">{{todos.length}}</span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <div class="nano nscroller has-scrollbar">
+                <div class="content" tabindex="0" style="right: -15px;">
+                  <ul>
+                    <li ng-repeat="todo in todos">
+                      <a href="#/todos">
+                      <i class="fa fa-tasks info"></i>
+                      <strong>{{todo.title}}</strong>
+                      <br>
+                      {{todo.description | limitTo : 30 }}&nbsp;...
+                      <span class="date">due date : {{todo.due_date}}</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="pane" style="display: block;">
+                  <div class="slider" style="height: 155px; top: 0px;"></div>
+                </div>
+              </div>
+              <ul class="foot">
+                <li><a href="#/todos">View all activity </a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <!-- //todos -->
+      </ul>
     </div>
+    <!-- //nav-collapse animate-collapse -->
   </div>
+</div>

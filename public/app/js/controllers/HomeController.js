@@ -17,7 +17,7 @@ angular.module('myApp')
         $scope.messages = {};
 
         // object to hold events for the LoggedIn user
-        $scope.events = {};
+        $scope.userEvents = {};
 
         // object to hold all the data for the todos assigned to LoggedInUser and uncomplete
         $scope.todos = {};
@@ -67,19 +67,19 @@ angular.module('myApp')
         //Fetch all Todos for LoggedIn user.
         Todos.get(sessionStorage.loggedUserId)
             .success(function(data) {
-                $scope.todos = data.data;                        
+                $scope.todos = data.data;
             });        
 
         //Fetch all Unread messages for LoggedIn user.
         Messages.getUnread(sessionStorage.loggedUserId)
             .success(function(data) {
-                $scope.messages = data.data;                        
+                $scope.messages = data.data;
             });
 
         //Fetch all events for LoggedIn user.
         Users.getUpcomingEvents(sessionStorage.loggedUserId)
             .success(function(data){
-                $scope.events = data.data;
+                $scope.userEvents = data.data;
             });
        
         $scope.logout = function (){
@@ -155,6 +155,20 @@ angular.module('myApp')
             }
 
         };
+
+        // ==============================================================================
+
+        // make message read
+
+        $scope.msgRead = function(msg){
+
+            msg.is_read = 1;
+
+            // method that save the status of todo in database (  incomplete to complete  )
+
+                // here
+
+        }
 
         // ==============================================================================
 

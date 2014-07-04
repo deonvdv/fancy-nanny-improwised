@@ -1,7 +1,7 @@
 angular.module('myApp')
 
     // message controller ------------------------------------------------------------------------------
-    .controller('messageController',function($scope, $controller, $http, Messages, $route, Households){
+    .controller('messageController',function($scope, $controller, $http, Messages, $route, Households, $timeout){
        
         $controller('homeController', {$scope: $scope})
 
@@ -18,9 +18,6 @@ angular.module('myApp')
 
         // =======================================================
 
-        // hold household members
-        $scope.members = {};
-
         // object that holds add messages propertics
         $scope.addMessages = {};
 
@@ -35,11 +32,36 @@ angular.module('myApp')
 
         // ========================================================
 
+
+        function addMessages(){
+
+            // object that holds add messages propertics
+            $scope.addMessages = {};
+
+            // logged in user id
+            $scope.addMessages.sender_id = sessionStorage.loggedUserId;
+
+            // stores receiver id.
+            $scope.addMessages.receiver_id = [];
+
+            // stores description of message
+            $scope.addMessages.message = '';
+
+        }
+
+        // ========================================================
+
+        // hold household members
+        $scope.members = {};
+
         // get household members
         Households.getMembers(sessionStorage.householdId)
             .success(function(data) {
                 $scope.members = data.data;
         });
+
+
+        // ========================================================
 
         function loadData(){
             //Fetch all ReceivedMessages for LoggedIn user.
@@ -55,6 +77,16 @@ angular.module('myApp')
             });
         }
 
+        // ========================================================
+
+        $scope.sucessMsgAdd = false;
+
+        $scope.doneMsgAdd = function(){
+            $timeout(function () { $scope.sucessMsgAdd = false; }, 4000);
+        };
+
+        // ========================================================
+
         $scope.addNewMessage = function(form){
 
             $scope.submitted = true;
@@ -63,8 +95,11 @@ angular.module('myApp')
 
                 Messages.save($scope.addMessages)
                     .success(function(response){
-                        $scope.addMessages = response.data;
-                        $route.reload();
+                        loadData();
+                        addMessages();
+                        $scope.doneMsgAdd();
+                        $scope.submitted = false;
+                        $scope.sucessMsgAdd = true;
                 });
 
             }
@@ -85,6 +120,7 @@ angular.module('myApp')
 
         }
 
+        // ==============================================================================
 
 
     });

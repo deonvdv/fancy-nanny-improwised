@@ -12,6 +12,13 @@
     <!-- this block only visible in mobile screen -->
 
     <div class="panel-group panel-custom accordion accordion-semi visible-xs" id="accordion3">
+      <!--  -->
+      <div ng-show="sucessMsgAdd" class="backdrop">
+        <div class="alert alert-success alert-msg pos-margin-up-1 mobile-view margin-alert-5">
+          <i class="fa fa-check sign"></i>new message added.
+        </div>
+      </div>
+      <!--  -->
         <div class="panel panel-default">
           <div class="panel-heading info">
             <h4 class="panel-title">
@@ -108,6 +115,13 @@
     </div>
     <!-- this block only visible in large medium $ tablet screen -->
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right hidden-xs">
+      <!--  -->
+      <div ng-show="sucessMsgAdd" class="backdrop">
+        <div class="alert alert-success alert-msg pos-margin-up-1 mobile-view margin-alert-1">
+          <i class="fa fa-check sign"></i>new message added.
+        </div>
+      </div>
+      <!--  -->
       <div class="block block-color aside-right">
         <div class="header">
           <h3>Add New Message</h3>

@@ -86,10 +86,36 @@
             <h3><i class="fa fa-cutlery fa-color-black"></i>&nbsp;Events<input class="input-search" placeholder="Search Event" ng-model="search"></h3>
           </div>
           <div class="content">
-            <ol class="ol-margin-left">
+            <!-- <ol class="ol-margin-left"> -->
               <!--  -->
-              <li ng-repeat="event in events | filter:search | orderBy:'event_date'">
-                <div>
+              <div ng-repeat="event in events | filter:search | orderBy:'event_date'">
+                <table>
+                  <tr>
+                    <td><strong>Event Name</strong></td>
+                    <td>{{event.title}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Description</strong></td>
+                    <td>{{event.description}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Date</strong></td>
+                    <td>{{event.event_date}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Created By</strong></td>
+                    <td>{{event.owner_id}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan=2>
+                      <a class="label label-success" href="#" target="_self" data-toggle="modal" data-toggle="modal" ng-click="addeditEvent(event)">Edit</a>
+                      <a class="label label-danger" href="#" target="_self" data-toggle="modal" data-toggle="modal" ng-click="deleteEvent(event)">Delete</a>
+                    </td>
+                  </tr>
+                </table>
+                <br>
+                </div>
+                <!-- <div>
                   <span><strong>Event Name&nbsp;:&nbsp;</strong></span><span><a href="/#/events/{{event.id}}" class="event-name">{{event.title}}</a></span><br>
                   <span><strong>Description&nbsp;:&nbsp;</strong></span><span>{{event.description}}</span><br>
                   <span><strong>Date&nbsp;:&nbsp;</strong></span><span>{{event.event_date}}</span><br>
@@ -98,11 +124,11 @@
                     <a class="label label-success" href="#" target="_self" data-toggle="modal" data-toggle="modal" ng-click="addeditEvent(event)">Edit</a>
                     <a class="label label-danger" href="#" target="_self" data-toggle="modal" data-toggle="modal" ng-click="deleteEvent(event)">Delete</a>
                   </div>
-                </div>
-                <hr>
-              </li>
+                </div> -->
+                <!-- <hr>
+              </li> -->
               <!--  -->
-            </ol>
+            <!-- </ol> -->
           </div>
         </div>
       </div>

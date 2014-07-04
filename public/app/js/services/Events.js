@@ -17,13 +17,23 @@ angular.module('myApp')
             show : function(id) {
                 return $http.get('/api/v1/event/' + id);
             },
-            save : function(eventData) {
-                return $http({
-                    method: 'POST',
-                    url: '/api/v1/event',
-                    headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-                    data: $.param(eventData)
-                });
+            save : function(eventData){
+                if('id' in eventData) {
+
+                    return $http({
+                        method: 'PUT',
+                        url: '/api/v1/event/'+ eventData.id,
+                        headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                        data: $.param(eventData)
+                    });
+                } else {
+                    return $http({
+                        method: 'POST',
+                        url: '/api/v1/event',
+                        headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+                        data: $.param(eventData)
+                    });
+                }
             },
             addtag : function(tagid,eventid) {
                 return $http({

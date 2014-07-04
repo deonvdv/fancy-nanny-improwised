@@ -21,7 +21,7 @@
             </div>
             <h3><i class="fa fa-cutlery fa-color-black"></i>&nbsp;Events</h3>
             <!--  -->
-            <spam class="add-tag" data-toggle="modal" data-target="#md-colored3" style="color: #f16e3f;"><i class="fa fa-plus"></i>&nbsp;Add Event</spam>
+            <spam class="add-tag" style="color: #f16e3f;" data-toggle="modal" ng-click="addeditEvent(event)"><i class="fa fa-plus"></i>&nbsp;Add Event</spam>
             <!--  -->
           </div>
           <div class="content">
@@ -54,11 +54,11 @@
                     <td class="text-center">
                       <!--  -->
                       <span data-placement="left" data-toggle="tooltip" data-original-title="Edit">
-                      <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored"><i class="fa fa-pencil"></i></a>
+                      <a class="label label-success" href="#" target="_self" ng-click="addeditEvent(event)" data-toggle="modal"><i class="fa fa-pencil"></i></a>
                       </span>
                       <!--  -->
                       <span data-placement="right" data-toggle="tooltip" data-original-title="Delete">
-                      <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1"><i class="fa fa-times"></i></a>
+                      <a class="label label-danger" href="#" target="_self" ng-click="deleteEvent(event)" data-toggle="modal"><i class="fa fa-times"></i></a>
                       </span>
                       <!--  -->
                     </td>
@@ -95,8 +95,8 @@
                   <span><strong>Date&nbsp;:&nbsp;</strong></span><span>{{event.event_date}}</span><br>
                   <span><strong>Created By&nbsp;:&nbsp;</strong></span><span>{{event.owner_id}}</span><br>
                   <div style="padding-top: 4px;">
-                    <a class="label label-success" href="#" data-toggle="modal" data-target="#md-colored">Edit</a>
-                    <a class="label label-danger" href="#" data-toggle="modal" data-target="#md-colored1">Delete</a>
+                    <a class="label label-success" href="#" target="_self" data-toggle="modal" data-toggle="modal" ng-click="addeditEvent(event)">Edit</a>
+                    <a class="label label-danger" href="#" target="_self" data-toggle="modal" data-toggle="modal" ng-click="deleteEvent(event)">Delete</a>
                   </div>
                 </div>
                 <hr>
@@ -107,308 +107,175 @@
         </div>
       </div>
       <!--  -->
-      <div class="clearfix model-custom">
-        <!-- Modal -->
-        <div class="modal fade" id="md-colored3" tabindex="-1" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3>Add Event</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              </div>
-              <div class="modal-body clearfix">
-                <!--  -->
-                <div class="form">
-                  <!--  -->
-                  <div class="form-group">
-                    <label>Event Name</label>
-                    <input type="text" class="form-control" placeholder="Name">
-                  </div>
-                  <!--  -->
-                  <div class="form-group">
-                    <label>Description</label><br>
-                    <textarea class="form-control" style="resize:vertical;" placeholder="Description"></textarea>
-                  </div>
-                  <!--  -->
-                  <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" class="form-control" placeholder="Date">
-                  </div>
-                  <!--  -->
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success btn-flat" data-dismiss="modal">Done</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-      </div>
-      <!--  -->
-      <!--  -->
-      <div class="clearfix model-custom">
-        <!-- Modal -->
-        <div class="modal fade" id="md-colored" tabindex="-1" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3>Edit Event</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              </div>
-              <div class="modal-body clearfix">
-                <!--  -->
-                <div class="form">
-                  <!--  -->
-                  <div class="form-group">
-                    <label>Event Name</label>
-                    <input type="text" class="form-control" placeholder="Name">
-                  </div>
-                  <!--  -->
-                  <div class="form-group">
-                    <label>Description</label>
-                    <textarea class="form-control" style="resize:vertical;" placeholder="Description"></textarea>
-                  </div>
-                  <!--  -->
-                  <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" class="form-control" placeholder="Date">
-                  </div>
-                  <!--  -->
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success btn-flat" data-dismiss="modal">Done</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-      </div>
-      <!--  -->
-      <!--  -->
-      <div class="clearfix model-custom">
-        <!-- Modal -->
-        <div class="modal fade" id="md-colored1" tabindex="-1" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3>Delete Document</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              </div>
-              <div class="modal-body text-center">
-                <!--  -->
-                <i class="fa fa-trash-o fa-4x" style="color: red;"></i><br>
-                <span class="delete-item">Are you Sure !!<br>you want to Delete this Event ??</span>
-                <!--  -->
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger btn-flat" data-dismiss="modal">Delete</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-      </div>
-      <!--  -->
       <br>
     </div>
     <!-- ========================================================================================================================= -->
-    <!-- ========================================================================================================================= -->
-    <!-- ========================================================================================================================= -->
-    <div style="display:none">
-      <div class="col-lg-1 visible-lg"></div>
-      <!--  -->
-      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right visible-xs">
-        <div class="block block-color aside-right">
-          <div class="header">
-            <div class="actions">
-              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-                <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-            </div>
-            <h3>Add Event</h3>
-          </div>
-          <div class="content">
-            <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
-              <input type="text" class="form-control" placeholder="Name">
-              <br>
-              <textarea class="form-control" placeholder="Todo Description"></textarea>
-              <br>
-              <button type="button" class="btn btn-warning">Add</button>
-            </form>
-          </div>
-        </div>
-      </div>
-      <!--  -->
-      <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 todo-list">
-        <div class="block block-color warning">
-          <div class="header">
-            <div class="actions">
-              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a> -->
-              <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-              <!-- <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-            </div>
-            <h3>Upcoming Events</h3>
-          </div>
-          <div class="content event">
-            <!--  -->
-            <div class="todo-block clearfix">
-              <h4>Event Name</h4>
-              <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
-              <p class="date-todo">Created By : household</p>
-              <p class="date-todo">Due Date :12/3/2013</p>
-            </div>
-            <hr>
-            <!--  -->
-            <!--  -->
-            <div class="todo-block clearfix">
-              <h4>Event Name</h4>
-              <p>Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    Description    </p>
-              <p class="date-todo">Created By : household</p>
-              <p class="date-todo">Due Date :12/3/2013</p>
-            </div>
-            <hr>
-            <!--  -->
-          </div>
-        </div>
-      </div>
-      <!--  -->
-      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 aside-right hidden-xs">
-        <div class="block block-color aside-right">
-          <div class="header">
-            <div class="actions">
-              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-                <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
-            </div>
-            <h3>Add New Event</h3>
-          </div>
-          <div class="content">
-            <form class="form-horizontal group-border-dashed" action="#" style="border-radius: 0px;">
-              <input type="text" class="form-control" placeholder="Event Name">
-              <br>
-              <input class="form-control datetime" size="16" type="text" value="" placeholder="Event's Due Date">
-              <br>
-              <textarea class="form-control" placeholder="Event Description"></textarea>
-              <div class="form-group">
-                <div>
-                  <input class="tags" type="hidden" value="" placeholder="Add Tags" />
-                </div>
-              </div>
-              <br>
-              <button type="button" class="btn btn-warning">Add</button>
-              <br>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- <div class="aside-right"></div> -->
+    <!-- /^([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/ -->
+<!--  -->
+<script type="text/ng-template" id="addediteventmodal.html">
+  <div class="model-custom" style="font-size: 12px !important">
+    <div class="modal-header">
+      <h3>{{title}} Tag!</h3>
+    </div>
+    <form class="form" name="form" style="margin-top: -27px;">
+      <div class="modal-body">
+        <!-- ----------------------------------------- -->
+        <!-- Event name -->
+        <div class="form-group pos-form">
+          <label>Event Name</label>
+          <input type="text" class="form-control" placeholder="Event Name" ng-model="data.title" ng-minlength="3" name="eventname" required>
+          <!-- error msg for Event name -->
+          <div class="error">
+            <span ng-show="form.eventname.$error.minlength && submitted"> Too short!</span>
+            <span ng-show="form.eventname.$error.required && submitted">Event name required !!</span>
+          </div>
+        </div>
+        <!-- ----------------------------------------- -->
+        <!-- Event Description -->
+        <div class="form-group pos-form">
+          <label>Event Description</label>
+          <textarea class="text-aria-des form-control" ng-model="data.description" style="width:100%;resize:vertical;" placeholder="Event Description" ng-minlength="3" name="eventdescription" required>
+          </textarea>
+          <!-- error msg for Event Description -->
+          <div class="error">
+            <span ng-show="form.eventdescription.$error.minlength && submitted"> Too short!</span>
+            <span ng-show="form.eventdescription.$error.required && submitted">Event Description required !!</span>
+          </div>
+        </div>
+        <!-- ----------------------------------------- -->
+        <div class="form-group pos-form">
+          <label>Event Type</label>
+          <select ui-select2 ng-model="data.type" data-placeholder="select type" style="width:100%" name="eventtype" ng-required="true">
+            <option value=""></option>
+            <option ng-repeat="eventType in eventTypes" value="{{eventType}}">{{eventType}}</option>
+          </select>
+          <div class="error">
+            <span ng-show="form.eventtype.$error.required && submitted">select type</span>
+          </div>
+        </div>
+        <!-- ----------------------------------------- -->
+        <!-- Event Location -->
+        <div class="form-group pos-form">
+          <label>Event Location</label>
+          <input type="text" class="form-control" placeholder="Event Location" ng-model="data.location" ng-minlength="3" name="eventlocation" required>
+          <!-- error msg for Event Location -->
+          <div class="error">
+            <span ng-show="form.eventlocation.$error.minlength && submitted"> Too short!</span>
+            <span ng-show="form.eventlocation.$error.required && submitted">Event Location required !!</span>
+          </div>
+        </div>
+        <!-- ----------------------------------------- -->
+        <!-- Event Date -->
+        <div class="form-group pos-form">
+          <label>Event Date</label>
+          <input type="date" class="form-control" placeholder="Event Date" ng-model="data.event_date" ng-minlength="3" name="eventdate" required>
+          <!-- error msg for Event Date -->
+          <div class="error">
+            <span ng-show="form.eventdate.$error.minlength && submitted"> Too short!</span>
+            <span ng-show="form.eventdate.$error.required && submitted">Event Date required !!</span>
+          </div>
+        </div>
+        <!-- ----------------------------------------- -->
+        <!-- Event Start Time -->
+        <div class="form-group">
+          <label>Event Start Time</label>
+          <input class="form-control" name="stime" ng-model="data.start_time" ng-pattern="/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/"  placeholder="eg. hh:mm:ss" required>
+          <!-- error msg for Event Start Time -->
+          <div class="error">
+            <span ng-show="form.stime.$error.minlength && submitted"> Too short!</span>
+            <span ng-show="form.stime.$error.required && submitted">Event Starting Time required !!</span>
+            <span ng-show="form.stime.$error.pattern">enter valid time</span>
+          </div>
+        </div>
+        <!-- ----------------------------------------- -->
+        <!-- Event End Time -->
+        <div class="form-group pos-form">
+          <label>Event End Time</label>
+          <input class="form-control" name="etime" ng-model="data.end_time" ng-pattern="/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/"  placeholder="eg. hh:mm:ss" required>
+          <!-- error msg for Event End Time -->
+          <div class="error">
+            <span ng-show="form.etime.$error.minlength && submitted"> Too short!</span>
+            <span ng-show="form.etime.$error.required && submitted">Event Ending Time required !!</span>
+            <span ng-show="form.etime.$error.pattern">enter valid time</span>
+          </div>
+        </div>
+        <!-- ----------------------------------------- -->
+        <div class="form-group pos-form">
+          <label>All Day Event</label>
+          <select ui-select2 ng-model="data.all_day" data-placeholder="Is event all day ??" style="width:100%" name="eventperiod" ng-required="true">
+            <option value=""></option>
+            <option ng-repeat="event_Period in eventPeriod" value="{{event_Period.number}}">{{event_Period.add_day}}</option>
+          </select>
+          <!-- error msg for All Day Event -->
+          <div class="error">
+            <span ng-show="form.eventperiod.$error.required && submitted">select option</span>
+          </div>
+        </div>
+        <!-- ----------------------------------------- -->
+        <!-- Event Notification -->
+        <div class="form-group pos-form">
+          <label>Event Notification</label>
+          <input type="number" class="form-control" placeholder="Event Notification Time" ng-model="data.minutes_before" name="eventnotification" required>
+          <!-- error msg for Event Notification Time -->
+          <div class="error">
+            <span ng-show="form.eventnotification.$error.required && submitted">Event Notification Time required !!</span>
+          </div>
+        </div>
+        <!-- ----------------------------------------- -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-flat" ng-click="cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-flat" ng-click="save(form)">Done</button>
+      </div>
+    </form>
   </div>
-  <!-- //events page -->
+</script>
+<!--  -->
+<script type="text/ng-template" id="delete.html">
+  <div class="modal-header">
+    <h3>Delete Event</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  </div>
+  <div class="modal-body text-center">
+    <!--  -->
+    <span class="delete-item">Are you Sure !!<br>you want to Delete this Event ??</span>
+    <!--  -->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-danger btn-flat" data-dismiss="modal" ng-click="delete()">Delete</button>
+  </div>
+</script>
+<!--  -->
+</div>
+<!-- //events page -->
 </div>
 <!-- //events -->
-<script type="text/javascript">
-  $(document).ready(function(){
-    /*Date Range Picker*/
-    $('#reservation').daterangepicker();
-    $('#reservationtime').daterangepicker({
-      timePicker: true,
-      timePickerIncrement: 30,
-      format: 'MM/DD/YYYY h:mm A'
-    });
-    var cb = function(start, end) {
-      $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-      alert("Callback has fired: [" + start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY') + "]");
-    }
-
-    var optionSet1 = {
-      startDate: moment().subtract('days', 29),
-      endDate: moment(),
-      minDate: '01/01/2012',
-      maxDate: '12/31/2014',
-      dateLimit: { days: 60 },
-      showDropdowns: true,
-      showWeekNumbers: true,
-      timePicker: false,
-      timePickerIncrement: 1,
-      timePicker12Hour: true,
-      ranges: {
-         'Today': [moment(), moment()],
-         'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-         'Last 7 Days': [moment().subtract('days', 6), moment()],
-         'Last 30 Days': [moment().subtract('days', 29), moment()],
-         'This Month': [moment().startOf('month'), moment().endOf('month')],
-         'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-      },
-      opens: 'left',
-      buttonClasses: ['btn btn-default'],
-      applyClass: 'btn-small btn-primary',
-      cancelClass: 'btn-small',
-      format: 'MM/DD/YYYY',
-      separator: ' to ',
-      locale: {
-          applyLabel: 'Submit',
-          cancelLabel: 'Clear',
-          fromLabel: 'From',
-          toLabel: 'To',
-          customRangeLabel: 'Custom',
-          daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
-          monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-          firstDay: 1
-      }
-    };
-
-    var optionSet2 = {
-      startDate: moment().subtract('days', 7),
-      endDate: moment(),
-      opens: 'left',
-      ranges: {
-         'Today': [moment(), moment()],
-         'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-         'Last 7 Days': [moment().subtract('days', 6), moment()],
-         'Last 30 Days': [moment().subtract('days', 29), moment()],
-         'This Month': [moment().startOf('month'), moment().endOf('month')],
-         'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-      }
-    };
-
-    $('#reportrange span').html(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
-
-    $('#reportrange').daterangepicker(optionSet1, cb);
-
-    $('#reportrange').on('show', function() { console.log("show event fired"); });
-    $('#reportrange').on('hide', function() { console.log("hide event fired"); });
-    $('#reportrange').on('apply', function(ev, picker) {
-      console.log("apply event fired, start/end dates are "
-        + picker.startDate.format('MMMM D, YYYY')
-        + " to "
-        + picker.endDate.format('MMMM D, YYYY')
-      );
-    });
-    $('#reportrange').on('cancel', function(ev, picker) { console.log("cancel event fired"); });
-    /*Switch*/
-    // $('.switch').bootstrapSwitch();
-
-    /*DateTime Picker*/
-      $(".datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
-
-    /*Tags*/
-      $(".tags").select2({tags: 0,width: '100%'});
-
-  });
-</script>
 <style type="text/css">
+  .text-aria-des:invalid {
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+  .pos-form{
+    margin-bottom: 0px !important;
+  }
+  .select2-results .select2-result-label {
+  color: #555555;
+  font-weight: 600;
+  }
+  .select2-results .select2-highlighted {
+  background: none repeat scroll 0 0 #dddddd !important;
+  }
+  .select2-drop-active {
+  border-bottom: 1px solid #dddddd !important;
+  border-left: 1px solid #dddddd !important;
+  border-right: 1px solid #dddddd !important;
+  }
+  .select2-container-active .select2-choice, .select2-container-active .select2-choices {
+  box-shadow: none;
+  border-color: #b9b9b9;
+  }
   .event-name{
   color: #f16e3f;
   }

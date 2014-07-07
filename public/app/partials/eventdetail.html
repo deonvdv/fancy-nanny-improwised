@@ -9,8 +9,9 @@
   <!-- full recipes page -->
   <div class="cl-mcont" ng-init="eventDetail()">
     <!--  -->
-    <div class="col-xs-1"></div>
-    <div class="col-xs-11 breadcrumb-pos">
+    <div class="col-lg-1 hidden-xs"></div>
+    <div class="col-xs-1 visible-xs"></div>
+    <div class="col-col-11 col-md-11 col-xs-11 breadcrumb-pos">
       <ol class="breadcrumb">
         <li><a href="/#/events">events</a></li>
         <li class="active">event detail</li>
@@ -21,8 +22,8 @@
       <br><br>
     </div>
     <!--  -->
-    <div class="col-xs-1"></div>
-    <div class="col-sm-8 recipeDetail-pos">
+    <div class="col-lg-1"></div>
+    <div class="col-col-8 col-md-8 col-sm-8 recipeDetail-pos hidden-xs">
       <!--  -->
       <div ng-show="sucessTagAdd" class="backdrop">
         <div class="alert alert-success alert-msg mobile-view margin-alert-4">
@@ -78,7 +79,69 @@
       <!--  -->
     </div>
     <!--  -->
-    <div class="col-sm-3 hidden-xs">
+    <div class="visible-xs">
+        <div class="block-flat pos-block-event">
+          <div class="content">
+              <div>
+                <h3 style="color: white;background-color: #f16e3f;border-radius: 1px;padding: 5px;margin-top: 0px;">{{eventDetail.title}}</h3>
+              </div>
+              <table>
+                <tr>
+                  <td><strong>Title</strong></td>
+                  <td>{{eventDetail.title}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Date</strong></td>
+                  <td>{{eventDetail.event_date}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Type</strong></td>
+                  <td>{{eventDetail.type}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Description</strong></td>
+                  <td>{{eventDetail.description}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Start Time<br>(hh:mm:ss)</strong></td>
+                  <td>{{eventDetail.start_time}}</td>
+                </tr>
+                <tr>
+                  <td><strong>End Time<br>(hh:mm:ss)</strong></td>
+                  <td>{{eventDetail.end_time}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Location</strong></td>
+                  <td>{{eventDetail.location}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Created By</strong></td>
+                  <td>{{eventDetail.owner_id}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Tags</strong></td>
+                  <td>
+                    <div class="tag_linear" ng-repeat="item in eventDetail.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
+                      <span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
+                        {{item.name}}
+                      </span>
+                  </div>
+                  </td>
+                </tr>
+                <!-- <tr>
+                  <td colspan=2>
+                    <a class="label label-success" href="#" target="_self" data-toggle="modal" data-toggle="modal" ng-click="addeditEvent(event)">Edit</a>
+                    <a class="label label-danger" href="#" target="_self" data-toggle="modal" data-toggle="modal" ng-click="deleteEvent(event)">Delete</a>
+                  </td>
+                </tr> -->
+              </table>
+              <br>
+          </div>
+        </div>
+      </div>
+      <br>
+    <!--  -->
+    <div class="col-lg-3 col-md-4 col-sm-4 hidden-xs">
       <div class="block block-color">
         <div class="header">
           <h3>Tag</h3>
@@ -102,41 +165,47 @@
   background-color: rgba(25,182,152,0.5);
   border-color: rgba(25,182,152,0) !important;
   color: #fff;
-  }
-  .alert-danger {
+}
+
+.alert-danger {
   background-color: rgba(234,97,83,0.5);
   border-color: rgba(234,97,83,0) !important;
   color: #fff;
-  }
-  .alert-info {
+}
+
+.alert-info {
   background-color: rgba(74,163,223,0.5);
   border-color: rgba(74,163,223,0) !important;
   color: #fff;
-  }
-  .tag_linear{
+}
+
+.tag_linear {
   display: inline-block;
   margin-right: 3px;
-  }
-  .tag_color_drop{
+}
+
+.tag_color_drop {
   padding-left: 5px;
   padding-right: 5px;
   border-radius: 3px;
   margin-bottom: 5px;
   cursor: pointer;
-  }
-  .tag_color{
+}
+
+.tag_color {
   padding-left: 5px;
   padding-right: 5px;
   border-radius: 3px;
   margin-bottom: 5px;
   float: left;
   cursor: pointer;
-  }
-  .hoverClass{
+}
+
+.hoverClass {
   background-color: #f5f5f5;
   margin-right: 10px;
   border: 2px dashed #e6e6e6;
   padding: 13px;
   margin: -15px;
-  }
+}
 </style>

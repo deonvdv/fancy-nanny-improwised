@@ -71,8 +71,6 @@ angular.module('myApp')
         // add-edit event controller
         var editEventCtrl = function ($scope, $modalInstance, event) {
 
-            console.log(event);
-
             if( event === undefined ){
 
                 $scope.title = "Add";

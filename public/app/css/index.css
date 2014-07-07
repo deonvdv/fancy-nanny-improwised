@@ -1418,6 +1418,12 @@ hr {
     font-size: 11px !important;
     vertical-align: top !important;
   }
+  .pos-block-event table tr td:first-child{
+    width: 28.4% !important;
+  }
+  .pos-block-event table tr td strong{
+    font-size: 10px !important;
+  }
   .breadcrumb-pos{
     margin-left: -45px;
     margin-top: -10px;

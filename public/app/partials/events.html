@@ -86,9 +86,8 @@
             <h3><i class="fa fa-cutlery fa-color-black"></i>&nbsp;Events<input class="input-search" placeholder="Search Event" ng-model="search"></h3>
           </div>
           <div class="content">
-            <!-- <ol class="ol-margin-left"> -->
-              <!--  -->
               <div ng-repeat="event in events | filter:search | orderBy:'event_date'">
+                <div class="no_e">{{$index}}</div>
                 <table>
                   <tr>
                     <td><strong>Event Name</strong></td>
@@ -115,29 +114,17 @@
                 </table>
                 <br>
                 </div>
-                <!-- <div>
-                  <span><strong>Event Name&nbsp;:&nbsp;</strong></span><span><a href="/#/events/{{event.id}}" class="event-name">{{event.title}}</a></span><br>
-                  <span><strong>Description&nbsp;:&nbsp;</strong></span><span>{{event.description}}</span><br>
-                  <span><strong>Date&nbsp;:&nbsp;</strong></span><span>{{event.event_date}}</span><br>
-                  <span><strong>Created By&nbsp;:&nbsp;</strong></span><span>{{event.owner_id}}</span><br>
-                  <div style="padding-top: 4px;">
-                    <a class="label label-success" href="#" target="_self" data-toggle="modal" data-toggle="modal" ng-click="addeditEvent(event)">Edit</a>
-                    <a class="label label-danger" href="#" target="_self" data-toggle="modal" data-toggle="modal" ng-click="deleteEvent(event)">Delete</a>
-                  </div>
-                </div> -->
-                <!-- <hr>
-              </li> -->
-              <!--  -->
-            <!-- </ol> -->
           </div>
         </div>
       </div>
       <!--  -->
       <br>
     </div>
+
     <!-- ========================================================================================================================= -->
     <!-- <div class="aside-right"></div> -->
     <!-- /^([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/ -->
+
 <!--  -->
 <script type="text/ng-template" id="addediteventmodal.html">
   <div class="model-custom" style="font-size: 12px !important">
@@ -279,34 +266,53 @@
 </div>
 <!-- //events -->
 <style type="text/css">
-  .text-aria-des:invalid {
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
-  .pos-form{
-    margin-bottom: 0px !important;
-  }
-  .select2-results .select2-result-label {
+
+.no_e{
+  padding: 5px;
+  background-color: rgba(0,143,0,0.5);
+  margin-bottom: 5px;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.text-aria-des:invalid {
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.pos-form {
+  margin-bottom: 0px !important;
+}
+
+.select2-results .select2-result-label {
   color: #555555;
   font-weight: 600;
-  }
-  .select2-results .select2-highlighted {
+}
+
+.select2-results .select2-highlighted {
   background: none repeat scroll 0 0 #dddddd !important;
-  }
-  .select2-drop-active {
+}
+
+.select2-drop-active {
   border-bottom: 1px solid #dddddd !important;
   border-left: 1px solid #dddddd !important;
   border-right: 1px solid #dddddd !important;
-  }
-  .select2-container-active .select2-choice, .select2-container-active .select2-choices {
+}
+
+.select2-container-active .select2-choice, .select2-container-active .select2-choices {
   box-shadow: none;
   border-color: #b9b9b9;
-  }
-  .event-name{
+}
+
+.event-name {
   color: #f16e3f;
-  }
-  .event-name:hover{
+}
+
+.event-name:hover {
   color: #f16e3f;
   text-decoration: underline;
-  }
+}
+
 </style>

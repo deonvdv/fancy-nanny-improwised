@@ -57,6 +57,26 @@ angular.module('myApp')
 
         // ==============================================================================
 
+        function clear(){
+
+            // object that hold new todos title
+            $scope.SentTodo.title = '';
+
+            // stores description of Todo
+            $scope.SentTodo.description = '';
+
+            // stores description of Todo
+            $scope.SentTodo.due_date = '';
+
+            // object holds assigned to id
+            $scope.SentTodo.assigned_to = [];
+
+        }
+
+
+        // ==============================================================================
+
+
         // get household members
         Households.getMembers(sessionStorage.householdId)
             .success(function(data) {
@@ -99,7 +119,11 @@ angular.module('myApp')
                 Todos.save($scope.SentTodo)
                     .success(function(response){
                         $scope.SentTodo = response.data;
-                        $route.reload();
+                        $scope.sucessAddTodo = true;
+                        $scope.submitted = false;
+                        loadData();
+                        clear();
+                        $scope.doneAddTodo();
                 });
 
             }
@@ -135,6 +159,14 @@ angular.module('myApp')
                     $scope.tags = data.data;
             });
         }
+
+        // ==============================================================================
+
+        $scope.sucessAddTodo = false;
+
+        $scope.doneAddTodo = function(){
+            $timeout(function () { $scope.sucessAddTodo = false; }, 4000);
+        };
 
         // ==============================================================================
 

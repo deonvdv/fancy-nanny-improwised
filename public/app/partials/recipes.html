@@ -1,237 +1,232 @@
 <!-- sidebar -->
 <div class="fn-sidebar"></div>
 <!-- //sidebar -->
-
 <!-- right-side section (top navbar + recipes) -->
 <div class="container-fluid" id="pcont">
-    <!-- top navbar -->
-      <div class="fntop-navbar"></div>
-    <!-- //top navbar -->
-
-    <!-- recipes page -->
-    <div class="cl-mcont">
-
-    	<!--  -->
-
-    	<div class="panel-group panel-custom accordion accordion-semi visible-xs" id="accordion3">
-	        <div class="panel panel-default">
-	          <div class="panel-heading" style="border-bottom: 1px solid #4b3d6d !important;">
-	            <h4 class="panel-title">
-	              <a data-toggle="collapse" data-parent="#accordion3" href="#ac3-1" target="_self" class="collapsed">
-	              <i class="fa fa-angle-right"></i> Filter
-	              </a>
-	            </h4>
-	          </div>
-	          <div id="ac3-1" class="panel-collapse collapse" style="height: 0px;">
-	            <div class="panel-body">
-	            	<input type="search" class="form-control" placeholder="By Name"><br>
-	                <input type="search" class="form-control" placeholder="By Date"><br>
-	                <input type="search" class="form-control" placeholder="By Tags"><br>
-	                <input type="search" class="form-control" placeholder="By Ingredients"><br>
-	                <button type="button" class="btn btn-primary">Search</button>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-
-    	<!--  -->
-
-	    <div classs="clearfix">
-	      <!--  -->
-	      <div class="col-sm-7 col-md-8 col-lg-9 recipes-block6">
-	      	<!--  -->
-	      	<div ng-show="sucessTagAdd">
-		      	<div class="alert alert-success alert-msg pos-margin-up-1">
-					<i class="fa fa-check sign"></i>new tag added.
-				</div>
-		    </div>
-		    <!--  -->
-	      	<div ng-show="sucessTagExist">
-		      	<div class="alert alert-info alert-msg pos-margin-up-1">
-					<i class="fa fa-check sign"></i>tag already exists.
-				</div>
-		    </div>
-		    <!--  -->
-		    <div ng-show="sucessTagRemove">
-		      	<div class="alert alert-danger alert-msg pos-margin-up-1">
-					<i class="fa fa-check sign"></i>tag deleted.
-				</div>
-		    </div>
-	      	<!--  -->
-	        <div class="block block-color primary pos-margin-up">
-	            <div class="header">
-	              <div class="actions">
-		            <input class="input-search-recipe" placeholder="Search recipe" ng-model="search">
-		          </div>
-	              <h2>Recipes</h2>
-	            </div>
-	            <div class="content">
-	              	<!--  -->
-	              	<div class="clearfix pagination_recipe">
-		              	<div class="pull-right">
-		              		<pagination total-items="TotalRecipes" ng-model="CurrentRecipesPage" items-per-page="RecipesPerPage" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getRecipespages()"></pagination>
-						</div>
-					</div>
-					<!--  -->
-	                <div class="clearfix">
-	                	<div class="recipe_list" ng-repeat="recipe in recipes | filter:search | filter:fname | filter:category | filter:fIngredients | filter:ftag | orderBy:'created_at' : true  track by $index" ng-init="initFav(recipe)">
-	                		<div class="clearfix active_drop active-drop-1" style="margin-bottom: 10px;" data-drop="true" ng-model='recipe.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(recipe,tag)'}" data-jqyoui-options="{hoverClass: 'hoverClass'}">
-	                			<a href="/#/recipe_detail/{{recipe.id}}"><div class="img-pos"></div></a>
-	                			<div class="recipes-block">
-	                				<span class="favoriterecipe" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
-	                					<i class="fa fa-star" ng-click="makeFavorite(recipe)"></i>
-	                				</span>
-	                				&nbsp;
-	                				<a href="/#/recipe_detail/{{recipe.id}}"><h4>{{recipe.name}}</h4></a>
-	                				<p>{{recipe.description}}</p>
-	                				<p class="date-todo">date:{{recipe.created_at}}</p>
-	                				<span>tags&nbsp;:&nbsp;</span>
-	                				<div class="tag_linear" ng-repeat="item in recipe.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
-	                					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-	                						{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipe)"></i>&nbsp;
-	                					</span>
-	                				</div>
-	                			</div>
-	                		</div>
-	                		<hr>
-	                	</div>
-	                </div>
-	                <!--  -->
-	              	<div class="clearfix pagination_recipe">
-		              	<div class="pull-right">
-		              		<pagination total-items="TotalRecipes" ng-model="CurrentRecipesPage" items-per-page="RecipesPerPage" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getRecipespages()"></pagination>
-						</div>
-					</div>
-	                <!--  -->
-	            </div>
-	        </div>
-	      </div>
-	    </div>
-	    <!--  -->
-
-	    <!--  -->
-	    <div class="clearfix">
-	      <div class="col-lg-3 col-md-4 col-sm-5 recipes-block6 hidden-xs">
-
-	      	<div class="block block-color primary">
-	            <div class="header">
-	              <h3 style="">Recently Added Recipes</h3>
-	            </div>
-	              <div class="content clearfix"  style="height: 250px;overflow-y: scroll">
-
-		              	<div class="img-pos123  text-center" ng-repeat="recipe in recipes | orderBy:'created_at' : true | limitTo: 5 " ng-init="initFav(recipe)">
-		                    <div class="text-center">
-		                    	<span class="favoriterecipe pull-right" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
-		                          <i class="fa fa-star"></i>
-		                        </span>
-		                    	<a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}"><img src="" height="100" width="100"></a><br><br>
-		                    	<a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}">
-		                        	<span class="label-color meal-title">{{recipe.name}}</span>
-		                    	</a><br>
-		                    	<span style="color: black;">{{recipe.description}}</span><br>
-		                    	Date:{{recipe.created_at}}<br>
-		                    </div>
-		                </div>
-
-	              </div>
-	          </div>
-
-
-
-	        <div class="block block-color">
-	            <div class="header">
-	              <div class="actions">
-	                <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-	              </div>
-	              <h3>Filter</h3>
-	            </div>
-	            <div class="content">
-	              <div class="clearfix">
-	                <div class="row">
-	                  <div class="col-lg-12 col-md-12">
-
-	                    <input type="search" class="form-control" placeholder="By Name" ng-model="fname"><br>
-
-	                    <select name="category" ng-model="category" data-placeholder="Category" class="addrecipes">
-		                    <option value="">select category&nbsp;/&nbsp;clear filter</option>
-		                    <option ng-repeat="category in Categories" value="{{category.id}}">{{category.name}}</option>
-		                </select>
-
-	                    <br><br>
-
-	                    <input type="search" class="form-control" placeholder="By Tags" ng-model="ftag"><br>
-
-	                    <select ui-select2 ng-model="fIngredients" data-placeholder="Select ingredient" style="width:100%">
-						    <option value="">select ingredients&nbsp;/&nbsp;clear filter</option>
-						    <option ng-repeat="ingres in Ingredients" value="{{ingres.id}}">{{ingres.name}}</option>
-						</select>
-
-						<br><br>
-
-	                  </div>
-	                </div>
-	              </div>
-	            </div>
-	          </div>
-	          <!--  -->
-	          <div class="block block-color">
-	          <div class="header">
-	            <h3>Tag</h3>
-	          </div>
-	          <div class="content clearfix">
-
-				<div ng-repeat="tag in tags track by $index" data-drop="true" ng-model='tags' jqyoui-droppable="{index: {{$index}},revert: 'invalid'}">
-			        <div class="tag_color" data-drag="true" data-jqyoui-options="{scroll: false,revert: 'invalid',helper: 'clone'}" ng-model="tags" jqyoui-draggable="{index: {{$index}},placeholder:'keep',animate:true}" ng-show="tag.name">
-			        	<span class="tag_color" style="color:{{tag.fontcolor}};background-color:{{tag.color}}">{{tag.name}}</span>
-					</div>
-			    </div>
-
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	</div>
-    <!-- //recipes page -->      
+  <!-- top navbar -->
+  <div class="fntop-navbar"></div>
+  <!-- //top navbar -->
+  <!-- recipes page -->
+  <div class="cl-mcont">
+    <!--  -->
+    <div class="panel-group panel-custom accordion accordion-semi visible-xs" id="accordion3">
+      <div class="panel panel-default">
+        <div class="panel-heading" style="border-bottom: 1px solid #4b3d6d !important;">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion3" href="#ac3-1" target="_self" class="collapsed">
+            <i class="fa fa-angle-right"></i> Filter
+            </a>
+          </h4>
+        </div>
+        <div id="ac3-1" class="panel-collapse collapse" style="height: 0px;">
+          <div class="panel-body">
+            <input type="search" class="form-control" placeholder="By Name" ng-model="fname"><br>
+            <select name="category" ng-model="category" data-placeholder="Category" class="addrecipes">
+              <option value="">select category&nbsp;/&nbsp;clear filter</option>
+              <option ng-repeat="category in Categories" value="{{category.id}}">{{category.name}}</option>
+            </select>
+            <br><br>
+            <input type="search" class="form-control" placeholder="By Tags" ng-model="ftag"><br>
+            <select ui-select2 ng-model="fIngredients" data-placeholder="Select ingredient" style="width:100%">
+              <option value="">select ingredients&nbsp;/&nbsp;clear filter</option>
+              <option ng-repeat="ingres in Ingredients" value="{{ingres.id}}">{{ingres.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <div classs="clearfix">
+      <!--  -->
+      <div class="col-sm-7 col-md-8 col-lg-9 recipes-block6">
+        <!--  -->
+        <div ng-show="sucessTagAdd" class="backdrop">
+          <div class="alert alert-success alert-msg pos-margin-up-1 mobile-view margin-alert-1">
+            <i class="fa fa-check sign"></i>new tag added.
+          </div>
+        </div>
+        <!--  -->
+        <div ng-show="sucessTagExist" class="backdrop">
+          <div class="alert alert-info alert-msg pos-margin-up-1 mobile-view margin-alert-1">
+            <i class="fa fa-check sign"></i>tag already exists.
+          </div>
+        </div>
+        <!--  -->
+        <div ng-show="sucessTagRemove" class="backdrop">
+          <div class="alert alert-danger alert-msg pos-margin-up-1 mobile-view margin-alert-1">
+            <i class="fa fa-check sign"></i>tag deleted.
+          </div>
+        </div>
+        <!--  -->
+        <div class="block block-color primary pos-margin-up">
+          <div class="header">
+            <div class="actions">
+              <input class="input-search-recipe" placeholder="Search recipe" ng-model="search">
+            </div>
+            <h2>Recipes</h2>
+          </div>
+          <div class="content">
+            <!--  -->
+            <div class="clearfix pagination_recipe">
+              <div class="pull-right">
+                <pagination total-items="TotalRecipes" ng-model="CurrentRecipesPage" items-per-page="RecipesPerPage" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getRecipespages()"></pagination>
+              </div>
+            </div>
+            <!--  -->
+            <div class="clearfix">
+              <div class="recipe_list" ng-repeat="recipe in recipes | filter:search | filter:fname | filter:category | filter:fIngredients | filter:ftag | orderBy:'created_at' : true  track by $index" ng-init="initFav(recipe)">
+                <div class="clearfix active_drop active-drop-1" style="margin-bottom: 10px;" data-drop="true" ng-model='recipe.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(recipe,tag)'}" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+                  <a href="/#/recipe_detail/{{recipe.id}}">
+                    <div class="img-pos"></div>
+                  </a>
+                  <div class="recipes-block">
+                    <span class="favoriterecipe" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+                    <i class="fa fa-star" ng-click="makeFavorite(recipe)"></i>
+                    </span>
+                    &nbsp;
+                    <a href="/#/recipe_detail/{{recipe.id}}">
+                      <h4>{{recipe.name}}</h4>
+                    </a>
+                    <p>{{recipe.description}}</p>
+                    <p class="date-todo">date:{{recipe.created_at}}</p>
+                    <span>tags&nbsp;:&nbsp;</span>
+                    <div class="tag_linear" ng-repeat="item in recipe.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
+                      <span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
+                      {{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipe)"></i>&nbsp;
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+              </div>
+            </div>
+            <!--  -->
+            <div class="clearfix pagination_recipe">
+              <div class="pull-right">
+                <pagination total-items="TotalRecipes" ng-model="CurrentRecipesPage" items-per-page="RecipesPerPage" class="pagination-sm" boundary-links="true" rotate="false" num-pages="TotalPages" ng-change="getRecipespages()"></pagination>
+              </div>
+            </div>
+            <!--  -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <!--  -->
+    <div class="clearfix">
+      <div class="col-lg-3 col-md-4 col-sm-5 recipes-block6 hidden-xs">
+        <div class="panel-group accordion accordion-semi panel-custom" id="accordion4">
+          <div class="panel panel-default">
+            <div class="panel-heading default" style="border-bottom: 1px solid #7761A7 !important;">
+              <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion4" target="_self" href="#ac4-1">
+                <i class="fa fa-angle-right"></i> Recently Added Recipes
+                </a>
+              </h4>
+            </div>
+            <div id="ac4-1" class="panel-collapse collapse" style="height: 0px;">
+              <div class="panel-body content-1">
+                <div class="img-pos123  text-center" ng-repeat="recipe in recipes | orderBy:'created_at' : true | limitTo: 5 " ng-init="initFav(recipe)">
+                  <div class="text-center">
+                    <span class="favoriterecipe pull-right" ng-class="recipe.fav" data-placement="top" data-toggle="tooltip" data-original-title="favorite">
+                    <i class="fa fa-star"></i>
+                    </span>
+                    <a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}"><img src="" height="100" width="100"></a><br><br>
+                    <a class="meal-title1" href="/#/recipe_detail/{{recipe.id}}">
+                    <span class="label-color meal-title">{{recipe.name}}</span>
+                    </a><br>
+                    <span style="color: black;">{{recipe.description}}</span><br>
+                    Date:{{recipe.created_at}}<br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading default" style="border-bottom: 1px solid #7761A7 !important;">
+              <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion4" target="_self" href="#ac4-2">
+                <i class="fa fa-angle-right"></i> Filters
+                </a>
+              </h4>
+            </div>
+            <div id="ac4-2" class="panel-collapse collapse" style="height: 0px;">
+              <div class="panel-body">
+                <input type="search" class="form-control" placeholder="By Name" ng-model="fname"><br>
+                <select name="category" ng-model="category" data-placeholder="Category" class="addrecipes">
+                  <option value="">select category&nbsp;/&nbsp;clear filter</option>
+                  <option ng-repeat="category in Categories" value="{{category.id}}">{{category.name}}</option>
+                </select>
+                <br><br>
+                <input type="search" class="form-control" placeholder="By Tags" ng-model="ftag"><br>
+                <select ui-select2 ng-model="fIngredients" data-placeholder="Select ingredient" style="width:100%">
+                  <option value="">select ingredients&nbsp;/&nbsp;clear filter</option>
+                  <option ng-repeat="ingres in Ingredients" value="{{ingres.id}}">{{ingres.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading default" style="border-bottom: 1px solid #7761A7 !important;">
+              <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion4" target="_self" href="#ac4-3">
+                <i class="fa fa-angle-right"></i> Tags
+                </a>
+              </h4>
+            </div>
+            <div id="ac4-3" class="panel-collapse collapse" style="height: 0px;">
+              <div class="panel-body">
+                <div ng-repeat="tag in tags track by $index" data-drop="true" ng-model='tags' jqyoui-droppable="{index: {{$index}},revert: 'invalid'}">
+                  <div class="tag_color" data-drag="true" data-jqyoui-options="{scroll: false,revert: 'invalid',helper: 'clone'}" ng-model="tags" jqyoui-draggable="{index: {{$index}},placeholder:'keep',animate:true}" ng-show="tag.name">
+                    <span class="tag_color" style="color:{{tag.fontcolor}};background-color:{{tag.color}}">{{tag.name}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- //recipes page -->
 </div>
 <!-- //recipes -->
-
 <style type="text/css">
-.alert-success {
-	background-color: rgba(25,182,152,0.5);
-	border-color: rgba(25,182,152,0) !important;
-	color: #fff;
-}
-.alert-danger {
-	background-color: rgba(234,97,83,0.5);
-	border-color: rgba(234,97,83,0) !important;
-	color: #fff;
-}
-.alert-info {
-	background-color: rgba(74,163,223,0.5);
-	border-color: rgba(74,163,223,0) !important;
-	color: #fff;
-}
-.pagination_recipe{
-	background-color: #f0f0f0;
-	margin-bottom: 10px;
-	padding-right: 20px;
-	margin-top: 10px;
-}
-.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
-	background-color: #7761a7;
-	border-color: #7761a7;
-}
-.hoverClass {
+  .alert-success {
+  background-color: rgba(25,182,152,0.5);
+  border-color: rgba(25,182,152,0) !important;
+  color: #fff;
+  }
+  .alert-danger {
+  background-color: rgba(234,97,83,0.5);
+  border-color: rgba(234,97,83,0) !important;
+  color: #fff;
+  }
+  .alert-info {
+  background-color: rgba(74,163,223,0.5);
+  border-color: rgba(74,163,223,0) !important;
+  color: #fff;
+  }
+  .pagination_recipe{
+  background-color: #f0f0f0;
+  margin-bottom: 10px;
+  padding-right: 20px;
+  margin-top: 10px;
+  }
+  .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+  background-color: #7761a7;
+  border-color: #7761a7;
+  }
+  .hoverClass {
   background-color: #f5f5f5;
   margin-right: 10px;
   border: 2px dashed #e6e6e6;
   padding: 13px;
   margin: 0px;
-}
+  }
 </style>
-
 <script type="text/javascript">
-    $(document).ready(function(){
-      $(".addrecipes").select2({width: '100%'});
-    });
+  $(document).ready(function(){
+    $(".addrecipes").select2({width: '100%'});
+  });
 </script>

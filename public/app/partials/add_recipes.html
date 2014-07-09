@@ -65,18 +65,18 @@
               </div>
               <div class="col-sm-4">
                 <label>preparation_time</label>
-                <input class="form-control" name="p_time" ng-model="addNewRecipe.preparation_time" ng-pattern="/([0-1]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)/"  placeholder="eg. hh:mm:ss" required>
+                <input class="form-control" name="p_time" ng-model="addNewRecipe.preparation_time" ng-pattern="/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/"  placeholder="eg. hh:mm:ss" required>
                 <div class="error">
-                  <span ng-show="form.p_time.$error.required && submitted">enter preparation time</span>
-                  <span ng-show="form.p_time.$error.pattern && submitted">enter valid time</span>
+                  <span ng-show="form.p_time.$error.required  && submitted">enter preparation time</span>
+                  <span ng-show="form.p_time.$error.pattern  && submitted">enter valid time</span>
                 </div>
               </div>
               <div class="col-sm-4">
                 <label>cooking_time</label>
-                <input class="form-control" name="c_time" ng-model="addNewRecipe.cooking_time" required ng-pattern="/([0-1]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)/" placeholder="eg. hh:mm:ss">
+                <input class="form-control" name="c_time" ng-model="addNewRecipe.cooking_time" required ng-pattern="/^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/" placeholder="eg. hh:mm:ss">
                 <div class="error">
-                  <span ng-show="form.c_time.$error.required && submitted">enter cooking time</span>
-                  <span ng-show="form.c_time.$error.pattern.required">enter valid time</span>
+                  <span ng-show="form.c_time.$error.required  && submitted">enter cooking time</span>
+                  <span ng-show="form.c_time.$error.pattern  && submitted">enter valid time</span>
                 </div>
               </div>
             </div>

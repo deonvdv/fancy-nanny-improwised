@@ -1400,6 +1400,16 @@ hr {
   padding-top: 20px !important;
 }
 @media all and (max-width: 767px) {
+  .mobile-recipe-pos{
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .mobile-recipe-pos .block-flat{
+    padding: 0px;
+  }
+  .mobile-recipe-pos .block-flat table tr td ul {
+      padding-left: 10px;
+  }
   .pos-block-event .header{
     padding-left: 10px;
     padding-top: 10px;

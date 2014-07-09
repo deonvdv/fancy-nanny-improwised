@@ -1,166 +1,182 @@
 <!-- sidebar -->
 <div class="fn-sidebar"></div>
 <!-- //sidebar -->
-
 <!-- right-side section (top navbar + full recipes) -->
 <div class="container-fluid" id="pcont">
-    <!-- top navbar -->
-      <div class="fntop-navbar"></div>
-    <!-- //top navbar -->
-
-    <!-- full recipes page -->
-    <div class="cl-mcont" ng-init="recipeDetail()">
+  <!-- top navbar -->
+  <div class="fntop-navbar"></div>
+  <!-- //top navbar -->
+  <!-- full recipes page -->
+  <div class="cl-mcont" ng-init="recipeDetail()">
     <!--  -->
-	    <div class="col-xs-1"></div>
-	    <div class="col-xs-11">
-	        <ol class="breadcrumb">
-	          <li><a href="/#/recipes">recipes</a></li>
-	          <li class="active">full recipes</li>
-	        </ol>
-	    </div>
-	    <!--  -->
-	    <div class="col-xs-1"></div>
-	    <div class="col-sm-8">
-	    	<!--  -->
-	      	<div ng-show="sucessTagAdd">
-		      	<div class="alert alert-success alert-msg">
-					<i class="fa fa-check sign"></i>new tag added.
-				</div>
-		    </div>
-		    <!--  -->
-	      	<div ng-show="sucessTagExist">
-		      	<div class="alert alert-info alert-msg">
-					<i class="fa fa-check sign"></i>tag already exists.
-				</div>
-		    </div>
-		    <!--  -->
-		    <div ng-show="sucessTagRemove">
-		      	<div class="alert alert-danger alert-msg">
-					<i class="fa fa-check sign"></i>tag deleted.
-				</div>
-		    </div>
-	      	<!--  -->
-	        <div class="block-flat">
-	            <div class="content">
-	            	<div class="clearfix">
-		            	<div class="active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='recipeDetail.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(recipeDetail,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
-
-			                <h1>{{recipeDetail.name}}</h1>
-
-			                <img class="recipe-image pull-right" src="">
-			                <br>
-
-			                <span><label>By:</label></span>&nbsp;<span><a href="">{{recipeDetail.author.name}}</a></span>
-			                <br>
-
-			                <span><label>Category:</label></span>&nbsp;<span>{{recipeDetail.category.name}}</span>
-			                <br>
-
-			                <span><label>Preparation Time&nbsp;(hh:mm:ss)&nbsp;:</label></span>&nbsp;<span>{{recipeDetail.preparation_time}}</span>
-			                <br>
-
-			                <span><label>Cook Time&nbsp;(hh:mm:ss)&nbsp;:</label></span>&nbsp;<span>{{recipeDetail.cooking_time}}</span>
-			                <br><br>
-
-			                <span><label>Description:</label></span>&nbsp;<span>{{recipeDetail.description}}</span>
-			                <br><br>
-
-			                <span><label>Ingredient:</label></span>
-			                <br>
-
-			                <span>
-			                	<ul>
-			                		<li ng-repeat="ing in recipeDetail.recipe_ingredients">{{ing.quantity}}&nbsp; × &nbsp;{{ing.unit_of_measure.preferred_alias}}&nbsp;&nbsp;-&nbsp;&nbsp;{{ing.ingredient.name}}
-			                		</li>
-			                	</ul>
-			                </span>
-			                <br>
-
-			                <span><label>Instruction:</label></span>
-			                <br>
-
-			                <ol>
-			                   <li>{{recipeDetail.instructions}}</li>
-			                </ol>
-			                <br>
-
-			                <span>tags&nbsp;:&nbsp;</span>
-		    				<div class="tag_linear" ng-repeat="item in recipeDetail.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
-		    					<span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
-		    						&nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipeDetail,$index)"></i>&nbsp;
-		    					</span>
-		    				</div>
-			                <br><br>
-
-			                <span><label>Comments:</label></span>
-			                <br>
-
-			                <div class="media">
-			                  <a class="pull-left" href="#">
-			                    <img class="media-object" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" alt="..." width="32px;">
-			                  </a>
-			                  <div class="media-body">
-			                    <span><a href=""><label>John</label></a></span>&nbsp;<span><input class="form-control" placeholder="add comment"></span>
-			                  </div>
-			                </div>
-			                <div class="media">
-			                  <a class="pull-left" href="#">
-			                    <img class="media-object" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" alt="..." width="32px;">
-			                  </a>
-			                  <div class="media-body">
-			                    <span><a href=""><label>John</label></a></span>&nbsp;i love this recipe :)
-			                  </div>
-			                </div>
-			                <div class="media">
-			                  <a class="pull-left" href="#">
-			                    <img class="media-object" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" alt="..." width="32px;">
-			                  </a>
-			                  <div class="media-body">
-			                    <span><a href=""><label>John</label></a></span>&nbsp;i love this recipe :)
-			                  </div>
-			                </div>
-
-		            	</div>
-	            	</div>
-	            </div>
-	       </div>
-	    </div>
-	    <!--  -->
-	    <div class="col-sm-3">
-	        <div class="block block-color">
-	        <div class="header">
-	          <h3>Tag</h3>
-	        </div>
-	        <div class="content clearfix">
-
-				<div ng-repeat="tag in tags track by $index">
-			        <div class="tag_color" data-drag="true" data-jqyoui-options="{scroll: false,revert: 'invalid',helper: 'clone'}" ng-model="tags" jqyoui-draggable="{index: {{$index}},placeholder:'keep',animate:true}" ng-show="tag.name">
-			        	<span class="tag_color" style="color:{{tag.fontcolor}};background-color:{{tag.color}}">{{tag.name}}</span>
-					</div>
-			    </div>
-
-	          </div>
-	      </div>
-	    </div>
-	    <!--  -->
-	</div>
-    <!-- //full recipes page -->      
+    <div class="col-xs-1"></div>
+    <div class="col-xs-11">
+      <ol class="breadcrumb">
+        <li><a href="/#/recipes">recipes</a></li>
+        <li class="active">full recipes</li>
+      </ol>
+    </div>
+    <!--  -->
+    <div class="visible-xs"><br><br></div>
+    <!--  -->
+    <div class="col-xs-1"></div>
+    <div class="col-sm-8 mobile-recipe-pos">
+      <!--  -->
+      <div ng-show="sucessTagAdd" class="backdrop">
+        <div class="alert alert-success alert-msg pos-margin-up-1 mobile-view margin-alert-1">
+          <i class="fa fa-check sign"></i>new tag added.
+        </div>
+      </div>
+      <!--  -->
+      <div ng-show="sucessTagExist" class="backdrop">
+        <div class="alert alert-info alert-msg pos-margin-up-1 mobile-view margin-alert-1">
+          <i class="fa fa-check sign"></i>tag already exists.
+        </div>
+      </div>
+      <!--  -->
+      <div ng-show="sucessTagRemove" class="backdrop">
+        <div class="alert alert-danger alert-msg pos-margin-up-1 mobile-view margin-alert-1">
+          <i class="fa fa-check sign"></i>tag deleted.
+        </div>
+      </div>
+      <!--  -->
+      <div class="block-flat">
+        <div class="content">
+          <div class="clearfix">
+            <h1 class="hidden-xs" style="color:#7761a7">{{recipeDetail.name}}</h1>
+            <h3 class="visible-xs" style="color:#7761a7;margin-left: 5px;">{{recipeDetail.name}}</h3>
+            <div class="row">
+              <div class="col-lg-12">
+                <!-- <img class="recipe-image" src=""  style="margin-top: 0px !important;"> -->
+                <div class="active_drop" style="margin-bottom: 10px;" data-drop="true" ng-model='recipeDetail.tags' jqyoui-droppable="{ multiple: true, onDrop: 'dropCallback(recipeDetail,tag)' }" data-jqyoui-options="{hoverClass: 'hoverClass'}">
+                  <div class="">
+                    <div class="recipe-detail-table">
+                      <table style="border-top: 2px solid #efefef">
+                        <tr>
+                          <td><strong>By</strong></td>
+                          <td><a href="">{{recipeDetail.author.name}}</a></td>
+                        </tr>
+                        <tr>
+                          <td><strong>Category</strong></td>
+                          <td>{{recipeDetail.category.name}}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>Preparation Time<br>(hh:mm:ss)</strong></td>
+                          <td>{{recipeDetail.preparation_time}}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>Cook Time<br>(hh:mm:ss)</strong></td>
+                          <td>{{recipeDetail.cooking_time}}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>Description</strong></td>
+                          <td>{{recipeDetail.description}}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>Ingredient</strong></td>
+                          <td>
+                            <ul>
+                              <li ng-repeat="ing in recipeDetail.recipe_ingredients">{{ing.quantity}}&nbsp; × &nbsp;{{ing.unit_of_measure.preferred_alias}}&nbsp;&nbsp;-&nbsp;&nbsp;{{ing.ingredient.name}}
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td><strong>Instruction</strong></td>
+                          <td>{{recipeDetail.instructions}}</td>
+                        </tr>
+                        <tr>
+                          <td><strong>tags</strong></td>
+                          <td>
+                            <div class="tag_linear" ng-repeat="item in recipeDetail.tags track by $index" data-jqyoui-options="{revert: 'invalid'}">
+                              <span class="tag_color_drop" style="color:{{item.fontcolor}};background-color:{{item.color}}">
+                              &nbsp;{{item.name}}&nbsp;&nbsp;<i class="fa fa-times" ng-click="drop_tag(item,recipeDetail,$index)"></i>&nbsp;
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <span><label>Comments:</label></span>
+            <br>
+            <div class="media">
+              <a class="pull-left" href="#">
+              <img class="media-object" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" alt="..." width="32px;">
+              </a>
+              <div class="media-body">
+                <span><a href=""><label>John</label></a></span>&nbsp;<span><input class="form-control" placeholder="add comment"></span>
+              </div>
+            </div>
+            <div class="media">
+              <a class="pull-left" href="#">
+              <img class="media-object" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" alt="..." width="32px;">
+              </a>
+              <div class="media-body">
+                <span><a href=""><label>John</label></a></span>&nbsp;i love this recipe :)
+              </div>
+            </div>
+            <div class="media">
+              <a class="pull-left" href="#">
+              <img class="media-object" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" alt="..." width="32px;">
+              </a>
+              <div class="media-body">
+                <span><a href=""><label>John</label></a></span>&nbsp;i love this recipe :)
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+    <!--  -->
+    <div class="col-sm-3">
+      <div class="block block-color">
+        <div class="header">
+          <h3>Tag</h3>
+        </div>
+        <div class="content clearfix">
+          <div ng-repeat="tag in tags track by $index">
+            <div class="tag_color" data-drag="true" data-jqyoui-options="{scroll: false,revert: 'invalid',helper: 'clone'}" ng-model="tags" jqyoui-draggable="{index: {{$index}},placeholder:'keep',animate:true}" ng-show="tag.name">
+              <span class="tag_color" style="color:{{tag.fontcolor}};background-color:{{tag.color}}">{{tag.name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+  </div>
+  <!-- //full recipes page -->
 </div>
 <!-- //full recipes -->
 <style type="text/css">
-.alert-success {
-	background-color: rgba(25,182,152,0.5);
-	border-color: rgba(25,182,152,0) !important;
-	color: #fff;
-}
-.alert-danger {
-	background-color: rgba(234,97,83,0.5);
-	border-color: rgba(234,97,83,0) !important;
-	color: #fff;
-}
-.alert-info {
-	background-color: rgba(74,163,223,0.5);
-	border-color: rgba(74,163,223,0) !important;
-	color: #fff;
-}
+  .recipe-detail-table table tr td{
+  vertical-align: top;
+  background-color: white;
+  }
+  .hoverClass {
+  background-color: #f5f5f5;
+  border: 2px dashed #e6e6e6;
+  margin: -2px;
+  margin-bottom: -3px;
+  }
+  .alert-success {
+  background-color: rgba(25,182,152,0.5);
+  border-color: rgba(25,182,152,0) !important;
+  color: #fff;
+  }
+  .alert-danger {
+  background-color: rgba(234,97,83,0.5);
+  border-color: rgba(234,97,83,0) !important;
+  color: #fff;
+  }
+  .alert-info {
+  background-color: rgba(74,163,223,0.5);
+  border-color: rgba(74,163,223,0) !important;
+  color: #fff;
+  }
 </style>

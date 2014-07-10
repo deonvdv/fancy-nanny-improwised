@@ -179,7 +179,7 @@ angular.module('myApp')
 
             }
 
-            else{
+            else if( $scope.addNewRecipe.newIngredients.length === 0 ) {
                 $scope.error_msg = true;
             }
 

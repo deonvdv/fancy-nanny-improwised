@@ -7,7 +7,7 @@ angular.module('myApp')
 
         // ==============================================================================
 
-        function loadNewRecipe(){
+        $scope.loadNewRecipe = function(){
 
             // objects stores information in Recipes table of database
 
@@ -33,9 +33,9 @@ angular.module('myApp')
 
             $scope.addNewRecipe.newIngredients = [];
 
-        }
+        };
 
-        loadNewRecipe();
+        $scope.loadNewRecipe();
 
         // ==============================================================================
 
@@ -173,7 +173,7 @@ angular.module('myApp')
                 Recipes.save($scope.addNewRecipe)
                     .success(function(response){
                         $scope.submitted = false;
-                        loadNewRecipe();
+                        $scope.loadNewRecipe();
                         $scope.init();
                 });
 
@@ -186,5 +186,13 @@ angular.module('myApp')
         };
 
         // ==============================================================================
+
+        $scope.clear = function(){
+
+            $scope.loadNewRecipe();
+            $scope.init();
+            $scope.submitted = false;
+
+        };
 
     });

@@ -15,6 +15,7 @@ angular.module('myApp')
         //Fetch all meals for LoggedIn user's household.
         function loadmeals(){
             $scope.Weekly_Meal = Meals.get();
+            console.log($scope.Weekly_Meal);
         }
 
         // ==============================================================================
@@ -82,7 +83,7 @@ angular.module('myApp')
         // ==============================================================================
 
         $scope.removeMealRecipe = function(recipe){
-            $scope.new_meal.recipe_id.pop(recipe);
+            $scope.new_meal.recipes.pop(recipe);
         };
 
         // ==============================================================================
@@ -101,9 +102,7 @@ angular.module('myApp')
 
             $scope.submitted = true;
 
-            if(form.$valid && $scope.new_meal.recipes.length !== 0) {
-
-                $scope.sucessMealAdd = true;
+            if( $scope.new_meal.recipes.length === 1 && form.$valid ){
 
                 $scope.doneMealAdd();
 
@@ -116,11 +115,79 @@ angular.module('myApp')
 
             }
 
-            else if($scope.new_meal.recipes.length === 0){
-                $scope.error_msg = true;
+            else if( $scope.new_meal.recipes.length > 1 && form.$valid ){
+
+                for(var outer_recipe = 0 ; outer_recipe < $scope.new_meal.recipes.length-1 ; outer_recipe++){
+
+                    for( var inner_recipe = outer_recipe + 1 ;  inner_recipe < $scope.new_meal.recipes.length ; inner_recipe++) {
+
+                        if( $scope.new_meal.recipes[outer_recipe].recipe_id === $scope.new_meal.recipes[inner_recipe].recipe_id ) {
+
+                            console.log("hi inner");
+                            $scope.error_msg_dups = true;
+                            form.valid = false;
+                            break;
+
+
+                        }
+                        else if( $scope.new_meal.recipes[outer_recipe].recipe_id !== $scope.new_meal.recipes[inner_recipe].recipe_id ) {
+
+                            $scope.error_msg_dups = false;
+                            console.log("hi inner aaa");
+                            break;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            else{
+
+                console.log( "form added" );
+
+            }
+
+            // else (  )
+
+
+            // if(  )
+
+
+            // if(form.$valid && $scope.new_meal.recipes.length !== 0) {
+
+            //     $scope.sucessMealAdd = true;
+
+            //     $scope.doneMealAdd();
+
+            //     Meals.save($scope.new_meal)
+            //         .success(function(response){
+            //            $scope.loadMeal();
+            //            loadmeals();
+            //            $scope.submitted = false;
+            //     });
+
+            // }
+
+            // else if($scope.new_meal.recipes.length === 0){
+            //     $scope.error_msg = true;
+            // }
+
+        };
+
+
+        $scope.rec = function(){
+
+            if( $scope.new_meal.recipes.length > 1 ){
+
+                console.log("hi");
+
             }
 
         };
+
 
         // ==============================================================================
 

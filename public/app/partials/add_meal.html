@@ -240,6 +240,7 @@
           <div class="row">
             <div class="col-xs-12"><label>Select Recipe</label></div>
             <div class="error col-xs-12" ng-show="error_msg">Add at least one recipe to Meal</div>
+            <div class="error col-xs-12" ng-show="error_msg_dups">duplication not allowed</div>
             <div class="row">
               <div class="col-sm-12" ng-repeat="recipe in new_meal.recipes track by $index">
                 <ng-form name="IngForm">

@@ -12,21 +12,35 @@
     <div class="col-lg-1"></div>
     <!--  -->
     <div class="row pos-mobile-tag">
+      <div class="col-md-1 visible-md visible-lg"></div>
       <div class="col-lg-10">
         <!--  -->
         <div class="block-flat">
           <div class="header">
             <div class="actions">
-              <!-- <a class="minimize" href="#"><i class="fa fa-chevron-down"></i></a>
-                <a class="refresh" href="#"><i class="fa fa-repeat"></i></a>
-                <a class="close-down" href="#"><i class="fa fa-times"></i></a> -->
             </div>
             <h3><i class="fa fa-tag fa-color-black"></i>&nbsp;Tags</h3>
             <spam class="add-tag" data-toggle="modal" ng-click="editTag(tag)"><i class="fa fa-plus"></i>&nbsp;Add Tag</spam>
           </div>
-          <div class="content tag">
+          <div class="content tag clearfix">
+
+          <div ng-repeat="tag in data.tags" class="tag_s hidden-xs">
+            <div class="tag-color" style="color:{{tag.fontcolor}} ;background-color:{{tag.color}};box-shadow: 0 0 15px white;">
+            {{tag.name}}
+            </div>
             <!--  -->
-            <div class="table-responsive">
+            <br>
+            <!--  -->
+
+            <a class="label label-success" href="#" target="_self" ng-click="editTag(tag)" data-toggle="modal"><i class="fa fa-pencil"></i></a>
+
+            <!--  -->
+            <a class="label label-danger" href="#" target="_self" data-toggle="modal" ng-click="deleteTag(tag)"><i class="fa fa-times"></i></a>
+            <!--  -->
+          </div>
+
+            <!--  -->
+            <div class="table-responsive visible-xs">
               <table class="table no-border hover">
                 <thead class="no-border">
                   <tr>
@@ -104,17 +118,16 @@
           </div>
           <!-- ----------------------------------------- -->
           <!-- font color -->
-          <div class="form-group">
-
-            <label>Font Color</label><br>
-            <select ng-model="data.fontcolorOption" id="example1" ng-options="opt as opt.label for opt in options">
+          <div class="form-group pos-form">
+            <label>font color</label>
+            <select ui-select2 ng-model="data.fontcolor" data-placeholder="Select font color" style="width:100%" name="fontcolor" ng-required="true">
+              <option value=""></option>
+              <option ng-repeat="option in options" value="{{option.value}}">{{option.label}}</option>
             </select>
-            <br>
-
-          </div>
-          <!-- error msg for font color -->
-          <div class="error">
-            <span ng-show="form.fontcolorOption.$error.required && submitted">click to select font color !!</span>
+            <!-- error msg for All Day Event -->
+            <div class="error">
+              <span ng-show="form.fontcolor.$error.required && submitted">select color</span>
+            </div>
           </div>
           <!-- ----------------------------------------- -->
           <!-- tag name -->
@@ -131,7 +144,7 @@
           <div class="clearfix">
             <div class="pull-right">
               <br/>
-              <span class="tag-color" style="color:{{data.fontcolorOption.value}};background-color:{{data.color}}">
+              <span class="tag-color" style="color:{{data.fontcolor}};background-color:{{data.color}}">
                 &nbsp;{{data.name}}
               </span>
             </div>

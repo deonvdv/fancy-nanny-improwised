@@ -62,12 +62,11 @@ angular.module('myApp')
 
             $scope.data = tag;
             $scope.data.owner_id = sessionStorage.loggedUserId;
-            $scope.data.fontcolorOption = $scope.options[1];
 
             $scope.save = function (form) {
 
                 // bind fontcolorOption to fontcolor
-                $scope.data.fontcolor = $scope.data.fontcolorOption.value;
+                // $scope.data.fontcolor = $scope.data.fontcolorOption.value;
 
                 $scope.submitted = true;
                 if(form.$valid) {

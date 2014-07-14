@@ -52,6 +52,12 @@ angular.module('myApp')
 
         // ==============================================================================
 
+        $scope.select2Options = {
+            allowClear:true
+        };
+
+        // ==============================================================================
+
         function new_recipe(){
             var new_Recipe = {};
             new_Recipe.recipe_id = '';
@@ -91,7 +97,7 @@ angular.module('myApp')
         $scope.sucessMealAdd = false;
 
         $scope.doneMealAdd = function(){
-            $timeout(function () { $scope.sucessMealAdd = false; }, 3000);
+            $timeout(function () { $scope.sucessMealAdd = false; }, 5000);
         };
 
         // ==============================================================================
@@ -111,6 +117,8 @@ angular.module('myApp')
                        $scope.loadMeal();
                        loadmeals();
                        $scope.submitted = false;
+                       $scope.sucessMealAdd = true;
+                       $scope.doneMealAdd();
                 });
 
             }
@@ -119,7 +127,7 @@ angular.module('myApp')
 
                 for(var outer_recipe = 0 ; outer_recipe < $scope.new_meal.recipes.length-1 ; outer_recipe++){
 
-                    for( var inner_recipe = outer_recipe + 1 ;  inner_recipe < $scope.new_meal.recipes.length ; inner_recipe++) {
+                    for( var inner_recipe = 1 ;  inner_recipe < $scope.new_meal.recipes.length ; inner_recipe++) {
 
                         if( $scope.new_meal.recipes[outer_recipe].recipe_id === $scope.new_meal.recipes[inner_recipe].recipe_id ) {
 
@@ -130,7 +138,7 @@ angular.module('myApp')
 
 
                         }
-                        else if( $scope.new_meal.recipes[outer_recipe].recipe_id !== $scope.new_meal.recipes[inner_recipe].recipe_id ) {
+                        else if( $scope.new_meal.recipes[outer_recipe].recipe_id !== $scope.new_meal.recipes[inner_recipe].recipe_id  ) {
 
                             $scope.error_msg_dups = false;
                             console.log("hi inner aaa");
@@ -139,6 +147,7 @@ angular.module('myApp')
                         }
 
                     }
+
 
                 }
 
@@ -191,7 +200,6 @@ angular.module('myApp')
 
         // ==============================================================================
 
-
         $scope.delete_recipe = function(recipe){
             recipe.hover_recipe = true;
             $scope.active_recipe(recipe);
@@ -200,6 +208,28 @@ angular.module('myApp')
         $scope.active_recipe = function(recipe){
             $timeout(function () { recipe.hover_recipe = false; }, 5000);
         };
+
+        // ==============================================================================
+
+        $scope.dropmeal = false;
+
+        $scope.dropMeal = function(){
+            $timeout(function () { $scope.dropmeal = false; }, 5000);
+        };
+
+        // ==============================================================================
+
+        // this method delete meal from schedule.
+        $scope.delete_meal_recipe = function(day1){
+
+            Meals.destroy(day1.id)
+                .success(function(response){
+                   $scope.dropmeal = true;
+                   $scope.dropMeal();
+                   loadmeals();
+            });
+
+        }
 
         // ==============================================================================
 

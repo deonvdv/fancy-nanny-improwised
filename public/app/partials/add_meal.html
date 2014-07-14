@@ -9,18 +9,28 @@
 <!-- add recipes page -->
 <div class="cl-mcont block-add-1">
 <div class="clearfix block-add-2">
+
+  <!--  -->
+  <div ng-show="sucessMealAdd" class="backdrop">
+    <div class="alert alert-success alert-msg mobile-view margin-alert-2">
+      <i class="fa fa-check sign"></i>new meal added in weekly schedule.
+    </div>
+  </div>
+  <!--  -->
+
+  <!--  -->
+  <div ng-show="dropmeal" class="backdrop">
+    <div class="alert alert-info alert-msg mobile-view margin-alert-2">
+      <i class="fa fa-check sign"></i>meal deleted
+    </div>
+  </div>
+  <!--  -->
+
   <br>
   <!--  -->
-  <div class="col-md-1"></div>
+  <div class="col-lg-1"></div>
   <!--  -->
   <div class="new-meal-pos visible-xs panel-group panel-custom accordion accordion-semi visible-xs" id="accordion3">
-    <!--  -->
-    <div ng-show="sucessMealAdd" class="backdrop">
-      <div class="alert alert-success alert-msg mobile-view margin-alert-2">
-        <i class="fa fa-check sign"></i>new meal added in weekly schedule.
-      </div>
-    </div>
-    <!--  -->
     <div class="panel panel-default">
       <div class="panel-heading warning" style="border-bottom: 1px solid #F16E3F !important;">
         <h4 class="panel-title">
@@ -143,7 +153,7 @@
     </div>
   </div>
   <!--  -->
-  <div class="col-lg-6 hidden-xs">
+  <div class="col-lg-6 col-md-7 hidden-xs">
     <div class="block block-color warning">
       <div class="header">
         <h3>Weekly Schedule of Meal</h3>
@@ -168,7 +178,7 @@
                   <div ng-repeat="recipe in day1.recipes track by $index">
                     <span ng-mouseover="delete_recipe(recipe)">
                     {{recipe.name}}
-                    <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
+                    <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe(day1)"></i>
                     </span>
                   </div>
                 </div>
@@ -178,7 +188,7 @@
                   <div ng-repeat="recipe in day1.recipes">
                     <span ng-mouseover="delete_recipe(recipe)">
                     {{recipe.name}}
-                    <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
+                    <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe(day1)"></i>
                     </span>
                   </div>
                 </div>
@@ -188,7 +198,7 @@
                   <div ng-repeat="recipe in day1.recipes">
                     <span ng-mouseover="delete_recipe(recipe)">
                     {{recipe.name}}
-                    <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe()"></i>
+                    <i ng-show="recipe.hover_recipe" class="hover fa fa-times" ng-click="delete_meal_recipe(day1)"></i>
                     </span>
                   </div>
                 </div>
@@ -200,14 +210,7 @@
     </div>
   </div>
   <!--  -->
-  <div class="col-lg-4 col-md-6 col-sm-12 hidden-xs">
-    <!--  -->
-    <div ng-show="sucessMealAdd">
-      <div class="alert alert-success alert-msg">
-        <i class="fa fa-check sign"></i>new meal added in weekly schedule.
-      </div>
-    </div>
-    <!--  -->
+  <div class="col-lg-4 col-md-5 col-sm-12 hidden-xs">
     <div class="block block-color warning">
       <div class="header">
         <h3>Add Meal</h3>
@@ -238,14 +241,14 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-12"><label>Select Recipe</label></div>
+            <div class="col-xs-11"><label>Select Recipe</label></div>
             <div class="error col-xs-12" ng-show="error_msg">Add at least one recipe to Meal</div>
             <div class="error col-xs-12" ng-show="error_msg_dups">duplication not allowed</div>
             <div class="row">
               <div class="col-sm-12" ng-repeat="recipe in new_meal.recipes track by $index">
                 <ng-form name="IngForm">
-                  <div class="col-sm-11">
-                    <select ui-select2 ng-model="recipe.recipe_id" data-placeholder="Select Recipes" style="width:100%" name="meal_recipe" ng-required="true">
+                  <div class="col-md-10 col-sm-6">
+                    <select ui-select2="select2Options" ng-model="recipe.recipe_id" data-placeholder="Select Recipes" style="width:100%" name="meal_recipe" ng-required="true">
                       <option value=""></option>
                       <option ng-repeat="Recipe in recipes" value="{{Recipe.id}}">{{Recipe.name}}</option>
                     </select>
@@ -253,7 +256,7 @@
                       <span ng-show="IngForm.meal_recipe.$error.required && submitted">select Recipe</span>
                     </div>
                   </div>
-                  <div class="col-sm-1 text-center">
+                  <div class="col-md-2 col-sm-6 text-center">
                     <i class="fa fa-minus-square-o ing_icon" ng-click="removeMealRecipe(recipe)"></i>
                   </div>
                 </ng-form>

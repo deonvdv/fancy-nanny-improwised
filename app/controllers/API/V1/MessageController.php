@@ -461,4 +461,63 @@ class MessageController extends BaseController {
 			);
 		}
 	}
+
+	/**
+	 * setstatus read/unread the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function setstatus($id)
+	{
+		try
+		{
+			$message = \Models\Message::find($id);
+			$status = Input::get('is_read');
+			
+			if(!is_null($message) && !is_null($status))
+			{
+
+				$message->is_read = $status;
+
+				if ( $message->validate() ) {
+				$message->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $message->toArray(),
+						'message'	=> 'Message status updated successfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/message/'.$message->id);
+
+				return $response;
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find todo with id: '.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
 }

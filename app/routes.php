@@ -38,6 +38,7 @@ Route::group(array(
         Route::get('household/{id}/members', 'API\V1\HouseholdController@members');
         Route::get('household/{id}/meals', 'API\V1\HouseholdController@meals');
         Route::get('household/{id}/recipes', 'API\V1\HouseholdController@recipes');
+        Route::get('household/{id}/recentrecipes', 'API\V1\HouseholdController@recentrecipes');
         Route::get('household/{id}/todaymeals', 'API\V1\HouseholdController@todaymeals');
         Route::get('household/{id}/events', 'API\V1\HouseholdController@events');
         Route::get('household/{id}/todos', 'API\V1\HouseholdController@todos');
@@ -65,7 +66,8 @@ Route::group(array(
         Route::get('message/{id}/sent', 'API\V1\MessageController@sent');
         Route::get('messages/page/{pagenum}', 'API\V1\MessageController@index');
         Route::get('messages/page/{pagenum}/{itemsperpage}', 'API\V1\MessageController@index');
-        
+        Route::post('messages/{id}/setstatus', 'API\V1\MessageController@setstatus');
+
         Route::resource('category', 'API\V1\CategoryController');
         Route::get('categories', 'API\V1\CategoryController@index');
         Route::get('categories/page/{pagenum}', 'API\V1\CategoryController@index');
@@ -93,6 +95,7 @@ Route::group(array(
         
         Route::resource('recipe', 'API\V1\RecipeController');
         Route::get('recipes', 'API\V1\RecipeController@index');
+        Route::get('recipes/recents', 'API\V1\RecipeController@index');
         Route::get('recipes/page/{pagenum}', 'API\V1\RecipeController@index');
         Route::get('recipes/page/{pagenum}/{itemsperpage}', 'API\V1\RecipeController@index');
         Route::get('recipe/{id}/recipe_ingredients', 'API\V1\RecipeController@recipe_ingredients');
@@ -102,6 +105,7 @@ Route::group(array(
         Route::get('recipe/{id}/reviews', 'API\V1\RecipeController@reviews');
         Route::post('recipe/{id}/addtag', 'API\V1\RecipeController@addtag');
         Route::post('recipe/{id}/removetag', 'API\V1\RecipeController@removetag');
+        Route::post('recipe/{id}/addfavorite', 'API\V1\RecipeController@addfavorite');
 
         Route::resource('recipe_review', 'API\V1\RecipeReviewController');
         Route::get('recipe_reviews', 'API\V1\RecipeReviewController@index');
@@ -134,6 +138,7 @@ Route::group(array(
         Route::get('todos/page/{pagenum}/{itemsperpage}', 'API\V1\TodoController@index');
         Route::post('todo/{id}/addtag', 'API\V1\TodoController@addtag');
         Route::post('todo/{id}/removetag', 'API\V1\TodoController@removetag');
+        Route::post('todo/{id}/setstatus', 'API\V1\TodoController@setstatus');
 
         Route::resource('document', 'API\V1\DocumentController');
         Route::get('documents', 'API\V1\DocumentController@index');

@@ -43,7 +43,7 @@ class AuthenticationController extends BaseController {
         if ( Auth::attempt($credentials) ) {
 
             return Response::json([
-                    'user' => Auth::user()->toArray()],
+                    'user' => Auth::user()->toArray(),
                 202
             );
 

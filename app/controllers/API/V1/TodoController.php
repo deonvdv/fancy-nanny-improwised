@@ -352,6 +352,64 @@ class TodoController extends BaseController {
 		}
 	}
 
+	/**
+	 * setstatus read/unread the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function setstatus($id)
+	{
+		try
+		{
+			$todo = \Models\Todo::find($id);
+			$status = Input::get('is_complete');
+			
+			if(!is_null($todo) && !is_null($status))
+			{
+
+				$todo->is_complete = $status;
+
+				if ( $todo->validate() ) {
+				$todo->save();
+
+				$response = parent::buildJsonResponse(
+					array(
+						'success'	=> true,
+						'data'		=> $todo->toArray(),
+						'message'	=> 'Todo status updated successfully!'
+					),
+					201
+				);
+
+				$response->header('Location', '/todo/'.$todo->id);
+
+				return $response;
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find todo with id: '.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
 
 	/**
 	 * Remove the specified resource from storage.

@@ -6,6 +6,7 @@ use BaseController;
 use Response;
 use Input;
 use View;
+use Auth;
 
 class HouseholdController extends BaseController {
 
@@ -646,6 +647,55 @@ class HouseholdController extends BaseController {
 		        	array(
 		        		'success'		=> true,
 		        		'page'			=> (int) $page,
+		        		'item_per_page'	=> (int) $itemPerPage,
+		        		'total_item'	=> (int) $itemCount,
+		        		'total_page'	=> (int) $totalPage,
+		        		'data'			=> $collection->toArray(),
+		        		'message'		=> implode($message, "\n")
+		        	)
+		        );
+			} else {
+	        	return parent::buildJsonResponse(
+	        		array(
+	        			'success'	=> false,
+	        			'data'		=> null,
+						'message'	=> 'Could not find Household with id '.$householdId
+	        		),
+	        		404
+	        	);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
+
+	public function recentrecipes($householdId, $itemPerPage = 5)
+	{
+		try
+		{
+			$message 	= array();
+			
+			if ( \Models\Household::find($householdId) ) {
+		        $collection = \Models\Household::find($householdId)->recipes()->orderBy('created_at')->take($itemPerPage)->get();
+				$itemCount	= \Models\Household::find($householdId)->recipes()->count();
+				$totalPage 	= ceil($itemCount/$itemPerPage);
+
+				if($collection->isEmpty()){
+					$message[] = 'No records found in this collection.';
+				}
+
+		        return parent::buildJsonResponse(
+		        	array(
+		        		'success'		=> true,
 		        		'item_per_page'	=> (int) $itemPerPage,
 		        		'total_item'	=> (int) $itemCount,
 		        		'total_page'	=> (int) $totalPage,

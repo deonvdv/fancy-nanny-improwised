@@ -400,6 +400,56 @@ class RecipeController extends BaseController {
 	}
 
 	/**
+	 * Add to Favorite the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function addfavorite($id)
+	{
+		try
+		{
+			$recipe = \Models\Recipe::find($id);
+			$user = Auth::user();
+
+			if(!is_null($recipe) && !is_null($user))
+			{
+				$user->addFavoriteRecipe( $recipe );
+
+				return parent::buildJsonResponse(
+						array(
+							'success'	=> true,
+							'data'		=> $recipe->toArray(),
+							'message'	=> 'Favorite recipe added sucessfully!'
+						)
+					);
+			}
+			else
+			{
+				return parent::buildJsonResponse(
+					array(
+						'success'	=> false,
+						'data'		=> null,
+						'message'	=> 'Could not find Recipe with id: '.$id
+					),
+					404
+				);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return parent::buildJsonResponse(
+				array(
+					'success'	=> false,
+					'data'		=> null,
+					'message'	=> 'There was an error while processing your request: ' . $ex->getMessage()
+				),
+				500
+			);
+		}
+	}
+
+	/**
 	 * RemoveTag the specified resource in storage.
 	 *
 	 * @param  int  $id
